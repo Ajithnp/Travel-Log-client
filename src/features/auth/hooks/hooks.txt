@@ -1,0 +1,11 @@
+/**
+ * @typedef {Object} TData - shape of the data returned from endpoint
+ * @property {unknown} TData.data - the data returned from the endpoint
+ *
+ * @typedef {Object} TError - shape of error returned from endpoint
+ * @property {unknown} TError.error - the error returned from the endpoint
+ *
+ * @typedef {Object} TVariables - shape of variables being passed to the mutationfn
+ *
+ * @typedef {Object} TContext
+ */
