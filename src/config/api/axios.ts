@@ -18,15 +18,12 @@ api.interceptors.response.use(
         await api.post('/auth/refresh-token', {}, { withCredentials: true });
         return api(originalRequest);
       } catch (refreshError) {
-        // Handle token refresh error (e.g., redirect to login)
+        // Handle token refresh error ( redirect to login)
         console.error("error", refreshError);
-        
-          localStorage.removeItem("isAuthenticated");
           //alert("Session expired. Please log in again.");toast
-        window.location.href = '/login';
+        window.location.href = '/auth/login';
       }
     }
-    
      if (!error.response) {
       alert("Network error. Please check your connection.");
     } 

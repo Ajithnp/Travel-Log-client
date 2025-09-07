@@ -1,16 +1,19 @@
-import React from 'react';
 
-interface MainLayoutProps {
-  children?: React.ReactNode;
-  // Add any other props you might need
-}
+import Hero from '@/components/hero.section'
+import Navbar from '@/components/shared/navbar'
+import Footer from '@/components/shared/footer'
 
-const MainLayout = ({children}:MainLayoutProps) => {
+const Main = () => {
   return (
     <div>
-      MainLayout component works!
+        <Navbar />
+        <div className='min-h-[70vh]'>
+            <Hero />
+            <Footer />
+        </div>
+      
     </div>
-  );
-};
+  )
+}
 
-export default MainLayout;
+export default Main

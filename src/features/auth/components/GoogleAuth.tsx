@@ -1,44 +1,52 @@
 import React from "react";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/store/slices/user.slice";
+import { useNavigate } from "react-router-dom";
+import { useGoogleSignMutation } from "../hooks/auth.hooks";
+import { toast } from "sonner";
+
 
 const GoogleAuth = () => {
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+  const {mutate:googleSign} = useGoogleSignMutation()
   if (!clientId) {
     return <p>Error: Google Client ID is missing</p>;
   }
-  console.log('idddd', clientId);
+ 
   
   return (
     <GoogleOAuthProvider clientId={clientId}>
-      <GoogleLogin
+       <GoogleLogin 
         onSuccess={async (credentialResponse) => {
-          const token = credentialResponse.credential;
+          const token = credentialResponse.credential ;
           const clientId = credentialResponse.clientId;
-          console.log(token + "client_id", clientId);
-          console.log(credentialResponse);
-
-          try {
-            const res = await fetch(
-              "http://localhost:3001/api/v1/auth/google/callback",
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ token, clientId }),
+         if(!token || !clientId){
+           toast.error("Google login failed — missing token or client ID");
+          return
+         }
+          googleSign({token, clientId},
+            {
+              onSuccess: (response) => {
+                dispatch(setUser(response.data))
+                navigate('/')
+              },
+              onError: (error) => {
+                toast.error(error?.response?.data?.message || error?.message)
               }
-            );
-
-            const data = await res.json();
-            console.log("Backend Response:", data);
-          } catch (error) {
-            console.error("Backend error:", error);
-          }
+            }
+          )
         }}
         onError={() => {
           console.log("Login Failed");
         }}
+        
       />
+      
+     
     </GoogleOAuthProvider>
   );
 };
