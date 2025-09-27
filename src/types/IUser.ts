@@ -1,5 +1,10 @@
 export interface IUser {
+    id:string
     name:string;
-    email:string;
-    role: "user" | "admin" | "vendor";
+    email: string;
+    phone: string;
+    createdAt: Date;
+    isBlocked: boolean;
+    
+    role?: "user" | "admin" | "vendor";
 };

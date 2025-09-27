@@ -1,21 +1,20 @@
 
 import { setStorageItem, removeStorageItem, getStorageitem } from '@/utils/utils';
 import { useEffect, useState } from 'react'
-
+import { LOCAL_STORAGE_KEY } from '@/lib/constants/storageIdentifier';
 
 
 const useOtpTimer = () => {
     
   const [timer, setTimer] = useState<number>(() => {
-          const savedTimer = getStorageitem('otpExpiry');
+          const savedTimer = getStorageitem(LOCAL_STORAGE_KEY.OTP_EXPIRY);
            if(savedTimer){
             const currentTimeInSeconds = Math.floor(Date.now() / 1000);
             const timeLeft = parseInt(savedTimer, 10) - currentTimeInSeconds;
             return timeLeft > 0 ? timeLeft : 0;
            }
-           const expiryTimeInSeconds = Math.floor(Date.now() / 1000) + 60;
-           setStorageItem("otpExpiry", String(expiryTimeInSeconds));
-           console.log('timer', expiryTimeInSeconds)
+           const expiryTimeInSeconds = Math.floor(Date.now() / 1000) + 63;
+           setStorageItem(LOCAL_STORAGE_KEY.OTP_EXPIRY, String(expiryTimeInSeconds));
            return 60
       });
   
@@ -31,10 +30,10 @@ const useOtpTimer = () => {
   
       useEffect(() => {
           if (timer > 0) {
-              setStorageItem('otpTimer', String(timer));
+              setStorageItem(LOCAL_STORAGE_KEY.OTP_TIMER, String(timer));
           } else {
   
-              removeStorageItem('otpTimer');
+              removeStorageItem(LOCAL_STORAGE_KEY.OTP_TIMER);
           }
       }, [timer]);
 

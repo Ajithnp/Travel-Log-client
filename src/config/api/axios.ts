@@ -18,9 +18,9 @@ api.interceptors.response.use(
         await api.post('/auth/refresh-token', {}, { withCredentials: true });
         return api(originalRequest);
       } catch (refreshError) {
-        // Handle token refresh error ( redirect to login)
+        
         console.error("error", refreshError);
-          //alert("Session expired. Please log in again.");toast
+          
         window.location.href = '/auth/login';
       }
     }
