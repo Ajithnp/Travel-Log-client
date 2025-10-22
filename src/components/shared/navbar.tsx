@@ -2,72 +2,59 @@
 import { useEffect, useState } from "react"
 import { assets } from "@/assets/asset"
 import { Link, useLocation, useNavigate } from "react-router-dom"
-import RegistrationModal from "@/features/auth/components/registration.modal"
+import RegistrationModal from "@/features/auth/components/RegistrationModal"
 import { Button } from "../ui/button"
 import { removeStorageItem, setStorageItem } from "@/utils/utils"
 import { useSelector, useDispatch } from "react-redux"
-import {type RootState } from "@/store/store"
+import { type RootState } from "@/store/store"
 import { useLogoutMutation } from "@/features/auth/hooks/auth.hooks"
 import { ModeToggle } from "../mode-toggle";
 import { toast } from "sonner"
 import { clearUser } from "@/store/slices/user.slice"
-
+import type { IUser } from "@/types/IUser"
+import { ConfirmDialog } from "../ConfirmDialog"
 
 export type UserRole = "traveler" | "business"
 
-const BookIcon = () => (
-  <svg
-    className="w-4 h-4 text-gray-700"
-    aria-hidden="true"
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    fill="none"
-    viewBox="0 0 24 24"
-  >
-    <path
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2"
-      d="M5 19V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v13H7a2 2 0 0 0-2 2Zm0 0a2 2 0 0 0 2 2h12M9 3v14m7 0v4"
-    />
-  </svg>
-)
 
-const UserAvatar = ({ user, isScrolled, onLogout, buttonText }: { user: any; buttonText:string;  isScrolled: boolean; onLogout: () => void }) => {
+const UserAvatar = ({ user, isScrolled, onLogout, buttonText }: { user: IUser; buttonText: string; isScrolled: boolean; onLogout: React.Dispatch<React.SetStateAction<boolean>>; }) => {
   const [showLogout, setShowLogout] = useState(false)
+  const navigate = useNavigate()
 
   return (
     <div className="relative" onMouseEnter={() => setShowLogout(true)} onMouseLeave={() => setShowLogout(false)}>
       <div
-        className={`flex items-center gap-2 px-3 py-2 rounded-full cursor-pointer transition-all duration-300 ${
-          isScrolled ? "bg-gray-100 hover:bg-gray-200" : "bg-white/20 hover:bg-white/30"
-        }`}
+        className={`flex items-center gap-2 px-3 py-2 rounded-full cursor-pointer transition-all duration-300 ${isScrolled ? "bg-gray-100 hover:bg-gray-200" : "bg-white/20 hover:bg-white/30"
+          }`}
       >
         <div
-          className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${
-            isScrolled ? "bg-black text-white" : "bg-white text-black"
-          }`}
+          className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${isScrolled ? "bg-black text-white" : "bg-white text-black"
+            }`}
         >
           {user.name.charAt(0).toUpperCase()}
         </div>
-        <img
+        {/* <img
           src={assets.logo2 || "/placeholder.svg"}
           alt="logo"
           className={`h-5 ${isScrolled ? "invert opacity-80" : ""}`}
-        />
+        /> */}
       </div>
 
-      {/* Logout Dropdown - Removed gap and added padding-top for seamless hover */}
+
       {showLogout && (
         <div className="absolute top-full right-0 pt-1 z-50">
           <div className="bg-white rounded-lg shadow-lg border py-2 min-w-[120px]">
             <button
-              onClick={onLogout}
-              className="w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+              onClick={() => onLogout(true)}
+              className="w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100 transition-colors duration-200 cursor-pointer"
             >
               {buttonText}
+            </button>
+            <button
+              onClick={() => navigate('/user/dashboard')}
+              className="w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100 transition-colors duration-200 cursor-pointer"
+            >
+              Account
             </button>
           </div>
         </div>
@@ -80,6 +67,7 @@ const Navbar = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch();
   const location = useLocation()
+  const [confirmLogout, setConfirmLogout] = useState(false)
 
   const navLinks = [
     { name: "Home", path: "/" },
@@ -87,19 +75,20 @@ const Navbar = () => {
     { name: "Experience", path: "/" },
     { name: "About", path: "/" },
   ]
+  // const fixedRoutes = ['/user/dashboard']
+  // const isFixed = fixedRoutes.includes(location.pathname);
 
-     const user = useSelector((state:RootState)=> state.user.user);
-     // user state remove after page refresh
-   
+  const user = useSelector((state: RootState) => state.user.user);
+
 
   // state for modal
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
   const handleselectOption = (option: UserRole) => {
-    console.log(`Selected: ${option}`)
+
     if (option === "traveler") {
       setStorageItem("role", "user")
-      return navigate("/auth/login")
+      return navigate("/user/login")
     }
     if (option === "business") {
       setStorageItem("role", "vendor")
@@ -107,23 +96,23 @@ const Navbar = () => {
     }
     setIsOpen(false)
   }
- 
-  const {mutate:logout, isPending:isLoading} = useLogoutMutation();
+
+  const { mutate: logout, isPending: isLoading } = useLogoutMutation();
   const handleLogout = () => {
-        logout(
-          undefined,
-          {
-            onSuccess: (response)=> {
-              toast.success(response?.message);
-              dispatch(clearUser())
-              removeStorageItem('role')
-            },
-            
-              onError: (error) => {
-                 toast.error(error?.response?.data?.message || error.message)
-              }
-            }
-      )
+    logout(
+      undefined,
+      {
+        onSuccess: (response) => {
+          toast.success(response?.message);
+          dispatch(clearUser())
+          removeStorageItem('role')
+        },
+
+        onError: (error) => {
+          toast.error(error?.response?.data?.message || error.message)
+        }
+      }
+    )
   }
 
   const [isScrolled, setIsScrolled] = useState(false)
@@ -170,7 +159,7 @@ const Navbar = () => {
             />
           </a>
         ))}
- 
+
       </div>
 
       {/* Desktop Right */}
@@ -182,7 +171,11 @@ const Navbar = () => {
         />
 
         {user ? (
-          <UserAvatar user={user} isScrolled={isScrolled} buttonText={isLoading? '...' : 'Logout'} onLogout={handleLogout} />
+          <UserAvatar
+            user={user}
+            isScrolled={isScrolled}
+            buttonText={isLoading ? '...' : 'Logout'}
+            onLogout={setConfirmLogout} />
         ) : (
           <Button
             onClick={() => setIsOpen(!isOpen)}
@@ -192,7 +185,7 @@ const Navbar = () => {
           </Button>
         )}
 
-         <ModeToggle/>
+        <ModeToggle />
 
       </div>
 
@@ -222,7 +215,7 @@ const Navbar = () => {
 
         {!user && (
           <button
-            onClick={() => {}}
+            onClick={() => { }}
             className="bg-black text-white px-8 py-2.5 rounded-full transition-all duration-500"
           >
             Login
@@ -234,6 +227,14 @@ const Navbar = () => {
       {isOpen && (
         <RegistrationModal isOpen={isOpen} onClose={() => setIsOpen(false)} onSelectOption={handleselectOption} />
       )}
+
+      {/* logout confirm dialog */}
+      <ConfirmDialog
+        isOpen={confirmLogout}
+        onClose={() => setConfirmLogout(false)}
+        title={'Are you sure want to logout'}
+        onConfirm={handleLogout}
+      />
     </nav>
   )
 }

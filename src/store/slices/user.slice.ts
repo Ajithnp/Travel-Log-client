@@ -22,8 +22,6 @@ const userSlice = createSlice ( {
         setUser: (state, action: PayloadAction<IUser>) => {
             state.user = action.payload;
               state.isLoading = false
-            //  localStorage.setItem("userSession", JSON.stringify(action.payload)); place this where the api call is made
-             
         },
         clearUser: (state) => {
             state.user = null;

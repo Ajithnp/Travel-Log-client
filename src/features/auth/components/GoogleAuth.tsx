@@ -5,7 +5,7 @@ import { setUser } from "@/store/slices/user.slice";
 import { useNavigate } from "react-router-dom";
 import { useGoogleSignMutation } from "../hooks/auth.hooks";
 import { toast } from "sonner";
-
+import { ERROR_MESSAGES } from "@/lib/constants/messages";
 
 const GoogleAuth = () => {
 
@@ -16,8 +16,6 @@ const GoogleAuth = () => {
   if (!clientId) {
     return <p>Error: Google Client ID is missing</p>;
   }
- 
-  
   return (
     <GoogleOAuthProvider clientId={clientId}>
        <GoogleLogin 
@@ -25,7 +23,7 @@ const GoogleAuth = () => {
           const token = credentialResponse.credential ;
           const clientId = credentialResponse.clientId;
          if(!token || !clientId){
-           toast.error("Google login failed — missing token or client ID");
+           toast.error(ERROR_MESSAGES.GOOGLE_LOGIN_FAILED);
           return
          }
           googleSign({token, clientId},
@@ -39,9 +37,6 @@ const GoogleAuth = () => {
               }
             }
           )
-        }}
-        onError={() => {
-          console.log("Login Failed");
         }}
         
       />
