@@ -11,6 +11,7 @@ export interface IVendorInfo {
   status: "Pending" | "Approved" | "Rejected";
   reasonForReject?: string;
   userId: string;
+  role: string;
   name: string;
   email: string;
   phone?: string;

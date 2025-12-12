@@ -3,7 +3,7 @@ import {
   vendorVerificatiuonUpdate,
 } from "../services/api.services";
 import { AxiosError } from "axios";
-import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import { useQueryClient, useMutation, useQuery,  keepPreviousData  } from "@tanstack/react-query";
 import type { IVendorInfo } from "@/types/IVendorInfo";
 import type { ApiResponse } from "@/types/IApiResponse";
 import type { VendorVerificationUpdatePayload } from "../../types/payload.types";
@@ -17,9 +17,10 @@ export const useVendorVerification = (page: number, limit: number, search?: stri
     ApiResponse<PaginatedData<IVendorInfo>>,
     AxiosError<{ message: string }>
   >({
-    queryKey: ["vendorVerification", page, limit, search, selectedFilter],
+    queryKey: ["vendorVerification", { page, limit, search, selectedFilter }],
     queryFn: () => vendorVerification(page, limit, search, selectedFilter),
-    // keepPreviousData: true, // avoid flicker when switching pages
+    refetchOnWindowFocus: false,
+   placeholderData: keepPreviousData, // avoid flicker when switching pages
   });
 };
 

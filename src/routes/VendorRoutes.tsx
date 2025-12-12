@@ -1,5 +1,5 @@
 import { ErrorBoundary } from "react-error-boundary";
-import { ErrorFallback } from '@/components/error.fallback.ui'
+import { ErrorFallback } from '@/components/ErrorFallback'
 import { VendorPublicRoutes, VendorPrivateRoutes } from '@/routes/protected/Vendor/VendorprotectedRoutes'
 import React, { lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
@@ -12,21 +12,16 @@ const VendorForgotPasswordPage = lazy(() => import('@/features/auth/pages/vendor
 const VendorLoginPage = lazy(() => import('@/features/auth/pages/vendor/LoginPage'));
 const VendorNewPasswordPage = lazy(() => import('@/features/auth/pages/vendor/NewPasswordPage'));
 const VendorRegisterPage = lazy(() => import('@/features/auth/pages/vendor/RegisterPage'));
-const VerifyOtp = lazy(() => import('@/features/auth/pages/vendor/VerifyOTP'));
-
+const VerifyOtp = lazy(() => import('@/features/auth/pages/vendor/VerifyOtpPage'));
 const VendorSidebarLayout = lazy(() => import('@/layouts/VendorLayout'));
-
 const VendorProfilePage = lazy(() => import('@/features/vendor/pages/VendorProfilePage'));
-
-
-
-
-
+const VendorVerificationPage = lazy(() => import('@/features/vendor/pages/VendorVerificationPage'));
+const VendorProfileEditPage = lazy(() => import('@/features/vendor/pages/ProfileEditPage'));
 
 
 const VendorRoutes = () => {
   return (
-    <Suspense fallback={<Loading variant="spinner" text="Loading.." className="w-full h-full" />}>
+    <Suspense fallback={<Loading variant="spinner" text="Loading.." fullscreen />}>
 
       <Routes>
 
@@ -57,6 +52,8 @@ const VendorRoutes = () => {
           </ErrorBoundary>
         } >
           <Route path='profile' element={<VendorProfilePage />} />
+          <Route path='profile-edit' element={<VendorProfileEditPage />} />
+          <Route path='verification' element={<VendorVerificationPage />} />
         </Route>
 
       </Routes>

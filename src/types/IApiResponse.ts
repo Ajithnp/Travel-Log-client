@@ -4,7 +4,7 @@ export interface ApiResponse<T = undefined> {
   data: T;
   error?: {
     code: string;
-    message: string;
+    message?: string;
     details?: string;
   };
 }

@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, keepPreviousData } from "@tanstack/react-query";
 import { getUsers, updateUserAccess } from "../service/api.services";
 import type { ApiResponse, PaginatedData } from "@/types/IApiResponse";
 import type { IUser } from "@/types/IUser";
@@ -17,9 +17,9 @@ export const useUsersFetch = (
     ApiResponse<PaginatedData<IUser>>,
     AxiosError<{ message: string }>
   >({
-    queryKey: ["users", page, limit, search, selectedFilter],
+    queryKey: ["users", { page, limit, search, selectedFilter }],
     queryFn: () => getUsers(page, limit, search, selectedFilter),
-    //    placeholderData: keepPreviousData, // avoid flicker when switching pages
+       placeholderData: keepPreviousData, // avoid flicker when switching pages
     refetchOnWindowFocus: false,
   });
 };

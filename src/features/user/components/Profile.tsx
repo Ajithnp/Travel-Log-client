@@ -3,23 +3,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
+// import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import type{ IUser } from "@/types/IUser";
+import type { IUser } from "@/types/IUser";
+import { useNavigate } from "react-router-dom";
 
-interface ProfileProps {
-    user?: IUser
-}
-
-import { 
-  Edit, 
-  Mail, 
-  Phone, 
-  MapPin, 
-  Calendar,
-  Star,
-  Shield
-} from "lucide-react";
+import { Edit, Mail, Phone } from "lucide-react";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -27,36 +16,47 @@ const containerVariants = {
     opacity: 1,
     transition: {
       staggerChildren: 0.1,
-      delayChildren: 0.1
-    }
-  }
+      delayChildren: 0.1,
+    },
+  },
 };
 
 const cardVariants = {
   hidden: { opacity: 0, y: 20 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     y: 0,
-    transition: { duration: 0.5 }
-  }
+    transition: { duration: 0.5 },
+  },
 };
 
+interface ProfileProps {
+  user?: Partial<IUser>;
+}
+
 export default function Profile({ user }: ProfileProps) {
-    
-    
+  const navigate = useNavigate();
+
   return (
-    <motion.div 
+    <motion.div
       variants={containerVariants}
       initial="hidden"
       animate="visible"
       className="space-y-6"
     >
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between text-center md:text-left gap-3 md:gap-0">
         <div>
           <h1 className="text-3xl font-bold">Profile</h1>
-          <p className="text-muted-foreground">Manage your account information and preferences</p>
+          <p className="text-muted-foreground">
+            Manage your account information and preferences
+          </p>
         </div>
-        <Button className="bg-gradient-primary hover:opacity-90">
+        <Button
+          className="bg-black hover:opacity-90 text-white transition-all duration-300 mx-0 text-sm md:text-base px-4 py-2 md:px-6 md:py-2.5 cursor-pointer"
+          onClick={() => {
+            navigate("/user/editProfile");
+          }}
+        >
           <Edit className="mr-2 h-4 w-4" />
           Edit Profile
         </Button>
@@ -68,10 +68,10 @@ export default function Profile({ user }: ProfileProps) {
           <Card className="shadow-card hover:shadow-hover transition-all duration-300">
             <CardHeader className="text-center">
               <div className="flex justify-center">
-                <Avatar className="h-24 w-24 mt-3">
+                <Avatar className="h-20 w-20 mt-3">
                   <AvatarImage src="/placeholder.svg" alt="Profile" />
                   <AvatarFallback className="text-lg bg-black text-primary-foreground ">
-                    {user?.name[0]}
+                    {user?.name ? user.name[0] : ""}
                   </AvatarFallback>
                 </Avatar>
               </div>
@@ -111,7 +111,7 @@ export default function Profile({ user }: ProfileProps) {
         {/* Profile Details Form */}
         <motion.div variants={cardVariants} className="md:col-span-2">
           <Card className="shadow-card">
-            <CardHeader>
+            <CardHeader className="pt-4 md:pt-6 text-center md:text-left">
               <CardTitle>Personal Information</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -120,15 +120,15 @@ export default function Profile({ user }: ProfileProps) {
                   <Label htmlFor="firstName">First Name</Label>
                   <Input id="firstName" defaultValue={`${user?.name}`} />
                 </div>
-                {/* <div className="space-y-2">
-                  <Label htmlFor="lastName">Last Name</Label>
-                  <Input id="lastName" defaultValue="Doe" />
-                </div> */}
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="email">Email Address</Label>
-                <Input id="email" type="email" defaultValue={`${user?.email}`} />
+                <Input
+                  id="email"
+                  type="email"
+                  defaultValue={`${user?.email}`}
+                />
               </div>
 
               <div className="space-y-2">
@@ -136,66 +136,47 @@ export default function Profile({ user }: ProfileProps) {
                 <Input id="phone" type="tel" defaultValue={`${user?.phone}`} />
               </div>
 
-              {/* <div className="space-y-2">
-                <Label htmlFor="address">Address</Label>
-                <Input id="address" defaultValue="123 Main Street" />
-              </div> */}
-
-              {/* <div className="grid gap-4 md:grid-cols-3">
-                <div className="space-y-2">
-                  <Label htmlFor="city">City</Label>
-                  <Input id="city" defaultValue="New York" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="state">State</Label>
-                  <Input id="state" defaultValue="NY" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="zip">ZIP Code</Label>
-                  <Input id="zip" defaultValue="10001" />
-                </div>
-              </div> */}
-
-              <div className="flex gap-3 pt-4">
-                {/* <Button className="bg-gradient-primary hover:opacity-90">
-                  Save Changes
-                </Button>
-                <Button variant="outline">
-                  Cancel
-                </Button> */}
-              </div>
+              <div className="flex gap-3 pt-4"></div>
             </CardContent>
           </Card>
         </motion.div>
 
         {/* Account Statistics */}
-        {/* <motion.div variants={cardVariants} className="md:col-span-3">
+        <motion.div variants={cardVariants} className="md:col-span-3">
           <Card className="shadow-card">
-            <CardHeader>
+            <CardHeader className="pt-4 md:pt-6 text-center md:text-left">
               <CardTitle>Account Statistics</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid gap-4 md:grid-cols-4">
                 <div className="text-center">
                   <div className="text-2xl font-bold text-primary">24</div>
-                  <div className="text-sm text-muted-foreground">Total Orders</div>
+                  <div className="text-sm text-muted-foreground">
+                    Total Orders
+                  </div>
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold text-success">$2,340</div>
-                  <div className="text-sm text-muted-foreground">Total Spent</div>
+                  <div className="text-sm text-muted-foreground">
+                    Total Spent
+                  </div>
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold text-info">156</div>
-                  <div className="text-sm text-muted-foreground">Reward Points</div>
+                  <div className="text-sm text-muted-foreground">
+                    Reward Points
+                  </div>
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold text-warning">4.8</div>
-                  <div className="text-sm text-muted-foreground">Avg Rating</div>
+                  <div className="text-sm text-muted-foreground">
+                    Avg Rating
+                  </div>
                 </div>
               </div>
             </CardContent>
           </Card>
-        </motion.div> */}
+        </motion.div>
       </div>
     </motion.div>
   );

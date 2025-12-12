@@ -13,7 +13,7 @@ export const useVendorsFetch = (
   selectedFilter?: string
 ) => {
   return useQuery<ApiResponse<PaginatedData<IUser>>, ApiError>({
-    queryKey: ["vendors", page, limit, search, selectedFilter],
+    queryKey: ["vendors", { page, limit, search, selectedFilter }],
     queryFn: () => getVendors(page, limit, search, selectedFilter),
     placeholderData: keepPreviousData,
     refetchOnWindowFocus: false,

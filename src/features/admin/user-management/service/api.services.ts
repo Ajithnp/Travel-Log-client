@@ -1,6 +1,6 @@
 import api from "@/config/api/axios";
 import type { AxiosResponse } from "axios";
-import { API_ENDPOINTS } from "@/lib/constants/routes";
+import { API_ENDPOINTS, API_ROUTE } from "@/lib/constants/routes";
 import type { ApiResponse, PaginatedData } from "@/types/IApiResponse";
 import type { IApiResponse } from "@/types/axios";
 import type { IUser } from "@/types/IUser";
@@ -13,7 +13,7 @@ export const getUsers = async (
   selectedFilter?: string,
 ): Promise<ApiResponse<PaginatedData<IUser>>> => {
   const response: AxiosResponse<ApiResponse<PaginatedData<IUser>>> =
-    await api.get(`${API_ENDPOINTS.ADMIN}/users`, {
+    await api.get(`${API_ENDPOINTS.ADMIN}${API_ROUTE.USERS}`, {
       params: { page, limit, ...(search ? {search} : {}), ...(selectedFilter ? {selectedFilter}: {})},
     });
   return response.data;

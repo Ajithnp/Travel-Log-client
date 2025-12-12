@@ -1,6 +1,5 @@
 
 import { assets } from '@/assets/asset'
-import { cities } from '@/assets/asset'
 
 const Hero = () => {
   return (

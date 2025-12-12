@@ -7,7 +7,7 @@ import {
 } from "@/routes/protected/Admin/AdminProtectedRoutes";
 import AdminLayout from "@/layouts/AdminLayout";
 import { ErrorBoundary } from "react-error-boundary";
-import { ErrorFallback } from "@/components/error.fallback.ui";
+import { ErrorFallback } from "@/components/ErrorFallback";
 import { Loading } from "@/components/ui/loading";
 
 const UserListPage = lazy(() => import("@/features/admin/user-management/pages/UsersList"));
@@ -16,7 +16,7 @@ const VendorsVerificationListPage = lazy(() => import('@/features/admin/vendor-v
 
 const AdminRoutes = () => {
   return (
-    <Suspense fallback={<Loading variant="spinner" text="Loading.." className="w-full h-full" />}>
+    <Suspense fallback={<Loading variant="spinner" text="Loading.." fullscreen />}>
       <Routes>
         <Route
           path="/login"

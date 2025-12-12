@@ -2,26 +2,26 @@ import DataTable from "@/components/table/DataTable";
 import TableHeader from "@/components/table/TableHeader";
 import TableFooter from "@/components/table/TableFooter";
 import type { IUser } from "@/types/IUser";
-import { ConfirmDialog } from "@/components/ConfirmDialog";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import { useVendorsFetch, useVendorsStatusMutation } from "../hooks/api.hooks";
-import { vendorColumns } from "../../fields-config/tableFields";
 import { useDebounce } from "@/hooks/useDebounce";
 import { Loading } from "@/components/ui/loading";
+import ConfirmDialog from "@/components/shared/modal/ConfirmDialog";
+import { USER_FILTER_OPTIONS as VENDOR_FILTER_OPTIONS } from "@/components/fieldsConfig/fields";
+import { VendorColumns } from "../components/VendorTable";
+import { useCallback } from "react";
+
 
 const VendorsListPage = () => {
   const [search, setSearch] = useState<string>("");
   const [selectedFilter, setSelectedFilter] = useState("all");
-  const [dialog, setDialog] = useState<{
-    id: string;
-    type: "block" | "unblock";
-  } | null>(null);
+  const [dialog, setDialog] = useState<{ id: string; type: "block" | "unblock" } | null>(null);
   const [page, setPage] = useState(1);
   const LIMIT = 5;
 
-  const debouncedSearch = useDebounce(search);
-  
+  const debouncedSearch = useDebounce<string>(search);
+
   const { data, isLoading, isError, error } = useVendorsFetch(
     page,
     LIMIT,
@@ -32,6 +32,10 @@ const VendorsListPage = () => {
 
   const vendors = data?.data.data ?? [];
   const totalPages = data?.data?.totalPages ?? 1;
+
+    const handleVendorAction = useCallback((id: string, type: "block" | "unblock") => {
+      setDialog({ id, type });
+    }, []);
 
   const handleConfirmAction = (reason?: string) => {
     if (!dialog) return;
@@ -51,6 +55,7 @@ const VendorsListPage = () => {
     );
   };
 
+
   useEffect(() => {
     if (page !== 1) setPage(1);
   }, [debouncedSearch, selectedFilter]);
@@ -64,7 +69,6 @@ const VendorsListPage = () => {
       />
     );
   if (isError) return <p>Error: {(error as Error).message}</p>;
-  if (isPending) return <Loading variant="spinner" className="w-full h-full"/>;
 
   return (
     <div className="min-h-screen bg-gradient-premium">
@@ -74,18 +78,14 @@ const VendorsListPage = () => {
             title={"Vendors"}
             search={search}
             onSearch={setSearch}
-            filterOptions={[
-              { label: "All", value: "all" },
-              { label: "Active", value: "active" },
-              { label: "Blocked", value: "blocked" },
-            ]}
+            filterOptions={VENDOR_FILTER_OPTIONS}
             selectedFilter={selectedFilter}
             onFilterChange={setSelectedFilter}
           />
 
           <DataTable<IUser>
             data={vendors}
-            columns={vendorColumns((id, type) => setDialog({ id, type }))}
+            columns={VendorColumns(handleVendorAction)}
             loading={isLoading}
             emptyMessage="No vendors found"
             rowKey={(row) => row.id}
@@ -102,7 +102,7 @@ const VendorsListPage = () => {
       <ConfirmDialog
         isOpen={!!dialog}
         onClose={() => setDialog(null)}
-        title={dialog?.type === "block" ? "Unblock Vendor" : "Block Vendor"}
+        title={dialog?.type === "block" ? "Block Vendor" : "Unblock Vendor"}
         description={
           dialog?.type === "block"
             ? "Please enter a reason for blocking this vendor."
@@ -110,6 +110,7 @@ const VendorsListPage = () => {
         }
         showReasonInput={dialog?.type === "block"}
         onConfirm={handleConfirmAction}
+         isConfirming={isPending}
       />
     </div>
   );

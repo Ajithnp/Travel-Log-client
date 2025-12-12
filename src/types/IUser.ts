@@ -3,8 +3,7 @@ export interface IUser {
     name:string;
     email: string;
     phone: string;
-    createdAt: Date;
+    createdAt: string; // Date
     isBlocked: boolean;
-    
-    role?: "user" | "admin" | "vendor";
+    role: "user" | "admin" | "vendor";
 };
