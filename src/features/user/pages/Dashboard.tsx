@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, User, ShoppingBag, Wallet } from "lucide-react";
+import {  User, ShoppingBag, Wallet } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const UserDashboard = () => {

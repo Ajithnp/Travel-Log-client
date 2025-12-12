@@ -1,4 +1,8 @@
-import type { AuthResponse } from "@/features/auth/types/auth.response";
+import type {
+  AuthResponse,
+  IResendOtpResponse,
+  IChangeEmailResponse,
+} from "@/features/auth/types/auth.response";
 import api from "@/config/api/axios";
 import type {
   ILoginPayload,
@@ -9,13 +13,17 @@ import type {
   IUpdatePasswordPayload,
   IVerifyOtpPayload,
   IResendOtpPayload,
+  IChangeEmailPayload,
+  IUpdateEmailPayload,
 } from "../types/auth.payload";
-import type { ApiResponse } from "@/types/axios";
+// import type { ApiResponse } from "@/types/axios";
+import type { ApiResponse } from "@/types/IApiResponse";
 import { API_ENDPOINTS } from "@/lib/constants/routes";
+import { API_ROUTE } from "@/lib/constants/routes";
 
 export const login = async (payload: ILoginPayload): Promise<AuthResponse> => {
   const response = await api.post<AuthResponse>(
-    `${API_ENDPOINTS.AUTH}/login`,
+    `${API_ENDPOINTS.AUTH}${API_ROUTE.LOGIN}`,
     payload
   );
   return response.data;
@@ -25,7 +33,7 @@ export const register = async (
   payload: IRegisterPayload
 ): Promise<AuthResponse> => {
   const response = await api.post<AuthResponse>(
-    `${API_ENDPOINTS.AUTH}/signup`,
+    `${API_ENDPOINTS.AUTH}${API_ROUTE.SIGNUP}`,
     payload
   );
   return response.data;
@@ -35,7 +43,7 @@ export const googleSign = async (
   payload: IGoogleSignPayload
 ): Promise<AuthResponse> => {
   const response = await api.post<AuthResponse>(
-    `${API_ENDPOINTS.AUTH}/google/callback`,
+    `${API_ENDPOINTS.AUTH}${API_ROUTE.GOOGLE_CALLBACK}`,
     payload
   );
 
@@ -46,7 +54,7 @@ export const emailVerify = async (
   payload: IEmailVerifyPayload
 ): Promise<AuthResponse> => {
   const response = await api.post<AuthResponse>(
-    `${API_ENDPOINTS.AUTH}/verify-email`,
+    `${API_ENDPOINTS.AUTH}${API_ROUTE.VERIFY_EMAIL}`,
     payload
   );
   return response.data;
@@ -56,7 +64,7 @@ export const resetPassword = async (
   payload: IForgotPasswordPayload
 ): Promise<AuthResponse> => {
   const response = await api.post<AuthResponse>(
-    `${API_ENDPOINTS.AUTH}/forgot-password`,
+    `${API_ENDPOINTS.AUTH}${API_ROUTE.FORGOT_PASSWORD}`,
     payload
   );
   return response.data;
@@ -66,17 +74,34 @@ export const updatePassword = async (
   payload: IUpdatePasswordPayload
 ): Promise<ApiResponse> => {
   const response = await api.post<ApiResponse>(
-    `${API_ENDPOINTS.AUTH}/change-password`,
+    `${API_ENDPOINTS.AUTH}${API_ROUTE.CHANGE_PASSWORD}`,
     payload
   );
   return response.data;
 };
 
+export const changeEmail = async (payload: IChangeEmailPayload): Promise<IChangeEmailResponse> => {
+  const response = await api.post<IChangeEmailResponse>(
+    `${API_ENDPOINTS.AUTH}/me`,
+    payload
+  );
+  return response.data;
+};
+
+export const updateEmail = async (payload: IUpdateEmailPayload): Promise<ApiResponse> => {
+  const response = await api.patch<ApiResponse>(
+    `${API_ENDPOINTS.USER}/me`,
+    payload
+  );
+  return response.data;
+};
+
+
 export const verifyOtp = async (
   payload: IVerifyOtpPayload
 ): Promise<ApiResponse> => {
   const response = await api.post<ApiResponse>(
-    `${API_ENDPOINTS.AUTH}/otp-verify`,
+    `${API_ENDPOINTS.AUTH}${API_ROUTE.VERIFY_OTP}`,
     payload
   );
   return response.data;
@@ -84,9 +109,9 @@ export const verifyOtp = async (
 
 export const resendOtp = async (
   payload: IResendOtpPayload
-): Promise<ApiResponse> => {
-  const response = await api.post<ApiResponse>(
-    `${API_ENDPOINTS.AUTH}/resend-otp`,
+): Promise<IResendOtpResponse> => {
+  const response = await api.post<IResendOtpResponse>(
+    `${API_ENDPOINTS.AUTH}${API_ROUTE.RESEND_OTP}`,
     payload
   );
   return response.data;
@@ -94,6 +119,6 @@ export const resendOtp = async (
 
 // logout function
 export const logout = async (): Promise<ApiResponse> => {
-  const response = await api.post<ApiResponse>(`${API_ENDPOINTS.AUTH}/logout`);
+  const response = await api.post<ApiResponse>(`${API_ENDPOINTS.AUTH}${API_ROUTE.LOGOUT}`);
   return response.data;
 };

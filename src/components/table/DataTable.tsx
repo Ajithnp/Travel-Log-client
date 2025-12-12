@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React from "react";
+import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 
 export type Column<T> = {
@@ -20,10 +20,9 @@ function DataTable<T>({
   data,
   columns,
   loading = false,
-  emptyMessage = 'No Data Available',
-  rowKey
+  emptyMessage = "No Data Available",
+  rowKey,
 }: DataTableProps<T>) {
-
   console.log("DataTable props.columns", columns);
 
   return (
@@ -56,44 +55,35 @@ function DataTable<T>({
                 </td>
               </tr>
             ) : (
-              <AnimatePresence>
+              <>
                 {data.map((row, index) => (
-                  <motion.tr
-                    key={rowKey ? rowKey(row, index): index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.3, delay: index * 0.05 }}
+                  <tr
+                    key={rowKey ? rowKey(row, index) : index}
                     className="border-b border-table-border hover:bg-table-hover group transition-smooth"
                   >
                     {columns.map((col) => (
                       <td key={String(col.key)} className="p-4">
-                        <div className="font-medium text-foreground">
-                          {col.render ? col.render(row) : (row[col.key] as React.ReactNode)}
-                        </div>
+                        <motion.div
+                          initial={{ opacity: 0, y: 5 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          {col.render
+                            ? col.render(row)
+                            : (row[col.key as keyof T] as React.ReactNode)}
+                        </motion.div>
                       </td>
                     ))}
-                  </motion.tr>
+                  </tr>
                 ))}
-              </AnimatePresence>
-            )
-            }
-
+              </>
+            )}
           </tbody>
         </table>
       </div>
-
-      {/* {data.length === 0 && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="text-center py-12 text-muted-foreground"
-        >
-          No users found matching your search criteria.
-        </motion.div>
-      )} */}
     </Card>
   );
 }
+
 
 export default DataTable

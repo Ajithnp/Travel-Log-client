@@ -5,22 +5,34 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
+import {
+  Alert,
+  AlertTitle,
+} from "@/components/ui/alert"
+
+
 import { Button } from "@/components/ui/button";
 import { GalleryVerticalEnd } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { getStorageitem, setStorageItem } from "@/utils/utils";
-import { useResendOtpMutation } from "../hooks/auth.hooks";
+import { getStorageitem, setStorageItem } from "@/utils/StorageUtils";
+import { useResendOtpMutation } from "../hooks/api.hooks";
 import { toast } from "sonner";
 import useOtpTimer from "../hooks/otp.timer.hook";
 import { LOCAL_STORAGE_KEY } from "@/lib/constants/storageIdentifier";
 import { ERROR_MESSAGES } from "@/lib/constants/messages";
+import { calculateOtpTimer } from "@/utils/calculateOtpTimer";
 interface OtpFormProps {
   otpReceiver: (otp: string) => void;
   buttonText: React.ReactNode;
 }
 
-const OtpForm = ({ otpReceiver, buttonText }: OtpFormProps) => {
-  const [otp, setOtp] = useState<string | undefined>("");
+const OtpForm = (
+  {
+    otpReceiver,
+    buttonText
+  }: OtpFormProps) => {
+
+  const [otp, setOtp] = useState<string>("");
   const { timer, setTimer } = useOtpTimer();
 
   const { mutate: sendOtp, isPending: isLoading } = useResendOtpMutation();
@@ -34,11 +46,19 @@ const OtpForm = ({ otpReceiver, buttonText }: OtpFormProps) => {
       { email: data.email },
       {
         onSuccess: (response) => {
-          toast.success(response.message);
 
-          const expiryTimeInSeconds = Math.floor(Date.now() / 1000) + 60;
-          setStorageItem(LOCAL_STORAGE_KEY.OTP_EXPIRY, String(expiryTimeInSeconds));
-          setTimer(60);
+          const otpExpiry = response.data?.otpExpiresIn;
+          const serverTime = response.data?.serverTime
+          if (otpExpiry && serverTime) {
+            setStorageItem(LOCAL_STORAGE_KEY.VERIFY_EMAIL, {
+              ...getStorageitem(LOCAL_STORAGE_KEY.VERIFY_EMAIL),
+              otpExpiry,
+              serverTime,
+            });
+            const calculatedTime = calculateOtpTimer(otpExpiry, otpExpiry);
+            setTimer(calculatedTime)
+            toast.success(response.message);
+          }
         },
         onError: (error) => {
           toast.error(error.response?.data?.message || ERROR_MESSAGES.SOMETHING_WENT_WRONG);
@@ -108,15 +128,23 @@ const OtpForm = ({ otpReceiver, buttonText }: OtpFormProps) => {
             {timer > 0 ? (
               <span>{timer} seconds</span>
             ) : (
-              <Button
-                type="button"
-                className="flex text-blue cursor-pointer rounded"
-                variant={"link"}
-                disabled={timer > 0 || isLoading}
-                onClick={resendOTP}
-              >
-                Resend OTP
-              </Button>
+
+              <div className="grid w-full max-w-xl items-start gap-4">
+                <Alert variant={"error"}>
+                  <AlertTitle className="text-gray-600">
+                    OTP Expired
+                  </AlertTitle>
+                </Alert>
+                <Button
+                  type="button"
+                  className="flex text-blue cursor-pointer rounded"
+                  variant={"link"}
+                  disabled={timer > 0 || isLoading}
+                  onClick={resendOTP}
+                >
+                  Resend OTP
+                </Button>
+              </div>
             )}
           </div>
 

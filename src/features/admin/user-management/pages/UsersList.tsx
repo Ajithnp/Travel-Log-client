@@ -2,15 +2,15 @@ import DataTable from "@/components/table/DataTable";
 import TableHeader from "@/components/table/TableHeader";
 import TableFooter from "@/components/table/TableFooter";
 import type { IUser } from "@/types/IUser";
-import { ConfirmDialog } from "@/components/ConfirmDialog";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import { useUsersFetch, useUserStatusMutation } from "../hooks/api.hooks";
-import { userColumns } from "../../fields-config/tableFields";
 import { useDebounce } from "@/hooks/useDebounce";
 import { Loading } from "@/components/ui/loading";
-
-
+import ConfirmDialog from "@/components/shared/modal/ConfirmDialog";
+import { useCallback } from "react";
+import { UserColumns } from "../components/UserTable";
+import { USER_FILTER_OPTIONS } from "@/components/fieldsConfig/fields";
 
 const UsersListPage = () => {
   const [search, setSearch] = useState<string>("");
@@ -32,11 +32,14 @@ const UsersListPage = () => {
   const users = data?.data.data ?? [];
   const totalPages = data?.data?.totalPages ?? 1;
 
+  const handleUserAction = useCallback((id: string, type: "block" | "unblock") => {
+    setDialog({ id, type });
+  }, []);
+
 
   const handleConfirmAction = (reason?: string) => {
     if (!dialog) return;
-
-
+ 
     updateStatus(
       { id: dialog.id, blockUser: dialog.type === 'block', reason },
       {
@@ -57,9 +60,8 @@ const UsersListPage = () => {
   }, [debouncedSearch, selectedFilter]);
 
 
-  if (isLoading) return <Loading variant="spinner" text="Loading content..." className="w-full h-full" />;
+  if (isLoading) return <Loading variant="spinner" text="Loading content..." fullscreen />;
   if (isError) return <p>Error: {(error as Error).message}</p>;
-  if (isPending) return <Loading variant="spinner" className="w-full h-full"/>;
 
   return (
     <div className="min-h-screen bg-gradient-premium">
@@ -69,18 +71,14 @@ const UsersListPage = () => {
             title={"Users"}
             search={search}
             onSearch={setSearch}
-            filterOptions={[
-              { label: "All", value: "all" },
-              { label: "Active", value: "active" },
-              { label: "Blocked", value: "blocked" },
-            ]}
+            filterOptions={USER_FILTER_OPTIONS}
             selectedFilter={selectedFilter}
             onFilterChange={setSelectedFilter}
           />
 
           <DataTable<IUser>
             data={users}
-            columns={userColumns((id, type) => setDialog({ id, type }))}
+            columns={UserColumns(handleUserAction)}
             loading={isLoading}
             emptyMessage="No users found"
             rowKey={(row) => row.id}
@@ -93,13 +91,14 @@ const UsersListPage = () => {
           />
         </div>
       </div>
-
+     
+    
       <ConfirmDialog
         isOpen={!!dialog}
         onClose={() => setDialog(null)}
         title={
           dialog?.type === "block"
-            ? "Unblock User"
+            ? "Block User"
             : "Unblock User"
         }
         description={
@@ -109,6 +108,7 @@ const UsersListPage = () => {
         }
         showReasonInput={dialog?.type === "block"}
         onConfirm={handleConfirmAction}
+        isConfirming={isPending}
       />
     </div>
   );

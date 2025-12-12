@@ -1,43 +1,48 @@
+import { getStorageitem } from "@/utils/StorageUtils";
+import { useEffect, useState } from "react";
+import { LOCAL_STORAGE_KEY } from "@/lib/constants/storageIdentifier";
+import { calculateOtpTimer } from "@/utils/calculateOtpTimer";
 
-import { setStorageItem, removeStorageItem, getStorageitem } from '@/utils/utils';
-import { useEffect, useState } from 'react'
-import { LOCAL_STORAGE_KEY } from '@/lib/constants/storageIdentifier';
-
-
-const useOtpTimer = () => {
-    
-  const [timer, setTimer] = useState<number>(() => {
-          const savedTimer = getStorageitem(LOCAL_STORAGE_KEY.OTP_EXPIRY);
-           if(savedTimer){
-            const currentTimeInSeconds = Math.floor(Date.now() / 1000);
-            const timeLeft = parseInt(savedTimer, 10) - currentTimeInSeconds;
-            return timeLeft > 0 ? timeLeft : 0;
-           }
-           const expiryTimeInSeconds = Math.floor(Date.now() / 1000) + 63;
-           setStorageItem(LOCAL_STORAGE_KEY.OTP_EXPIRY, String(expiryTimeInSeconds));
-           return 60
-      });
-  
-      useEffect(() => {
-          if (timer <= 0) return;
-  
-          const interval = setInterval(() => {
-              setTimer((prevTimer) => prevTimer - 1);
-          }, 1000);
-  
-          return () => clearInterval(interval);
-      }, [timer]);
-  
-      useEffect(() => {
-          if (timer > 0) {
-              setStorageItem(LOCAL_STORAGE_KEY.OTP_TIMER, String(timer));
-          } else {
-  
-              removeStorageItem(LOCAL_STORAGE_KEY.OTP_TIMER);
-          }
-      }, [timer]);
-
-      return { timer, setTimer };
+interface UseOtpTimerReturn {
+  timer: number;
+  setTimer: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
-export default useOtpTimer
+const useOtpTimer = (trigger?: boolean): UseOtpTimerReturn => {
+  const [timer, setTimer] = useState<number | null>(null);
+
+  useEffect(() => {
+    const savedData = getStorageitem(LOCAL_STORAGE_KEY.VERIFY_EMAIL);
+
+    if (!savedData?.otpExpiry || !savedData.serverTime) {
+      setTimer(0);
+      return;
+    }
+    const savedExpiry = Number(savedData?.otpExpiry);
+    const savedServerTime = Number(savedData?.serverTime);
+
+    if (Number.isNaN(savedExpiry) || Number.isNaN(savedServerTime)) {
+      setTimer(0);
+      return;
+    }
+
+    const calculatedTime = calculateOtpTimer(savedExpiry, savedServerTime);
+
+    setTimer(calculatedTime > 0 ? calculatedTime : 0);
+  }, [trigger]);
+
+  //countdown
+  useEffect(() => {
+    if (timer === null || timer <= 0) return;
+
+    const interval = setInterval(() => {
+      setTimer((prev) => (prev && prev > 0 ? prev - 1 : 0));
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [timer]);
+
+  return { timer: timer ?? 0, setTimer };
+};
+
+export default useOtpTimer;

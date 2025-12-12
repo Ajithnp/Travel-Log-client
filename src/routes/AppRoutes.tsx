@@ -1,14 +1,12 @@
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route} from "react-router-dom";
 import AdminRoutes from "./AdminRoutes";
 import VendorRoutes from "./VendorRoutes";
 import UserRoutes from "./UserRoutes";
 import Custome404 from "../components/Custome404";
 import Unauthorized from "../components/Unauthorized";
 
-import React from "react";
 
 const AppRoutes = () => {
-  const location = useLocation();
   return (
     <>
 

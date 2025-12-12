@@ -1,6 +1,6 @@
 import api from "@/config/api/axios";
 import type { AxiosResponse } from "axios";
-import { API_ENDPOINTS } from "@/lib/constants/routes";
+import { API_ENDPOINTS, API_ROUTE } from "@/lib/constants/routes";
 import type { VendorVerificationUpdatePayload } from "../../types/payload.types";
 import type { ApiResponse, PaginatedData } from "@/types/IApiResponse";
 import type { IVendorInfo } from "@/types/IVendorInfo";
@@ -13,10 +13,9 @@ export const vendorVerification = async (
   search?: string,
   selectedFilter?: string
 ): Promise<ApiResponse<PaginatedData<IVendorInfo>>> => {
-  console.log('seleceted filter from api', selectedFilter);
   
   const response: AxiosResponse<ApiResponse<PaginatedData<IVendorInfo>>> =
-    await api.get(`${API_ENDPOINTS.ADMIN}/vendor/verification-requests`, {
+    await api.get(`${API_ENDPOINTS.ADMIN}${API_ROUTE.VENDORS_VERIFICATION_REQUESTS}`, {
       params: { page, limit, search, selectedFilter },
     });
   return response.data;

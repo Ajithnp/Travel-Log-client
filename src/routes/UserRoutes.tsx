@@ -5,7 +5,7 @@ import MainLayout from '@/layouts/MainLayout';
 import AuthUserLayout from '@/layouts/auth/auth.user.layout';
 import { Loading } from '@/components/ui/loading';
 import { ErrorBoundary } from "react-error-boundary";
-import { ErrorFallback } from '@/components/error.fallback.ui';
+import { ErrorFallback } from '@/components/ErrorFallback';
 
 const UserDashboard = lazy(() => import('@/features/user/pages/Dashboard'));
 const HomePage = lazy(() => import('@/pages/HomePage'));
@@ -16,12 +16,13 @@ const UserForgotPasswordPage = lazy(() => import('@/features/auth/pages/user/For
 const UserNewPasswordPage = lazy(() => import('@/features/auth/pages/user/NewPasswordPage'));
 const VerifyOtp = lazy(() => import('@/features/auth/pages/user/VerifyOtpPage'));
 const UserEmailverifyPage = lazy(() => import('@/features/auth/pages/user/VerifyEmailPage'));
+const ProfileEditPage = lazy(() => import('@/features/user/pages/ProfileEditPage'));
 
 
 
 const UserRoutes = () => {
   return (
-    <Suspense fallback={<Loading variant='spinner' text='Loading..' className='w-full h-full' />}>
+    <Suspense fallback={<Loading variant='airplane' text='Loading..' fullscreen />}>
 
       <Routes>
 
@@ -66,6 +67,7 @@ const UserRoutes = () => {
         } >
           <Route path='dashboard' element={<UserDashboard />} />
           <Route path='profile' element={<ProfilePage />} />
+          <Route path='editProfile' element={<ProfileEditPage />} />
 
         </Route>
 

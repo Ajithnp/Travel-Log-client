@@ -41,6 +41,14 @@ export interface IResendOtpPayload {
   email: string
 }
 
+export interface IChangeEmailPayload {
+  email : string
+}
+
+export interface IUpdateEmailPayload {
+  otp : string
+}
+
 
 
 

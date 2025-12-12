@@ -1,51 +1,16 @@
-import React from "react";
 import { AuthForm } from "../../components/auth-form/AuthForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   emailSchema,
   type EmailSchemaType,
 } from "@/features/auth/validations/email-schema";
-import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
-import { useForgotPasswordMutation } from "../../hooks/auth.hooks";
 import { Loader } from "lucide-react";
-import { setStorageItem } from "@/utils/utils";
-import { ROLE } from "@/types/Role";
 import { emailFields } from "@/features/auth/fields-config/authFields";
-import { ERROR_MESSAGES } from "@/lib/constants/messages";
-import { BASE_ROUTE } from "@/lib/constants/routes";
-import { ROUTES } from "@/lib/constants/routes";
-import { LOCAL_STORAGE_KEY } from "@/lib/constants/storageIdentifier";
 import { COMPONENT_TEXT } from "@/lib/constants/componentsText";
+import useForgotPasswordLogic from "../../hooks/useForgotPasswordLogic";
 
 const UserForgotPasswordPage = () => {
-  const navigate = useNavigate();
-  const { mutate: forgotPassword, isPending: isLoading } =
-    useForgotPasswordMutation();
-
-  const handleEmailVerify = ({ email }: { email: string }) => {
-    forgotPassword(
-      { email },
-      {
-        onSuccess: (response) => {
-          if (response.data.role !== ROLE.USER) {
-            toast.error(ERROR_MESSAGES.USER_NOT_FOUND);
-            return;
-          }
-          navigate(`${BASE_ROUTE.USER}${ROUTES.OTP_VERIFY}`);
-          setStorageItem(LOCAL_STORAGE_KEY.VERIFY_EMAIL, {
-            email: response.data.email,
-            role: response.data.role,
-          });
-        },
-        onError: (error) => {
-          toast.error(
-            error.response?.data?.message || ERROR_MESSAGES.SOMETHING_WENT_WRONG
-          );
-        },
-      }
-    );
-  };
+  const {handleEmailVerify, isLoading } = useForgotPasswordLogic();
 
   return (
     <AuthForm<EmailSchemaType>

@@ -1,14 +1,14 @@
-import React from "react";
 import Profile from "../components/Profile";
 import { useUserProfileQuery } from "../hooks/api.hooks";
 import { motion } from "framer-motion";
 import { Loading } from "@/components/ui/loading";
+
 const ProfilePage = () => {
-  const { data, isLoading, isError } = useUserProfileQuery();
+  const { data, isLoading } = useUserProfileQuery();
   const userData = data?.data;
 
-  if (isLoading) return <Loading variant="spinner" text="Loading..." className="w-full h-full"/>
-  if (isError) return <div>Something went wrong</div>;
+  if (isLoading)
+    return <Loading variant="spinner" text="Loading..." fullscreen />;
   if (!data) return null;
   return (
     <>

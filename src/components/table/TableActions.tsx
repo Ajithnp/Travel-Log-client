@@ -12,7 +12,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 type ActionVariant = "primary" | "success" | "danger" | "info";
 
-type TableAction = {
+export type TableAction = {
   label: string;
   icon?: React.ReactNode;
   onClick: () => void;
@@ -20,20 +20,19 @@ type TableAction = {
   show?: boolean; // conditional rendering
 };
 
-interface TableActionsProps<T> {
+interface TableActionsProps {
   actions: TableAction[];
-  row: T;
   
 }
 
-export function TableActions<T>({
+export function TableActions({
   actions,
-}: TableActionsProps<T>) {
+}: TableActionsProps) {
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   return (
-    <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2">
       <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
         <DropdownMenuTrigger asChild>
           <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
@@ -53,15 +52,13 @@ export function TableActions<T>({
           {actions
             .filter((action) => action.show !== false)
             .map((action, i) => (
-              <DropdownMenuItem className="cursor-pointer"
+              <DropdownMenuItem
+                className="cursor-pointer flex items-center gap-2" 
                 key={i}
                 onSelect={() => {
                   action.onClick();
                   setDropdownOpen(false);
                 }}
-                // className={
-                //   action.variant === "destructive" ? "text-red-500" : ""
-                // }
               >
                 {action.icon} {action.label}
               </DropdownMenuItem>

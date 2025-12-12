@@ -1,7 +1,8 @@
-import type{ ApiResponse } from "@/types/IApiResponse";
 
 export interface VendorProfileData {
   id: string;
+  role: string;
+  userId?: string;
   profileLogo: string;
   name: string;
   email: string;
@@ -12,4 +13,3 @@ export interface VendorProfileData {
   reasonForReject: string;
 }
 
-export type VendorProfileResponse = ApiResponse<VendorProfileData>

@@ -1,20 +1,18 @@
 
-
-import Navbar from '@/components/shared/navbar'
-import Footer from '@/components/shared/footer'
-import { Outlet } from 'react-router-dom'
+import Footer from '@/components/shared/Footer'
+import { Outlet, useLocation } from 'react-router-dom'
+import NavbarContainer from '@/components/containers/NavbarContainer'
 
 const Main = () => {
+  const location = useLocation()
+  const isHomePage = location.pathname === '/'
   return (
-    <div className=''>
-        <Navbar />
-      <div className='min-h-[70vh]'>
-        
+    <div className="flex flex-col min-h-screen">
+      <NavbarContainer />
+      <main className={`flex-1 ${isHomePage ? '' : 'pt-[90px]'}`}>
         <Outlet />
-        
-            <Footer />
-        </div>
-      
+      </main>
+      <Footer />
     </div>
   )
 }

@@ -1,5 +1,4 @@
-"use client"
-
+import React from "react"
 import { Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -18,7 +17,7 @@ interface TableHeaderProps {
   onFilterChange?: (value: string) => void
 }
 
-const TableHeader = ({ title, search, onSearch, filterOptions, selectedFilter, onFilterChange }: TableHeaderProps) => {
+const TableHeader = React.memo(({ title, search, onSearch, filterOptions, selectedFilter, onFilterChange }: TableHeaderProps) => {
   return (
     <div className="flex flex-col gap-4">
       <div className="text-center">
@@ -34,7 +33,7 @@ const TableHeader = ({ title, search, onSearch, filterOptions, selectedFilter, o
         <div className="relative w-full sm:w-80 flex items-center">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
           <Input
-            placeholder="Search users..."
+            placeholder="Search..."
             value={search}
             onChange={(e) => onSearch(e.target.value)}
             className="pl-10 bg-background border-border focus:ring-primary transition-all shadow-sm"
@@ -61,6 +60,6 @@ const TableHeader = ({ title, search, onSearch, filterOptions, selectedFilter, o
       </div>
     </div>
   )
-}
+})
 
 export default TableHeader

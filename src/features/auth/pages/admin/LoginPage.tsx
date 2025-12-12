@@ -1,62 +1,21 @@
-import type React from "react";
-
-import { useState } from "react";
 import { Shield, Eye, EyeOff, Lock, Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  loginSchema,
-  type LoginSchemaType,
-} from "../../validations/login-schema";
-import { useLoginMutation } from "../../hooks/auth.hooks";
-import { toast } from "sonner";
-import { useDispatch } from "react-redux";
-import { setAdmin } from "@/store/slices/admin.slice";
-import { useNavigate } from "react-router-dom";
-import { useForm, type FieldError, type FieldErrors } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { ROLE } from "@/types/Role";
-import { ERROR_MESSAGES } from "@/lib/constants/messages";
-import { BASE_ROUTE, ROUTES } from "@/lib/constants/routes";
+import { useAdminLoginLogic } from "../../hooks/useAdminLoginLogic";
 
 export default function AdminLogin() {
-  const [showPassword, setShowPassword] = useState(false);
+   const {
+    showPassword,
+    togglePassword,
+    form,
+    onSubmit,
+    onError,
+    isPending,
+  } = useAdminLoginLogic();
 
-  const { register, handleSubmit } = useForm<LoginSchemaType>({
-    resolver: zodResolver(loginSchema),
-  });
+    const { register, handleSubmit } = form;
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const { mutate: loginAdmin, isPending } = useLoginMutation();
-  const handleShow = () => {
-    setShowPassword(!showPassword)
-  }
-
-  const onSubmit = (data: LoginSchemaType) => {
-
-    loginAdmin(data, {
-      onSuccess: (response) => {
-        if (response.data.role !== ROLE.ADMIN)
-          return toast.warning(ERROR_MESSAGES.UNAUTHORIZED_ACTION);
-        dispatch(setAdmin(response.data));
-        navigate(`${BASE_ROUTE.ADMIN}${ROUTES.DASHBOARD}`);
-      },
-      onError: (error) => {
-        toast.error(error?.response?.data?.message || error?.message);
-      },
-    });
-  };
-
-  //useForm
-  const onError = (errors: FieldErrors<LoginSchemaType>) => {
-    const firstError = Object.values(errors)[0] as FieldError | undefined;
-    if (firstError?.message) {
-      toast.error(firstError.message);
-    }
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-600 via-purple-500 to-blue-500 flex items-center justify-center p-4">
@@ -112,7 +71,7 @@ export default function AdminLogin() {
                 />
                 <button
                   type="button"
-                  onClick={handleShow}
+                  onClick={togglePassword}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-white/80"
                 >
                   {showPassword ? (

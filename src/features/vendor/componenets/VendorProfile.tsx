@@ -1,94 +1,40 @@
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Star} from "lucide-react";
+import type { IVendorInfo } from "@/types/IVendorInfo";
+import { useNavigate } from "react-router-dom";
+import {
+  containerVariants,
+  itemVariants,
+} from "../animations/vendorProfile.animations";
+import VendorAboutCard from "./VendorAboutCard";
+import VendorContactCard from "./VendorContactCard";
+import VerificationBadge from "./VerificationBadge";
+import { getVerificationButtonLabel } from "@/utils/vendorStatus";
+import { Loading } from "@/components/ui/loading";
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { MapPin, Phone, Mail, Star, Shield, ShieldCheck, Clock, Globe, XCircle } from "lucide-react";
-import { VendorVerificationModal } from "./VendorVerificationForm"
-import { useVendorProfileQuery } from "../hooks/api.hooks"
-import { Loading } from "@/components/ui/loading"
+interface VendorProfileProps {
+  profileData?: Partial<IVendorInfo>;
+  url?: string;
+  loadingPage: boolean;
+  loadingLogo: boolean;
+}
+export default function VendorProfile({
+  profileData,
+  url,
+  loadingPage,
+  loadingLogo,
+}: VendorProfileProps) {
 
-export default function VendorProfile() {
-  const [isModalOpen, setIsModalOpen] = useState(false)
-
-  const { data, isLoading, isError } = useVendorProfileQuery();
-
-  console.log('vendor profile -----', data);
-
-  // modal functions
-  const handleShowForm = () => {
-    setIsModalOpen(true)
+  const navigate = useNavigate();
+  const handleGoToVerification = () => {
+    navigate("/vendor/verification");
   };
+  if(loadingPage) return <Loading  variant="spinner" fullscreen/>
 
-  const handleCloseForm = () => {
-    setIsModalOpen(false)
-  }
-
-  const containerVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        staggerChildren: 0.1,
-      },
-    },
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.4 },
-    },
-  }
-
-  const getVerificationBadge = () => {
-    switch (data?.data.status) {
-      case "Approved":
-        return (
-          <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
-            <ShieldCheck className="w-3 h-3 mr-1" />
-            Verified
-          </Badge>
-        )
-      case "Pending":
-        return (
-          <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100">
-            <Clock className="w-3 h-3 mr-1" />
-            Pending
-          </Badge>
-        )
-      case "Rejected":
-        return (
-          <Badge className="bg-red-100 text-red-800 hover:bg-red-100">
-            <XCircle className="w-3 h-3 mr-1" />
-            Rejected
-          </Badge>
-        )
-      default:
-        return (
-          <Badge className="bg-red-500">
-            <Shield className="w-3 h-3 mr-1" />
-            Unverified
-          </Badge>
-        )
-    }
-  }
-
-  if (isLoading) {
-    return (
-      <Loading
-        variant="spinner"
-        text="Loading Content..."
-        className="w-full h-full" />
-    )
-  }
-
+  if (!profileData) return;
   return (
     <motion.div
       variants={containerVariants}
@@ -105,23 +51,69 @@ export default function VendorProfile() {
         <Card className="border border-border/80">
           <CardContent className="p-4">
             <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4">
-              <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 300 }}>
+              {/* Avatar Section */}
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
                 <Avatar className="w-16 h-16 lg:w-20 lg:h-20">
-                  <AvatarImage src={data?.data.profileLogo} alt="Vendor Avatar" />
-                  <AvatarFallback className="text-lg"> {data?.data?.profileLogo ? data.data.profileLogo : data?.data.name[0]}</AvatarFallback>
+                  <AvatarImage
+                    src={profileData.profileLogo}
+                    alt="Vendor Avatar"
+                  />
+                  {loadingLogo ? (
+                    <div className="absolute inset-0 flex items-center justify-center bg-gray-200 animate-pulse rounded-full">
+                      <span className="text-gray-500 text-sm">Loading...</span>
+                    </div>
+                  ) : (
+                    <>
+                      <AvatarImage
+                        src={url}
+                        alt="Vendor Avatar"
+                        className="transition-opacity duration-300"
+                      />
+                      <AvatarFallback className="text-lg">
+                        {profileData?.name?.[0]}
+                      </AvatarFallback>
+                    </>
+                  )}
                 </Avatar>
               </motion.div>
 
-              <div className="flex-1 space-y-2">
+              {/* Profile Info Section */}
+              <div className="flex-1 space-y-2 w-full">
                 <div className="space-y-1">
-                  <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-                    <h2 className="text-xl lg:text-2xl font-bold">{data?.data.name}</h2>
-                    {getVerificationBadge()}
-                    {data?.data.reasonForReject && (
-                      <h6 className="text-sm  fond-bold  text-red-700  p-1 rounded text-right">{ data.data.reasonForReject}</h6>
+                  {/* Top section: name + badge + edit button */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between w-full">
+                    {/* Left side: name + badge + rejection reason */}
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+                      <h2 className="text-xl lg:text-2xl font-bold">
+                        {profileData.name}
+                      </h2>
+                      <VerificationBadge
+                        status={profileData.status}
+                      />
+                      {profileData.reasonForReject && (
+                        <h6 className="text-sm font-bold text-red-700 p-1 rounded text-right">
+                          {profileData.reasonForReject}
+                        </h6>
+                      )}
+                    </div>
+
+                    {/* Right side: Edit button */}
+                    {profileData.isProfileVerified && (
+                      <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={() => navigate("/vendor/profile-edit")}
+                        className="mt-2 sm:mt-0 bg-primary text-white text-sm px-7 py-1.5 rounded-lg shadow hover:bg-primary/90 cursor-pointer"
+                      >
+                        Edit
+                      </motion.button>
                     )}
                   </div>
-                  <p className="text-sm text-muted-foreground">Premium organic fruits and vegetables supplier</p>
+
+                  {/* Rating Section */}
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                     <span className="font-medium">4.8</span>
@@ -129,18 +121,17 @@ export default function VendorProfile() {
                   </div>
                 </div>
 
+                {/* Verification Button */}
                 <motion.div>
-                  {/* whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} */}
-                  {data?.data.status !== "Approved" && (
-
+                  {profileData.status !== "Approved" && (
                     <Button
-                      onClick={handleShowForm}
-                      disabled={data?.data.status === 'Pending'}
+                      onClick={handleGoToVerification}
+                      disabled={profileData.status === "Pending"}
                       size="sm"
                       className="w-full sm:w-auto cursor-pointer"
                     >
-                      {data?.data.status === 'Pending' ? 'Request Verification' :
-                        data?.data.status === 'Rejected' ? 'Request Again' : 'Request Verification'}
+                      {getVerificationButtonLabel(profileData.status)}
+
                     </Button>
                   )}
                 </motion.div>
@@ -153,99 +144,14 @@ export default function VendorProfile() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
         {/* Contact Information */}
         <motion.div variants={itemVariants}>
-          <Card className="h-full border border-border/80">
-            <CardHeader className="pb-3">
-              <CardTitle className="flex items-center gap-2 text-lg">
-                <Phone className="w-4 h-4" />
-                Contact
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <motion.div
-                className="flex items-center gap-2 p-2 rounded-lg hover:bg-muted/50 transition-colors"
-                whileHover={{ x: 2 }}
-              >
-                <Mail className="w-3 h-3 text-muted-foreground" />
-                <div className="min-w-0 flex-1">
-                  <p className="text-xs font-medium">Email</p>
-                  <p className="text-xs text-muted-foreground truncate">{data?.data.email}</p>
-                </div>
-              </motion.div>
-
-              <motion.div
-                className="flex items-center gap-2 p-2 rounded-lg hover:bg-muted/50 transition-colors"
-                whileHover={{ x: 2 }}
-              >
-                <Phone className="w-3 h-3 text-muted-foreground" />
-                <div className="min-w-0 flex-1">
-                  <p className="text-xs font-medium">Phone</p>
-                  <p className="text-xs text-muted-foreground">{data?.data.phone}</p>
-                </div>
-              </motion.div>
-
-              <motion.div
-                className="flex items-center gap-2 p-2 rounded-lg hover:bg-muted/50 transition-colors"
-                whileHover={{ x: 2 }}
-              >
-                <MapPin className="w-3 h-3 text-muted-foreground" />
-                <div className="min-w-0 flex-1">
-                  <p className="text-xs font-medium">Address</p>
-                  <p className="text-xs text-muted-foreground">{data?.data.businessAddress}</p>
-                </div>
-              </motion.div>
-
-              {/* <motion.div
-                className="flex items-center gap-2 p-2 rounded-lg hover:bg-muted/50 transition-colors"
-                whileHover={{ x: 2 }}
-              >
-                <Globe className="w-3 h-3 text-muted-foreground" />
-                <div className="min-w-0 flex-1">
-                  <p className="text-xs font-medium">Website</p>
-                  <p className="text-xs text-muted-foreground truncate">{''}</p>
-                </div>
-              </motion.div> */}
-            </CardContent>
-          </Card>
+          <VendorContactCard profileData={profileData} />
         </motion.div>
 
         {/* About & Stats */}
         <motion.div variants={itemVariants}>
-          <Card className="h-full border border-border/80 md:col-span-2 lg:col-span-1">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-lg">About & Stats</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.3, duration: 0.6 }}
-                className="space-y-3"
-              >
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                  Premium organic produce supplier since 2018. Sustainable farming practices with farm-to-table
-                  delivery.
-                </p>
-                {/* <div className="grid grid-cols-3 gap-2">
-                  <motion.div whileHover={{ scale: 1.02 }} className="p-2 rounded-lg bg-muted/50 text-center">
-                    <div className="text-lg font-bold text-primary">500+</div>
-                    <div className="text-xs text-muted-foreground">Customers</div>
-                  </motion.div>
-                  <motion.div whileHover={{ scale: 1.02 }} className="p-2 rounded-lg bg-muted/50 text-center">
-                    <div className="text-lg font-bold text-primary">50+</div>
-                    <div className="text-xs text-muted-foreground">Products</div>
-                  </motion.div>
-                  <motion.div whileHover={{ scale: 1.02 }} className="p-2 rounded-lg bg-muted/50 text-center">
-                    <div className="text-lg font-bold text-primary">6</div>
-                    <div className="text-xs text-muted-foreground">Years</div>
-                  </motion.div>
-                </div> */}
-              </motion.div>
-            </CardContent>
-          </Card>
+          <VendorAboutCard />
         </motion.div>
-        <VendorVerificationModal isOpen={isModalOpen} onClose={handleCloseForm} />
-
       </div>
     </motion.div>
-  )
+  );
 }

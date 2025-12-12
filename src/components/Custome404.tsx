@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Custome404 = ({pathname}) => {
+const Custome404 = () => {
   return (
     <div>
       

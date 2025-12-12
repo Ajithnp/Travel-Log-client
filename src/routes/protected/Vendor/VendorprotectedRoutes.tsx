@@ -1,8 +1,7 @@
-import type { RootState } from '@/store/store';
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { ROLE } from '@/types/Role';
+import { useAuthUser } from '@/hooks/useAuthUser';
 
 interface AdminPrivateRoutesProps {
   children?: React.ReactNode;
@@ -10,7 +9,7 @@ interface AdminPrivateRoutesProps {
 
 export const VendorPrivateRoutes = ({children}: AdminPrivateRoutesProps) => {
   
-    const user = useSelector((state: RootState) => state.vendor.vendor);
+    const { user } = useAuthUser();
     if(!user) {
         return <Navigate to="/vendor/login" replace />;
     }
@@ -25,7 +24,7 @@ export const VendorPrivateRoutes = ({children}: AdminPrivateRoutesProps) => {
 
 
 export const VendorPublicRoutes = ({children}: AdminPrivateRoutesProps) => {
-    const user = useSelector((state: RootState)=> state.vendor.vendor);
+    const { user } = useAuthUser();
     if(user && user?.role !== ROLE.VENDOR) {
         return <Navigate to="/unauthorized" replace />;
     }

@@ -1,39 +1,31 @@
-import { getStorageitem } from "@/utils/utils";
-import { createSlice,type PayloadAction } from "@reduxjs/toolkit";
-import type { IUser } from "@/types/IUser";
-
-
+// import { getStorageitem } from "@/utils/utils";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+export interface IUserSlice {
+  id: string;
+  name: string;
+  email: string;
+  role: 'user'| 'admin' | 'vendor';
+}
 interface IUserState {
-    user: IUser | null;
-   isLoading:boolean
+  user: IUserSlice | null,
+}
+
+const initialState: IUserState = {
+  user: null
 };
 
-const initialState :IUserState = {
-    user: getStorageitem("userSession") || null,
-    isLoading: false,
-};
+const userSlice = createSlice({
+  name: "auth",
+  initialState,
+  reducers: {
+    setUser: (state, action: PayloadAction<IUserSlice>) => {
+      state.user = action.payload;
+    },
+    clearUser: (state) => {
+      state.user = null;
+    },
+  },
+});
 
-
-
-const userSlice = createSlice ( {
-    name: "user",
-    initialState,
-    reducers: {
-        setUser: (state, action: PayloadAction<IUser>) => {
-            state.user = action.payload;
-              state.isLoading = false
-        },
-        clearUser: (state) => {
-            state.user = null;
-              state.isLoading = false
-          
-        },
-         setUserLoading: (state, action: PayloadAction<boolean>) => {
-           state.isLoading = action.payload;
-        }
-
-    
-    }
-})
-export const { setUser, clearUser ,setUserLoading} = userSlice.actions;
+export const { setUser, clearUser } = userSlice.actions;
 export default userSlice.reducer;

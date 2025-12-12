@@ -1,9 +1,8 @@
-import type { RootState } from '@/store/store';
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { ROLE } from '@/types/Role';
+import { useAuthUser } from '@/hooks/useAuthUser';
 
 interface AdminPrivateRoutesProps {
   children?: React.ReactNode;
@@ -11,10 +10,10 @@ interface AdminPrivateRoutesProps {
 
 export const AuthPrivateRoutes = ({children}: AdminPrivateRoutesProps) => {
   
-    const user = useSelector((state: RootState) => state.user.user);
+    const { user } = useAuthUser();    
     
     if(!user) {
-        return <Navigate to="/" replace />;
+        return <Navigate to="/user/login" replace />;
     }
     if(user.role !== ROLE.USER) {
         return <Navigate to="/unauthorized" replace />;
@@ -27,11 +26,8 @@ export const AuthPrivateRoutes = ({children}: AdminPrivateRoutesProps) => {
 
 
 export const AuthPublicRoutes = ({children}: AdminPrivateRoutesProps) => {
-    const {user, isLoading } = useSelector((state: RootState)=> state.user);
+    const {user } = useAuthUser()
      const location = useLocation();
-    if (isLoading) {
-    return <div className="text-center py-10">Loading user...</div>;
-  }
 
     if(user && user?.role === ROLE.USER) {
         if(location.pathname === '/'){
