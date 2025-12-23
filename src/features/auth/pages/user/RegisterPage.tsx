@@ -11,7 +11,7 @@ import { COMPONENT_TEXT } from "@/lib/constants/componentsText";
 import useRegisterLogic from "../../hooks/useRegisterLogic";
 
 const RegisterPage = () => {
-  const { handleRegister, isLoading } = useRegisterLogic();
+  const { handleRegister, isLoading } = useRegisterLogic({role:ROLE.USER});
 
   return (
     <>

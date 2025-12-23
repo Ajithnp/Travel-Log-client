@@ -3,4 +3,4 @@
 
 export const setDisableRefresh = (value: boolean = false): boolean => {
     return value
-};
+}

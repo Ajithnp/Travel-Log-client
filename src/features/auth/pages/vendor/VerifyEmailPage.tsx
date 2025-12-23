@@ -4,9 +4,8 @@ import { COMPONENT_TEXT } from "@/lib/constants/componentsText";
 import useEmailVerificationLogic from "../../hooks/useEmailVerificationLogic";
 
 const VendorEmailverifyPage = () => {
-  const { email, verifyOtp, isLoading } = useEmailVerificationLogic();
+  const { verifyOtp, isLoading } = useEmailVerificationLogic();
 
-  if (!email) return null;
   return (
     <OtpForm
       otpReceiver={verifyOtp}

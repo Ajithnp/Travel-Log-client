@@ -1,4 +1,4 @@
-import { AuthPrivateRoutes, AuthPublicRoutes } from '@/routes/protected/User/UserProtectedRoutes';
+import { AuthPrivateRoutes, AuthPublicRoutes } from './protected/User/UserprotectedRoutes';
 import React, { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom';
 import MainLayout from '@/layouts/MainLayout';

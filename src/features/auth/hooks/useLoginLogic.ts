@@ -11,7 +11,7 @@ import { ERROR_MESSAGES } from "@/lib/constants/messages";
 import { useCallback } from "react";
 
 interface UseLoginLogicParams {
-  role:"admin"|"user"|"vendor"
+  role:"user"|"vendor"
 }
 
 export interface UseLoginLogicReturn {
@@ -39,7 +39,7 @@ const useLoginLogic = ({role}:UseLoginLogicParams): UseLoginLogicReturn => {
                 serverTime: res.data?.serverTime,
               });
               toast.success("Verification email sent!");
-              navigate("/user/verify-email");
+              navigate(`/${role}/verify-email`);
             },
             onError: (err) => {
               toast.error(

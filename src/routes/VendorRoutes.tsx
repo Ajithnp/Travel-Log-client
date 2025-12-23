@@ -24,7 +24,6 @@ const VendorRoutes = () => {
     <Suspense fallback={<Loading variant="spinner" text="Loading.." fullscreen />}>
 
       <Routes>
-
         <Route path='/auth/enter' element={<VendorPublicRoutes> <VendorEnterLogin /> </VendorPublicRoutes>} errorElement={<ErrorFallback />} />
         <Route path='/' element={
           <ErrorBoundary
@@ -43,6 +42,7 @@ const VendorRoutes = () => {
           <Route path='new-password' element={<VendorNewPasswordPage />} />
         </Route>
 
+         {/* PRIVATE VENDOR ROUTES */}
         <Route path='/' element={
           <ErrorBoundary
             FallbackComponent={ErrorFallback}>

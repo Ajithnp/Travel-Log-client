@@ -17,7 +17,7 @@ import type{
 
 export const profile = async (): Promise<ApiResponse<UserProfileData>> => {
   const response = await api.get<ApiResponse<UserProfileData>>(
-    `${API_ENDPOINTS.USER}/me`
+    `${API_ENDPOINTS.USER}${API_ROUTE.PROFILE}`
   );
   return response.data;
 };
@@ -27,7 +27,7 @@ export const updateProfile = async (
   payload: ProfileSchemaType
 ): Promise<ApiResponse> => {
   const response = await api.put<ApiResponse>(
-    `${API_ENDPOINTS.USER}${API_ROUTE.EDIT_PROFILE}`,
+    `${API_ENDPOINTS.USER}${API_ROUTE.PROFILE}`,
     payload
   )
   return response.data;

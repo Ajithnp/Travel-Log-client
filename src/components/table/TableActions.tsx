@@ -22,7 +22,6 @@ export type TableAction = {
 
 interface TableActionsProps {
   actions: TableAction[];
-  
 }
 
 export function TableActions({

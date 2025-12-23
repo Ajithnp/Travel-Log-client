@@ -42,14 +42,13 @@ export const API_ROUTE = {
   LOGOUT: '/logout',
 
   //user
-  EDIT_PROFILE: '/me/edit',
+  PROFILE: '/me',
   CHANGE_EMAIL_REQUEST: '/me/change-email',
   UPDATE_EMAIL: '/me/email',
   RESET_PASSWORD: '/me/password',
 
   // VENDOR
   VERIFICATION_FORM: '/verification',
-  PROFILE: '/me',
   UPDATE_PROFILE_LOGO: '/me/profileLogo',
 
   // ADMIN
@@ -60,9 +59,10 @@ export const API_ROUTE = {
   //S3
   GET_SIGNED_URL_UPLOAD_API: '/upload-url',
   GET_SIGNED_URL_DOWNLOAD_API: '/file-url'
-
-
-
-
 } as const;
 
+export const BASE_ROUTE_BY_ROLE: Record<string, string> = {
+  user: BASE_ROUTE.USER,
+  admin: BASE_ROUTE.ADMIN,
+  vendor: BASE_ROUTE.VENDOR,
+};

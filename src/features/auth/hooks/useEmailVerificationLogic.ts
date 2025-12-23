@@ -7,8 +7,9 @@ import { setUser } from "@/store/slices/user.slice";
 import { useVerifyEmailMutation } from "../hooks/api.hooks";
 import { getStorageitem, removeStorageItem } from "@/utils/StorageUtils";
 import { LOCAL_STORAGE_KEY } from "@/lib/constants/storageIdentifier";
-import { ROUTES } from "@/lib/constants/routes";
+import { BASE_ROUTE, ROUTES } from "@/lib/constants/routes";
 import { ERROR_MESSAGES } from "@/lib/constants/messages";
+import { ROLE } from "@/types/Role";
 
 interface UseEmailVerificationReturn {
   email: string | null;
@@ -39,9 +40,20 @@ const useEmailVerificationLogic = (): UseEmailVerificationReturn => {
         { email: storedData.email, otp },
         {
           onSuccess(res) {
+            if (res.data.role !== ROLE.VENDOR && res.data.role !== ROLE.USER) {
+              toast.warning(ERROR_MESSAGES.USER_NOT_FOUND);
+              return;
+            }
+
             dispatch(setUser(res.data));
             removeStorageItem(LOCAL_STORAGE_KEY.VERIFY_EMAIL);
-            navigate(ROUTES.HOME);
+            toast.success(res.message);
+
+            if (res.data?.role === ROLE.USER) {
+              navigate(ROUTES.HOME);
+            } else {
+              navigate(`${BASE_ROUTE.VENDOR}/`);
+            }
           },
           onError(error) {
             toast.error(

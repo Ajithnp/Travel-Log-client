@@ -14,13 +14,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { GalleryVerticalEnd } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { getStorageitem, setStorageItem } from "@/utils/StorageUtils";
-import { useResendOtpMutation } from "../hooks/api.hooks";
+import { getStorageitem } from "@/utils/StorageUtils";
 import { toast } from "sonner";
 import useOtpTimer from "../hooks/otp.timer.hook";
 import { LOCAL_STORAGE_KEY } from "@/lib/constants/storageIdentifier";
 import { ERROR_MESSAGES } from "@/lib/constants/messages";
-import { calculateOtpTimer } from "@/utils/calculateOtpTimer";
+import useResentOtp from "../hooks/useResentOtp";
 interface OtpFormProps {
   otpReceiver: (otp: string) => void;
   buttonText: React.ReactNode;
@@ -34,38 +33,13 @@ const OtpForm = (
 
   const [otp, setOtp] = useState<string>("");
   const { timer, setTimer } = useOtpTimer();
+  const {resendOTP, isLoadingOtp} = useResentOtp(setTimer)
 
-  const { mutate: sendOtp, isPending: isLoading } = useResendOtpMutation();
-
+  // const { mutate: sendOtp, isPending: isLoading } = useResendOtpMutation();
+    
   const data = getStorageitem(LOCAL_STORAGE_KEY.VERIFY_EMAIL);
   if (!data.email) return;
 
-  // function for resend otp
-  const resendOTP = () => {
-    sendOtp(
-      { email: data.email },
-      {
-        onSuccess: (response) => {
-
-          const otpExpiry = response.data?.otpExpiresIn;
-          const serverTime = response.data?.serverTime
-          if (otpExpiry && serverTime) {
-            setStorageItem(LOCAL_STORAGE_KEY.VERIFY_EMAIL, {
-              ...getStorageitem(LOCAL_STORAGE_KEY.VERIFY_EMAIL),
-              otpExpiry,
-              serverTime,
-            });
-            const calculatedTime = calculateOtpTimer(otpExpiry, otpExpiry);
-            setTimer(calculatedTime)
-            toast.success(response.message);
-          }
-        },
-        onError: (error) => {
-          toast.error(error.response?.data?.message || ERROR_MESSAGES.SOMETHING_WENT_WRONG);
-        },
-      }
-    );
-  };
 
   const handleOtpSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -139,7 +113,7 @@ const OtpForm = (
                   type="button"
                   className="flex text-blue cursor-pointer rounded"
                   variant={"link"}
-                  disabled={timer > 0 || isLoading}
+                  disabled={timer > 0 || isLoadingOtp}
                   onClick={resendOTP}
                 >
                   Resend OTP

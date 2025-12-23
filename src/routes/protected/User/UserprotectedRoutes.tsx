@@ -11,7 +11,6 @@ interface AdminPrivateRoutesProps {
 export const AuthPrivateRoutes = ({children}: AdminPrivateRoutesProps) => {
   
     const { user } = useAuthUser();    
-    
     if(!user) {
         return <Navigate to="/user/login" replace />;
     }
