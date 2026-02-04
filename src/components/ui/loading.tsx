@@ -12,8 +12,9 @@ interface LoadingProps {
 export function Loading({ variant = "spinner", className, text, fullscreen = false }: LoadingProps) {
 
   const containerClass = fullscreen
-    ? "fixed inset-0 flex items-center justify-center bg-background/60 z-50"
-    : "flex items-center justify-center"
+  ? "fixed inset-0 flex flex-col items-center justify-center bg-background/60 z-50"
+  : "flex flex-col items-center justify-center"
+
 
   switch (variant) {
     case "airplane":

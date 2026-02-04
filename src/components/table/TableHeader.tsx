@@ -1,7 +1,9 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Dialog, DialogContent } from "@radix-ui/react-dialog"
+import axios from "axios"
 
 interface filters {
   label: string
@@ -18,6 +20,9 @@ interface TableHeaderProps {
 }
 
 const TableHeader = React.memo(({ title, search, onSearch, filterOptions, selectedFilter, onFilterChange }: TableHeaderProps) => {
+  const [date, setDate] = useState(false);
+
+
   return (
     <div className="flex flex-col gap-4">
       <div className="text-center">
@@ -53,10 +58,12 @@ const TableHeader = React.memo(({ title, search, onSearch, filterOptions, select
                     {option.label}
                   </SelectItem>
                 ))}
+
               </SelectContent>
             </Select>
           </div>
         )}
+
       </div>
     </div>
   )

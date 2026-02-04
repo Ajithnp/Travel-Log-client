@@ -50,6 +50,7 @@ export const API_ROUTE = {
   // VENDOR
   VERIFICATION_FORM: '/verification',
   UPDATE_PROFILE_LOGO: '/me/profileLogo',
+  PACKAGE_FORM_UPLOAD: '/packages',
 
   // ADMIN
   USERS: '/users',

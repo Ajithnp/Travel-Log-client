@@ -9,6 +9,7 @@ export const USER_FILTER_OPTIONS = [
   { label: "All", value: "all" },
   { label: "Active", value: "active" },
   { label: "Blocked", value: "blocked" },
+ 
 ];
 
 export const VENDOR_VERIFICATION_FILTER_OPTIONS = [

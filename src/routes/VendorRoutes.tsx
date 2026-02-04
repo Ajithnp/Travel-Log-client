@@ -17,6 +17,9 @@ const VendorSidebarLayout = lazy(() => import('@/layouts/VendorLayout'));
 const VendorProfilePage = lazy(() => import('@/features/vendor/pages/VendorProfilePage'));
 const VendorVerificationPage = lazy(() => import('@/features/vendor/pages/VendorVerificationPage'));
 const VendorProfileEditPage = lazy(() => import('@/features/vendor/pages/ProfileEditPage'));
+/*----Package---- */
+const BasePackagePage = lazy(() => import('@/features/vendor/package/base-package/components/base-package'));
+const BasePackageCreateFormPage = lazy(() => import('@/features/vendor/package/base-package/page/base-package-form.page'));
 
 
 const VendorRoutes = () => {
@@ -54,6 +57,10 @@ const VendorRoutes = () => {
           <Route path='profile' element={<VendorProfilePage />} />
           <Route path='profile-edit' element={<VendorProfileEditPage />} />
           <Route path='verification' element={<VendorVerificationPage />} />
+          {/* package */}
+          <Route path="packages" element={<BasePackagePage />} />
+          <Route path="packages/add" element={<BasePackageCreateFormPage />} />
+          
         </Route>
 
       </Routes>
