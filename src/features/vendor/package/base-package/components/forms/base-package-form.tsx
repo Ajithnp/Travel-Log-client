@@ -1,9 +1,21 @@
-import { useForm, Controller, FormProvider, type FieldPath } from "react-hook-form";
+import {
+  useForm,
+  Controller,
+  FormProvider,
+  type FieldPath,
+} from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
-import { Loader2, InfoIcon } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import {
   basePackageSchema,
   CATEGORY_ENUM,
@@ -18,30 +30,34 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Textarea } from "@/components/ui/textarea"
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { ImageUploadSection } from "./image-upload-selection";
 import { ItineraryBuilder } from "./itinerary-builder";
 import { InclusionsExclusions } from "./inclusions-exclusions";
-import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { buildBasePackageDefaults } from "../../validations/default/base-package.defaults";
 import z from "zod";
 import { createPackageSchema } from "../../validations/create-base-package.schema";
-import { draftPackageSchema, type BasePackageDraftSchema } from "../../validations/draft-base-package-schema";
+import {
+  draftPackageSchema,
+  type BasePackageDraftSchema,
+} from "../../validations/draft-base-package-schema";
 import { toast } from "sonner";
-import { Loading } from "@/components/ui/loading";
+import { useEffect, useMemo } from "react";
+import { CancellationPolicyBlock } from "./cancellation-policies";
+import { AppAlert } from "@/components/common/app-alert";
+import { SpinnerLoading } from "@/components/common/spinner";
 
 type FormInput = z.input<typeof basePackageSchema>;
+type InitialDataType = z.input<typeof draftPackageSchema>;
 
 interface BasePackageFormProps {
-  mode: "create" | "edit"
+  mode: "create" | "edit";
   onPublish: (data: BasePackageSchema) => Promise<void> | void;
   onDraft: (data: BasePackageDraftSchema) => Promise<void> | void;
   isLoading?: boolean;
-  initialData?: FormInput | null;
-
+  initialData?: InitialDataType | null;
 }
 
 const SECTION_VARIANTS = {
@@ -53,7 +69,6 @@ const SECTION_VARIANTS = {
   }),
 };
 
-
 export function BasePackageForm({
   onPublish,
   onDraft,
@@ -62,11 +77,31 @@ export function BasePackageForm({
   initialData,
 }: BasePackageFormProps) {
 
+  const defaultValues = useMemo(() => {
+    return buildBasePackageDefaults(mode, initialData);
+  }, [mode, initialData]);
+
   const form = useForm<FormInput>({
     resolver: zodResolver(basePackageSchema),
-    defaultValues: buildBasePackageDefaults(mode, initialData),
-    mode: "onChange"
+    defaultValues,
+    mode: "onChange",
   });
+
+  const {
+    handleSubmit,
+    getValues,
+    reset,
+    formState: { isDirty, isValid },
+  } = form;
+
+  useEffect(() => {
+    if (initialData) {
+      form.reset(defaultValues);
+    }
+  }, [initialData, defaultValues, reset]);
+
+  
+
 
   const days = Number(form.watch("days"));
   const itinerary = form.watch("itinerary");
@@ -75,50 +110,44 @@ export function BasePackageForm({
     Array.isArray(itinerary) &&
     itinerary.length > 0 &&
     days !== itinerary.length;
-  
-  const { isValid } = form.formState;
 
   const submitHandler = (data: FormInput) => {
     const validation = createPackageSchema.safeParse(data);
     if (!validation.success) {
-      validation.error.issues.forEach(err => {
+      validation.error.issues.forEach((err) => {
         const fieldPath = err.path.join(".") as FieldPath<FormInput>;
 
-        form.setError(
-          fieldPath,
-          { message: err.message }
-        );
+        form.setError(fieldPath, { message: err.message });
       });
       return;
     }
-    onPublish(data)
-   
+    onPublish(data);
   };
 
   const handleSaveDraft = () => {
-
-    if (!form.formState.isDirty) {
+    if (!isDirty) {
       toast.info("No changes to save");
+
       return;
     }
 
-    const data = form.getValues();
+    const data = getValues();
     const result = draftPackageSchema.safeParse(data);
 
     if (!result.success) {
       console.error("Broken draft shape", result.error);
       return;
     }
-    onDraft(data,)
-  }
+    onDraft(data);
+  };
 
-  if(isLoading) return <Loading variant="spinner" text="Loading.."/>
+  if (isLoading) return <SpinnerLoading title="Loading package details..." />;
 
   return (
     <FormProvider {...form}>
       <form
-        onSubmit={form.handleSubmit(submitHandler, (errors) => {
-          console.log('Submit Blocked', errors)
+        onSubmit={handleSubmit(submitHandler, (errors) => {
+          console.log("Submit Blocked", errors);
         })}
         className="max-w-7xl mx-auto"
       >
@@ -134,14 +163,27 @@ export function BasePackageForm({
             initial="hidden"
             animate="visible"
             custom={0}
-            className="space-y-2"
+            className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-4"
           >
-            <h1 className="text-3xl font-bold text-foreground text-center">
-              Create Base Package
-            </h1>
-            <p className="text-muted-foreground text-center">
-              Build a new travel package by filling in the details below
-            </p>
+            {/* Left side */}
+            <div className="space-y-2">
+              <h1 className="text-3xl font-bold text-foreground m-0">
+                Create Base Package
+              </h1>
+              <p className="text-muted-foreground">
+                Build a new travel package by filling in the details below
+              </p>
+            </div>
+
+            {/* Right side */}
+            <Button
+              variant={"outline"}
+              type="button"
+              onClick={() => window.history.back()}
+              className="w-full sm:w-auto px-4 py-2 rounded-lg border border-input bg-background hover:bg-muted transition"
+            >
+              ← Back
+            </Button>
           </motion.div>
 
           {/* Section 1: Basic Package Info */}
@@ -169,7 +211,10 @@ export function BasePackageForm({
                 <FormItem>
                   <FormLabel>Package Title</FormLabel>
                   <FormControl>
-                    <Input placeholder="E.g. Bali Tropical Paradise" {...field} />
+                    <Input
+                      placeholder="E.g. Bali Tropical Paradise"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -184,7 +229,11 @@ export function BasePackageForm({
                 <FormItem>
                   <FormLabel>Location</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g., Nepal, Himalayas" {...field} className="w-full px-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all" />
+                    <Input
+                      placeholder="e.g., Nepal, Himalayas"
+                      {...field}
+                      className="w-full px-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -201,7 +250,10 @@ export function BasePackageForm({
                   <FormItem>
                     <FormLabel>Category</FormLabel>
                     <FormControl>
-                      <Select value={field.value} onValueChange={field.onChange}>
+                      <Select
+                        value={field.value ?? ""}
+                        onValueChange={field.onChange}
+                      >
                         <SelectTrigger className="w-[180px]">
                           <SelectValue placeholder="Select category" />
                         </SelectTrigger>
@@ -209,8 +261,9 @@ export function BasePackageForm({
                           <SelectGroup>
                             <SelectLabel>Category</SelectLabel>
                             {CATEGORY_ENUM.map((category) => (
-                              <SelectItem key={category} value={category}>
-                                {category.charAt(0).toUpperCase() + category.slice(1)}
+                              <SelectItem key={category} value={category} className="cursor-pointer hover:bg-primary/20 focus:bg-primary/20">
+                                {category.charAt(0).toUpperCase() +
+                                  category.slice(1)}
                               </SelectItem>
                             ))}
                           </SelectGroup>
@@ -230,21 +283,65 @@ export function BasePackageForm({
                   <FormItem>
                     <FormLabel>Difficulty Level</FormLabel>
                     <FormControl>
-                      <Select value={field.value} onValueChange={field.onChange}>
+                      <Select
+                        value={field.value ?? ""}
+                        onValueChange={field.onChange}
+                      >
                         <SelectTrigger className="w-[180px]">
-                          <SelectValue placeholder="Select difficulty" />
+                          <SelectValue placeholder="Select difficulty level" />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectGroup>
                             <SelectLabel>Difficulty</SelectLabel>
                             {DIFFICULTY_ENUM.map((difficulty) => (
-                              <SelectItem key={difficulty} value={difficulty}>
-                                {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
+                              <SelectItem key={difficulty} value={difficulty} className="cursor-pointer hover:bg-primary/20 focus:bg-primary/20">
+                                {difficulty.charAt(0).toUpperCase() +
+                                  difficulty.slice(1)}
                               </SelectItem>
                             ))}
                           </SelectGroup>
                         </SelectContent>
                       </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Pick-up location */}
+              <FormField
+                control={form.control}
+                name="pickupLocation"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Meeting point / Pickup Location</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="e.g.Shimla ISBT Bus Stand, Gate 2 — 05:00 AM sharp"
+                        {...field}
+                        className="w-full px-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* USP */}
+              <FormField
+                control={form.control}
+                name="usp"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>What Makes It Special (USP)</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="e.g., India's last snow leopard habitat — a rare winter crossing"
+                        {...field}
+                        className="w-full px-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -260,7 +357,11 @@ export function BasePackageForm({
                 <FormItem>
                   <FormLabel>Description</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="Describe your package in detail..." {...field} rows={4} />
+                    <Textarea
+                      placeholder="Describe your package in detail..."
+                      {...field}
+                      rows={4}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -295,7 +396,6 @@ export function BasePackageForm({
                     <FormControl>
                       <Input
                         type="number"
-
                         {...field}
                         // onChange={(e) => field.onChange(e.target.valueAsNumber)}
                         className="w-full px-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
@@ -345,19 +445,12 @@ export function BasePackageForm({
                   </FormItem>
                 )}
               />
-
             </div>
-            {form.formState.errors?.days &&
-              showDaysWarning && (
-                <Alert className="border-1 border-orange-300 bg-orange-50 flex items-center gap-3">
-                  <div className="flex items-center justify-center">
-                    <InfoIcon className="w-5 h-5 text-orange-500" />
-                  </div>
-                  <AlertDescription className="text-orange-500 font-small">
-                    Days should match the number of itinerary days
-                  </AlertDescription>
-                </Alert>
-              )}
+            {form.formState.errors?.days && showDaysWarning && (
+              <AppAlert
+                message="Days should match the number of itinerary days"
+                variant="warning" />
+            )}
           </motion.section>
 
           {/* Section 3: Image Upload */}
@@ -401,37 +494,23 @@ export function BasePackageForm({
           >
             <div>
               <h2 className="text-xl font-semibold text-foreground">
-                What's Included & Excluded
+                Inclusions, Exclusions & Packing List
               </h2>
               <p className="text-sm text-muted-foreground mt-1">
-                Help customers understand what comes with this package
+                Help customers understand what comes with this package and bring
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
               <InclusionsExclusions type="inclusions" label="Inclusions" />
               <InclusionsExclusions type="exclusions" label="Exclusions" />
+              <InclusionsExclusions type="packingList" label="Things to Carry" />
             </div>
-            <Alert className="border-1 border-blue-300 bg-blue-50 flex items-center gap-3">
-              <div className="flex items-center justify-center">
-                <InfoIcon className="w-5 h-5 text-blue-500" />
-              </div>
-              <AlertDescription className="text-blue-500 font-small">
-                Do you have inclusions or exclusions don't forget to add!
-              </AlertDescription>
-            </Alert>
+            <AppAlert message="Please ensure all inclusions, exclusions, and packing list items are filled in before publishing your package." />
           </motion.section>
 
-          {/* Error Message */}
-          {/* {submitError && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-destructive/10 border border-destructive/30 text-destructive px-4 py-3 rounded-lg text-sm"
-            >
-              {submitError}
-            </motion.div>
-          )} */}
+          {/* Cancellatrion policy */}
+          <CancellationPolicyBlock animationDelay={2} />
 
           {/* Submit Button */}
           <motion.div
@@ -445,19 +524,28 @@ export function BasePackageForm({
               Cancel
             </Button>
 
-            <Button type="button" variant={"outline"} onClick={handleSaveDraft} className="gap-2 transition-all">Save Draft</Button>
+            <Button
+              type="button"
+              variant={"outline"}
+              onClick={handleSaveDraft}
+              className="gap-2 transition-all"
+              disabled={!isDirty}
+            >
+              Save Draft
+            </Button>
 
             <Button
               type="submit"
-              disabled={isLoading}
-              className={cn(
-                "gap-2 transition-all",
-                (!isValid || isLoading) && "opacity-50 cursor-not-allowed"
-              )}
-              title={"Create your package"}
+              disabled={!isValid || isLoading}
+              // className={cn(
+              //   "gap-2 transition-all",
+              //   (!isValid || isLoading) && "opacity-50 cursor-not-allowed",
+              // )}
+               className="gap-2 transition-all"
+              title={"Publish your package"}
             >
               {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
-              {isLoading ? "Creating Package..." : "Create Package"}
+              {isLoading ? "Publishing Package..." : "Publish Package"}
             </Button>
           </motion.div>
         </motion.div>

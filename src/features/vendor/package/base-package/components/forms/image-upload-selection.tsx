@@ -8,6 +8,7 @@ import { Label } from "@radix-ui/react-label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import type { IPackageImage } from "@/types/types"
+import { nanoid } from "nanoid"
 
 interface ImageUploadSectionProps {
   images: IPackageImage[]
@@ -18,6 +19,10 @@ interface ImageUploadSectionProps {
 export function ImageUploadSection({ images, onImagesChange, error }: ImageUploadSectionProps) {
   const [isDragActive, setIsDragActive] = useState(false)
 
+  //==================================
+  console.log('images:::', images)
+
+  //=================================
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault()
     e.stopPropagation()
@@ -32,6 +37,7 @@ export function ImageUploadSection({ images, onImagesChange, error }: ImageUploa
         const file = files[i]
         if (file.type.startsWith("image/")) {
           newImages.push({
+            key: nanoid(),
             url: URL.createObjectURL(file),
             file: file,
             status: "PENDING_UPLOAD",
@@ -61,14 +67,25 @@ export function ImageUploadSection({ images, onImagesChange, error }: ImageUploa
     },
     [processFiles],
   )
+  //======================================
+  // const removeImage = useCallback((index: number) => {
+  //     onImagesChange(images.filter((_,i) => i !== index))
+  //   },
+  //   [images, onImagesChange],
+  // )
 
-  const removeImage = useCallback(
-    (index: number) => {
-      onImagesChange(images.filter((_,i) => i !== index))
-    },
-    [images, onImagesChange],
-  )
+  const removeImage = useCallback((imageKey: string) => {
+    const updatedImages = images.map((img) =>
+      img.key === imageKey
+        ? { ...img, status: "REMOVED" as const }
+        : img
+    )
 
+    onImagesChange(updatedImages)
+  }, [images, onImagesChange])
+
+
+  //==========================================
   const isValid = images.length >= 4
 
   return (
@@ -125,9 +142,9 @@ export function ImageUploadSection({ images, onImagesChange, error }: ImageUploa
             exit={{ opacity: 0 }}
             className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3"
           >
-            {images.map((image, index) => (
+            {images.filter(image => image.status !== "REMOVED").map((image) => (
               <motion.div
-                key={`${image}-${index}`}
+                key={image.key}
                 layout
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -136,11 +153,11 @@ export function ImageUploadSection({ images, onImagesChange, error }: ImageUploa
               >
                 <img
                   src={image.url || "/placeholder.svg"}
-                  alt={`Package preview ${index + 1}`}
+                  alt={`Package preview `}
                   className="w-full h-full object-cover"
-                />
+                />  
                 <Button
-                  onClick={() => removeImage(index)}
+                  onClick={() => removeImage(image.key)}
                   className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 hover:opacity-100 transition-opacity"
                   type="button"
                   aria-label="Remove image"

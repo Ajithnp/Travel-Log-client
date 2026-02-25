@@ -1,52 +1,50 @@
-
-import { BasePackageForm } from "../components/forms/base-package-form"
-import { imageUploadSync } from "@/utils/image-upload-sync";
+import { BasePackageForm } from "../components/forms/base-package-form";
 import { usePackageUpload } from "../hooks/upload-package";
-import type { PublishPackagePayload, DraftPackagePayload } from "@/types/types";
+import { usePackageFormController } from "../hooks/package-form-controller";
+import { ConfirmDialog } from "@/components/common/confirm-dialog";
+import { useState } from "react";
 import type { BasePackageSchema } from "../validations/base-package-schema";
-import type { BasePackageDraftSchema } from "../validations/draft-base-package-schema";
 
-export default function BasePackageFormPage() {
+export default function BasePackageCreateFormPage() {
+  const [confirmOpen, setConfirmOpen] = useState<boolean>(false);
+  const [pendingData, setPendingData] = useState<BasePackageSchema | null>(
+    null,
+  );
 
   const { handleFormSubmit, isPending } = usePackageUpload();
+  const { handlePublish, handleDraft } =
+    usePackageFormController(handleFormSubmit);
 
-  const handleSubmit = async (data: BasePackageSchema) => {
-    const uploadedImages = await imageUploadSync(data?.images);
+  const handlePublishRequest = (data: BasePackageSchema) => {
+    setPendingData(data);
+    setConfirmOpen(true);
+  };
 
-    const finalPayload: PublishPackagePayload = {
-      ...data,
-      images: uploadedImages,
-      status: "PUBLISH"
+  const handleConfirmPublish = async () => {
+    if (!pendingData) return;
 
-    };
-    handleFormSubmit(finalPayload)
-  }
-
-  const handleDraftSubmit = async (data: BasePackageDraftSchema) => {
-
-    const images = data.images ?? [];
-    let uploadedImages = images;
-
-    if (images.length > 0) {
-       uploadedImages = await imageUploadSync(images);
-    }
-    
-    const payload: DraftPackagePayload = {
-      ...data,
-      images: uploadedImages,
-      status: "DRAFT",
-    };
-    handleFormSubmit(payload)
-  }
+    await handlePublish(pendingData);
+    setConfirmOpen(false);
+    setPendingData(null);
+  };
 
   return (
     <main>
       <BasePackageForm
         mode={"create"}
-        onPublish={handleSubmit}
-        onDraft={handleDraftSubmit}
+        onPublish={handlePublishRequest}
+        onDraft={handleDraft}
         isLoading={isPending}
       />
+      <ConfirmDialog
+        open={confirmOpen}
+        onOpenChange={setConfirmOpen}
+        title="CONFIRM PUBLISH"
+        description="Are you sure you want to publish this package?
+         Once published, cannot be edited ."
+        onConfirm={handleConfirmPublish}
+        confirmText="Yes, Publish"
+      />
     </main>
-  )
+  );
 }

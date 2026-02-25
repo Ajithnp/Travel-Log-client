@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react"
 import { Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Dialog, DialogContent } from "@radix-ui/react-dialog"
-import axios from "axios"
+import React from "react"
+
+
 
 interface filters {
   label: string
@@ -11,7 +11,7 @@ interface filters {
 }
 
 interface TableHeaderProps {
-  title: string
+  title?: string
   search: string
   onSearch: (value: string) => void
   filterOptions?: filters[]
@@ -20,7 +20,6 @@ interface TableHeaderProps {
 }
 
 const TableHeader = React.memo(({ title, search, onSearch, filterOptions, selectedFilter, onFilterChange }: TableHeaderProps) => {
-  const [date, setDate] = useState(false);
 
 
   return (
@@ -47,7 +46,7 @@ const TableHeader = React.memo(({ title, search, onSearch, filterOptions, select
 
         {filterOptions && filterOptions.length > 0 && (
           <div className="flex items-center gap-2">
-            <span className="text-sm text-muted-foreground whitespace-nowrap">Sort by:</span>
+            <span className="text-sm text-muted-foreground whitespace-nowrap">Filter by:</span>
             <Select value={selectedFilter} onValueChange={onFilterChange}>
               <SelectTrigger className="w-[180px] bg-background border-border">
                 <SelectValue placeholder="Select option" />

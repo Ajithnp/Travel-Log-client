@@ -8,7 +8,7 @@ import type { z } from "zod";
 type FormInput = z.input<typeof basePackageSchema>;
 
 export function ItineraryBuilder() {
-  const { control} = useFormContext<FormInput>();
+  const { control } = useFormContext<FormInput>();
 
   const {
     fields: dayFields,
@@ -17,26 +17,25 @@ export function ItineraryBuilder() {
   } = useFieldArray({
     control,
     name: "itinerary",
-    // shouldUnregister: true,
   })
 
   const handleAddDay = () => {
-  appendDay({
-    title: "",
-    dayNumber: dayFields.length + 1,
-    activities: [
-      {
-        title: "",
-        location: "",
-        type: "activity",
-        description: "",
-        endTime: "",
-        startTime: "",
-        included: true
-      }
-    ]
-  });
-};
+    appendDay({
+      title: "",
+      dayNumber: dayFields.length + 1,
+      activities: [
+        {
+          title: "",
+          location: "",
+          type: undefined,
+          description: "",
+          endTime: "",
+          startTime: "",
+          included: false,
+        }
+      ]
+    });
+  };
 
   return (
     <div className="space-y-4">
@@ -55,16 +54,13 @@ export function ItineraryBuilder() {
         </Button>
       </div>
 
-      {/* <AnimatePresence mode="popLayout"> */}
-        {dayFields.map((day, dayIndex) => (
-          <DayCard
-            key={day.id}
-            dayIndex={dayIndex}
-            onRemove={() => removeDay(dayIndex)}
-          />
-        ))}
-      {/* </AnimatePresence> */}
-
+      {dayFields.map((day, dayIndex) => (
+        <DayCard
+          key={day.id}
+          dayIndex={dayIndex}
+          onRemove={() => removeDay(dayIndex)}
+        />
+      ))}
     </div>
   )
 }

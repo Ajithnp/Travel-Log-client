@@ -23,7 +23,7 @@ export const ACTIVITY_TYPE_ENUM = [
 
 export const packageImageSchema = z.object({
   url: z.string().url("Invalid image URL").optional(), // Present for existing images
-  key: z.string().optional(), // Present for existing images (S3 Key)
+  key: z.string(), // Present for existing images (S3 Key)
   file: z.instanceof(File).optional(), // Present for new local selections
   status: z.enum(["PENDING_UPLOAD", "UPLOADED", "REMOVED"]).optional(),
 });
@@ -39,7 +39,7 @@ export const activitySchema = z.object({
 
   location: z.string(),
 
-  type: z.enum(["tour", "transport", "accommodation", "activity", "meal"]),
+  type: z.enum(["tour", "transport", "accommodation", "activity", "meal"]).optional(),
 
   included: z.boolean(),
 });
@@ -57,9 +57,13 @@ export const basePackageSchema = z.object({
 
   location: z.string(),
 
-  category: z.enum(["adventure", "cultural", "relaxation", "luxury"]),
+  pickupLocation: z.string(),
+  
+  usp: z.string(),
 
-  difficultyLevel: z.enum(["easy", "moderate", "challenging", "extreme"]),
+  category: z.enum(["adventure", "cultural", "relaxation", "luxury"]).optional(),
+
+  difficultyLevel: z.enum(["easy", "moderate", "challenging", "extreme"]).optional(),
 
   description: z.string(),
 
@@ -77,6 +81,10 @@ export const basePackageSchema = z.object({
 
   exclusions: z.array(z.string()),
 
+  packingList: z.array(z.string()),
+
+  cancellationPolicy: z.enum(["Flexible", "Moderate", "Strict", "Non-Refundable"]).optional(),
+ 
   isActive: z.boolean(),
 });
 

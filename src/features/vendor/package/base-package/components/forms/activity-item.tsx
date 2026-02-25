@@ -37,7 +37,6 @@ export function ActivityItem({
   activityIndex,
   onRemove,
 }: ActivityItemProps) {
-
   const { control } = useFormContext<FormInput>();
 
   return (
@@ -48,14 +47,13 @@ export function ActivityItem({
       className="bg-muted/40 p-4 rounded-lg space-y-3 border border-border"
     >
       <div className="flex justify-between items-start mb-3">
-        <h4 className="inline-block text-sm font-medium italic text-foreground bg-primary/10 px-2 py-0.5 rounded">
+        <h4 className="inline-block text-sm font-medium text-foreground bg-primary/10 px-2 py-0.5 rounded">
           Activity {activityIndex + 1}
         </h4>
         <Button
           type="button"
           onClick={onRemove}
           className="p-1 hover:bg-destructive/10 rounded transition-colors"
-          // aria-label="Remove activity"
           title={"Remove Activity"}
           size={"icon"}
         >
@@ -104,6 +102,7 @@ export function ActivityItem({
       </div>
 
       {/* Title */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <FormField
         control={control}
         name={`itinerary.${dayIndex}.activities.${activityIndex}.title`}
@@ -130,7 +129,8 @@ export function ActivityItem({
             <FormMessage />
           </FormItem>
         )}
-      />
+        />
+       </div>
       {/* Type and Included */}
       <div className="grid grid-cols-2 gap-3">
         <FormField
@@ -140,7 +140,7 @@ export function ActivityItem({
             <FormItem>
               <FormLabel>Type</FormLabel>
               <FormControl>
-                <Select value={field.value} onValueChange={field.onChange}>
+                <Select value={field.value ?? ""} onValueChange={field.onChange}>
                   <SelectTrigger className="w-[180px]">
                     <SelectValue placeholder="Select Type" />
                   </SelectTrigger>
@@ -148,7 +148,7 @@ export function ActivityItem({
                     <SelectGroup>
                       <SelectLabel>Activity Type</SelectLabel>
                       {ACTIVITY_TYPE_ENUM.map((activity) => (
-                        <SelectItem key={activity} value={activity}>
+                        <SelectItem key={activity} value={activity} className="cursor-pointer hover:bg-primary/20 focus:bg-primary/20">
                           {activity.charAt(0).toUpperCase() + activity.slice(1)}
                         </SelectItem>
                       ))}

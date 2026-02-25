@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import type { ApiResponse } from "@/types/IApiResponse";
 import type { S3FileUploadPaylod, S3UploadParams } from "@/types/common/request";
-import type { S3FileUploadPaylodResponse, SignedUrlViewResponse } from "@/types/common/response";
+import type { S3FileUploadPaylodResponse, SignedUrlViewResponseType } from "@/types/common/response";
 import { getUploadSignedUrl, getViweSignedUrl, uploadToS3 } from "@/services/sharedService";
 import { AxiosError } from "axios";
 
@@ -17,17 +17,17 @@ export const useGetUploadUrlMutation = () => {
 };
 
 export const useGetViewSignedUrlQuery = (
-  userId?: string,
+  id?: string,
   keys?: string[],
  options?: { enabled?: boolean }
 ) => {
   return useQuery<
-    ApiResponse<SignedUrlViewResponse[]>,
+    ApiResponse<SignedUrlViewResponseType[]>,
     AxiosError<ApiResponse>
   >({
-    queryKey: ["vendorViewUrls", userId, keys],
-    queryFn: () => getViweSignedUrl(userId!, keys!),
-    enabled:  !!userId && !!keys?.length && (options?.enabled ?? true),
+    queryKey: ["vendorViewUrls", id, keys],
+    queryFn: () => getViweSignedUrl(id, keys),
+    enabled:  !!id && !!keys?.length && (options?.enabled ?? true),
     staleTime: 4 * 60 * 1000,
     refetchOnWindowFocus: false,
     // retry: false, 

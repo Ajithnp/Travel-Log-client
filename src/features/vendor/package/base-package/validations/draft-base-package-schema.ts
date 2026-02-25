@@ -19,7 +19,7 @@ const draftActivitySchema = activitySchema.extend({
   included: z.boolean().optional(),
 });
 
-const draftItineraryDaySchema = itineraryDaySchema.extend({
+export const draftItineraryDaySchema = itineraryDaySchema.extend({
   title: z.string().optional(),
   dayNumber: z.number().optional(),
   activities: z.array(draftActivitySchema).optional(),
@@ -28,6 +28,8 @@ const draftItineraryDaySchema = itineraryDaySchema.extend({
 export const draftPackageSchema = basePackageSchema.extend({
   title: z.string().optional(),
   location: z.string().optional(),
+  pickupLocation: z.string().optional(),
+  usp:z.string().optional(),
   category: z.enum(CATEGORY_ENUM).optional(),
   difficultyLevel: z.enum(DIFFICULTY_ENUM).optional(),
   description: z.string().optional(),
@@ -38,7 +40,17 @@ export const draftPackageSchema = basePackageSchema.extend({
   itinerary: z.array(draftItineraryDaySchema).optional(),
   inclusions: z.array(z.string()).optional(),
   exclusions: z.array(z.string()).optional(),
+  packingList:z.array(z.string()).optional(),
   isActive: z.boolean().optional(),
+cancellationPolicy: z.enum(["Flexible", "Moderate", "Strict","Non-Refundable",]).optional(),
 });
 
 export type BasePackageDraftSchema = z.infer<typeof draftPackageSchema>;
+
+export const packageResponseSchema = draftPackageSchema.extend({
+  packageId: z.string(),
+  vendorId: z.string(),
+  status: z.enum(['DRAFT', 'PUBLISHED', 'ARCHIVED']),
+});
+
+export type BasePackageResponseDTO = z.infer<typeof packageResponseSchema>;

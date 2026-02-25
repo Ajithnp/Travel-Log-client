@@ -1,7 +1,7 @@
 import api from "@/config/api/axios";
 import { API_ENDPOINTS, API_ROUTE } from "@/lib/constants/routes";
 import type { S3FileUploadPaylod } from "@/types/common/request";
-import type { S3FileUploadPaylodResponse, SignedUrlViewResponse } from "@/types/common/response";
+import type { S3FileUploadPaylodResponse, SignedUrlViewResponseType } from "@/types/common/response";
 import type { ApiResponse } from "@/types/IApiResponse";
 
 export const getUploadSignedUrl = async (
@@ -15,12 +15,12 @@ export const getUploadSignedUrl = async (
 };
 
 export const getViweSignedUrl = async (
-  userId: string,
+  id: string,
   keys: string[]
-): Promise<ApiResponse<SignedUrlViewResponse[]>> => {
-  const response = await api.get<ApiResponse<SignedUrlViewResponse[]>>(
+): Promise<ApiResponse<SignedUrlViewResponseType[]>> => {
+  const response = await api.get<ApiResponse<SignedUrlViewResponseType[]>>(
     `${API_ENDPOINTS.S3}${API_ROUTE.GET_SIGNED_URL_DOWNLOAD_API}`, {
-      params:{userId, keys}
+      params:{userId:id, keys}
     }
   );
   return response.data;

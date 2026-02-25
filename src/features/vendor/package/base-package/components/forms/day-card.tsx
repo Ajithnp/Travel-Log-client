@@ -34,7 +34,6 @@ export function DayCard({ dayIndex, onRemove }: DayCardProps) {
   } = useFieldArray({
     control,
     name: `itinerary.${dayIndex}.activities`,
-    // shouldUnregister: true,
   });
 
   const handleAddActivity = () => {
@@ -44,14 +43,15 @@ export function DayCard({ dayIndex, onRemove }: DayCardProps) {
       title: "",
       description: "",
       location: "",
-      type: "tour",
-      included: true,
+      type: undefined,
+      included: false,
     });
   };
   const handleRemoveActivity = (index: number) => {
     unregister(`itinerary.${dayIndex}.activities.${index}`);
     remove(index);
   };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -133,7 +133,6 @@ export function DayCard({ dayIndex, onRemove }: DayCardProps) {
                   </Button>
                 </div>
 
-                {/* <AnimatePresence mode="popLayout"> */}
                 {activityFields.map((field, activityIndex) => (
                   <ActivityItem
                     key={field.id}
@@ -142,7 +141,6 @@ export function DayCard({ dayIndex, onRemove }: DayCardProps) {
                     onRemove={() => handleRemoveActivity(activityIndex)}
                   />
                 ))}
-                {/* </AnimatePresence> */}
               </div>
 
               {/* Remove Day Button */}

@@ -4,12 +4,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Plus } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import type { BasePackageFormData } from "../../validations/base-package.schema";
+import type { BasePackageSchema } from "../../validations/base-package-schema";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 
 interface InclusionsExclusionsProps {
-  type: "inclusions" | "exclusions";
+  type: "inclusions" | "exclusions" | "packingList";
   label: string;
 }
 
@@ -17,7 +17,7 @@ export function InclusionsExclusions({
   type,
   label,
 }: InclusionsExclusionsProps) {
-  const { watch, setValue } = useFormContext<BasePackageFormData>();
+  const { watch, setValue } = useFormContext<BasePackageSchema>();
   const items = watch(type) as string[] | undefined;
   const safeItems = Array.isArray(items) ? items : [];
 

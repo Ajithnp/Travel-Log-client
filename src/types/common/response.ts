@@ -6,3 +6,8 @@ export type S3FileUploadPaylodResponse = {
 };
 
 export type SignedUrlViewResponse = string;
+
+export interface SignedUrlViewResponseType {
+  key: string;
+  url: string;
+}

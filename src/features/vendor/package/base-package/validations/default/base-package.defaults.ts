@@ -1,9 +1,10 @@
 import type { ImageStatus, IPackageImage } from "@/types/types";
 import type { BasePackageSchema } from "../base-package-schema";
+import type { BasePackageDraftSchema } from "../draft-base-package-schema";
 
 export function buildBasePackageDefaults(
   mode: "create" | "edit",
-  data?: Partial<BasePackageSchema> | null,
+  data?: BasePackageDraftSchema | null,
 ): BasePackageSchema {
   if (mode === "edit" && !data) {
     throw new Error("Edit mode requires initial data");
@@ -13,16 +14,18 @@ export function buildBasePackageDefaults(
     data?.images?.map((img: IPackageImage) => ({
       url: img.url,
       key: img.key,
-      file: undefined, // Existing images don't have a File object
+      file: undefined,
       status: (img.key ? "UPLOADED" : "PENDING_UPLOAD") as ImageStatus,
     })) || [];
 
   return {
     title: data?.title ?? "",
     location: data?.location ?? "",
+    pickupLocation: data?.pickupLocation ?? "",
+    usp: data?.usp ?? "",
     description: data?.description ?? "",
-    category: data?.category ?? "adventure",
-    difficultyLevel: data?.difficultyLevel ?? "easy",
+    category: data?.category ?? undefined,
+    difficultyLevel: data?.difficultyLevel ?? undefined,
     days: data?.days ?? "",
     nights: data?.nights ?? "",
     basePrice: data?.basePrice ?? "",
@@ -38,21 +41,21 @@ export function buildBasePackageDefaults(
             ? day.activities.map((activity) => ({
                 title: activity.title ?? "",
                 location: activity.location ?? "",
-                type: activity.type ?? "tour",
+                type: activity.type ?? undefined,
                 description: activity.description ?? "",
                 startTime: activity.startTime ?? "",
                 endTime: activity.endTime ?? "",
-                included: activity.included ?? true,
+                included: activity.included ?? false,
               }))
             : [
                 {
                   title: "",
                   location: "",
-                  type: "tour",
+                  type: undefined,
                   description: "",
                   startTime: "",
                   endTime: "",
-                  included: true,
+                  included: false,
                 },
               ],
         }))
@@ -64,11 +67,11 @@ export function buildBasePackageDefaults(
               {
                 title: "",
                 location: "",
-                type: "tour",
+                type: undefined,
                 description: "",
                 startTime: "",
                 endTime: "",
-                included: true,
+                included: false,
               },
             ],
           },
@@ -76,6 +79,9 @@ export function buildBasePackageDefaults(
 
     inclusions: data?.inclusions ?? [],
     exclusions: data?.exclusions ?? [],
+    packingList: data?.packingList ?? [],
+    // cancellationPolicy: data?.cancellationPolicy ?? "",
+    cancellationPolicy: data?.cancellationPolicy ?? undefined,
     isActive: data?.isActive ?? true,
   };
 }

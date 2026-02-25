@@ -38,3 +38,17 @@ export type DifficultyLevel = (typeof DIFFICULTY_LEVELS)[number];
 export type ActivityType = (typeof ACTIVITY_TYPES)[number];
 
 export type PackageFormPayload = BasePackageSchema;
+
+export type PackageStatus = "DRAFT" | "PUBLISHED";
+export interface IPackage {
+  id: string;
+  title: string;
+  location: string;
+  durationDays: number;
+  durationNights: number;
+  imageUrl?: { key: string, url?:string }[];
+  status: PackageStatus;
+  category?: PackageCategory;
+  difficultyLevel?: DifficultyLevel;
+  basePrice: number;
+}

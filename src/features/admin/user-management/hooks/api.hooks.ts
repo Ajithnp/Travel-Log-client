@@ -19,7 +19,7 @@ export const useUsersFetch = (
   >({
     queryKey: ["users", { page, limit, search, selectedFilter }],
     queryFn: () => getUsers(page, limit, search, selectedFilter),
-       placeholderData: keepPreviousData, // avoid flicker when switching pages
+    placeholderData: keepPreviousData, // avoid flicker when switching pages
     refetchOnWindowFocus: false,
   });
 };

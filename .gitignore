@@ -13,7 +13,8 @@ data.tldr
 dist
 dist-ssr
 *.local
-
+/src/mock-data.ts
+pendings.txt
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

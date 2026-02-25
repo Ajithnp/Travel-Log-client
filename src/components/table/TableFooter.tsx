@@ -23,7 +23,7 @@ const TableFooter = ({
 }: TableFooterProps) => {
   const isEmpty: boolean = totalPages === 0;
   return (
-    <div className="min-h-screen bg-background p-8">
+    <div className="mt-8 flex justify-center">
       <div className="max-w-4xl mx-auto space-y-8">
         <div className="space-y-4">
           <Pagination>
