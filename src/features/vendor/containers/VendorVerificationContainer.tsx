@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useGetUploadUrlMutation } from "@/hooks/api.hooks";
 
 const VendorVerificationContainer = () => {
+
   const navigate = useNavigate();
   const { mutate: verifyVendor, isPending: isLoading } =
     useVerificationMutation();

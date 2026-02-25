@@ -3,6 +3,7 @@ import AppRoutes from "@/routes/AppRoutes";
 import { ThemeProvider } from "@/components/theme.provider";
 import { Toaster } from "@/components/ui/sonner"
 
+
 const App = () => {
   return (
     <>

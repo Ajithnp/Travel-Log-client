@@ -52,3 +52,49 @@ export default tseslint.config({
   },
 })
 ```
+
+
+Toast usage:
+
+import { useRichToast } from "@/components/RichToast";
+const showToast = useRichToast();
+
+onSuccess: () => showToast({ message: "Saved!", variant: "success" }),
+nst handleSubmit = () => {
+    // save data...
+    navigate("/dashboard");
+    showToast({
+      message: "Profile updated successfully!",
+      variant: "success",
+      position: "top-right",
+    });
+  };
+
+ showToast({
+      message: "Saved successfully!",
+      variant: "success",     // "success" | "error" | "warning" | "info"
+      position: "top-right",  // 7 positions including "center"
+      theme: "dark",          // "dark" | "light"
+      duration: 4000,         // ms (optional)
+      className: "",          // custom classes (optional)
+    })}>
+------------------------------------------------------------------
+
+Skeleton using:
+
+- You can match expected API page size:
+Array.from({ length: PAGE_SIZE })
+
+If you're using React Query:
+- if (isLoading) return <PackageListSkeleton />
+
+Create a wrapper:
+- function PackageListSkeleton() {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {Array.from({ length: 6 }).map((_, i) => (
+        <PackageCardSkeleton key={i} />
+      ))}
+    </div>
+  )
+}

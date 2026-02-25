@@ -5,6 +5,7 @@ import {
   UserCheck,
   Users,
   Store,
+  Briefcase,
 } from "lucide-react";
 import { type LucideIcon } from "lucide-react";
 
@@ -27,8 +28,9 @@ export const adminSidebarLinks = [
 ];
 
 export const vendorSidebarLinks = [
-  { name: "Profile", path: "/profile", icon: User },
+  { name: "Profile", path: "/vendor/profile", icon: User },
   { name: "Dashboard", path: "/", icon: LayoutDashboard },
+  { name: "Packages", path: "/vendor/packages", icon: Briefcase },
   { name: "Overview", path: "/overview", icon: ViewIcon },
 ];
 

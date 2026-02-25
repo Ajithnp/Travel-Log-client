@@ -1,7 +1,9 @@
-import React from "react"
 import { Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import React from "react"
+
+
 
 interface filters {
   label: string
@@ -9,7 +11,7 @@ interface filters {
 }
 
 interface TableHeaderProps {
-  title: string
+  title?: string
   search: string
   onSearch: (value: string) => void
   filterOptions?: filters[]
@@ -18,6 +20,8 @@ interface TableHeaderProps {
 }
 
 const TableHeader = React.memo(({ title, search, onSearch, filterOptions, selectedFilter, onFilterChange }: TableHeaderProps) => {
+
+
   return (
     <div className="flex flex-col gap-4">
       <div className="text-center">
@@ -42,7 +46,7 @@ const TableHeader = React.memo(({ title, search, onSearch, filterOptions, select
 
         {filterOptions && filterOptions.length > 0 && (
           <div className="flex items-center gap-2">
-            <span className="text-sm text-muted-foreground whitespace-nowrap">Sort by:</span>
+            <span className="text-sm text-muted-foreground whitespace-nowrap">Filter by:</span>
             <Select value={selectedFilter} onValueChange={onFilterChange}>
               <SelectTrigger className="w-[180px] bg-background border-border">
                 <SelectValue placeholder="Select option" />
@@ -53,10 +57,12 @@ const TableHeader = React.memo(({ title, search, onSearch, filterOptions, select
                     {option.label}
                   </SelectItem>
                 ))}
+
               </SelectContent>
             </Select>
           </div>
         )}
+
       </div>
     </div>
   )
