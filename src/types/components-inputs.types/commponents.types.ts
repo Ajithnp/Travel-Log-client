@@ -6,6 +6,8 @@ import {
   Users,
   Store,
   Briefcase,
+  Layers
+
 } from "lucide-react";
 import { type LucideIcon } from "lucide-react";
 
@@ -25,6 +27,7 @@ export const adminSidebarLinks = [
   },
   { name: "Users", path: "/admin/users", icon: Users },
   { name: "Vendors", path: "/admin/vendors", icon: Store },
+  {name: "Categories", path: "/admin/categories", icon :Layers}
 ];
 
 export const vendorSidebarLinks = [

@@ -58,6 +58,7 @@ export const API_ROUTE = {
   USERS: '/users',
   VENDORS: '/vendors',
   VENDORS_VERIFICATION_REQUESTS: '/vendor/verification-requests',
+  CATEGORY:'/category',
 
   //S3
   GET_SIGNED_URL_UPLOAD_API: '/upload-url',
