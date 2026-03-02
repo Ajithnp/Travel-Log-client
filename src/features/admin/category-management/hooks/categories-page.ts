@@ -77,7 +77,7 @@ export function useCategoriesPage() {
   }, [createCategory]);
 
   const handleVendorRequests = useCallback(() => {
-    navigate("/admin/category/vendor-request");
+    navigate("/admin/categories/vendor-request");
   }, [navigate]);
 
   return {

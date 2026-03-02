@@ -8,13 +8,13 @@ export type FilterTab = "all" | "active" | "inactive";
 export interface TabItem<T extends string> {
   key: T;
   label: string;
-  count: number;
+  count?: number;
 }
 
 interface FilterWithSearchProps<T extends string> {
-  tabs: TabItem<T>[];
-  activeTab: T;
-  onTabChange: (tab: T) => void;
+  tabs?: TabItem<T>[];
+  activeTab?: T;
+  onTabChange?: (tab: T) => void;
   search: string;
   onSearchChange: (value: string) => void;
   searchPlaceholder?: string;
@@ -36,12 +36,12 @@ export function FilterWithSearch<T extends string>({
       className="bg-card rounded-xl border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 p-6 shadow-premium"
     >
       <div className="flex items-center gap-1.5 bg-muted/60 rounded-xl p-1.5 border border-border/50">
-        {tabs.map((tab) => {
+        {tabs?.map((tab) => {
           const isActive = activeTab === tab.key;
           return (
             <Button
               key={tab.key}
-              onClick={() => onTabChange(tab.key)}
+              onClick={() => onTabChange?.(tab.key)}
               className={`relative px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 flex items-center gap-2 outline-none cursor-pointer bg-zinc-700 ${
                 isActive
                   ? "text-foreground"

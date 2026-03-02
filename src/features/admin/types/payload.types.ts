@@ -14,3 +14,10 @@ export interface CategoryTogglePayload {
   id: string;
   action: 'approve' | 'reject';
 }
+
+export interface CategoryreviewPayload {
+  id: string;
+  action: 'approve' | 'rejected';
+  rejectionReason?: string
+}
+
