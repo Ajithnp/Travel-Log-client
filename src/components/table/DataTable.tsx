@@ -23,10 +23,8 @@ function DataTable<T>({
   emptyMessage = "No Data Available",
   rowKey,
 }: DataTableProps<T>) {
-  console.log("DataTable props.columns", columns);
-
   return (
-    <Card className="shadow-card border-table-border bg-premium-white">
+    <Card className="shadow-card border-table-border bg-premium-white shadow-premium">
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead>
@@ -34,7 +32,7 @@ function DataTable<T>({
               {columns.map((col) => (
                 <th
                   key={String(col.key)}
-                  className="text-left p-4 font-medium text-sm text-muted-foreground"
+                  className="text-left p-4 font-medium text-semibold text-black-600"
                 >
                   {col.label}
                 </th>
@@ -85,5 +83,4 @@ function DataTable<T>({
   );
 }
 
-
-export default DataTable
+export default DataTable;

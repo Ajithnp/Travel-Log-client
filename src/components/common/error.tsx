@@ -20,6 +20,7 @@ export function Error({
   className,
 }: ErrorProps) {
   return (
+    <div className="h-full flex items-center justify-center p-4">
     <div
       className={cn(
         "relative w-full max-w-md overflow-hidden rounded-2xl border border-destructive/20 bg-card/60 p-6 sm:p-8 shadow-2xl backdrop-blur-xl transition-all",
@@ -59,7 +60,7 @@ export function Error({
             <Button
               onClick={onRetry}
               variant="default"
-              className="w-full bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-sm transition-transform hover:scale-[1.02] active:scale-[0.98]"
+              className="w-full bg-destructive/10 text-destructive-foreground hover:bg-destructive/30 shadow-sm transition-transform hover:scale-[1.02] active:scale-[0.98]"
               data-testid="button-retry-api"
             >
               <RefreshCcw className="mr-2 h-4 w-4" />
@@ -78,6 +79,7 @@ export function Error({
             </Button>
           )}
         </div>
+      </div>
       </div>
     </div>
   );

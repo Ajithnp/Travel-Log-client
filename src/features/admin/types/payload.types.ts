@@ -9,3 +9,15 @@ export interface UsersStatusPayload {
   blockUser: boolean;
   reason: string | undefined;
 }
+
+export interface CategoryTogglePayload {
+  id: string;
+  action: 'approve' | 'reject';
+}
+
+export interface CategoryreviewPayload {
+  id: string;
+  action: 'approve' | 'rejected';
+  rejectionReason?: string
+}
+

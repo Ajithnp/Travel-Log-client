@@ -10,6 +10,9 @@ import { ErrorBoundary } from "react-error-boundary";
 import { ErrorFallback } from "@/components/ErrorFallback";
 import { Loading } from "@/components/ui/loading";
 
+const CategoryRequestReviewedPage = lazy(()=> import('@/features/admin/category-management/pages/category-request-reviewed'))
+const CategoryRequestedPage = lazy(() => import('@/features/admin/category-management/pages/vendor-request-category'));
+const CategoryListPage = lazy(()=> import("@/features/admin/category-management/pages/category-list-page"))
 const UserListPage = lazy(() => import("@/features/admin/user-management/pages/UsersList"));
 const VendorsListPage = lazy(() => import('@/features/admin/vendor-management/pages/VendorListPage'));
 const VendorsVerificationListPage = lazy(() => import('@/features/admin/vendor-verification/pages/VendorsVerificationRequestList'))
@@ -44,6 +47,10 @@ const AdminRoutes = () => {
             <h1 className="text-2xl font-bold">Welcome to Dashboard</h1>
           </div>
           } />
+
+          <Route path="categories" element={<CategoryListPage />} />
+          <Route path="categories/vendor-request" element={<CategoryRequestedPage />} />
+          <Route path="categories/vendor-request/reviewed" element={<CategoryRequestReviewedPage/>} />
           {/* vendors */}
           <Route
             path="vendor/verification-request"
