@@ -24,6 +24,9 @@ const BasePackageCreateFormPage = lazy(() => import('@/features/vendor/package/b
 const BasePackageDraftFormPage = lazy(() => import('@/features/vendor/package/base-package/page/base-package-draft-form'));
 const BasePackageDetailsPage = lazy(() => import('@/features/vendor/package/base-package/page/base-package-details'));
 
+//---- categories-------
+const RequestedCategoriesListPage = lazy(()=> import('@/features/vendor/category/pages/requested-category'))
+
 
 const VendorRoutes = () => {
   return (
@@ -64,9 +67,10 @@ const VendorRoutes = () => {
           <Route path="packages" element={<BasePackagePage />} />
           <Route path="packages/add" element={<BasePackageCreateFormPage />} />
           <Route path="packages/draft/:packageId" element={<BasePackageDraftFormPage />} />
-          {/* <Route path="packages/:packageId" element={<BasePackageDetailsPage />} /> */}
           <Route path="packages/details/:packageId" element={<BasePackageDetailsPage />} />
-          
+
+          {/* category */}
+           <Route path="requested-categories" element={<RequestedCategoriesListPage />} />
         </Route>
 
       </Routes>

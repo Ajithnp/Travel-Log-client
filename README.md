@@ -157,6 +157,8 @@ Glacier modal Usage:
           />
 //======================================
 
+Inner shadow:
 
-
+<div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-primary/10 to-transparent pointer-events-none" /><div className="absolute -top-24 -right-24 w-64 h-64 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
+//============================================================
 

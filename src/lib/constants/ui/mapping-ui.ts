@@ -42,4 +42,14 @@ export const typeBadgeClass: Record<string, string> = {
   meal: "activity-badge-meal",
 };
 
+export const statusStyles: Record<string, string> = {
+  pending: "bg-orange-100 text-orange-500 border border-orange-300",
+  active: "bg-green-100 text-green-700 border border-green-300",
+  rejected: "bg-red-100 text-red-700 border border-red-300",
+};
 
+export const statusLabel: Record<string, string> = {
+  pending: "Pending",
+  active: "Active",
+  rejected: "Rejected",
+};

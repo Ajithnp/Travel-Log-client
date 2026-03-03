@@ -1,7 +1,7 @@
 import { Calendar, Sparkles } from "lucide-react";
 import type { BasePackageSchema } from "../../validations/base-package-schema";
 import { Button } from "@/components/ui/button";
-import { categoryIcon, difficultyColor } from "@/lib/constants/ui/package-ui";
+import { categoryIcon, difficultyColor } from "@/lib/constants/ui/mapping-ui";
 import type { BasePackageResponseDTO } from "../../validations/draft-base-package-schema";
 import { PackageStatus } from "@/lib/constants/constants";
 

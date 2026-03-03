@@ -1,7 +1,7 @@
 import { MapPin, Calendar, Shield, Copy, Trash2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { categoryIcon, difficultyColor } from "@/lib/constants/ui/package-ui";
+import { categoryIcon, difficultyColor } from "@/lib/constants/ui/mapping-ui";
 import type { BasePackageResponseDTO } from "../../validations/draft-base-package-schema";
 import { PackageStatus } from "@/lib/constants/constants";
 
@@ -61,9 +61,9 @@ export function PackageHeader({ pkg }: PackageHeaderProps) {
         </div>
         <div className="flex items-center gap-2 shrink-0">
           {pkg.status === PackageStatus.PUBLISHED && (
-          <Button variant="outline" size="sm" className="gap-1.5">
-            <Copy className="h-3.5 w-3.5" /> Duplicate
-          </Button>
+            <Button variant="outline" size="sm" className="gap-1.5">
+              <Copy className="h-3.5 w-3.5" /> Duplicate
+            </Button>
           )}
           <Button
             variant="outline"

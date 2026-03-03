@@ -8,7 +8,7 @@ import type { IPackage } from "../type/package";
 import { PackageStatus } from "@/lib/constants/constants";
 import InfoItem from "./info-item";
 import { cn } from "@/lib/utils";
-import { statusColorMap, statusLabelMap } from "@/lib/constants/ui/package-ui";
+import { statusColorMap, statusLabelMap } from "@/lib/constants/ui/mapping-ui";
 
 
 const PackageCard = ({
@@ -32,14 +32,14 @@ const PackageCard = ({
   const thumbnailImage = pkg.imageUrl?.[0];
 
   return (
- 
+
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ y: -6 }}
       transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
       onClick={() => onCardClick(pkg.id)}
-      className="group cursor-pointer h-full shadow-premium"
+      className="group cursor-pointer h-full backdrop-blur-md shadow-premium"
     >
       <Card className={cn(
         "relative h-full flex flex-col overflow-hidden border-border/40 bg-card/50 backdrop-blur-sm transition-all duration-500",
@@ -62,7 +62,7 @@ const PackageCard = ({
               <div className="text-muted-foreground/40 text-xs font-medium uppercase tracking-widest">No Preview</div>
             </div>
           )}
-          
+
           {/* Status Badge Over Image */}
           <div className="absolute top-3 left-3 z-10">
             <Badge
@@ -79,10 +79,10 @@ const PackageCard = ({
           {/* Price Tag Over Image */}
           <div className="absolute bottom-3 right-3 z-10">
             <div className="bg-white/90 dark:bg-black/80 backdrop-blur-md rounded-lg px-3 py-1.5 shadow-lg border border-white/20">
-               <div className="flex items-center gap-1 text-primary font-bold">
-                 <IndianRupee className="h-3.5 w-3.5" />
-                 <span className="text-sm tracking-tight">{pkg.basePrice.toLocaleString()}</span>
-               </div>
+              <div className="flex items-center gap-1 text-primary font-bold">
+                <IndianRupee className="h-3.5 w-3.5" />
+                <span className="text-sm tracking-tight">{pkg.basePrice.toLocaleString()}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -90,7 +90,7 @@ const PackageCard = ({
         {/* Card Content */}
         <div className="p-5 flex flex-col flex-grow relative z-10">
           <div className="mb-4">
-             {/* <div className="flex items-center gap-1 text-amber-500 mb-1">
+            {/* <div className="flex items-center gap-1 text-amber-500 mb-1">
                 {[1, 2, 3, 4, 5].map((i) => (
                   <Star key={i} className="h-3 w-3 fill-current" />
                 ))}
@@ -126,8 +126,8 @@ const PackageCard = ({
               }}
               className={cn(
                 "w-full font-bold tracking-tight h-10 transition-all duration-300",
-                isSchedulable 
-                  ? "bg-primary shadow-md hover:shadow-primary/20 hover:scale-[1.02]" 
+                isSchedulable
+                  ? "bg-primary shadow-md hover:shadow-primary/20 hover:scale-[1.02]"
                   : "hover:bg-muted/80"
               )}
             >

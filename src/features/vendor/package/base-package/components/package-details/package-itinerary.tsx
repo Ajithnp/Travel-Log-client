@@ -3,7 +3,7 @@ import { ChevronDown, MapPin } from "lucide-react";
 // import type { ItineraryDay, Activity } from "@/types/package";
 import { itineraryDaySchema, activitySchema } from "../../validations/base-package-schema";
 import type z from "zod";
-import {typeLabel } from "@/lib/constants/ui/package-ui";
+import { typeLabel } from "@/lib/constants/ui/mapping-ui";
 // export type ItineraryDay = z.infer<typeof itineraryDaySchema>;
 export type Activity = z.infer<typeof activitySchema>;
 import { draftItineraryDaySchema } from "../../validations/draft-base-package-schema";
@@ -47,16 +47,14 @@ export function PackageItinerary({ itinerary, totalDays }: PackageItineraryProps
                   <span className="font-medium text-sm text-foreground">{day.title}</span>
                 </div>
                 <ChevronDown
-                  className={`h-4 w-4 text-muted-foreground transition-transform duration-200 ${
-                    isOpen ? "rotate-180" : ""
-                  }`}
+                  className={`h-4 w-4 text-muted-foreground transition-transform duration-200 ${isOpen ? "rotate-180" : ""
+                    }`}
                 />
               </button>
 
               <div
-                className={`grid transition-all duration-300 ease-in-out ${
-                  isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
-                }`}
+                className={`grid transition-all duration-300 ease-in-out ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                  }`}
               >
                 <div className="overflow-hidden">
                   <div className="px-4 pb-4 space-y-3 border-t pt-3">
@@ -79,8 +77,8 @@ function ActivityRow({ activity }: { activity: Activity }) {
     <div className="flex items-start justify-between gap-4">
       <div className="flex items-start gap-3">
         <div className="text-xs text-secondary font-medium mt-0.5 w-[72px] shrink-0">
-          <span className="text-orange-500">{activity.startTime}</span> 
-          <span className="text-muted-foreground"> – <br/> {activity.endTime}</span>
+          <span className="text-orange-500">{activity.startTime}</span>
+          <span className="text-muted-foreground"> – <br /> {activity.endTime}</span>
         </div>
         <div>
           <p className="text-sm font-medium text-foreground">{activity.title}</p>
