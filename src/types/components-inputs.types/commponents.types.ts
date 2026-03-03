@@ -34,7 +34,7 @@ export const vendorSidebarLinks = [
   { name: "Profile", path: "/vendor/profile", icon: User },
   { name: "Dashboard", path: "/", icon: LayoutDashboard },
   { name: "Packages", path: "/vendor/packages", icon: Briefcase },
-  { name: "Overview", path: "/overview", icon: ViewIcon },
+  { name: "Category", path: "/vendor/requested-categories", icon: ViewIcon },
 ];
 
 export const userSidebarLinks = [

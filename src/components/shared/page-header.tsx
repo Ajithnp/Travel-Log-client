@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import type { ReactNode } from "react";
 
 interface HeaderAction {
@@ -60,8 +61,10 @@ export function PageHeader({
         {primaryAction && (
           <Button
             variant={"outline"}
-            className="gap-2 text-sm shadow-premium text-white bg-zinc-600 "
-            onClick={primaryAction.onClick}
+            className={cn("gap-2 text-sm shadow-premium text-white bg-zinc-600 transition-all duration-300 group",
+              "bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 hover:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 active:translate-y-0",
+            )}
+             onClick = { primaryAction.onClick }
           >
             {primaryAction.icon}
             {primaryAction.label}

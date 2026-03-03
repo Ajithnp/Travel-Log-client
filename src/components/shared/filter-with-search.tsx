@@ -35,7 +35,7 @@ export function FilterWithSearch<T extends string>({
       transition={{ duration: 0.5, delay: 0.3 }}
       className="bg-card rounded-xl border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 p-6 shadow-premium"
     >
-      <div className="flex items-center gap-1.5 bg-muted/60 rounded-xl p-1.5 border border-border/50">
+      <div className="flex items-center gap-1.5 bg-muted/60 rounded-xl p-1.5 border border-border/50 shadow-premium">
         {tabs?.map((tab) => {
           const isActive = activeTab === tab.key;
           return (
