@@ -4,7 +4,6 @@ import {
   activitySchema,
     packageImageSchema,
     itineraryDaySchema,
-    ACTIVITY_TYPE_ENUM,
     DIFFICULTY_ENUM,
     CATEGORY_ENUM
 } from "./base-package-schema";
@@ -15,7 +14,7 @@ const draftActivitySchema = activitySchema.extend({
   title: z.string().optional(),
   description: z.string().optional(),
   location: z.string().optional(), 
-  type: z.enum(ACTIVITY_TYPE_ENUM).optional(),
+  specials: z.array(z.string()).transform(arr => arr.filter(s => s.trim() !== "")),
   included: z.boolean().optional(),
 });
 
@@ -28,7 +27,6 @@ export const draftItineraryDaySchema = itineraryDaySchema.extend({
 export const draftPackageSchema = basePackageSchema.extend({
   title: z.string().optional(),
   location: z.string().optional(),
-  pickupLocation: z.string().optional(),
   usp:z.string().optional(),
   category: z.enum(CATEGORY_ENUM).optional(),
   difficultyLevel: z.enum(DIFFICULTY_ENUM).optional(),

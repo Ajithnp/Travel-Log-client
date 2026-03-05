@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
-import { Trash2 } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Plus, Trash2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   FormControl,
@@ -8,21 +8,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import z from "zod";
 import { basePackageSchema } from "../../validations/base-package-schema";
 import { useFormContext } from "react-hook-form";
-import { ACTIVITY_TYPE_ENUM } from "../../validations/base-package-schema";
 
 type FormInput = z.input<typeof basePackageSchema>;
 
@@ -37,7 +28,22 @@ export function ActivityItem({
   activityIndex,
   onRemove,
 }: ActivityItemProps) {
-  const { control } = useFormContext<FormInput>();
+  const { control, watch, setValue } = useFormContext<FormInput>();
+
+  const specials =
+    watch(`itinerary.${dayIndex}.activities.${activityIndex}.specials`) ?? [];
+  const appendSpecial = () => {
+    const cleaned = specials.filter((s) => s.trim() !== "");
+    setValue(`itinerary.${dayIndex}.activities.${activityIndex}.specials`, [
+      ...cleaned,
+      "",
+    ]);
+  };
+  const removeSpecial = (i: number) =>
+    setValue(
+      `itinerary.${dayIndex}.activities.${activityIndex}.specials`,
+      specials.filter((_, idx) => idx !== i),
+    );
 
   return (
     <motion.div
@@ -103,63 +109,98 @@ export function ActivityItem({
 
       {/* Title */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <FormField
-        control={control}
-        name={`itinerary.${dayIndex}.activities.${activityIndex}.title`}
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel className="text-s">Activity Tittle</FormLabel>
-            <FormControl>
-              <Input {...field} className="h-8 text-xs" />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-      {/* Location */}
-      <FormField
-        control={control}
-        name={`itinerary.${dayIndex}.activities.${activityIndex}.location`}
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel className="text-s">Location</FormLabel>
-            <FormControl>
-              <Input {...field} className="h-8 text-xs" />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-        />
-       </div>
-      {/* Type and Included */}
-      <div className="grid grid-cols-2 gap-3">
         <FormField
           control={control}
-          name={`itinerary.${dayIndex}.activities.${activityIndex}.type`}
+          name={`itinerary.${dayIndex}.activities.${activityIndex}.title`}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Type</FormLabel>
+              <FormLabel className="text-s">Activity Tittle</FormLabel>
               <FormControl>
-                <Select value={field.value ?? ""} onValueChange={field.onChange}>
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Select Type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Activity Type</SelectLabel>
-                      {ACTIVITY_TYPE_ENUM.map((activity) => (
-                        <SelectItem key={activity} value={activity} className="cursor-pointer hover:bg-primary/20 focus:bg-primary/20">
-                          {activity.charAt(0).toUpperCase() + activity.slice(1)}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
+                <Input {...field} className="h-8 text-xs" />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
+        {/* Location */}
+        <FormField
+          control={control}
+          name={`itinerary.${dayIndex}.activities.${activityIndex}.location`}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-s">Location</FormLabel>
+              <FormControl>
+                <Input {...field} className="h-8 text-xs" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </div>
+      {/* Type and Included */}
+      <div className="grid grid-cols-2 gap-3">
+        <FormItem>
+          <div className="flex items-center justify-between mb-1">
+            <label className="text-s text-sm font-medium leading-none">
+              Specials
+            </label>
+            <Button
+              type="button"
+              size="sm"
+              variant="outline"
+              className="h-6 px-2 text-xs gap-1 bg-orange-100 hover:bg-black hover:text-white"
+              onClick={appendSpecial}
+            >
+              <Plus className="w-3 h-3" />
+              Add
+            </Button>
+          </div>
+
+          <div className="space-y-2">
+            <AnimatePresence>
+              {specials.length === 0 && (
+                <p className="text-xs text-muted-foreground italic">
+                  No specials added yet.
+                </p>
+              )}
+              {specials.map((_, specialIndex) => (
+                <motion.div
+                  key={specialIndex}
+                  initial={{ opacity: 0, y: -6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  className="flex items-center gap-2"
+                >
+                  <FormField
+                    control={control}
+                    name={`itinerary.${dayIndex}.activities.${activityIndex}.specials.${specialIndex}`}
+                    render={({ field }) => (
+                      <FormItem className="flex-1 mb-0">
+                        <FormControl>
+                          <Input
+                            {...field}
+                            placeholder={`Special ${specialIndex + 1}`}
+                            className="h-8 text-xs"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <Button
+                    type="button"
+                    size="icon"
+                    variant="ghost"
+                    className="h-8 w-8 shrink-0 hover:bg-destructive/10"
+                    onClick={() => removeSpecial(specialIndex)}
+                  >
+                    <X className="w-3.5 h-3.5 text-destructive" />
+                  </Button>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
+        </FormItem>
         <div className="flex items-end">
           <FormField
             control={control}

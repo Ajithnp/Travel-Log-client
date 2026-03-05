@@ -43,7 +43,7 @@ export function DayCard({ dayIndex, onRemove }: DayCardProps) {
       title: "",
       description: "",
       location: "",
-      type: undefined,
+      specials: [""],
       included: false,
     });
   };

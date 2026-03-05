@@ -21,7 +21,6 @@ export function buildBasePackageDefaults(
   return {
     title: data?.title ?? "",
     location: data?.location ?? "",
-    pickupLocation: data?.pickupLocation ?? "",
     usp: data?.usp ?? "",
     description: data?.description ?? "",
     category: data?.category ?? undefined,
@@ -41,7 +40,7 @@ export function buildBasePackageDefaults(
             ? day.activities.map((activity) => ({
                 title: activity.title ?? "",
                 location: activity.location ?? "",
-                type: activity.type ?? undefined,
+                specials: activity.specials ?? [],
                 description: activity.description ?? "",
                 startTime: activity.startTime ?? "",
                 endTime: activity.endTime ?? "",
@@ -51,7 +50,7 @@ export function buildBasePackageDefaults(
                 {
                   title: "",
                   location: "",
-                  type: undefined,
+                  specials: [""],
                   description: "",
                   startTime: "",
                   endTime: "",
@@ -67,7 +66,7 @@ export function buildBasePackageDefaults(
               {
                 title: "",
                 location: "",
-                type: undefined,
+                specials: [""],
                 description: "",
                 startTime: "",
                 endTime: "",

@@ -12,13 +12,6 @@ export const DIFFICULTY_ENUM = [
   "challenging",
   "extreme",
 ] as const;
-export const ACTIVITY_TYPE_ENUM = [
-  "tour",
-  "transport",
-  "accommodation",
-  "activity",
-  "meal",
-] as const;
 
 
 export const packageImageSchema = z.object({
@@ -39,7 +32,7 @@ export const activitySchema = z.object({
 
   location: z.string(),
 
-  type: z.enum(["tour", "transport", "accommodation", "activity", "meal"]).optional(),
+  specials: z.array(z.string()).transform(arr => arr.filter(s => s.trim() !== "")),
 
   included: z.boolean(),
 });
@@ -57,8 +50,6 @@ export const basePackageSchema = z.object({
 
   location: z.string(),
 
-  pickupLocation: z.string(),
-  
   usp: z.string(),
 
   category: z.enum(["adventure", "cultural", "relaxation", "luxury"]).optional(),

@@ -76,7 +76,6 @@ export function BasePackageForm({
   mode,
   initialData,
 }: BasePackageFormProps) {
-
   const defaultValues = useMemo(() => {
     return buildBasePackageDefaults(mode, initialData);
   }, [mode, initialData]);
@@ -99,9 +98,6 @@ export function BasePackageForm({
       form.reset(defaultValues);
     }
   }, [initialData, defaultValues, reset]);
-
-  
-
 
   const days = Number(form.watch("days"));
   const itinerary = form.watch("itinerary");
@@ -157,35 +153,6 @@ export function BasePackageForm({
           animate={{ opacity: 1 }}
           className="space-y-8"
         >
-          {/* Header */}
-          <motion.div
-            variants={SECTION_VARIANTS}
-            initial="hidden"
-            animate="visible"
-            custom={0}
-            className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-4"
-          >
-            {/* Left side */}
-            <div className="space-y-2">
-              <h1 className="text-3xl font-bold text-foreground m-0">
-                Create Base Package
-              </h1>
-              <p className="text-muted-foreground">
-                Build a new travel package by filling in the details below
-              </p>
-            </div>
-
-            {/* Right side */}
-            <Button
-              variant={"outline"}
-              type="button"
-              onClick={() => window.history.back()}
-              className="w-full sm:w-auto px-4 py-2 rounded-lg border border-input bg-background hover:bg-muted transition"
-            >
-              ← Back
-            </Button>
-          </motion.div>
-
           {/* Section 1: Basic Package Info */}
           <motion.section
             variants={SECTION_VARIANTS}
@@ -261,7 +228,11 @@ export function BasePackageForm({
                           <SelectGroup>
                             <SelectLabel>Category</SelectLabel>
                             {CATEGORY_ENUM.map((category) => (
-                              <SelectItem key={category} value={category} className="cursor-pointer hover:bg-primary/20 focus:bg-primary/20">
+                              <SelectItem
+                                key={category}
+                                value={category}
+                                className="cursor-pointer hover:bg-primary/20 focus:bg-primary/20"
+                              >
                                 {category.charAt(0).toUpperCase() +
                                   category.slice(1)}
                               </SelectItem>
@@ -294,7 +265,11 @@ export function BasePackageForm({
                           <SelectGroup>
                             <SelectLabel>Difficulty</SelectLabel>
                             {DIFFICULTY_ENUM.map((difficulty) => (
-                              <SelectItem key={difficulty} value={difficulty} className="cursor-pointer hover:bg-primary/20 focus:bg-primary/20">
+                              <SelectItem
+                                key={difficulty}
+                                value={difficulty}
+                                className="cursor-pointer hover:bg-primary/20 focus:bg-primary/20"
+                              >
                                 {difficulty.charAt(0).toUpperCase() +
                                   difficulty.slice(1)}
                               </SelectItem>
@@ -310,25 +285,6 @@ export function BasePackageForm({
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Pick-up location */}
-              <FormField
-                control={form.control}
-                name="pickupLocation"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Meeting point / Pickup Location</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="e.g.Shimla ISBT Bus Stand, Gate 2 — 05:00 AM sharp"
-                        {...field}
-                        className="w-full px-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
               {/* USP */}
               <FormField
                 control={form.control}
@@ -449,7 +405,8 @@ export function BasePackageForm({
             {form.formState.errors?.days && showDaysWarning && (
               <AppAlert
                 message="Days should match the number of itinerary days"
-                variant="warning" />
+                variant="warning"
+              />
             )}
           </motion.section>
 
@@ -504,7 +461,10 @@ export function BasePackageForm({
             <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
               <InclusionsExclusions type="inclusions" label="Inclusions" />
               <InclusionsExclusions type="exclusions" label="Exclusions" />
-              <InclusionsExclusions type="packingList" label="Things to Carry" />
+              <InclusionsExclusions
+                type="packingList"
+                label="Things to Carry"
+              />
             </div>
             <AppAlert message="Please ensure all inclusions, exclusions, and packing list items are filled in before publishing your package." />
           </motion.section>
@@ -541,7 +501,7 @@ export function BasePackageForm({
               //   "gap-2 transition-all",
               //   (!isValid || isLoading) && "opacity-50 cursor-not-allowed",
               // )}
-               className="gap-2 transition-all"
+              className="gap-2 transition-all"
               title={"Publish your package"}
             >
               {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}

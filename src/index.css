@@ -23,6 +23,8 @@
 @custom-variant dark (&:is(.dark *));
 :root {
   --background: oklch(1 0 0);
+  --bg-atomic: #0c4651;
+  --bg-cyprus: #004643;
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
@@ -62,6 +64,9 @@
   
 
   --success: #22c55e;
+  --primary-text: #004643;
+  --text-golden: #ffb909;
+  --text-automic: #0c4651;
 
 
   --toast-bg: 240 6% 10%;
@@ -113,6 +118,7 @@
     0 10px 30px -5px rgba(0, 0, 0, 0.4), 0 6px 12px -6px rgba(0, 0, 0, 0.3);
 
      --success: #4ade80;
+     --primary-text: #e0ffff;
 }
 
 @theme inline {

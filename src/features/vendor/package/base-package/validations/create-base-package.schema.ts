@@ -3,7 +3,6 @@ import {
   activitySchema,
   itineraryDaySchema,
   packageImageSchema,
-  ACTIVITY_TYPE_ENUM,
   CATEGORY_ENUM,
   DIFFICULTY_ENUM,
 } from "./base-package-schema";
@@ -28,10 +27,7 @@ const createActivitySchema = activitySchema
 
     location: z.string().min(2, "Activity location is required"),
 
-    type: z.enum(ACTIVITY_TYPE_ENUM, {
-      // required_error: "Please select an activity type",
-      errorMap: () => ({ message: "Please select a valid activity type" }),
-    }),
+    specials: z.array(z.string().min(1, "Special cannot be empty")),
 
     included: z.boolean(),
   })
@@ -79,11 +75,6 @@ export const createPackageSchema = basePackageSchema
       .string()
       .min(2, "Location must be at least 2 characters")
       .max(100, "Location must be at most 100 characters"),
-
-    pickupLocation: z
-      .string()
-      .min(2, "Pickup location must be at least 2 characters")
-      .max(100, "Pickup location must be at most 25 characters"),
 
     usp: z
       .string()
