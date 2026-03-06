@@ -1,9 +1,9 @@
 import api from "@/config/api/axios";
 import { API_ENDPOINTS, API_ROUTE } from "@/lib/constants/routes";
 import type { ApiResponse, PaginatedData } from "@/types/IApiResponse";
-import type { BasePackageDraftSchema , BasePackageResponseDTO} from "../validations/draft-base-package-schema";
-import type { Package } from "../components/package-list";
+import type { BasePackageDraftSchema } from "../validations/draft-base-package-schema";
 import type { AxiosResponse } from "axios";
+import type { PackageDetailReponse , IPackage} from "../type/package";
 
 export const uploadPackage = async (
   payload: BasePackageDraftSchema,
@@ -30,8 +30,8 @@ export const getPackages = async (
   limit: number,
   search?: string,
   selectedFilter?: string,
-): Promise<ApiResponse<PaginatedData<Package>>> => {
-  const response: AxiosResponse<ApiResponse<PaginatedData<Package>>> =
+): Promise<ApiResponse<PaginatedData<IPackage>>> => {
+  const response: AxiosResponse<ApiResponse<PaginatedData<IPackage>>> =
     await api.get(`${API_ENDPOINTS.VENDOR}${API_ROUTE.PACKAGES}`, {
       params: {
         page,
@@ -46,8 +46,8 @@ export const getPackages = async (
 export const getPackagesWithId = async (
   packageId: string,
 
-): Promise<ApiResponse<BasePackageResponseDTO>> => {
-  const response: AxiosResponse<ApiResponse<BasePackageResponseDTO>> =
+): Promise<ApiResponse<PackageDetailReponse>> => {
+  const response: AxiosResponse<ApiResponse<PackageDetailReponse>> =
     await api.get(`${API_ENDPOINTS.VENDOR}${API_ROUTE.PACKAGES}/${packageId}`);
   return response.data;
 };

@@ -9,10 +9,9 @@ import { useMutation, useQuery, keepPreviousData } from "@tanstack/react-query";
 import type { IApiResponse } from "@/types/axios";
 import type {
   BasePackageDraftSchema,
-  BasePackageResponseDTO,
 } from "../validations/draft-base-package-schema";
 import type { ApiResponse, PaginatedData } from "@/types/IApiResponse";
-import type { IPackage } from "../type/package";
+import type { IPackage, PackageDetailReponse } from "../type/package";
 
 export const useUploadPackageMutation = () => {
   return useMutation<
@@ -33,8 +32,6 @@ export const useUpdatePackageMutation = () => {
     mutationFn: ({ packageId, payload }) => updatePackage(packageId, payload),
   });
 };
-
-
 
 export const usePackagesFetch = (
   page: number,
@@ -58,7 +55,7 @@ export const usePackagesFetchWithId = (
   options?: { enabled?: boolean },
 ) => {
   return useQuery<
-    ApiResponse<BasePackageResponseDTO>,
+    ApiResponse<PackageDetailReponse>,
     AxiosError<{ message: string }>
   >({
     queryKey: ["package", packageId],

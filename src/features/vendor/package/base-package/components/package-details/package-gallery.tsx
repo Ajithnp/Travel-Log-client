@@ -14,11 +14,11 @@ export function PackageGallery({ images }: PackageGalleryProps) {
 
   return (
     <div className="animate-fade-up" style={{ animationDelay: "0.05s" }}>
-      <div className="rounded-xl overflow-hidden border bg-muted aspect-[16/9] max-h-[360px]">
+      <div className="rounded-xl overflow-hidden border bg-muted aspect-[16/9] max-h-[360px] shadow-premium">
         <img
           src={activeImage}
           alt="Package"
-          className="w-full h-full object-cover transition-opacity duration-300"
+          className="w-full h-full object-cover transition-opacity duration-300 "
           key={activeIndex}
         />
       </div>

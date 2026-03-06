@@ -11,7 +11,7 @@ export function PackingList({ items }: PackingListProps) {
   }
   return (
     <div className="bg-card rounded-xl border animate-fade-up p-6 shadow-premium" style={{ animationDelay: "0.25s" }}>
-      <h2 className="section-title mb-4 font-semibold">Things to Carry</h2>
+      <h2 className="section-title mb-4 font-semibold text-lg">Things to Carry</h2>
       <div className="flex flex-wrap gap-2">
         {items.map((item, i) => (
           <Badge

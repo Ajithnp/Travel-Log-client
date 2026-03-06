@@ -1,12 +1,12 @@
-import { MapPin, Calendar, Shield, Copy, Trash2 } from "lucide-react";
+import { MapPin, Calendar, Shield, Copy, Trash2, Map } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { categoryIcon, difficultyColor } from "@/lib/constants/ui/mapping-ui";
-import type { BasePackageResponseDTO } from "../../validations/draft-base-package-schema";
+import { categoryIcon, difficultyColor, statusColorMap } from "@/lib/constants/ui/mapping-ui";
 import { PackageStatus } from "@/lib/constants/constants";
+import type { PackageDetailReponse } from "../../type/package";
 
 interface PackageHeaderProps {
-  pkg: Partial<BasePackageResponseDTO>;
+  pkg: Partial<PackageDetailReponse>;
 }
 
 export function PackageHeader({ pkg }: PackageHeaderProps) {
@@ -15,26 +15,30 @@ export function PackageHeader({ pkg }: PackageHeaderProps) {
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
         <div>
           <div className="flex flex-wrap items-center gap-2 mb-3">
-            {pkg.isActive && (
-              <Badge className="bg-card text-success border-success/20 hover:bg-success/20">
-                {pkg.status}
-              </Badge>
-            )}
+            <Badge variant="default" className={`${pkg.status ? statusColorMap[pkg.status] : ""}`}>
+              {pkg.status}
+            </Badge>
             {pkg.category && (
-              <Badge variant="outline" className="border-muted bg-card">
-                {categoryIcon[pkg.category]}{" "}
-                {pkg.category.charAt(0).toUpperCase() + pkg.category.slice(1)}
-              </Badge>
+              <span className="flex items-center gap-1">
+                <span className="flex text-xs text-foreground/50 items-center gap-1">Category</span>
+                <Badge variant="secondary" className="border-muted bg-amber-100 text-sm">
+                  {categoryIcon[pkg.category]}{" "}
+                  {pkg.category.charAt(0).toUpperCase() + pkg.category.slice(1)}
+                </Badge>
+              </span>
             )}
             {pkg.difficultyLevel && (
-              <Badge
-                variant="outline"
-                className={`border-muted ${difficultyColor[pkg.difficultyLevel]} bg-card`}
-              >
-                ●{" "}
-                {pkg.difficultyLevel.charAt(0).toUpperCase() +
-                  pkg.difficultyLevel.slice(1)}
-              </Badge>
+              <span className="flex items-center gap-1">
+                <span className="flex text-xs text-foreground/50 items-center gap-1">Difficulty Level</span>
+                <Badge
+                  variant="outline"
+                  className={`border-muted ${difficultyColor[pkg.difficultyLevel]} bg-amber-100 text-sm"`}
+                >
+                  ●{" "}
+                  {pkg.difficultyLevel.charAt(0).toUpperCase() +
+                    pkg.difficultyLevel.slice(1)}
+                </Badge>
+              </span>
             )}
           </div>
           <h1 className="text-2xl md:text-3xl font-display text-foreground mb-2 font-medium">
@@ -47,14 +51,19 @@ export function PackageHeader({ pkg }: PackageHeaderProps) {
                 {pkg.location}
               </span>
             )}
+            <span className="flex items-center gap-1">
+              <Map className="h-3.5 w-3.5 text-amber-400" />
+              {pkg.state}
+            </span>
+
             <span className="text-border">·</span>
             <span className="flex items-center gap-1">
-              <Calendar className="h-3.5 w-3.5" />
+              <Calendar className="h-3.5 w-3.5 text-pink-400" />
               {pkg.days} Days · {pkg.nights} Nights
             </span>
             <span className="text-border">·</span>
             <span className="flex items-center gap-1">
-              <Shield className="h-3.5 w-3.5" />
+              <Shield className="h-3.5 w-3.5 text-green-400" />
               {pkg.cancellationPolicy ?? "N/A"} cancellation
             </span>
           </div>

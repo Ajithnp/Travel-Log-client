@@ -9,19 +9,18 @@ import { useVendorId } from "@/features/vendor/hooks/vendor-id";
 import { useParams } from "react-router-dom";
 import { usePackagesFetchWithId } from "../hooks/api.hooks";
 import { useDataWithSignedUrls } from "@/hooks/s3/data-with-signed-urls";
-import type { BasePackageResponseDTO } from "../validations/draft-base-package-schema";
 import { Loader } from "@/components/common/loader";
 import { Error } from "@/components/common/error";
 import { Button } from "@/components/ui/button";
+import type { PackageDetailReponse } from "../type/package";
 
 
 const BasePackageDetails = () => {
-
   const vendorId = useVendorId();
   const { packageId } = useParams<{ packageId: string }>();
 
   const { data, isLoading, error } =
-    useDataWithSignedUrls<BasePackageResponseDTO>(
+    useDataWithSignedUrls<PackageDetailReponse>(
       usePackagesFetchWithId(packageId ?? "", { enabled: !!packageId }),
       {
         userId: vendorId ?? '',
@@ -33,17 +32,12 @@ const BasePackageDetails = () => {
   if (isLoading || !data) return <Loader message="Loading data.." />;
   if (error) return <Error message={error.message} />
 
-  console.log("Fetched package data from details page:", data);
-
   const pkg = data;
-
   return (
     <div className="min-h-screen bg-background">
       {/* Breadcrumb */}
       <div className="border-b bg-card">
         <div className="max-w-[90rem] mx-auto sm:px-6 py-2 flex items-center justify-between">
-
-          {/* Left: Breadcrumbs */}
           <p className="text-sm text-muted-foreground">
             <span className="hover:text-foreground cursor-pointer transition-colors">
               Packages
@@ -59,7 +53,7 @@ const BasePackageDetails = () => {
             variant={"outline"}
             type="button"
             onClick={() => window.history.back()}
-            className="w-full sm:w-auto px-4 py-2 rounded-lg border border-input bg-background hover:bg-muted transition"
+            className="w-full sm:w-auto px-4 py-2 rounded-lg border border-input bg-background hover:bg-muted transition shadow-premium"
           >
             ← Back
           </Button>

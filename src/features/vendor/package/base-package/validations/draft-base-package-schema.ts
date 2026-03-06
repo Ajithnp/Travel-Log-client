@@ -5,7 +5,6 @@ import {
     packageImageSchema,
     itineraryDaySchema,
     DIFFICULTY_ENUM,
-    CATEGORY_ENUM
 } from "./base-package-schema";
 
 const draftActivitySchema = activitySchema.extend({
@@ -27,8 +26,9 @@ export const draftItineraryDaySchema = itineraryDaySchema.extend({
 export const draftPackageSchema = basePackageSchema.extend({
   title: z.string().optional(),
   location: z.string().optional(),
+  state: z.string().optional(),
   usp:z.string().optional(),
-  category: z.enum(CATEGORY_ENUM).optional(),
+  categoryId: z.string().optional(),
   difficultyLevel: z.enum(DIFFICULTY_ENUM).optional(),
   description: z.string().optional(),
   days: z.string().optional(),
@@ -48,7 +48,7 @@ export type BasePackageDraftSchema = z.infer<typeof draftPackageSchema>;
 export const packageResponseSchema = draftPackageSchema.extend({
   packageId: z.string(),
   vendorId: z.string(),
-  status: z.enum(['DRAFT', 'PUBLISHED', 'ARCHIVED']),
+  status: z.enum(['DRAFT', 'PUBLISHED']),
 });
 
 export type BasePackageResponseDTO = z.infer<typeof packageResponseSchema>;

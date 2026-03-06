@@ -3,7 +3,6 @@ import {
   activitySchema,
   itineraryDaySchema,
   packageImageSchema,
-  CATEGORY_ENUM,
   DIFFICULTY_ENUM,
 } from "./base-package-schema";
 import z from "zod";
@@ -73,21 +72,22 @@ export const createPackageSchema = basePackageSchema
 
     location: z
       .string()
-      .min(2, "Location must be at least 2 characters")
+      .min(3, "Location must be at least 3 characters")
       .max(100, "Location must be at most 100 characters"),
+    
+    state: z
+      .string()
+      .min(3, "State must be at least 3 characters")
+      .max(100, "State must be at most 100 characters"),
 
     usp: z
       .string()
       .min(10, "USP must be at least 10 characters")
       .max(200, "USP must be at most 200 characters"),
 
-    category: z.enum(CATEGORY_ENUM, {
-      // required_error: "Please select a category",
-      errorMap: () => ({ message: "Please select a valid category" }),
-    }),
+    categoryId: z.string().min(1,"Category required"),
 
     difficultyLevel: z.enum(DIFFICULTY_ENUM, {
-      // required_error: "Please select a difficulty level",
       errorMap: () => ({ message: "Please select a valid difficulty level" }),
     }),
 

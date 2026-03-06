@@ -21,9 +21,10 @@ export function buildBasePackageDefaults(
   return {
     title: data?.title ?? "",
     location: data?.location ?? "",
+    state: data?.state ?? "",
     usp: data?.usp ?? "",
     description: data?.description ?? "",
-    category: data?.category ?? undefined,
+    categoryId: data?.categoryId ?? "",
     difficultyLevel: data?.difficultyLevel ?? undefined,
     days: data?.days ?? "",
     nights: data?.nights ?? "",

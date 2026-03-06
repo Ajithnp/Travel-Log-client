@@ -18,7 +18,6 @@ import {
 } from "@/components/ui/form";
 import {
   basePackageSchema,
-  CATEGORY_ENUM,
   DIFFICULTY_ENUM,
   type BasePackageSchema,
 } from "../../validations/base-package-schema";
@@ -54,6 +53,7 @@ type InitialDataType = z.input<typeof draftPackageSchema>;
 
 interface BasePackageFormProps {
   mode: "create" | "edit";
+  categories: { id: string, name: string }[];
   onPublish: (data: BasePackageSchema) => Promise<void> | void;
   onDraft: (data: BasePackageDraftSchema) => Promise<void> | void;
   isLoading?: boolean;
@@ -74,6 +74,7 @@ export function BasePackageForm({
   onDraft,
   isLoading,
   mode,
+  categories,
   initialData,
 }: BasePackageFormProps) {
   const defaultValues = useMemo(() => {
@@ -188,7 +189,8 @@ export function BasePackageForm({
               )}
             />
 
-            {/* Location */}
+            {/* Location & State */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <FormField
               control={form.control}
               name="location"
@@ -205,14 +207,32 @@ export function BasePackageForm({
                   <FormMessage />
                 </FormItem>
               )}
+              />
+              
+            <FormField
+              control={form.control}
+              name="state"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>State</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder=""
+                      {...field}
+                      className="w-full px-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-
+           </div>
             {/* Category & Difficulty */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Category */}
               <FormField
                 control={form.control}
-                name="category"
+                name="categoryId"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Category</FormLabel>
@@ -227,14 +247,14 @@ export function BasePackageForm({
                         <SelectContent>
                           <SelectGroup>
                             <SelectLabel>Category</SelectLabel>
-                            {CATEGORY_ENUM.map((category) => (
+                            {categories.map((cat) => (
                               <SelectItem
-                                key={category}
-                                value={category}
+                                key={cat.id}
+                                value={cat.id}
                                 className="cursor-pointer hover:bg-primary/20 focus:bg-primary/20"
                               >
-                                {category.charAt(0).toUpperCase() +
-                                  category.slice(1)}
+                                {cat.name.charAt(0).toUpperCase() +
+                                  cat.name.slice(1)}
                               </SelectItem>
                             ))}
                           </SelectGroup>
@@ -284,7 +304,7 @@ export function BasePackageForm({
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
               {/* USP */}
               <FormField
                 control={form.control}
@@ -303,7 +323,7 @@ export function BasePackageForm({
                   </FormItem>
                 )}
               />
-            </div>
+          
 
             {/* Description */}
             <FormField

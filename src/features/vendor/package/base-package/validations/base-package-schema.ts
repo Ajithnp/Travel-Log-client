@@ -1,16 +1,10 @@
 import { z } from "zod";
 
-export const CATEGORY_ENUM = [
-  "adventure",
-  "cultural",
-  "relaxation",
-  "luxury",
-] as const;
 export const DIFFICULTY_ENUM = [
-  "easy",
-  "moderate",
-  "challenging",
-  "extreme",
+  "Easy",
+  "Moderate",
+  "Challenging",
+  "Extreme",
 ] as const;
 
 
@@ -50,11 +44,13 @@ export const basePackageSchema = z.object({
 
   location: z.string(),
 
+  state: z.string(),
+
   usp: z.string(),
 
-  category: z.enum(["adventure", "cultural", "relaxation", "luxury"]).optional(),
+  categoryId:z.string(),
 
-  difficultyLevel: z.enum(["easy", "moderate", "challenging", "extreme"]).optional(),
+  difficultyLevel: z.enum(DIFFICULTY_ENUM).optional(),
 
   description: z.string(),
 
