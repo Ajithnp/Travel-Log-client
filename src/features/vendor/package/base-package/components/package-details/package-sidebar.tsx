@@ -1,13 +1,12 @@
 import { Calendar, Sparkles } from "lucide-react";
-import type { BasePackageSchema } from "../../validations/base-package-schema";
 import { Button } from "@/components/ui/button";
 import { categoryIcon, difficultyColor } from "@/lib/constants/ui/mapping-ui";
-import type { BasePackageResponseDTO } from "../../validations/draft-base-package-schema";
 import { PackageStatus } from "@/lib/constants/constants";
+import type { PackageDetailReponse } from "../../type/package";
 
 
 interface PackageSidebarProps {
-  pkg: BasePackageResponseDTO;
+  pkg: PackageDetailReponse;
 }
 
 export function PackageSidebar({ pkg }: PackageSidebarProps) {
@@ -19,20 +18,24 @@ export function PackageSidebar({ pkg }: PackageSidebarProps) {
         <dl className="space-y-3 text-sm">
           <SummaryRow label="Category">
             <span className="font-medium">
-              {categoryIcon[pkg.category]}{" "}
-              {pkg.category.charAt(0).toUpperCase() + pkg.category.slice(1)}
+              {pkg.category ? (
+                <>
+                  {categoryIcon[pkg.category]}{" "}
+                  {pkg.category.charAt(0).toUpperCase() + pkg.category.slice(1)}
+                </>
+              ) : "N/A"}
+
             </span>
           </SummaryRow>
           <SummaryRow label="Difficulty">
-            <span className={difficultyColor[pkg.difficultyLevel]}>
-              ● {pkg.difficultyLevel.charAt(0).toUpperCase() + pkg.difficultyLevel.slice(1)}
+            <span className={pkg.difficultyLevel ? difficultyColor[pkg.difficultyLevel] : ""}>
+              {pkg.difficultyLevel
+                ? `● ${pkg.difficultyLevel.charAt(0).toUpperCase() + pkg.difficultyLevel.slice(1)}`
+                : "● N/A"}
             </span>
           </SummaryRow>
           <SummaryRow label="Duration">
             <span className="font-medium">{pkg.days} Days · {pkg.nights} Nights</span>
-          </SummaryRow>
-          <SummaryRow label="Meeting Point">
-            <span className="font-medium text-right">{pkg.pickupLocation}</span>
           </SummaryRow>
           <SummaryRow label="Cancellation">
             <span className="text font-medium">
@@ -48,7 +51,7 @@ export function PackageSidebar({ pkg }: PackageSidebarProps) {
       </div>
 
       {/* USP Card */}
-      <div className="rounded-xl bg-primary p-5 text-primary-foreground">
+      <div className="rounded-xl bg-primary p-5 text-primary-foreground shadow-premium">
         <p className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider mb-2 text-secondary">
           <Sparkles className="h-3.5 w-3.5" />
           What makes it special
@@ -82,7 +85,7 @@ export function PackageSidebar({ pkg }: PackageSidebarProps) {
   );
 }
 
-function SummaryRow({ label, children }: { label: string; children: React.ReactNode }) {
+export function SummaryRow({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="flex items-start justify-between gap-4">
       <dt className="text-foreground/60 font-medium shrink-0">{label}</dt>

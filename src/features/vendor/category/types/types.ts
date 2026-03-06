@@ -13,3 +13,8 @@ export interface RequestCategoryPayload {
     name: string;
     vendorNote: string;
 }
+
+export interface AvtiveCategoriesResponse { 
+  id: string;  
+  name: string;
+}

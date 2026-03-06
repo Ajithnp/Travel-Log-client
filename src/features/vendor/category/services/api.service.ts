@@ -6,6 +6,7 @@ import type { IApiResponse } from "@/types/axios";
 import type {
   RequestCategoryPayload,
   VendorRequestedCategoryResponse,
+  AvtiveCategoriesResponse
 } from "../types/types";
 
 export const getRequestedCategories = async (
@@ -38,8 +39,8 @@ export const requestCategory = async (
   return response.data;
 };
 
-export const getCategories = async (): Promise<ApiResponse<string[]>> => {
-  const response = await api.get<ApiResponse<string[]>>(
+export const getCategories = async (): Promise<ApiResponse<AvtiveCategoriesResponse[]>> => {
+  const response = await api.get<ApiResponse<AvtiveCategoriesResponse[]>>(
     `${API_ENDPOINTS.VENDOR}${API_ROUTE.CATEGORIES}`,
   );
 

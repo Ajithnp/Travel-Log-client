@@ -1,23 +1,10 @@
 import { z } from "zod";
 
-export const CATEGORY_ENUM = [
-  "adventure",
-  "cultural",
-  "relaxation",
-  "luxury",
-] as const;
 export const DIFFICULTY_ENUM = [
-  "easy",
-  "moderate",
-  "challenging",
-  "extreme",
-] as const;
-export const ACTIVITY_TYPE_ENUM = [
-  "tour",
-  "transport",
-  "accommodation",
-  "activity",
-  "meal",
+  "Easy",
+  "Moderate",
+  "Challenging",
+  "Extreme",
 ] as const;
 
 
@@ -39,7 +26,7 @@ export const activitySchema = z.object({
 
   location: z.string(),
 
-  type: z.enum(["tour", "transport", "accommodation", "activity", "meal"]).optional(),
+  specials: z.array(z.string()).transform(arr => arr.filter(s => s.trim() !== "")),
 
   included: z.boolean(),
 });
@@ -57,13 +44,13 @@ export const basePackageSchema = z.object({
 
   location: z.string(),
 
-  pickupLocation: z.string(),
-  
+  state: z.string(),
+
   usp: z.string(),
 
-  category: z.enum(["adventure", "cultural", "relaxation", "luxury"]).optional(),
+  categoryId:z.string(),
 
-  difficultyLevel: z.enum(["easy", "moderate", "challenging", "extreme"]).optional(),
+  difficultyLevel: z.enum(DIFFICULTY_ENUM).optional(),
 
   description: z.string(),
 

@@ -1,17 +1,6 @@
-// Package form types - maps 1:1 with backend schema
+
 import type{ BasePackageSchema } from "../validations/base-package-schema";
-export const PACKAGE_CATEGORIES = [
-  "Adventure",
-  "Beach",
-  "Cultural",
-  "Honeymoon",
-  "Family",
-  "Wildlife",
-  "Pilgrimage",
-  "Cruise",
-  "Mountain",
-  "Desert",
-] as const;
+
 
 export const DIFFICULTY_LEVELS = [
   "Easy",
@@ -20,35 +9,62 @@ export const DIFFICULTY_LEVELS = [
   "Extreme",
 ] as const;
 
-export const ACTIVITY_TYPES = [
-  "Sightseeing",
-  "Adventure",
-  "Relaxation",
-  "Dining",
-  "Transportation",
-  "Accommodation",
-  "Shopping",
-  "Entertainment",
-  "Wellness",
-  "Cultural",
-] as const;
-
-export type PackageCategory = (typeof PACKAGE_CATEGORIES)[number];
+export type CancellationPolicyTypes = "Flexible" | "Moderate" | "Strict" | "Non-Refundable";
 export type DifficultyLevel = (typeof DIFFICULTY_LEVELS)[number];
-export type ActivityType = (typeof ACTIVITY_TYPES)[number];
-
 export type PackageFormPayload = BasePackageSchema;
 
-export type PackageStatus = "DRAFT" | "PUBLISHED";
+export type PackageStatus = "DRAFT" | "PUBLISHED" ;
 export interface IPackage {
   id: string;
   title: string;
   location: string;
+  state: string;
   durationDays: number;
   durationNights: number;
   imageUrl?: { key: string, url?:string }[];
   status: PackageStatus;
-  category?: PackageCategory;
+  category?: string;
   difficultyLevel?: DifficultyLevel;
   basePrice: number;
+}
+
+export interface ActivityDTO {
+  startTime: string;
+  endTime: string;
+  title: string;
+  description: string;
+  location: string;
+  specials: string[];
+  included: boolean;
+}
+
+export interface ItineraryDayDTO {
+  dayNumber: number;
+  title: string;
+  activities: ActivityDTO[];
+}
+
+export interface PackageDetailReponse {
+  packageId: string;        
+  vendorId: string;         
+  title: string;
+  location: string;
+  state: string;
+  usp: string;
+  category: string | null; 
+  difficultyLevel: DifficultyLevel | undefined;
+  description: string;
+  days: string;
+  nights: string;
+  basePrice: string;
+  images: { key: string }[];
+  itinerary: ItineraryDayDTO[];
+  inclusions: string[];
+  exclusions: string[];
+  packingList: string[];
+  cancellationPolicy: CancellationPolicyTypes| undefined;
+  status: PackageStatus;
+  isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }

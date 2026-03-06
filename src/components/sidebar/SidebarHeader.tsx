@@ -3,6 +3,7 @@ import { Button } from '../ui/button';
 import { Menu } from 'lucide-react';
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import type { IUserSlice } from '@/store/slices/user.slice';
+import { ModeToggle } from '../mode-toggle';
 interface SidebarHeaderProps {
   title: string;
   greeting?: string;
@@ -36,6 +37,7 @@ const SidebarHeader = ({
         <h1 className="text-base md:text-lg font-semibold text-foreground truncate">{title}</h1>
       </div>
       <div className="flex items-center gap-3 md:gap-5 text-muted-foreground">
+        <ModeToggle />
         <p className="text-xs md:text-sm hidden sm:block">{greeting}</p>
         {user && (
           <Avatar>

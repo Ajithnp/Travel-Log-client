@@ -1,7 +1,7 @@
 import type { ApiResponse, PaginatedData } from "@/types/IApiResponse";
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
-import type { VendorRequestedCategoryResponse, RequestCategoryPayload } from "../types/types";
+import type { VendorRequestedCategoryResponse, RequestCategoryPayload, AvtiveCategoriesResponse } from "../types/types";
 import { getRequestedCategories, requestCategory , getCategories} from "../services/api.service";
 import type{ ApiError, IApiResponse } from "@/types/axios";
 
@@ -40,7 +40,7 @@ export const useRequestCategory = () => {
 export const useFetchCategories= (
 ) => {
   return useQuery<
-    ApiResponse<string[]>,
+    ApiResponse<AvtiveCategoriesResponse[]>,
     ApiError
   >({
     queryKey: ["categories"],

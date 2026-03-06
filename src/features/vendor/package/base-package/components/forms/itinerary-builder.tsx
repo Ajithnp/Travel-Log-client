@@ -27,7 +27,7 @@ export function ItineraryBuilder() {
         {
           title: "",
           location: "",
-          type: undefined,
+          specials: [""],
           description: "",
           endTime: "",
           startTime: "",

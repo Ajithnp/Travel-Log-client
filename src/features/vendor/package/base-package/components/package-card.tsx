@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, IndianRupee, Calendar, Tag, Mountain, Star } from "lucide-react";
+import { MapPin, IndianRupee, Calendar, Tag, Mountain } from "lucide-react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import type { IPackage } from "../type/package";
@@ -89,7 +89,7 @@ const PackageCard = ({
 
         {/* Card Content */}
         <div className="p-5 flex flex-col flex-grow relative z-10">
-          <div className="mb-4">
+          <div className="mb-4 flex justify-between">
             {/* <div className="flex items-center gap-1 text-amber-500 mb-1">
                 {[1, 2, 3, 4, 5].map((i) => (
                   <Star key={i} className="h-3 w-3 fill-current" />
@@ -99,6 +99,7 @@ const PackageCard = ({
             <h3 className="font-bold text-lg leading-snug tracking-tight text-foreground group-hover:text-primary transition-colors line-clamp-2">
               {pkg.title}
             </h3>
+            <Badge variant="secondary">{ pkg.state}</Badge>
           </div>
 
           <div className="grid grid-cols-2 gap-y-3 mb-6">

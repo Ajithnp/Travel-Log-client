@@ -3,8 +3,6 @@ import {
   activitySchema,
   itineraryDaySchema,
   packageImageSchema,
-  ACTIVITY_TYPE_ENUM,
-  CATEGORY_ENUM,
   DIFFICULTY_ENUM,
 } from "./base-package-schema";
 import z from "zod";
@@ -28,10 +26,7 @@ const createActivitySchema = activitySchema
 
     location: z.string().min(2, "Activity location is required"),
 
-    type: z.enum(ACTIVITY_TYPE_ENUM, {
-      // required_error: "Please select an activity type",
-      errorMap: () => ({ message: "Please select a valid activity type" }),
-    }),
+    specials: z.array(z.string().min(1, "Special cannot be empty")),
 
     included: z.boolean(),
   })
@@ -77,26 +72,22 @@ export const createPackageSchema = basePackageSchema
 
     location: z
       .string()
-      .min(2, "Location must be at least 2 characters")
+      .min(3, "Location must be at least 3 characters")
       .max(100, "Location must be at most 100 characters"),
-
-    pickupLocation: z
+    
+    state: z
       .string()
-      .min(2, "Pickup location must be at least 2 characters")
-      .max(100, "Pickup location must be at most 25 characters"),
+      .min(3, "State must be at least 3 characters")
+      .max(100, "State must be at most 100 characters"),
 
     usp: z
       .string()
       .min(10, "USP must be at least 10 characters")
       .max(200, "USP must be at most 200 characters"),
 
-    category: z.enum(CATEGORY_ENUM, {
-      // required_error: "Please select a category",
-      errorMap: () => ({ message: "Please select a valid category" }),
-    }),
+    categoryId: z.string().min(1,"Category required"),
 
     difficultyLevel: z.enum(DIFFICULTY_ENUM, {
-      // required_error: "Please select a difficulty level",
       errorMap: () => ({ message: "Please select a valid difficulty level" }),
     }),
 
