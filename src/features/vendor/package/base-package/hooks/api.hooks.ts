@@ -1,6 +1,7 @@
 import { AxiosError } from "axios";
 import {
   getPackages,
+  getPackageScheduleContext,
   getPackagesWithId,
   updatePackage,
   uploadPackage,
@@ -11,7 +12,7 @@ import type {
   BasePackageDraftSchema,
 } from "../validations/draft-base-package-schema";
 import type { ApiResponse, PaginatedData } from "@/types/IApiResponse";
-import type { IPackage, PackageDetailReponse } from "../type/package";
+import type { IPackage, PackageDetailReponse, PackageScheduleContextResponse } from "../type/package";
 
 export const useUploadPackageMutation = () => {
   return useMutation<
@@ -60,6 +61,21 @@ export const usePackagesFetchWithId = (
   >({
     queryKey: ["package", packageId],
     queryFn: () => getPackagesWithId(packageId),
+    enabled: options?.enabled,
+    refetchOnWindowFocus: false,
+  });
+};
+
+export const usePackageScheduleContext = (
+  packageId: string,
+  options?: { enabled?: boolean }
+) => {
+  return useQuery<
+    ApiResponse<PackageScheduleContextResponse>,
+    AxiosError<{ message: string }>
+  >({
+    queryKey: ["package-schedule-context", packageId],
+    queryFn: () => getPackageScheduleContext(packageId),
     enabled: options?.enabled,
     refetchOnWindowFocus: false,
   });
