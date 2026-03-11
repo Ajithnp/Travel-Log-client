@@ -28,7 +28,8 @@ const BasePackageDetailsPage = lazy(() => import('@/features/vendor/package/base
 const RequestedCategoriesListPage = lazy(()=> import('@/features/vendor/category/pages/requested-category'))
 
 const SchedulePackagePage = lazy(() => import('@/features/vendor/schedule-package/pages/schedule-package-page'))
-const Scheduleslistingpage = lazy(() => import('@/features/vendor/schedule-package/pages/schedule-lisiting'))
+const ScheduleslistingPage = lazy(() => import('@/features/vendor/schedule-package/pages/schedule-lisiting'))
+const ScheduleDetailsPage = lazy(() => import('@/features/vendor/schedule-package/pages/schedule-details'))
 
 const VendorRoutes = () => {
   return (
@@ -75,8 +76,8 @@ const VendorRoutes = () => {
           <Route path="requested-categories" element={<RequestedCategoriesListPage />} />
           {/* SchedulePackage */}
           <Route path="schedule-package/:packageId" element={<SchedulePackagePage />} />
-          <Route path="scheduled-trips" element={<Scheduleslistingpage />} />
-          
+          <Route path="scheduled-trips" element={<ScheduleslistingPage />} />
+           <Route path="schedules/:scheduleId/:packageId" element={<ScheduleDetailsPage />} />
         </Route>
 
       </Routes>

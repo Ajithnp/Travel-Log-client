@@ -68,8 +68,11 @@ export default function SchedulesListPage() {
     ],
     [states],
   );
-
-  const columns = useMemo(() => ScheduleColumns(), []);
+ 
+  const handleViewSchedule = (scheduleId: string, packageId:string) => {
+    navigate(`/vendor/schedules/${scheduleId}/${packageId}`);
+};
+  const columns = useMemo(() => ScheduleColumns(handleViewSchedule), []);
 
   if (isError && error)
     return (

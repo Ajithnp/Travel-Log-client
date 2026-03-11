@@ -1,10 +1,10 @@
 import type { IApiResponse } from "@/types/axios";
 import { keepPreviousData, useMutation, useQuery } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
-import { getSchedules, schedulePackage } from "../services/api.services";
+import { getSchedules, scheduleDetails, schedulePackage } from "../services/api.services";
 import type { ScheduleFormValues } from "../validations/validation schemas";
 import type { ApiResponse } from "@/types/IApiResponse";
-import type { PaginatedScheduleResponse } from "../types/types";
+import type { PaginatedScheduleResponse, ScheduleResponse } from "../types/types";
 
 export const useSchedulePackageMutation = (packageId: string) => {
   return useMutation<
@@ -35,19 +35,14 @@ export const useScedulesFetch = (
   });
 };
 
-// export const usePackagesFetch = (
-//   page: number,
-//   limit: number,
-//   search?: string,
-//   selectedFilter?: string,
-// ) => {
-//   return useQuery<
-//     ApiResponse<PaginatedData<IPackage>>,
-//     AxiosError<{ message: string }>
-//   >({
-//     queryKey: ["packages", { page, limit, search, selectedFilter }],
-//     queryFn: () => getPackages(page, limit, search, selectedFilter),
-//     placeholderData: keepPreviousData,
-//     refetchOnWindowFocus: false,
-//   });
-// };
+export const useSheduleFetch = (sheduleId: string, options?: { enabled?: boolean }) => {
+  return useQuery<
+    ApiResponse<ScheduleResponse>,
+    AxiosError<{ message: string }>
+  >({
+    queryKey: ["schedule", { sheduleId }],
+    queryFn: () => scheduleDetails(sheduleId),
+     enabled: options?.enabled,
+    refetchOnWindowFocus: false,
+  });
+};

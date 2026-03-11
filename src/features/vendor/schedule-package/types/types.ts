@@ -49,3 +49,22 @@ export interface ScheduleStatusCounts {
 export interface PaginatedScheduleResponse extends Paginated<ScheduleListItemResponse> {
   statusCounts: ScheduleStatusCounts;
 }
+
+export interface ScheduleResponse {
+  startDate:         Date
+  endDate:           Date
+  reportingTime:     string
+  reportingLocation: string
+  pricing:         PricingTierDTO[];
+  totalSeats:        number
+  seatsBooked:       number
+  seatsRemaining:    number
+  notes:             string | null
+  status:           string
+  cancellationReason: string | null
+  cancelledAt:        Date | null
+  cancelledBookings:  number | null
+  totalRefunded:      number | null
+  createdAt:         Date
+  updatedAt:         Date
+}

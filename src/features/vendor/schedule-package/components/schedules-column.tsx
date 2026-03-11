@@ -10,6 +10,7 @@ import { formatTimeToAMPM } from "@/utils/format-time-to-ampm";
 import Bar from "@/components/shared/bar";
 import StatusBadge from "./status-badge";
 
+
 const seatColor: Record<string, string> = {
   upcoming: "bg-success",
   ongoing: "bg-blue-500",
@@ -18,7 +19,9 @@ const seatColor: Record<string, string> = {
   sold_out: "bg-destructive",
 };
 
-export const ScheduleColumns = (): Column<ScheduleListItemResponse>[] => [
+export const ScheduleColumns = (
+  onView: (scheduleId: string, packageId: string) => void
+): Column<ScheduleListItemResponse>[] => [
   {
     key: "packageTittle",
     label: "Package",
@@ -111,7 +114,7 @@ export const ScheduleColumns = (): Column<ScheduleListItemResponse>[] => [
           label: "View",
           icon: <View className="w-4 h-4" />,
           variant: "success",
-          onClick: () => schedule.packageId,
+          onClick: () => onView(schedule.scheduleId, schedule.packageId),
         },
         {
           label: "Cancel Trip",
