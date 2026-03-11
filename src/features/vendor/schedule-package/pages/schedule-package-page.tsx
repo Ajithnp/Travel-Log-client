@@ -62,7 +62,7 @@ const SchedulePackagePage = () => {
       <FormProvider {...methods}>
         <form
           onSubmit={methods.handleSubmit(onSubmit)}
-          noValidate // let RHF handle validation, not the browser
+          noValidate 
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-6">
             <motion.div

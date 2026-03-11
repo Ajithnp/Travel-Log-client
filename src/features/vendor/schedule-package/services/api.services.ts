@@ -2,6 +2,8 @@ import api from "@/config/api/axios";
 import { API_ENDPOINTS, API_ROUTE } from "@/lib/constants/routes";
 import type { ApiResponse } from "@/types/IApiResponse";
 import type { ScheduleFormValues } from "../validations/validation schemas";
+import type { PaginatedScheduleResponse } from "../types/types";
+import type { AxiosResponse } from "axios";
 
 
 export const schedulePackage = async (
@@ -15,6 +17,22 @@ export const schedulePackage = async (
   return response.data;
 };
 
+export const getSchedules = async (
+  page: number,
+  limit: number,
+  search?: string,
+  selectedFilter?: string,
+  startDate?: string,  
+  endDate?: string,
+): Promise<ApiResponse<PaginatedScheduleResponse>> => {
+
+  const response: AxiosResponse<ApiResponse<PaginatedScheduleResponse>> =
+    await api.get(`${API_ENDPOINTS.VENDOR}${API_ROUTE.SCHEDULES}`, {
+      params: { page, limit, ...(search ? {search} : {}), ...(selectedFilter ? {selectedFilter}: {}),...(startDate ? { startDate }: {}),...(endDate ? { endDate }: {}),},
+    });
+
+  return response.data;
+};
 
 // export const getPackages = async (
 //   page: number,

@@ -6,7 +6,8 @@ import {
   Users,
   Store,
   Briefcase,
-  Layers
+  Layers,
+  CalendarCheck
 
 } from "lucide-react";
 import { type LucideIcon } from "lucide-react";
@@ -35,6 +36,7 @@ export const vendorSidebarLinks = [
   { name: "Dashboard", path: "/", icon: LayoutDashboard },
   { name: "Packages", path: "/vendor/packages", icon: Briefcase },
   { name: "Category", path: "/vendor/requested-categories", icon: ViewIcon },
+  {name: "Schedules", path: "/vendor/scheduled-trips", icon:CalendarCheck}
 ];
 
 export const userSidebarLinks = [
