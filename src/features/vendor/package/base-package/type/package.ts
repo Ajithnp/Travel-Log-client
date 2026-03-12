@@ -68,3 +68,15 @@ export interface PackageDetailReponse {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface PackageScheduleContextResponse {
+  PackageId: string;
+  title: string;
+  location: string;
+  state: string;
+  days: number;
+  nights: number;
+  status: PackageStatus;
+  category: string;
+  difficultyLevel: string;
+}

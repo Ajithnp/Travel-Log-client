@@ -3,13 +3,14 @@ import { Button } from "@/components/ui/button";
 import { categoryIcon, difficultyColor } from "@/lib/constants/ui/mapping-ui";
 import { PackageStatus } from "@/lib/constants/constants";
 import type { PackageDetailReponse } from "../../type/package";
-
+import { useNavigate } from "react-router-dom";
 
 interface PackageSidebarProps {
   pkg: PackageDetailReponse;
 }
 
 export function PackageSidebar({ pkg }: PackageSidebarProps) {
+  const navigate = useNavigate();
   return (
     <div className="space-y-4 animate-fade-up" style={{ animationDelay: "0.1s" }}>
       {/* Summary Card */}
@@ -74,9 +75,21 @@ export function PackageSidebar({ pkg }: PackageSidebarProps) {
             Add a schedule to open this package for booking.
           </p>
           {pkg.status === PackageStatus.PUBLISHED && (
-            <Button className="mt-4 w-full py-2.5 rounded-full bg-orange-200 text-secondary-foreground font-semibold text-sm hover:bg-orange-500 transition-opacity">
-              + Add Schedule (M13)
+            <>
+            <Button
+              className="mt-4 w-full py-2.5 rounded-full bg-orange-200 text-secondary-foreground font-semibold text-sm hover:bg-orange-500 transition-opacity"
+             onClick={() => navigate(`/vendor/schedule-package/${pkg.packageId}`)}
+            >
+              + Add Schedule
             </Button>
+
+            <Button
+              className="mt-4 w-full py-2.5 rounded-full bg-blue-200 text-secondary-foreground font-semibold text-sm hover:bg-blue-500 transition-opacity"
+             onClick={() => navigate(`/vendor/schedule-package/${pkg.packageId}/schedules`)}
+            >
+               All Schedules
+              </Button>
+            </>
           )}
 
         </div>

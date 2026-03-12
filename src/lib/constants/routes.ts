@@ -53,6 +53,8 @@ export const API_ROUTE = {
   PACKAGE_FORM_UPLOAD: '/packages',
   PACKAGES: '/packages',
   CATEGORIES: '/categories',
+  SCHEDULE_PACKAGE: '/schedules/packages/',
+  SCHEDULES:'/schedules',
   
 
   // ADMIN

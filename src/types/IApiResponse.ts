@@ -16,3 +16,10 @@ export interface PaginatedData<T> {
   totalPages: number;
   totalUsers: number;
 }
+
+export interface Paginated<T> {
+  data: T[];
+  currentPage: number;
+  totalPages: number;
+  totalDocs: number;
+}
