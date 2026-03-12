@@ -75,12 +75,21 @@ export function PackageSidebar({ pkg }: PackageSidebarProps) {
             Add a schedule to open this package for booking.
           </p>
           {pkg.status === PackageStatus.PUBLISHED && (
+            <>
             <Button
               className="mt-4 w-full py-2.5 rounded-full bg-orange-200 text-secondary-foreground font-semibold text-sm hover:bg-orange-500 transition-opacity"
              onClick={() => navigate(`/vendor/schedule-package/${pkg.packageId}`)}
             >
               + Add Schedule
             </Button>
+
+            <Button
+              className="mt-4 w-full py-2.5 rounded-full bg-blue-200 text-secondary-foreground font-semibold text-sm hover:bg-blue-500 transition-opacity"
+             onClick={() => navigate(`/vendor/schedule-package/${pkg.packageId}/schedules`)}
+            >
+               All Schedules
+              </Button>
+            </>
           )}
 
         </div>

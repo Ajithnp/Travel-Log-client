@@ -31,6 +31,7 @@ const SchedulePackagePage = lazy(() => import('@/features/vendor/schedule-packag
 const ScheduleslistingPage = lazy(() => import('@/features/vendor/schedule-package/pages/schedule-lisiting'))
 const ScheduleDetailsPage = lazy(() => import('@/features/vendor/schedule-package/pages/schedule-details'))
 
+
 const VendorRoutes = () => {
   return (
     <Suspense fallback={<Loading variant="spinner" text="Loading.." fullscreen />}>
