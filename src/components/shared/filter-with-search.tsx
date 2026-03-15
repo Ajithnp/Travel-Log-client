@@ -18,6 +18,7 @@ interface FilterWithSearchProps<T extends string> {
   search: string;
   onSearchChange: (value: string) => void;
   searchPlaceholder: string;
+   gradient?: string; 
 }
 
 export function FilterWithSearch<T extends string>({
@@ -26,6 +27,7 @@ export function FilterWithSearch<T extends string>({
   onTabChange,
   search,
   onSearchChange,
+  gradient = "from-orange-500 to-orange-600",
   searchPlaceholder = "Search...",
 }: FilterWithSearchProps<T>) {
   return (
@@ -42,7 +44,7 @@ export function FilterWithSearch<T extends string>({
             <Button
               key={tab.key}
               onClick={() => onTabChange?.(tab.key)}
-              className={`relative px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 flex items-center gap-2 outline-none cursor-pointer bg-orange-400 ${
+              className={`relative px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 flex items-center gap-2 outline-none cursor-pointer bg-gradient-to-r ${gradient} ${
                 isActive
                   ? "text-foreground"
                   : "text-white hover:text-foreground hover:bg-card"

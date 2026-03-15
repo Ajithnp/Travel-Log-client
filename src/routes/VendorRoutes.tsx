@@ -1,6 +1,6 @@
 import { ErrorBoundary } from "react-error-boundary";
 import { ErrorFallback } from '@/components/ErrorFallback'
-import { VendorPublicRoutes, VendorPrivateRoutes } from '@/routes/protected/Vendor/VendorprotectedRoutes'
+import { VendorPublicRoutes, VendorPrivateRoutes, VendorApprovedGuard } from '@/routes/protected/Vendor/VendorprotectedRoutes'
 import React, { lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { Loading } from "@/components/ui/loading";
@@ -15,18 +15,21 @@ const VendorRegisterPage = lazy(() => import('@/features/auth/pages/vendor/Regis
 const VerifyOtp = lazy(() => import('@/features/auth/pages/vendor/VerifyOtpPage'));
 const VendorSidebarLayout = lazy(() => import('@/layouts/VendorLayout'));
 const VendorProfilePage = lazy(() => import('@/features/vendor/pages/VendorProfilePage'));
-const VendorVerificationPage = lazy(() => import('@/features/vendor/pages/VendorVerificationPage'));
+const VendorVerificationPage = lazy(() => import('@/features/vendor/verification/pages/vendor-verification'));
 const VendorProfileEditPage = lazy(() => import('@/features/vendor/pages/ProfileEditPage'));
-/*----Package---- */
-// const BasePackagePage = lazy(() => import('@/features/vendor/package/base-package/components/base-package'));
+const ForceVerificationPage = lazy(() => import('@/features/vendor/verification/pages/verification'));
+const ApplicationReviewPage = lazy(() => import('@/features/vendor/verification/pages/application-review'));
+const ApplicationRejectedPage = lazy(() => import('@/features/vendor/verification/pages/application-rejected'));
+
+// ── Packages ───────────────
 const BasePackagePage = lazy(() => import('@/features/vendor/package/base-package/page/base-package-list'));
 const BasePackageCreateFormPage = lazy(() => import('@/features/vendor/package/base-package/page/base-package-form.page'));
 const BasePackageDraftFormPage = lazy(() => import('@/features/vendor/package/base-package/page/base-package-draft-form'));
 const BasePackageDetailsPage = lazy(() => import('@/features/vendor/package/base-package/page/base-package-details'));
 
-//---- categories-------
+// ── Categories ─────────────
 const RequestedCategoriesListPage = lazy(()=> import('@/features/vendor/category/pages/requested-category'))
-
+// ── Schedule ───────────────
 const SchedulePackagePage = lazy(() => import('@/features/vendor/schedule-package/pages/schedule-package-page'))
 const ScheduleslistingPage = lazy(() => import('@/features/vendor/schedule-package/pages/schedule-lisiting'))
 const ScheduleDetailsPage = lazy(() => import('@/features/vendor/schedule-package/pages/schedule-details'))
@@ -37,7 +40,9 @@ const VendorRoutes = () => {
     <Suspense fallback={<Loading variant="spinner" text="Loading.." fullscreen />}>
 
       <Routes>
+          {/* ── Public Enter ── */}
         <Route path='/auth/enter' element={<VendorPublicRoutes> <VendorEnterLogin /> </VendorPublicRoutes>} errorElement={<ErrorFallback />} />
+        {/* ── Public Auth Routes ── */}
         <Route path='/' element={
           <ErrorBoundary
             FallbackComponent={ErrorFallback}>
@@ -64,9 +69,17 @@ const VendorRoutes = () => {
             </VendorPrivateRoutes>
           </ErrorBoundary>
         } >
+          {/* accessible regardless of approval status */}
+          
+           <Route path='verify' element={<ForceVerificationPage />} />
+          <Route path='verification' element={<VendorVerificationPage />} />
+          <Route path='pending' element={<ApplicationReviewPage />} />
+          <Route path='rejected'  element={<ApplicationRejectedPage />} />
+
+          {/*GATED — only approved vendors */}
+          <Route element={<VendorApprovedGuard />}>
           <Route path='profile' element={<VendorProfilePage />} />
           <Route path='profile-edit' element={<VendorProfileEditPage />} />
-          <Route path='verification' element={<VendorVerificationPage />} />
           {/* package */}
           <Route path="packages" element={<BasePackagePage />} />
           <Route path="packages/add" element={<BasePackageCreateFormPage />} />
@@ -79,7 +92,9 @@ const VendorRoutes = () => {
           <Route path="schedule-package/:packageId" element={<SchedulePackagePage />} />
           <Route path="scheduled-trips" element={<ScheduleslistingPage />} />
            <Route path="schedules/:scheduleId/:packageId" element={<ScheduleDetailsPage />} />
-        </Route>
+          </Route>
+
+         </Route> 
 
       </Routes>
     </Suspense>

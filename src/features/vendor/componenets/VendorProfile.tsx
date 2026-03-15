@@ -126,7 +126,7 @@ export default function VendorProfile({
                   {profileData.status !== "Approved" && (
                     <Button
                       onClick={handleGoToVerification}
-                      disabled={profileData.status === "Pending"}
+                      disabled={profileData.status === "UnderReview"}
                       size="sm"
                       className="w-full sm:w-auto cursor-pointer"
                     >

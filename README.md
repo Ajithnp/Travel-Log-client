@@ -162,3 +162,11 @@ Inner shadow:
 <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-primary/10 to-transparent pointer-events-none" /><div className="absolute -top-24 -right-24 w-64 h-64 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
 //============================================================
 
+==================// Color =======================
+      {/* <button
+        onClick={() => setOpen(true)}
+        className="px-5 py-2.5 bg-gradient-to-r from-violet-600 to-blue-600 text-white text-sm font-semibold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200"
+      >
+        Open Vendor Details
+      </button> */}
+=====================================================================

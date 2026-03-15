@@ -19,10 +19,6 @@ export const PACKAGE_FILTER_OPTIONS = [
  
 ];
 
-export const VENDOR_VERIFICATION_FILTER_OPTIONS = [
-  { label: "Pending", value: "Pending" },
-  { label: "Rejected", value: "Rejected" },
-  { label: "Approved", value: "Approved" },
-];
+
 
 

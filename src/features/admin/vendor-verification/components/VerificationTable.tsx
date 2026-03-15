@@ -1,4 +1,3 @@
-// userColumns.tsx
 import type { Column } from "@/components/table/DataTable";
 import { Ban, Check, Eye } from "lucide-react";
 import { motion } from "framer-motion";
@@ -19,7 +18,7 @@ export const VendorVerificationColumns = (
       key: "profileLogo",
       label: "Profile",
       render: (user) => (
-        <div className="w-10 h-10 rounded-full flex items-center justify-center shadow-card text-white font-semibold bg-gradient-to-r from-purple-500 to-pink-500">
+        <div className="w-10 h-10 rounded-full flex items-center justify-center shadow-card text-white font-semibold bg-gradient-to-r from-yellow-500  via-orange-500/40 to-red-500">
           {user.name?.[0]?.toUpperCase()}
         </div>
       ),
@@ -35,7 +34,7 @@ export const VendorVerificationColumns = (
         <motion.div
           whileHover={{ scale: 1.02 }}
           className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border
-                        ${user.status === "Pending"
+                        ${user.status === "UnderReview"
               ? "bg-yellow-100 text-yellow-700 border-yellow-300"
               : user.status === "Approved"
                 ? "bg-green-100 text-green-700 border-green-300"
@@ -64,14 +63,14 @@ export const VendorVerificationColumns = (
             label: "Accept",
             icon: <Check />,
             variant: "success",
-            show:user.status === 'Pending',
+            show:user.status === 'UnderReview',
             onClick: () => onUserAction(user.id, "approve"),
           },
           {
             label: "Reject",
             icon: <Ban />,
             variant: "danger",
-            show:user.status === 'Pending',
+            show:user.status === 'UnderReview',
             onClick: () => onUserAction(user.id, "reject"),
           },
         ];

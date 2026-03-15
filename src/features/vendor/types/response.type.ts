@@ -1,3 +1,9 @@
+export type VendorStatus =
+  | 'Pending'
+  | 'UnderReview'
+  | 'Approved'
+  | 'Rejected'
+  | 'Suspended';
 
 export interface VendorProfileData {
   id: string;
@@ -9,7 +15,7 @@ export interface VendorProfileData {
   phone?: string;
   businessAddress: string;
   isProfileVerified: boolean;
-  status: 'Pending' | 'Approved' | 'Rejected';
+  status: VendorStatus;
   reasonForReject: string;
 }
 
