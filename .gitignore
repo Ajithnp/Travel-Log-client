@@ -15,6 +15,7 @@ dist-ssr
 *.local
 /src/mock-data.ts
 pendings.txt
+README.md
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

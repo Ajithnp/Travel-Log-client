@@ -1,8 +1,7 @@
 import DataTable from "@/components/table/DataTable";
-import TableHeader from "@/components/table/TableHeader";
 import TableFooter from "@/components/table/TableFooter";
 import { toast } from "sonner";
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback, useRef, useMemo } from "react";
 import {
   useVendorVerification,
   useVendorVerificationUpdateMutation,
@@ -10,35 +9,37 @@ import {
 import { useGetViewSignedUrlQuery } from "@/hooks/api.hooks";
 import type { IVendorInfo } from "@/types/IVendorInfo";
 import { useDebounce } from "@/hooks/useDebounce";
-import VendorDetailsModal from "../components/VendorDetailsModal";
 import { Loading } from "@/components/ui/loading";
 import ConfirmDialog from "@/components/shared/modal/ConfirmDialog";
 import { VendorVerificationColumns } from "../components/VerificationTable";
-import { VENDOR_VERIFICATION_FILTER_OPTIONS } from "@/components/fieldsConfig/fields";
-import { AnimatePresence } from 'framer-motion'
+import { AnimatePresence } from "framer-motion";
+import { PageHeader } from "@/components/shared/page-header";
+import { FilterWithSearch } from "@/components/shared/filter-with-search";
+import { VendorVerificationModal } from "../components/VendorDetailsModal";
+import { Error } from "@/components/common/error";
 
+type FilterTab = "UnderReview" | "Approved" | "Rejected";
 
 const VendorsVerificationList = () => {
-
   const [search, setSearch] = useState<string>("");
-  const [selectedFilter, setSelectedFilter] = useState("Pending");
+  const [selectedFilter, setSelectedFilter] = useState("UnderReview");
   const [dialog, setDialog] = useState<{
     id: string;
     type: "reject" | "approve";
   } | null>(null);
   const [selectedVendor, setSelectedVendor] = useState<IVendorInfo | null>(
-    null
+    null,
   );
   const [page, setPage] = useState(1);
   const LIMIT = 5;
 
-  const vendorRef = useRef<IVendorInfo|null>(null)
+  const vendorRef = useRef<IVendorInfo | null>(null);
 
   const debouncedSearch = useDebounce(search);
 
   useEffect(() => {
     if (vendorRef.current) {
-      setSelectedVendor(vendorRef.current)
+      setSelectedVendor(vendorRef.current);
     }
   }, []);
 
@@ -46,36 +47,34 @@ const VendorsVerificationList = () => {
     page,
     LIMIT,
     debouncedSearch,
-    selectedFilter
+    selectedFilter,
   );
-  
 
   const fileKeys = selectedVendor
     ? [
-      selectedVendor.businessLicence,
-      selectedVendor.businessPan,
-      selectedVendor.ownerIdentity,
-      selectedVendor.profileLogo ?? "",
-    ].filter(Boolean) 
+        selectedVendor.businessLicence,
+        selectedVendor.businessPan,
+        selectedVendor.ownerIdentity,
+        selectedVendor.profileLogo ?? "",
+      ].filter(Boolean)
     : [];
-  
-  
-    const {
-    data: signedUrls,
-    isLoading: isViewing,
-    // isError: viewError,
-  } = useGetViewSignedUrlQuery(selectedVendor?.userId, fileKeys, {
-    enabled: !!selectedVendor && fileKeys.length > 0, // only run when valid vendor selected
-  });
 
-  
+  const { data: signedUrls, isLoading: isViewing } = useGetViewSignedUrlQuery(
+    selectedVendor?.userId,
+    fileKeys,
+    {
+      enabled: !!selectedVendor && fileKeys.length > 0,
+    },
+  );
+
   const { mutate: updateStatus } = useVendorVerificationUpdateMutation();
 
-
-  const handleVendorAction = useCallback((id: string, type: "reject" | "approve") => {
-    setDialog({ id, type });
-  }, []);
-
+  const handleVendorAction = useCallback(
+    (id: string, type: "reject" | "approve") => {
+      setDialog({ id, type });
+    },
+    [],
+  );
 
   const handleConfirmAction = (reason?: string) => {
     if (!dialog) return;
@@ -94,29 +93,28 @@ const VendorsVerificationList = () => {
           toast.error(error?.response?.data?.message || error?.message);
           setDialog(null);
         },
-      }
+      },
     );
   };
 
   const handleOpenChange = () => {
     setSelectedVendor(null);
-  }
+  };
 
   const handleViewVendor = useCallback((vendor: IVendorInfo) => {
-    console.log('Vendor selected,,', vendor);
+    console.log("Vendor selected,,", vendor);
     setSelectedVendor(vendor);
-    vendorRef.current = vendor
-
+    vendorRef.current = vendor;
   }, []);
 
-  const handleSearch = useCallback((value: string) => {
-    setSearch(value);
-  }, []);
-
-  const handleFilterChange = useCallback((value: string) => {
-    setSelectedFilter(value);
-  }, []);
-
+  const tabs = useMemo(
+    () => [
+      { key: "UnderReview" as FilterTab, label: "Under Review" },
+      { key: "Approved" as FilterTab, label: "Approved" },
+      { key: "Rejected" as FilterTab, label: "Rejected" },
+    ],
+    [],
+  );
 
   useEffect(() => {
     if (page !== 1) setPage(1);
@@ -130,24 +128,33 @@ const VendorsVerificationList = () => {
         className="w-full h-full"
       />
     );
-  if (isError) return <p>Error: {(error as Error).message}</p>;
+  if (isError || error) return <Error message={error.response?.data.message } />
 
   return (
     <div className="min-h-screen bg-gradient-premium">
       <div className="container mx-auto px-4 py-8">
         <div className="w-full space-y-6">
-          <TableHeader
-            title={"Vendors verification"}
+          <PageHeader
+            title="Vendor Verification"
+            description="Review vendor applications and verify submitted business and identity documents before granting platform access."
+          />
+
+          <FilterWithSearch
+            tabs={tabs}
+            activeTab={selectedFilter}
+            onTabChange={setSelectedFilter}
             search={search}
-            onSearch={handleSearch}
-            filterOptions={VENDOR_VERIFICATION_FILTER_OPTIONS}
-            selectedFilter={selectedFilter}
-            onFilterChange={handleFilterChange}
+            onSearchChange={setSearch}
+              gradient="from-violet-600 to-blue-600"
+            searchPlaceholder={"Search vendors by name"}
           />
 
           <DataTable<IVendorInfo>
             data={data?.data.data ?? []}
-            columns={VendorVerificationColumns(handleVendorAction, handleViewVendor)}
+            columns={VendorVerificationColumns(
+              handleVendorAction,
+              handleViewVendor,
+            )}
             loading={isLoading}
             emptyMessage="No vendors found"
             rowKey={(row) => row.id}
@@ -155,7 +162,7 @@ const VendorsVerificationList = () => {
 
           <TableFooter
             currentPage={page}
-            totalPages={ data?.data?.totalPages ?? 1}
+            totalPages={data?.data?.totalPages ?? 1}
             onPageChange={setPage}
           />
         </div>
@@ -179,18 +186,17 @@ const VendorsVerificationList = () => {
             onConfirm={handleConfirmAction}
           />
         )}
-
       </AnimatePresence>
 
-      <VendorDetailsModal
-        open={!!selectedVendor}
-        vendor={vendorRef.current}
-        signedUrls={signedUrls?.data ?? []}
-        onOpenChange={handleOpenChange}
-        isLoading={isLoading || isViewing}
-      />
-
-
+      {selectedVendor && (
+        <VendorVerificationModal
+          open={!!selectedVendor}
+          vendor={vendorRef.current}
+          signedUrls={signedUrls?.data ?? []}
+          onOpenChange={handleOpenChange}
+          isLoading={isLoading || isViewing}
+        />
+      )}
     </div>
   );
 };

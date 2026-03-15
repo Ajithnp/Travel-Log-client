@@ -8,5 +8,7 @@ export const appConfig = {
         oauthClientId: import.meta.env.VITE_GOOGLE_CLIENT_ID || "",
         redirectUrl: import.meta.env.VITE_GOOGLE_REDIRECTED_URL || 'http://localhost:3001/api/v1/auth/google/callback'
         
-    }
+    },
+
+    ifscUrl: import.meta.env.VITE_IFSC_API
 }

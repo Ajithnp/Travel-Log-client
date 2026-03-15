@@ -3,13 +3,12 @@ import { useEffect, useState } from "react";
 import Sidebar from "@/components/sidebar/Sidebar";
 import { Outlet, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import ConfirmDialog from "@/components/shared/modal/ConfirmDialog";
 import SidebarHeader from "@/components/sidebar/SidebarHeader";
 import { useLogoutMutation } from "@/features/auth/hooks/api.hooks";
 import { useDispatch } from "react-redux";
 import { clearUser } from "@/store/slices/user.slice";
 import type { SidebarLink } from "@/types/components-inputs.types/commponents.types";
-
+import { ConfirmModal } from "@/components/common/confirm-modal";
 interface SidebarLayoutProps {
   sidebarLinks: SidebarLink[];
   dashboardTitle: string;
@@ -96,7 +95,7 @@ export default function SidebarLayout({
 
       {/* <div className="flex-1 flex flex-col overflow-hidden"> */}
       {/* <div className="flex-1 flex flex-col min-w-0 overflow-y-auto relative"> 1*/}
-        {/* <div className="flex-1 overflow-y-auto relative"></div> 2*/}
+      {/* <div className="flex-1 overflow-y-auto relative"></div> 2*/}
       <div className="flex-1 flex flex-col min-w-0 relative">
 
         <SidebarHeader
@@ -106,7 +105,7 @@ export default function SidebarLayout({
           onMenuToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           onLogout={() => setConfirmLogout(true)}
         />
-        
+
         <div className="flex-1 overflow-y-auto">
           <Outlet />
         </div>
@@ -114,10 +113,14 @@ export default function SidebarLayout({
       </div>
 
       {confirmLogout && (
-        <ConfirmDialog
-          isOpen={confirmLogout}
+        <ConfirmModal
+          icon="logout"
           onClose={() => setConfirmLogout(false)}
-          title="Are you sure want to Logout"
+          title="Logout"
+          description="Are you sure want to Logout"
+          confirmLabel="Logout"
+          cancelLabel="No"
+          danger={false}
           onConfirm={handleLogout}
         />
       )}
