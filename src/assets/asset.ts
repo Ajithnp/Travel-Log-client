@@ -1,4 +1,3 @@
-import login_banner from './Diverse Hikers Joyful Summit Selfie.png';
 import logo from './logo.svg';
 import searchIcon from './searchIcon.svg';
 import menuIcon from './menuIcon.svg';
@@ -12,14 +11,22 @@ import linkendinIcon from './linkendinIcon.svg';
 import hero_banner from './Golden-hour.png';
 import logo2 from './travel_log_logo.svg';
 import logo3 from './TravelLog Logo - Sophisticated with Compass Icon.png';
-import userlogin  from './10 Tips For Doing The Self Guided Tour Du Mont Blanc Hike As A Family.jpeg';
-import userSignin from './Traveler on Suspension Bridge.png';
 import vendorlogin from './Vintage Van Adventure on a Serene Country Road.png'
-import vendorSinup from './Vintage Travel and Exploration Flat Lay.png';
 import gmail from './Gmail Logo Png Template Download on Pngtree.jpeg'
 import password from './Premium Vector _ Password reset icon for apps, vector design.jpeg'
+import authSlide1 from './Trekking Through Snowy Mountains.png'
+import authSlide2 from './Essentials of the Modern Voyager.png'
+import authSlide3 from './Twilight Campfire Gathering.jpeg'
+import vendorSlide1 from './Beachside Trading Setup.png'
+import vendorSlide2 from './Team Collaboration.png'
+import vendorSlide3 from './Creative Team Meeting.png'
+import background1 from './Dreamy Abstract Colors.png'
+import background2 from './Abstract Flowing Design.png'
+import background3 from './Abstract Flowing Waves.png'
+import background4 from './Textured White Surface.png'
+
+
 export const assets = {
-    login_banner,
     logo,
     logo2,
     logo3,
@@ -33,12 +40,19 @@ export const assets = {
     twitterIcon,
     linkendinIcon,
     hero_banner,
-    userSignin,
-    userlogin,
-    vendorSinup,
     vendorlogin,
     gmail,
-    password
+    password,
+    authSlide1,
+    authSlide2,
+    authSlide3,
+    vendorSlide1,
+    vendorSlide2,
+    vendorSlide3,
+    background1,
+    background2,
+    background3,
+    background4
 };
 
 export const cities = [

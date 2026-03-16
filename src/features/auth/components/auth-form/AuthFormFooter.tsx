@@ -20,8 +20,7 @@ const AuthFooter = ({ showSocial }: Props) => {
         </>
       )}
       <div className="text-muted-foreground text-center text-xs mt-4 *:[a]:underline *:[a]:underline-offset-4">
-        By clicking continue, you agree to our{" "}
-        <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+
       </div>
     </>
   );
