@@ -20,7 +20,6 @@ const VendorLoginPage = () => {
         formType={COMPONENT_TEXT.SIGN_IN}
         onSubmit={handleLogin}
         buttonText={isPending ? <Loader /> : COMPONENT_TEXT.SIGN_IN}
-        footer
         forgotp
         role={ROLE.VENDOR}
         resolver={zodResolver(loginSchema)}

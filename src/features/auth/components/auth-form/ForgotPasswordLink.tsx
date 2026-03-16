@@ -9,10 +9,10 @@ const ForgotPasswordLink = ({ role }: Props) => (
   <div className="flex justify-center">
     <Link to={`/${role}/forgot-password`}>
       <Button
-        className="p-0 text-sm font-medium hover:underline cursor-pointer"
+        className="p-0 text-sm font-medium underline underline-offset-4 cursor-pointer"
         variant="link"
       >
-        Forgot password
+        Forgot Password
       </Button>
     </Link>
   </div>

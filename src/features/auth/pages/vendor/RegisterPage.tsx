@@ -20,7 +20,6 @@ const VendorRegisterPage = () => {
         formType={COMPONENT_TEXT.SIGN_UP}
         onSubmit={handleRegister}
         buttonText={isLoading ? <Loader /> : COMPONENT_TEXT.SIGN_UP}
-        footer={true}
         role={ROLE.VENDOR}
         resolver={zodResolver(signupSchema)}
       />

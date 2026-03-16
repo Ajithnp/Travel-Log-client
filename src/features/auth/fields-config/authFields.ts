@@ -16,6 +16,7 @@ export const loginFields: FormField<LoginSchemaType>[] = [
     name: "password",
     type: "password",
     placeholder: "Enter password",
+    showToggle: true,
   },
 ];
 
@@ -43,12 +44,14 @@ export const signupFields = (isVendor?: boolean): FormField<SignupSchemaType>[] 
     name: "password",
     type: "password",
     placeholder: "Enter your password",
+    showToggle: true,
   },
   {
     label: "Confirm Password",
     name: "confirmPassword",
     type: "password",
     placeholder: "Re-enter password",
+    showToggle: true,
   },
 ];
 
@@ -67,12 +70,14 @@ export const newPasswordFields: FormField<NewPasswordSchemaType>[] = [
     name: "password",
     type: "password",
     placeholder: "Enter new password",
+    showToggle: true,
   },
   {
     label: "Confirm Password",
     name: "confirmPassword",
     type: "password",
     placeholder: "Re-enter password",
+    showToggle: true,
   },
 ];
 
