@@ -122,39 +122,7 @@ export const useUsersFetch = (
 //========================================
 Glacier modal Usage:
 
-          <GlacierModal
-            type="success"
-            triggerLabel="View Success Modal"
-            title="Transaction completed!"
-            description="Your swap of 1.25 ETH to 4,200 USDT was successful via Uniswap Protocol."
-            primaryAction={{ label: "New Trade", onClick: () => console.log("New trade") }}
-            secondaryAction={{ label: "See Details", onClick: () => console.log("Details") }}
-          />
 
-          <GlacierModal
-            type="pending"
-            triggerLabel="View Pending Modal"
-            title="Transaction pending..."
-            description="Your transaction is taking longer than expected. Please wait while we process it."
-            secondaryAction={{ label: "See Details", onClick: () => console.log("Details") }}
-          />
-
-          <GlacierModal
-            type="error"
-            triggerLabel="View Error Modal"
-            title="Whoops! Something went wrong"
-            description="Try again or contact Chat Support if you need additional help with your order."
-            secondaryAction={{ label: "Back", onClick: () => console.log("Back") }}
-          />
-
-          <GlacierModal
-            type="warning"
-            triggerLabel="View Warning Modal"
-            title="High fees detected"
-            description="This order will cost $45.65 in gas fees. Are you sure you want to proceed?"
-            primaryAction={{ label: "Continue", onClick: () => console.log("Continue") }}
-            secondaryAction={{ label: "Use Limit Order", onClick: () => console.log("Limit") }}
-          />
 //======================================
 
 Inner shadow:
@@ -169,3 +137,9 @@ Inner shadow:
       >
         Open Vendor Details
       </button> */}
+
+=======================================================
+Hidden portions 
+
+ className="hidden md:block"
+ =====================================================

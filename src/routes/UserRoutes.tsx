@@ -1,14 +1,16 @@
 import { AuthPrivateRoutes, AuthPublicRoutes } from './protected/User/UserprotectedRoutes';
 import React, { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom';
-import MainLayout from '@/layouts/MainLayout';
+// import MainLayout from '@/layouts/MainLayout';
+import { MainLayout } from '@/layouts/app/app-layout';
 import AuthUserLayout from '@/layouts/auth/auth.user.layout';
 import { Loading } from '@/components/ui/loading';
 import { ErrorBoundary } from "react-error-boundary";
 import { ErrorFallback } from '@/components/ErrorFallback';
 
 const UserDashboard = lazy(() => import('@/features/user/pages/Dashboard'));
-const HomePage = lazy(() => import('@/pages/HomePage'));
+const HomePage = lazy(() => import('@/pages/new-home-page'));
+// const HomePage = lazy(() => import('@/pages/HomePage'));
 const ProfilePage = lazy(() => import('@/features/user/pages/ProfilePage'));
 const LoginPage = lazy(() => import('@/features/auth/pages/user/LoginPage'));
 const RegisterPage = lazy(() => import('@/features/auth/pages/user/RegisterPage'));
