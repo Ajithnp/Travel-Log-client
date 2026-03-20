@@ -22,4 +22,6 @@ export interface Paginated<T> {
   currentPage: number;
   totalPages: number;
   totalDocs: number;
+  hasNextPage?: boolean;     
+  hasPreviousPage?: boolean;
 }

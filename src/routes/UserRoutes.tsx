@@ -11,6 +11,8 @@ import { ErrorFallback } from '@/components/ErrorFallback';
 const UserDashboard = lazy(() => import('@/features/user/pages/Dashboard'));
 const HomePage = lazy(() => import('@/pages/new-home-page'));
 // const HomePage = lazy(() => import('@/pages/HomePage'));
+const PackageListPage = lazy(() => import('@/pages/package-list'));
+const PackageDetailsPage = lazy(() => import('@/pages/package-details'));
 const ProfilePage = lazy(() => import('@/features/user/pages/ProfilePage'));
 const LoginPage = lazy(() => import('@/features/auth/pages/user/LoginPage'));
 const RegisterPage = lazy(() => import('@/features/auth/pages/user/RegisterPage'));
@@ -52,8 +54,8 @@ const UserRoutes = () => {
           </AuthPublicRoutes>
         }>
           <Route index element={<HomePage />} />
-          <Route path='travels' element={<h1>travel page</h1>} />
-          <Route path='travels/:id' element={<h1>travel details page</h1>} />
+          <Route path='packages' element={<PackageListPage/>} />
+          <Route path='travels' element={<PackageDetailsPage />} />
           <Route path='about' element={<h1>About page</h1>} />
           <Route path='contact' element={<h1>Contact page</h1>} />
         </Route>

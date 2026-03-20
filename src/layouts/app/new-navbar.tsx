@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { NAV_LINKS } from "@/components/fieldsConfig/fields";
 import type { IUser } from "@/types/IUser";
 import UserAvathar from "@/components/UserAvathar";
+import { useLocation } from "react-router-dom";
 
 interface NavbarProps {
   user: Partial<IUser> | null;
@@ -22,16 +23,20 @@ export function Navbar({
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
+  
+   const isHomePage = location.pathname === "/";
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
+ 
+   const hasBackground = isScrolled || !isHomePage;
   return (
     <nav
-      className={`fixed w-full z-50 transition-all duration-300 ${isScrolled
+      className={`fixed w-full z-50 transition-all duration-300 ${hasBackground
         ? "bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm py-4"
         : "bg-transparent py-6"
         }`}
@@ -43,7 +48,7 @@ export function Navbar({
             <Plane className="h-5 w-5" />
           </div>
           <span
-            className={`text-2xl font-bold tracking-tight ${isScrolled ? "text-gray-900" : "text-white"
+            className={`text-2xl font-bold tracking-tight ${hasBackground ? "text-gray-900" : "text-white"
               }`}
           >
             Travels
@@ -55,7 +60,7 @@ export function Navbar({
             <Link
               key={i}
               to={link.path}
-              className={`text-sm font-medium transition-all duration-300 relative ${isScrolled
+              className={`text-sm font-medium transition-all duration-300 relative ${hasBackground
                 ? "text-gray-600 hover:text-orange-500"
                 : "text-white/90 hover:text-white"
                 } ${link.name === "Home"
@@ -92,7 +97,7 @@ export function Navbar({
         </div>
 
         <button
-          className={`lg:hidden p-2 ${isScrolled ? "text-gray-900" : "text-white"}`}
+          className={`lg:hidden p-2 ${hasBackground ? "text-gray-900" : "text-white"}`}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
           {mobileMenuOpen ? <X /> : <Menu />}

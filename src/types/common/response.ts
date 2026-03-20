@@ -11,3 +11,8 @@ export interface SignedUrlViewResponseType {
   key: string;
   url: string;
 }
+
+export interface CategoryResponse {
+  id: string;
+  name: string;
+};
