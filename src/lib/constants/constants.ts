@@ -14,3 +14,9 @@ export const CATEGORY_STATUS = {
 } as const;
 
 export type CategoryStatus = (typeof CATEGORY_STATUS)[keyof typeof CATEGORY_STATUS];
+
+export const PRICE_TIERS = {
+  SOLO: "SOLO",
+  DUO: "DUO",
+  GROUP: "GROUP"
+} as const;

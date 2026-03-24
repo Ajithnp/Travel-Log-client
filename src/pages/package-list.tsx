@@ -98,6 +98,8 @@ export default function PackageListing() {
           view={view}
           onViewChange={setView}
           activeFilterCount={activeFilterCount}
+          sortBy={filters.sortBy}        
+           onSortChange={setSortBy}
         />
         <SheetContent side="left" className="w-72 overflow-y-auto">
           <SheetHeader className="mb-4">
@@ -167,6 +169,7 @@ export default function PackageListing() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: idx * 0.05, duration: 0.3 }}
+                        className="h-full"
                       >
                         <PackageCard pkg={pkg} view={view} />
                       </motion.div>

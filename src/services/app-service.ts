@@ -13,6 +13,7 @@ import {
 import type { ApiResponse, Paginated } from "@/types/IApiResponse";
 import type { AxiosResponse } from "axios";
 import type { CategoryResponse } from "@/types/common/response";
+import type { PublicPackageDetailDTO, PublicScheduleDTO } from "@/types/types";
 
 export const buildPackageQueryParams = (
   f: Omit<PackageFilters, "page">,
@@ -58,5 +59,22 @@ export const fetchCategories = async (): Promise<
 > => {
   const response: AxiosResponse<ApiResponse<CategoryResponse[]>> =
     await api.get(`${API_ENDPOINTS.USER}/packages/categories`);
+  return response.data;
+};
+
+export const fetchPackageDetails = async (packageId: string): Promise<
+  ApiResponse<PublicPackageDetailDTO>
+  > => {
+  
+  const response: AxiosResponse<ApiResponse<PublicPackageDetailDTO>> =
+    await api.get(`${API_ENDPOINTS.USER}/packages/${packageId}`);
+  return response.data;
+};
+
+export const fetchPackageSchedules = async (packageId: string): Promise<
+  ApiResponse<PublicScheduleDTO[]>
+  > => {
+  const response: AxiosResponse<ApiResponse<PublicScheduleDTO[]>> =
+    await api.get(`${API_ENDPOINTS.USER}/packages/${packageId}/schedules`);
   return response.data;
 };

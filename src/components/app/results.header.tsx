@@ -59,19 +59,19 @@ export function ResultsHeader({
           )}
         </div>
 
-        <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-xs text-muted-foreground font-medium hidden sm:block">Sort:</span>
+        {/* Sort pills — hidden on mobile, visible sm+ */}
+        <div className="hidden sm:flex items-center gap-2 flex-wrap">
+          <span className="text-xs text-muted-foreground font-medium">Sort:</span>
           <div className="flex items-center gap-1 flex-wrap">
             {SORT_OPTIONS.map((opt) => (
               <button
                 key={opt.value}
                 data-testid={`button-sort-${opt.value}`}
                 onClick={() => onSortChange(opt.value)}
-                className={`text-xs px-3 py-1.5 rounded-full border transition-all font-medium ${
-                  sortBy === opt.value
+                className={`text-xs px-3 py-1.5 rounded-full border transition-all font-medium ${sortBy === opt.value
                     ? "bg-foreground text-background border-foreground"
                     : "border-border text-muted-foreground hover:border-primary/50"
-                }`}
+                  }`}
               >
                 {opt.label}
               </button>
@@ -101,7 +101,7 @@ export function ResultsHeader({
             </Badge>
           )}
 
-  
+
           {(priceRange[0] > DEFAULT_PRICE_MIN || priceRange[1] < DEFAULT_PRICE_MAX) && (
             <Badge variant="secondary" className="gap-1 text-xs pr-1">
               ₹{priceRange[0].toLocaleString("en-IN")} – ₹{priceRange[1].toLocaleString("en-IN")}
@@ -122,7 +122,7 @@ export function ResultsHeader({
             </Badge>
           )}
 
-  
+
           {duration !== "any" && (
             <Badge variant="secondary" className="gap-1 text-xs pr-1">
               {duration} days

@@ -55,7 +55,7 @@ const UserRoutes = () => {
         }>
           <Route index element={<HomePage />} />
           <Route path='packages' element={<PackageListPage/>} />
-          <Route path='travels' element={<PackageDetailsPage />} />
+          <Route path='packages/:id' element={<PackageDetailsPage />} />
           <Route path='about' element={<h1>About page</h1>} />
           <Route path='contact' element={<h1>Contact page</h1>} />
         </Route>
