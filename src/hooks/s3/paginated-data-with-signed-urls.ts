@@ -1,5 +1,3 @@
-
-
 import { useEffect, useMemo, useState } from 'react';
 import type { UseQueryResult } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
@@ -7,8 +5,6 @@ import type { SignedUrlStatus } from '@/types/signed-urls';
 import { useGetViewSignedUrlQuery } from '../api.hooks';
 import { extractKeysFromMultipleItems, createSignedUrlMap } from '@/utils/s3/extract-keys';
 import { mergeSignedUrlsToMultipleItems } from '@/utils/s3/merge-urls';
-
-// ==================== Type Definitions ====================
 
 
 export interface ApiResponse<T> {
@@ -44,9 +40,6 @@ export interface PaginatedDataWithSignedUrls<T> {
   refetchSignedUrls: () => void;
 }
 
-/**
- * Configuration for paginated data hook
- */
 export interface PaginatedArrayFieldConfig<T> {
   userId: string;
   imageFields: Array<keyof T>;
@@ -54,28 +47,12 @@ export interface PaginatedArrayFieldConfig<T> {
   dataKey?: 'packages' | 'data';
 }
 
-// ==================== Hook ====================
 
-/**
-
- * @example
- * const { 
- *   data: packages, 
- *   totalPages, 
- *   isLoading 
- * } = usePaginatedDataWithSignedUrls<Package>(
- *   usePackagesFetch(page, limit, search, filter),
- *   {
- *     userId: vendorId,
- *     imageFields: ['imageUrl'],
- *     dataKey: 'data'
- *   }
- * );
- */
 export const usePaginatedDataWithSignedUrls = <T,>(
   queryResult: UseQueryResult<ApiResponse<PaginatedData<T>>, AxiosError<{ message: string }>>,
   config: PaginatedArrayFieldConfig<T>
 ): PaginatedDataWithSignedUrls<T> => {
+
   const { userId, imageFields, enabled = true, dataKey = 'packages' } = config;
   const { data: apiResponse, isLoading: isDataLoading, error: dataError } = queryResult;
 
@@ -90,7 +67,7 @@ export const usePaginatedDataWithSignedUrls = <T,>(
     return result as T[];
   }, [apiResponse?.data, dataKey]);
 
-  // Extract S3 keys from all items in the array
+
   const extractedKeys = useMemo(() => {
     if (!itemsArray.length || !enabled) {
       return { keys: [], fieldMap: new Map<string, string[]>() };
@@ -110,7 +87,7 @@ export const usePaginatedDataWithSignedUrls = <T,>(
     enabled: enabled && extractedKeys.keys.length > 0 && !isDataLoading,
   });
 
-
+ 
   useEffect(() => {
     if (!enabled || extractedKeys.keys.length === 0) {
       setSignedUrlsStatus('idle');
@@ -142,7 +119,7 @@ export const usePaginatedDataWithSignedUrls = <T,>(
       urlMap
     );
     
-    // Convert back to T[]
+
     return merged as unknown as T[];
   }, [itemsArray, signedUrlsResponse?.data, imageFields, extractedKeys.keys.length]);
 
@@ -151,6 +128,7 @@ export const usePaginatedDataWithSignedUrls = <T,>(
     extractedKeys.keys.length > 0 && 
     signedUrlsStatus === 'loading'
   );
+
 
   return {
     data: mergedPackages,

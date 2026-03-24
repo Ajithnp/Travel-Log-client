@@ -26,7 +26,7 @@ export const useGetViewSignedUrlQuery = (
     AxiosError<ApiResponse>
   >({
     queryKey: ["vendorViewUrls", id, keys],
-    queryFn: () => getViweSignedUrl(id, keys),
+    queryFn: () => getViweSignedUrl(id!, keys!),
     enabled:  !!id && !!keys?.length && (options?.enabled ?? true),
     staleTime: 4 * 60 * 1000,
     refetchOnWindowFocus: false,

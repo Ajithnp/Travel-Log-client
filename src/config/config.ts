@@ -10,5 +10,6 @@ export const appConfig = {
         
     },
 
-    ifscUrl: import.meta.env.VITE_IFSC_API
+    ifscUrl: import.meta.env.VITE_IFSC_API,
+    publicId: import.meta.env.VITE_PUBLIC_ID
 }

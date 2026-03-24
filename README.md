@@ -143,3 +143,13 @@ Hidden portions
 
  className="hidden md:block"
  =====================================================
+
+ Loader::  
+
+ // Auth pages, initial app load — covers everything
+<Loader fullPage />
+
+// Inside package listing, inside a layout with navbar/footer
+<Loader />   // default, fills content area only
+
+//======================================================

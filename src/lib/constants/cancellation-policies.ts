@@ -45,3 +45,4 @@ export const policies = [
   },
 ] as const;
 
+export type CancellationPolicies = 'Flexible' | 'Moderate' | 'Strict' | 'Non-Refundable';

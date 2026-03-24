@@ -20,7 +20,7 @@ export function Error({
   className,
 }: ErrorProps) {
   return (
-    <div className="h-full flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center p-4">
     <div
       className={cn(
         "relative w-full max-w-md overflow-hidden rounded-2xl border border-destructive/20 bg-card/60 p-6 sm:p-8 shadow-2xl backdrop-blur-xl transition-all",
