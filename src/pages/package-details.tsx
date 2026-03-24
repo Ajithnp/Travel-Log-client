@@ -26,8 +26,6 @@ import { TourOperatorCard } from "@/components/app/tour-operator-card";
 import { TrustBadges } from "@/components/app/trust-badges";
 
 
-
-
 export default function PackageDetails() {
   const [saved, setSaved] = useState(false);
   const { id } = useParams();
