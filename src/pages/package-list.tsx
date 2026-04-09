@@ -99,7 +99,7 @@ export default function PackageListing() {
           onViewChange={setView}
           activeFilterCount={activeFilterCount}
           sortBy={filters.sortBy}        
-           onSortChange={setSortBy}
+          onSortChange={setSortBy}
         />
         <SheetContent side="left" className="w-72 overflow-y-auto">
           <SheetHeader className="mb-4">

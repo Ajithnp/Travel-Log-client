@@ -1,6 +1,5 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
 import { ROLE } from '@/types/Role';
 import { useAuthUser } from '@/hooks/useAuthUser';
 
@@ -23,21 +22,24 @@ export const AuthPrivateRoutes = ({children}: AdminPrivateRoutesProps) => {
 
 
 
+// Login, register, forgot-password etc.
+export const AuthPublicRoutes = ({ children }: AdminPrivateRoutesProps) => {
+  const { user } = useAuthUser();
 
-export const AuthPublicRoutes = ({children}: AdminPrivateRoutesProps) => {
-    const {user } = useAuthUser()
-     const location = useLocation();
+  if (user && user.role === ROLE.USER) {
+    return <Navigate to="/" replace />;
+  }
 
-    if(user && user?.role === ROLE.USER) {
-        if(location.pathname === '/'){
-            return <>{children}</>;
-        }
-        return <Navigate to="/" replace />;
-    }
+  if (user && user.role !== ROLE.USER) {
+    return <Navigate to="/unauthorized" replace />;
+  }
 
-    if(user && user?.role !== ROLE.USER) {
-        return <Navigate to="/unauthorized" replace />;
-    }
+  return <>{children}</>;
+};
 
-    return <>{children}</>;
-}
+// ── 2. Fully public routes (everyone)
+// Home, packages listing, package detail, about, contact.
+
+export const PublicRoutes = ({ children }: AdminPrivateRoutesProps) => {
+  return <>{children}</>;
+};

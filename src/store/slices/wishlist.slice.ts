@@ -77,7 +77,7 @@ export const {
   resetWishlist,
 } = wishlistSlice.actions;
 
-// ─── Selectors
+
 
 export const selectWishlistedIds = (state: RootState) =>
   state.wishlist.wishlistedIds;

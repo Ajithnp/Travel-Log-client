@@ -1,11 +1,16 @@
-import { useMutation } from '@tanstack/react-query';
-import { useDispatch, useSelector } from 'react-redux';
-import { useCallback } from 'react';
-import { toggleWishlistApi } from '../services/api.services';
-import { toast } from 'sonner';
-import { revertWishlistState, selectIsWishlisted, selectWishlistCount, selectWishlistedIds, toggleWishlistId } from '@/store/slices/wishlist.slice';
-
-
+import { useMutation } from "@tanstack/react-query";
+import { useDispatch, useSelector } from "react-redux";
+import { useCallback } from "react";
+import { toggleWishlistApi } from "../services/api.services";
+import { toast } from "sonner";
+import {
+  revertWishlistState,
+  selectIsWishlisted,
+  selectWishlistCount,
+  selectWishlistedIds,
+  toggleWishlistId,
+} from "@/store/slices/wishlist.slice";
+import { useQueryClient } from "@tanstack/react-query";
 
 /**
  * useWishlist(packageId)
@@ -17,9 +22,14 @@ import { revertWishlistState, selectIsWishlisted, selectWishlistCount, selectWis
  *   toggle()      → void     — full optimistic update flow
  *   isLoading     → boolean  — true while API call is in flight
  */
-export const useWishlist = (packageId: string) => {
-  const dispatch = useDispatch();
+interface WishlistCallbacks {
+  onOptimisticRemove?: (packageId: string) => void;
+  onRevert?: (packageId: string) => void;
+}
 
+export const useWishlist = (packageId: string,callbacks?: WishlistCallbacks) => {
+  const dispatch = useDispatch();
+  const queryClient = useQueryClient();
 
   const isWishlisted = useSelector(selectIsWishlisted(packageId));
 
@@ -29,7 +39,13 @@ export const useWishlist = (packageId: string) => {
   const { mutate, isPending } = useMutation({
     mutationFn: () => toggleWishlistApi(packageId),
 
-    onError: () => {
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["wishlist"],
+      });
+    },
+
+    onError: (error) => {
       /**
        * API call failed after optimistic update.
        * Revert Redux to the snapshot captured before the toggle.
@@ -41,18 +57,22 @@ export const useWishlist = (packageId: string) => {
         }),
       );
 
-      toast.error('Something went wrong. Please try again.');
+      callbacks?.onRevert?.(packageId);
+
+
+      toast.error(error?.message || "Something went wrong. Please try again.");
     },
   });
 
-  // ── Snapshot ref — holds pre-toggle state for rollback 
+  // ── Snapshot ref — holds pre-toggle state for rollback
   const snapshotRef = { ids: wishlistedIds, count };
 
-
   const toggle = useCallback(() => {
-    // Step 1 — capture snapshot synchronously 
+    // Step 1 — capture snapshot synchronously
     snapshotRef.ids = wishlistedIds;
     snapshotRef.count = count;
+
+        callbacks?.onOptimisticRemove?.(packageId);
 
     // Step 2 — optimistic update: update Redux immediately
     // Heart turns red/outline instantly, count updates instantly
@@ -61,8 +81,7 @@ export const useWishlist = (packageId: string) => {
     // Step 3 — fire API call in background
     // onError above handles the revert if this fails
     mutate();
-
-  }, [dispatch, mutate, packageId, wishlistedIds, count]);
+  }, [dispatch, mutate, packageId, wishlistedIds, count, callbacks]);
 
   return {
     isWishlisted,

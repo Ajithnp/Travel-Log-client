@@ -11,6 +11,11 @@ export interface IWishlistCountResponse {
   count: number;
 }
 
+export interface WishlistImageDTO {
+  key: string;
+  url?: string;
+}
+
 export interface IWishlistItem {
   packageId: string;
   title: string;
@@ -19,12 +24,16 @@ export interface IWishlistItem {
   category: string;
   difficultyLevel: string;
   days: string;
+  hasUpcomingSchedule: boolean;
   nights: string;
   basePrice: string;
-  image: string;   // first image key only
+  images: WishlistImageDTO[];  
 }
  
 export interface IWishlistResponse {
   wishlist: IWishlistItem[];
-  count: number;
+  page: number;
+  totalPages: number;
+  totalCount: number;
+  hasNextPage: boolean;
 }

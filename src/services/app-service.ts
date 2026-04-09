@@ -50,7 +50,7 @@ export const fetchPublicPackages = async (
 ): Promise<ApiResponse<Paginated<TravelPackage>>> => {
   const params = buildPackageQueryParams(filters, page);
   const response: AxiosResponse<ApiResponse<Paginated<TravelPackage>>> =
-        await api.get(`${API_ENDPOINTS.USER}/packages/public`, { params, signal });
+  await api.get(`${API_ENDPOINTS.USER}/packages/public`, { params, signal });
   return response.data;
 };
 

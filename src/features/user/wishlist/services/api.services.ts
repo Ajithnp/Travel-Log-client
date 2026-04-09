@@ -1,7 +1,8 @@
 import api from "@/config/api/axios";
 import { API_ENDPOINTS, API_ROUTE } from "@/lib/constants/routes";
-import type { ApiResponse } from "@/types/IApiResponse";
-import type { IWishlistCountResponse, IWishlistIdsResponse, IWishlistItem, IWishlistResponse, IWishlistToggleResponse } from "../types/types";
+import type { ApiResponse, Paginated } from "@/types/IApiResponse";
+import type { IWishlistCountResponse, IWishlistIdsResponse, IWishlistItem, IWishlistToggleResponse } from "../types/types";
+import type { AxiosResponse } from "axios";
 
 
 
@@ -25,14 +26,19 @@ export const getWishlistedIdsApi = async (): Promise<string[]> => {
 export const getWishlistCountApi = async (): Promise<number> => {
   const { data } = await api.get<ApiResponse<IWishlistCountResponse>>(
     `${API_ENDPOINTS.USER}${API_ROUTE.WISHLIST}/count`,
-  );
+    );
   return data.data.count;
 };
 
-export const getWishlistApi = async (): Promise<IWishlistItem[]> => {
-  const { data } = await api.get<ApiResponse<IWishlistResponse>>(
+export const getWishlistApi = async (
+  page: number,
+  limit: number
+): Promise<ApiResponse<Paginated<IWishlistItem>>> => {
+  const response:AxiosResponse<ApiResponse<Paginated<IWishlistItem>>>  = await api.get(
     `${API_ENDPOINTS.USER}${API_ROUTE.WISHLIST}`,
+    {
+      params: { page, limit }, 
+    }
   );
-  return data.data.wishlist;
-}
-
+  return response.data;
+};

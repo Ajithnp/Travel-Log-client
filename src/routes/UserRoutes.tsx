@@ -10,7 +10,6 @@ import { ErrorFallback } from '@/components/ErrorFallback';
 
 const UserDashboard = lazy(() => import('@/features/user/pages/Dashboard'));
 const HomePage = lazy(() => import('@/pages/new-home-page'));
-// const HomePage = lazy(() => import('@/pages/HomePage'));
 const PackageListPage = lazy(() => import('@/pages/package-list'));
 const PackageDetailsPage = lazy(() => import('@/pages/package-details'));
 const ProfilePage = lazy(() => import('@/features/user/pages/ProfilePage'));
@@ -21,6 +20,7 @@ const UserNewPasswordPage = lazy(() => import('@/features/auth/pages/user/NewPas
 const VerifyOtp = lazy(() => import('@/features/auth/pages/user/VerifyOtpPage'));
 const UserEmailverifyPage = lazy(() => import('@/features/auth/pages/user/VerifyEmailPage'));
 const ProfileEditPage = lazy(() => import('@/features/user/pages/ProfileEditPage'));
+const WishlistPage = lazy(() => import('@/features/user/wishlist/pages/wishlist'));
 
 
 
@@ -29,7 +29,7 @@ const UserRoutes = () => {
     <Suspense fallback={<Loading variant='airplane' text='Loading..' fullscreen />}>
 
       <Routes>
-
+         {/* Auth pages — guests only */}
         <Route path='/user' element={
           <ErrorBoundary
             FallbackComponent={ErrorFallback}>
@@ -47,11 +47,9 @@ const UserRoutes = () => {
         </Route>
 
 
-
+       {/* Public pages — everyone*/}
         <Route path="/" element={
-          <AuthPublicRoutes>
             <MainLayout />
-          </AuthPublicRoutes>
         }>
           <Route index element={<HomePage />} />
           <Route path='packages' element={<PackageListPage/>} />
@@ -72,6 +70,7 @@ const UserRoutes = () => {
           <Route path='dashboard' element={<UserDashboard />} />
           <Route path='profile' element={<ProfilePage />} />
           <Route path='editProfile' element={<ProfileEditPage />} />
+          <Route path='wishlist' element={<WishlistPage />} />
 
         </Route>
 

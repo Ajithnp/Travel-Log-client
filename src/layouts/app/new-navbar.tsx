@@ -6,6 +6,8 @@ import { NAV_LINKS } from "@/components/fieldsConfig/fields";
 import type { IUser } from "@/types/IUser";
 import UserAvathar from "@/components/UserAvathar";
 import { useLocation } from "react-router-dom";
+import { NavbarWishlistIcon } from "@/features/user/wishlist/components/wishlist-icon";
+
 
 interface NavbarProps {
   user: Partial<IUser> | null;
@@ -24,16 +26,16 @@ export function Navbar({
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
-  
-   const isHomePage = location.pathname === "/";
+
+  const isHomePage = location.pathname === "/";
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
- 
-   const hasBackground = isScrolled || !isHomePage;
+
+  const hasBackground = isScrolled || !isHomePage;
   return (
     <nav
       className={`fixed w-full z-50 transition-all duration-300 ${hasBackground
@@ -74,15 +76,18 @@ export function Navbar({
         </div>
 
         {/* CTA */}
-        <div className="hidden lg:block">
+        <div className="hidden lg:flex items-center gap-4">
 
           {user ? (
-            <UserAvathar
-              user={user}
-              isScrolled={isScrolled || location.pathname !== "/"}
-              buttonText={isLoading ? "..." : "Logout"}
-              onLogout={setConfirmLogout}
-            />
+            <>
+              <NavbarWishlistIcon hasBackground={hasBackground} />
+              <UserAvathar
+                user={user}
+                isScrolled={isScrolled || location.pathname !== "/"}
+                buttonText={isLoading ? "..." : "Logout"}
+                onLogout={setConfirmLogout}
+              />
+            </>
           ) : (
             <Button
               className="bg-orange-500 hover:bg-orange-600 text-white border-0 rounded-full pl-6 pr-4 shadow-lg hover:shadow-orange-500/40 transition-all duration-300 hover:-translate-y-0.5 group flex items-center gap-2"
@@ -125,7 +130,6 @@ export function Navbar({
         ))}
 
         {user ? (
-
           <div className="mt-4 pt-4 border-t border-gray-100 flex flex-col gap-2">
             <div className="flex items-center gap-3 px-2 py-2 bg-gray-50 rounded-full">
               <div className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center text-sm font-semibold">
@@ -134,28 +138,30 @@ export function Navbar({
               <span className="text-gray-700 font-medium">{user.name}</span>
             </div>
 
+            {/* Wishlist link — fits naturally with the other nav actions */}
+            <Link
+              to="/user/wishlist"
+              onClick={() => setMobileMenuOpen(false)}
+              className="w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-50 rounded-lg flex items-center gap-2"
+            >
+              <NavbarWishlistIcon hasBackground={hasBackground} />
+              <span>Wishlist</span>
+            </Link>
+
             <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                window.location.href = "/user/dashboard";
-              }}
+              onClick={() => { setMobileMenuOpen(false); window.location.href = "/user/dashboard"; }}
               className="w-full px-4 py-2 text-left text-orange-600 hover:bg-gray-800 rounded-lg"
             >
               Account
             </button>
 
             <button
-
-              onClick={() => {
-                setMobileMenuOpen(false);
-                setConfirmLogout(true);
-              }}
+              onClick={() => { setMobileMenuOpen(false); setConfirmLogout(true); }}
               className="w-full px-4 py-2 text-left text-orange-600 hover:bg-gray-800 rounded-lg"
             >
               {isLoading ? "..." : "Logout"}
             </button>
           </div>
-
         ) : (
           <Button
             className="bg-orange-500 hover:bg-orange-600 text-white w-full mt-4 rounded-full flex items-center justify-center gap-2"
