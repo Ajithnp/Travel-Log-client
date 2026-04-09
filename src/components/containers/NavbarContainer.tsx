@@ -1,21 +1,17 @@
 import ConfirmDialog from "../shared/modal/ConfirmDialog";
 import RegistrationModal from "@/components/shared/modal/RegistrationModal";
-import useNavbarScroll from "@/hooks/useNavbarScroll";
 import useNavbarAuth from "@/hooks/useNavbarAuth";
 import useNavbarModals from "@/hooks/useNavbarModals";
 import { Navbar } from "@/layouts/app/new-navbar";
 // import Navbar from "../shared/navbar";
 
 const NavbarContainer = () => {
-  const { isScrolled, location } = useNavbarScroll();
   const { user, isLoading, handleLogout } = useNavbarAuth();
   const {
     confirmLogout,
     setConfirmLogout,
     showRegistrationModal,
     setShowRegistrationModal,
-    isMenuOpen,
-    setIsMenuOpen,
     handleSelectOption,
   } = useNavbarModals();
 
@@ -23,10 +19,6 @@ const NavbarContainer = () => {
     <>
       <Navbar
         user={user}
-        // isScrolled={isScrolled}
-        // isMenuOpen={isMenuOpen}
-        // setIsMenuOpen={setIsMenuOpen}
-        // location={location}
         isLoading={isLoading}
         setConfirmLogout={setConfirmLogout}
         // handleLogout={handleLogout}

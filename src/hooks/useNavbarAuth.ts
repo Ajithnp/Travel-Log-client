@@ -6,6 +6,7 @@ import { clearUser } from "@/store/slices/user.slice";
 import { removeStorageItem } from "@/utils/StorageUtils";
 import { toast } from "sonner";
 import { useLogoutMutation } from "@/features/auth/hooks/api.hooks";
+import { resetWishlist } from "@/store/slices/wishlist.slice";
 
 interface NavbarAuthResult {
   user: ReturnType<typeof useAuthUser>["user"];
@@ -25,6 +26,7 @@ const useNavbarAuth = (): NavbarAuthResult => {
       onSuccess: (response) => {
         toast.success(response?.message);
         dispatch(clearUser());
+        dispatch(resetWishlist());
         removeStorageItem("role");
         navigate("/user/login");
       },

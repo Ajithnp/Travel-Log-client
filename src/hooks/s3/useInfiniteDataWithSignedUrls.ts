@@ -34,6 +34,7 @@ export const useInfiniteDataWithSignedUrls = <T>(
     isFetchingNextPage,
   } = queryResult;
 
+  
   // ── Cache: tracks ALL signed URLs fetched so far across all pages
   // useRef because we don't want changes to trigger re-renders
   const signedUrlCacheRef = useRef<Map<string, string>>(new Map());

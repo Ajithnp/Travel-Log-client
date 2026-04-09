@@ -2,9 +2,12 @@ import { configureStore , combineReducers} from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"
 import  userReducer  from '@/store/slices/user.slice';
+import wishlistReducer from '@/store/slices/wishlist.slice'
+
 
 const rootReducer = combineReducers({
   user: userReducer,
+  wishlist: wishlistReducer,
 });
 
 const persistConfig = {
@@ -22,7 +25,7 @@ export const store = configureStore({
          serializableCheck: {
            ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
         },
-    }),
+       }),
 });
 
 export const persistor = persistStore(store);

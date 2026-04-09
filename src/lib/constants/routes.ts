@@ -47,6 +47,9 @@ export const API_ROUTE = {
   UPDATE_EMAIL: '/me/email',
   RESET_PASSWORD: '/me/password',
 
+  //wishlist
+    WISHLIST:'/wishlist',
+
   // VENDOR
   VERIFICATION_FORM: '/verification',
   UPDATE_PROFILE_LOGO: '/me/profileLogo',

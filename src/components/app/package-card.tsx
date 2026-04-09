@@ -1,13 +1,14 @@
 import { motion } from "framer-motion";
-import { CalendarDays, Clock, Heart, MapPin, Star} from "lucide-react";
-import { useCallback, useState } from "react";
+import { CalendarDays, Clock, MapPin, Star} from "lucide-react";
+
 import { Button } from "../ui/button";
 import type { DifficultyLevel } from "@/features/vendor/package/base-package/type/package";
 import type { TravelPackage } from "@/hooks/app/package-listing";
 import { useNavigate } from "react-router-dom";
+import WishlistButton from "@/features/user/wishlist/components/wishlist.button";
 
-const difficultyColors: Record<DifficultyLevel, string> = {
-  Easy: "text-emerald-600 dark:text-emerald-400",
+export const difficultyColors: Record<DifficultyLevel, string> = {
+  Easy: "text-green-600 dark:text-emerald-400",
   Moderate: "text-amber-600 dark:text-amber-400",
   Challenging: "text-rose-600 dark:text-rose-400",
   Extreme: "text-red-700 dark:text-red-400",
@@ -31,19 +32,12 @@ export default function PackageCard({
   pkg: TravelPackage;
   view: "grid" | "list";
 }) {
-  const [favorited, setFavorited] = useState(false);
   const imageUrl = pkg.images?.[0]?.url;
   const navigate = useNavigate();
 
   const handleCardClick = () => {
     navigate(`/packages/${pkg._id}`);
   };
-
-  const handleFavorite = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
-    setFavorited((f) => !f);
-  }, []);
-
 
   const categoryName = pkg.category?.name ?? "";
   const vendorName = pkg.vendor?.name ?? "";
@@ -98,12 +92,16 @@ export default function PackageCard({
             </div>
           )}
 
-          <button
+          {/* <button
             onClick={handleFavorite}
             className="absolute top-3 right-3 w-7 h-7 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center hover:scale-110 transition-transform"
           >
             <Heart className={`w-3.5 h-3.5 ${favorited ? "fill-rose-500 text-rose-500" : "text-white"}`} />
-          </button>
+          </button> */}
+          <WishlistButton
+            packageId={pkg._id}
+            className="absolute top-3 right-3 w-7 h-7 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center hover:scale-110 transition-transform"
+          />
 
           {startDate && endDate && (
             <div className="absolute bottom-3 left-3 text-white/90 text-xs font-medium bg-black/25 backdrop-blur-sm px-2 py-0.5 rounded-full whitespace-nowrap">
@@ -207,18 +205,10 @@ export default function PackageCard({
             </span>
           )}
         </div>
-
-        {/* Favorite Button */}
-        <button
-          data-testid={`button-favorite-${pkg._id}`}
-          onClick={handleFavorite}
+        <WishlistButton
+          packageId={pkg._id}
           className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center transition-transform hover:scale-110"
-        >
-          <Heart
-            className={`w-4 h-4 transition-colors ${favorited ? "fill-rose-500 text-rose-500" : "text-white"
-              }`}
-          />
-        </button>
+        />
 
         {/* Date Badge */}
         {startDate && endDate && (
