@@ -2,6 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {  UserCheck, Shield } from "lucide-react";
 import { StarRating } from "../common/start-rating";
+import { useNavigate } from "react-router-dom";
 
 type Operator = {
 name: string;
@@ -15,6 +16,7 @@ type Props = {
 };
 
 export function TourOperatorCard({ operator }: Props) {
+  const navigate = useNavigate();
   return (
     <Card className="shadow-premium">
       <CardContent className="p-4">
@@ -51,6 +53,7 @@ export function TourOperatorCard({ operator }: Props) {
           className="w-full mt-3 gap-1.5"
           size="sm"
           data-testid="btn-contact-operator"
+          onClick={() => navigate(`/packages/vendor/${operator.id}/profile`)}
         >
           View Operator
         </Button>

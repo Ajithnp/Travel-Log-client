@@ -21,6 +21,7 @@ const VerifyOtp = lazy(() => import('@/features/auth/pages/user/VerifyOtpPage'))
 const UserEmailverifyPage = lazy(() => import('@/features/auth/pages/user/VerifyEmailPage'));
 const ProfileEditPage = lazy(() => import('@/features/user/pages/ProfileEditPage'));
 const WishlistPage = lazy(() => import('@/features/user/wishlist/pages/wishlist'));
+const VendorProfilePage = lazy(() => import('@/pages/vendor-profile'));
 
 
 
@@ -54,6 +55,7 @@ const UserRoutes = () => {
           <Route index element={<HomePage />} />
           <Route path='packages' element={<PackageListPage/>} />
           <Route path='packages/:id' element={<PackageDetailsPage />} />
+          <Route path='packages/vendor/:vendorId/profile' element={<VendorProfilePage />} />
           <Route path='about' element={<h1>About page</h1>} />
           <Route path='contact' element={<h1>Contact page</h1>} />
         </Route>

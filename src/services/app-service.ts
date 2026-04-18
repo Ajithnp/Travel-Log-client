@@ -1,5 +1,5 @@
 import api from "@/config/api/axios";
-import { API_ENDPOINTS } from "@/lib/constants/routes";
+import { API_ENDPOINTS, API_ROUTE } from "@/lib/constants/routes";
 import type {
   PackageFilters,
   TravelPackage,
@@ -13,7 +13,7 @@ import {
 import type { ApiResponse, Paginated } from "@/types/IApiResponse";
 import type { AxiosResponse } from "axios";
 import type { CategoryResponse } from "@/types/common/response";
-import type { PublicPackageDetailDTO, PublicScheduleDTO } from "@/types/types";
+import type { PublicPackageDetailDTO, PublicScheduleDTO, VendorPublicProfileResponseDTO } from "@/types/types";
 
 export const buildPackageQueryParams = (
   f: Omit<PackageFilters, "page">,
@@ -76,5 +76,17 @@ export const fetchPackageSchedules = async (packageId: string): Promise<
   > => {
   const response: AxiosResponse<ApiResponse<PublicScheduleDTO[]>> =
     await api.get(`${API_ENDPOINTS.USER}/packages/${packageId}/schedules`);
+  return response.data;
+};
+
+export const fetchVendorPublicProfile = async (
+  vendorId: string,
+  page: number,
+  limit: number,
+): Promise<ApiResponse<VendorPublicProfileResponseDTO>> => {
+  const response: AxiosResponse<ApiResponse<VendorPublicProfileResponseDTO>> =
+    await api.get(`${API_ENDPOINTS.USER}${API_ROUTE.VENDOR_PUBLIC_PROFILE(vendorId)}`, {
+      params: { page, limit },
+    });
   return response.data;
 };
