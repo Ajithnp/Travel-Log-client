@@ -1,4 +1,4 @@
-import { fetchCategories, fetchPackageDetails, fetchPackageSchedules, fetchPublicPackages } from "@/services/app-service";
+import { fetchCategories, fetchPackageDetails, fetchPackageSchedules, fetchPublicPackages, fetchVendorPublicProfile } from "@/services/app-service";
 import {
   useQuery,
   useInfiniteQuery,
@@ -9,7 +9,7 @@ import type { AxiosError } from "axios";
 import type { PackageFilters, TravelPackage } from "./package-listing";
 import type { ApiResponse, Paginated } from "@/types/IApiResponse";
 import type { CategoryResponse } from "@/types/common/response";
-import type { PublicPackageDetailDTO, PublicScheduleDTO } from "@/types/types";
+import type { PublicPackageDetailDTO, PublicScheduleDTO, VendorPublicProfileResponseDTO } from "@/types/types";
 
 export const useCategories = () => {
   return useQuery<
@@ -77,5 +77,34 @@ export const usePackageSchedulesQuery = (packageId:string, options?: { enabled?:
       enabled: options?.enabled,
     staleTime: 1000 * 60 * 2,
     refetchOnWindowFocus: false,
+  });
+};
+
+export const useInfiniteVendorProfile = (vendorId: string, limit: number = 8) => {
+  return useInfiniteQuery<
+    ApiResponse<VendorPublicProfileResponseDTO>,
+    AxiosError<{ message: string }>,
+    InfiniteData<ApiResponse<VendorPublicProfileResponseDTO>>,
+    QueryKey,
+    number
+  >({
+    queryKey: ["vendorProfile", vendorId],
+
+    queryFn: ({ pageParam }) => {
+      return fetchVendorPublicProfile(vendorId, pageParam, limit);
+    },
+    initialPageParam: 1,
+
+    getNextPageParam: (lastPage) => {
+      if (lastPage.data?.hasNextPage) {
+        const currentPage = Number(lastPage.data.currentPage);
+        return currentPage + 1;
+      }
+      return undefined;
+    },
+
+    staleTime: 1000 * 60 * 2,
+    refetchOnWindowFocus: false,
+    enabled: !!vendorId,
   });
 };

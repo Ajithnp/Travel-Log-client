@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { usePackageDetailsPage } from "@/hooks/app/package-details";
 import { Loader } from "@/components/common/loader";
 import { Error } from "@/components/common/error";
@@ -53,8 +53,6 @@ export default function PackageDetails() {
     reviews: packageData.operator.reviews,
   };
 
-  console.log("package data", pkg)
-  console.log("scheduledata", schedules)
 
   return (
     <div className="min-h-screen bg-background mt-20">
@@ -117,7 +115,7 @@ export default function PackageDetails() {
           </h1>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
             <span className="flex items-center gap-1 font-semibold">
-              by <strong className="ml-1 text-orange-500">{pkg?.vendor.name}</strong>
+              by <Link to={`/packages/vendor/${pkg.vendor.id}/profile`} className="ml-1 text-orange-500 hover:underline">{pkg?.vendor.name}</Link>
             </span>
             <span className="flex items-center gap-1"><MapPin className="w-3.5 h-3.5 text-destructive" /> {pkg?.location}, {pkg?.state}</span>
             <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5 text-gray-900" /> {pkg?.days} Days/{pkg?.nights} Nights</span>

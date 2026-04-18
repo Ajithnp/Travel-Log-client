@@ -3,7 +3,7 @@ import type { BasePackageDraftSchema } from "@/features/vendor/package/base-pack
 import type{ BasePackageSchema } from "@/features/vendor/package/base-package/validations/base-package-schema";
 import type { PackageStatus } from "@/lib/constants/constants";
 import type { DifficultyLevel } from "@/features/vendor/package/base-package/type/package";
-import type { ScheduleStatus } from "@/hooks/app/package-listing";
+import type { ScheduleStatus, TravelPackage } from "@/hooks/app/package-listing";
 import type { CancellationPolicies } from "@/lib/constants/cancellation-policies";
 export type ImageStatus = "PENDING_UPLOAD" | "UPLOADED" | "REMOVED"
 
@@ -146,4 +146,26 @@ export interface CreateBookingPayload {
   };
   paymentMethod: "upi" | "card" | "netbanking" | "emi";
   upiId?: string;            // only when paymentMethod === "upi"
+}
+
+export interface VendorPublicProfileVendorDTO {
+  businessName: string;
+  profilePhoto: string | null;
+  profilePhotoUrl?: string; 
+  about: null | string;
+  location: string | null;
+  averageRating: number;
+  totalPackages: number;
+  totalTripsCompleted: number;
+  createdAt: string;
+  isVerified: boolean;
+}
+
+export interface VendorPublicProfileResponseDTO {
+  vendor: VendorPublicProfileVendorDTO;
+  packages: TravelPackage[];
+  total: number;
+  currentPage: number;
+  totalPages: number;
+  hasNextPage: boolean;
 }

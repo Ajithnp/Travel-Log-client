@@ -28,9 +28,9 @@ export const useGetViewSignedUrlQuery = (
     queryKey: ["vendorViewUrls", id, keys],
     queryFn: () => getViweSignedUrl(id!, keys!),
     enabled:  !!id && !!keys?.length && (options?.enabled ?? true),
-    staleTime: 4 * 60 * 1000,
-    refetchOnWindowFocus: false,
-    // retry: false, 
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnMount: true,
   });
 };
 
