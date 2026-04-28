@@ -74,7 +74,11 @@ export function Step2Travellers({
   }, [selectedTierType]);
 
   const handleFormSubmit = (data: FormValues) => {
-    onSubmit(data.travellers as TravellerInfo[]);
+     const travellersWithLead = data.travellers.map((traveller, index) => ({
+    ...traveller,
+    isLead: index === 0,
+  }));
+    onSubmit(travellersWithLead);
   };
 
   return (

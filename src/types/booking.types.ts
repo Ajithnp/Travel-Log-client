@@ -21,16 +21,20 @@ export interface Coupon {
 
 
 export interface TravellerInfo {
-  fullName:         string;
-  idType:           string;
-  idNumber:         string;
-  phoneNumber:      string;
-  emailAddress?:    string;
+  fullName: string;
+  idType: string;
+  idNumber: string;
+
+  isLead: boolean;
+
+  phoneNumber?: string;
+  emailAddress?: string;
+
   emergencyContact?: string;
-  relation?:        string;
+  relation?: string;
 }
 
-// ─── Computed pricing breakdown (single source of truth) ─────────────────────
+// ─── Computed pricing breakdown 
 
 export interface PricingBreakdown {
   pricePerHead:   number;   

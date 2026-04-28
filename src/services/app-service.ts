@@ -13,7 +13,17 @@ import {
 import type { ApiResponse, Paginated } from "@/types/IApiResponse";
 import type { AxiosResponse } from "axios";
 import type { CategoryResponse } from "@/types/common/response";
-import type { PublicPackageDetailDTO, PublicScheduleDTO, VendorPublicProfileResponseDTO } from "@/types/types";
+import type {
+  PublicPackageDetailDTO,
+  PublicScheduleDTO,
+  VendorPublicProfileResponseDTO,
+} from "@/types/types";
+import type {
+  ConfirmBookingRequestDTO,
+  ConfirmBookingResponseDTO,
+ InitiateBookingRequestDTO,
+  InitiateBookingResponseDTO,
+} from "@/types/api/booking-api.types";
 
 export const buildPackageQueryParams = (
   f: Omit<PackageFilters, "page">,
@@ -50,7 +60,7 @@ export const fetchPublicPackages = async (
 ): Promise<ApiResponse<Paginated<TravelPackage>>> => {
   const params = buildPackageQueryParams(filters, page);
   const response: AxiosResponse<ApiResponse<Paginated<TravelPackage>>> =
-  await api.get(`${API_ENDPOINTS.USER}/packages/public`, { params, signal });
+    await api.get(`${API_ENDPOINTS.USER}/packages/public`, { params, signal });
   return response.data;
 };
 
@@ -62,18 +72,17 @@ export const fetchCategories = async (): Promise<
   return response.data;
 };
 
-export const fetchPackageDetails = async (packageId: string): Promise<
-  ApiResponse<PublicPackageDetailDTO>
-  > => {
-  
+export const fetchPackageDetails = async (
+  packageId: string,
+): Promise<ApiResponse<PublicPackageDetailDTO>> => {
   const response: AxiosResponse<ApiResponse<PublicPackageDetailDTO>> =
     await api.get(`${API_ENDPOINTS.USER}/packages/${packageId}`);
   return response.data;
 };
 
-export const fetchPackageSchedules = async (packageId: string): Promise<
-  ApiResponse<PublicScheduleDTO[]>
-  > => {
+export const fetchPackageSchedules = async (
+  packageId: string,
+): Promise<ApiResponse<PublicScheduleDTO[]>> => {
   const response: AxiosResponse<ApiResponse<PublicScheduleDTO[]>> =
     await api.get(`${API_ENDPOINTS.USER}/packages/${packageId}/schedules`);
   return response.data;
@@ -85,8 +94,33 @@ export const fetchVendorPublicProfile = async (
   limit: number,
 ): Promise<ApiResponse<VendorPublicProfileResponseDTO>> => {
   const response: AxiosResponse<ApiResponse<VendorPublicProfileResponseDTO>> =
-    await api.get(`${API_ENDPOINTS.USER}${API_ROUTE.VENDOR_PUBLIC_PROFILE(vendorId)}`, {
-      params: { page, limit },
-    });
+    await api.get(
+      `${API_ENDPOINTS.USER}${API_ROUTE.VENDOR_PUBLIC_PROFILE(vendorId)}`,
+      {
+        params: { page, limit },
+      },
+    );
   return response.data;
 };
+
+// ─── Booking API ────────
+
+export const initiateBooking = async (
+  payload: InitiateBookingRequestDTO,
+): Promise<ApiResponse<InitiateBookingResponseDTO>> => {
+  const response: AxiosResponse<ApiResponse<InitiateBookingResponseDTO>> =
+    await api.post(`${API_ENDPOINTS.BOOKING}${API_ROUTE.INITIATE_BOOKING}`, payload);
+  return response.data;
+};
+
+export const confirmBooking = async (
+  payload: ConfirmBookingRequestDTO,
+): Promise<ApiResponse<ConfirmBookingResponseDTO>> => {
+  const response: AxiosResponse<ApiResponse<ConfirmBookingResponseDTO>> =
+    await api.post(
+      `${API_ENDPOINTS.BOOKING}${API_ROUTE.CONFIRM_BOOKING}`,
+      payload,
+    );
+  return response.data;
+};
+

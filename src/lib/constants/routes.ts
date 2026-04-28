@@ -8,12 +8,12 @@ export const ROUTES = {
   MENTOR: "/mentor",
   USER: "/user",
   COURSE: "/course",
-  PROFILE:"/profile",
+  PROFILE: "/profile",
   VERIFY_EMAIL: "/verify-email",
   RESET_PASSWORD: "/reset-password",
-  OTP_VERIFY: '/verify-otp',
-  FORGOT_PASSWORD: '/forgot-password',
-}as const;
+  OTP_VERIFY: "/verify-otp",
+  FORGOT_PASSWORD: "/forgot-password",
+} as const;
 
 export const BASE_ROUTE = {
   USER: "/user",
@@ -26,51 +26,56 @@ export const API_ENDPOINTS = {
   USER: "/user",
   VENDOR: "/vendor",
   ADMIN: "/admin",
-  S3: "/s3"
+  S3: "/s3",
+  BOOKING: "/bookings",
 } as const;
 
 export const API_ROUTE = {
   //auth
-  LOGIN: '/login',
-  SIGNUP: '/signup',
-  GOOGLE_CALLBACK: '/google/callback',
-  VERIFY_EMAIL: '/verify-email',
-  FORGOT_PASSWORD: '/forgot-password',
-  CHANGE_PASSWORD: '/change-password',
-  VERIFY_OTP: '/otp-verify',
-  RESEND_OTP: '/resend-otp',
-  LOGOUT: '/logout',
+  LOGIN: "/login",
+  SIGNUP: "/signup",
+  GOOGLE_CALLBACK: "/google/callback",
+  VERIFY_EMAIL: "/verify-email",
+  FORGOT_PASSWORD: "/forgot-password",
+  CHANGE_PASSWORD: "/change-password",
+  VERIFY_OTP: "/otp-verify",
+  RESEND_OTP: "/resend-otp",
+  LOGOUT: "/logout",
 
   //user
-  PROFILE: '/me',
-  CHANGE_EMAIL_REQUEST: '/me/change-email',
-  UPDATE_EMAIL: '/me/email',
-  RESET_PASSWORD: '/me/password',
+  PROFILE: "/me",
+  CHANGE_EMAIL_REQUEST: "/me/change-email",
+  UPDATE_EMAIL: "/me/email",
+  RESET_PASSWORD: "/me/password",
 
   VENDOR_PUBLIC_PROFILE: (id: string) => `/packages/vendors/${id}/profile`,
 
   //wishlist
-    WISHLIST:'/wishlist',
+  WISHLIST: "/wishlist",
+
+  // bookings
+  INITIATE_BOOKING: "/initiate",
+  CONFIRM_BOOKING: "/confirm",
+  RELEASE_HOLD: (id: string) => `/bookings/hold/${id}`,
 
   // VENDOR
-  VERIFICATION_FORM: '/verification',
-  UPDATE_PROFILE_LOGO: '/me/profileLogo',
-  PACKAGE_FORM_UPLOAD: '/packages',
-  PACKAGES: '/packages',
-  CATEGORIES: '/categories',
-  SCHEDULE_PACKAGE: '/schedules/packages/',
-  SCHEDULES:'/schedules',
-  
+  VERIFICATION_FORM: "/verification",
+  UPDATE_PROFILE_LOGO: "/me/profileLogo",
+  PACKAGE_FORM_UPLOAD: "/packages",
+  PACKAGES: "/packages",
+  CATEGORIES: "/categories",
+  SCHEDULE_PACKAGE: "/schedules/packages/",
+  SCHEDULES: "/schedules",
 
   // ADMIN
-  USERS: '/users',
-  VENDORS: '/vendors',
-  VENDORS_VERIFICATION_REQUESTS: '/vendor/verification-requests',
-  CATEGORY:'/category',
+  USERS: "/users",
+  VENDORS: "/vendors",
+  VENDORS_VERIFICATION_REQUESTS: "/vendor/verification-requests",
+  CATEGORY: "/category",
 
   //S3
-  GET_SIGNED_URL_UPLOAD_API: '/upload-url',
-  GET_SIGNED_URL_DOWNLOAD_API: '/file-url'
+  GET_SIGNED_URL_UPLOAD_API: "/upload-url",
+  GET_SIGNED_URL_DOWNLOAD_API: "/file-url",
 } as const;
 
 export const BASE_ROUTE_BY_ROLE: Record<string, string> = {

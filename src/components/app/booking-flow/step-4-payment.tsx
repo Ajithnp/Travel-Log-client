@@ -1,13 +1,17 @@
-import { useState } from "react";
-import { Smartphone, Building2, Shield, Loader2, Wallet } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Smartphone, Building2, Loader2, Wallet, Clock } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { PriceSummary } from "./pricing-summary";
-import type { Coupon, PaymentMethodId, PricingBreakdown, PricingTierType, Schedule } from "@/types/booking.types";
+import { loadStripe } from "@stripe/stripe-js";
+import {
+  Elements,
+} from "@stripe/react-stripe-js";
+import type { Coupon, PaymentMethodId, PricingBreakdown, PricingTierType, Schedule, TravellerInfo } from "@/types/booking.types";
+import { useBookingFlow } from "@/hooks/app/booking-flow";
+import { toast } from "sonner";
+import { CheckoutForm } from "./checkout-form";
 
-
-
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY!);
 interface PaymentMethodConfig {
   id: PaymentMethodId;
   label: string;
@@ -22,7 +26,10 @@ const PAYMENT_METHODS: PaymentMethodConfig[] = [
 
 
 interface Step4PaymentProps {
+  packageId: string;
   selectedSchedule: Schedule | null;
+  seatsCount: number;
+  travellers: TravellerInfo[];
   selectedTierType: PricingTierType;
   pricing: PricingBreakdown;
   appliedCoupon: Coupon | null;
@@ -34,25 +41,53 @@ interface Step4PaymentProps {
 
 
 export function Step4Payment({
+  packageId,
+  seatsCount,
+  travellers,
   selectedSchedule,
   selectedTierType,
   pricing,
   appliedCoupon,
-  isSubmitting,
   onBack,
-  onConfirm,
-}: Step4PaymentProps) {
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethodId>("upi");
-  const [upiId, setUpiId] = useState("");
-  const [upiError, setUpiError] = useState("");
 
-  const handleConfirm = () => {
-    if (paymentMethod === "upi" && !upiId.includes("@")) {
-      setUpiError("Please enter a valid UPI ID (e.g. name@upi)");
-      return;
-    }
-    onConfirm(paymentMethod, upiId);
-  };
+}: Step4PaymentProps) {
+  
+    const {
+    bookingId,
+    clientSecret,
+    expiresAt,
+    initiateBooking,
+    confirmBooking,
+    isInitiatingBooking,
+  } = useBookingFlow();
+
+   const [hasHeldSeats, setHasHeldSeats] = useState(false);
+  // const [paymentMethod, setPaymentMethod] = useState<PaymentMethodId>("upi");
+  // const [upiId, setUpiId] = useState("");
+  // const [upiError, setUpiError] = useState("");
+
+    useEffect(() => {
+    if (!selectedSchedule || hasHeldSeats) return;
+
+    initiateBooking({
+      packageId,
+      scheduleId: selectedSchedule.scheduleId,
+      tierType: selectedTierType,
+      seatsCount,
+       travelers: travellers,
+      amountInPaise: pricing.totalAmount * 100, // INR to paise
+    }).then(() => {
+      setHasHeldSeats(true);
+    });
+
+    // Cleanup on unmount handled by releaseHold if not confirmed
+    return () => {
+      // In a real production app, we'd only release if unmounting without success
+      // We rely on backend TTL for safety.
+    };
+  }, []);
+  
+  
 
   const tierLabel = selectedTierType.charAt(0) + selectedTierType.slice(1).toLowerCase();
 
@@ -60,94 +95,53 @@ export function Step4Payment({
     new Date(iso).toLocaleDateString("en-IN", {
       day: "numeric", month: "short", year: "numeric",
     });
+  
+    if (isInitiatingBooking || !clientSecret) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20 space-y-4">
+        <Loader2 className="w-8 h-8 animate-spin text-gray-900" />
+        <p className="text-sm font-medium text-gray-600">
+          Securing your seats...
+        </p>
+      </div>
+    );
+  }
 
 
-  return (
+   return (
     <div className="space-y-4">
-      {/* Payment method selector */}
+      <Card className="border border-amber-200 bg-amber-50 shadow-sm rounded-2xl overflow-hidden">
+        <div className="p-4 flex items-center justify-between">
+          <div className="flex items-center gap-2 text-amber-800">
+            <Clock className="w-5 h-5" />
+            <span className="text-sm font-semibold">Seats Held!</span>
+          </div>
+          <CountdownTimer
+            expiresAt={expiresAt!}
+            onExpire={() => {
+              toast.error("Seat hold expired.");
+              onBack();
+            }}
+          />
+        </div>
+      </Card>
+
       <Card className="border border-gray-200 shadow-sm rounded-2xl overflow-hidden shadow-premium">
         <div className="px-5 pt-5 pb-3 bg-accent-foreground/80">
           <h3 className="text-sm font-semibold uppercase text-card">
-            Payment Method
+            Payment
           </h3>
         </div>
 
-        <div className="px-5 py-5 space-y-5">
-          <div className="space-y-2">
-            {PAYMENT_METHODS.map(({ id, label, Icon }) => (
-              <button
-                key={id}
-                type="button"
-                disabled={isSubmitting}
-                onClick={() => setPaymentMethod(id)}
-                className={`w-full flex items-center justify-between px-4 py-3 rounded-xl border transition-all
-            ${isSubmitting ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
-            ${paymentMethod === id
-                    ? "border-gray-900 bg-gray-50 shadow-sm"
-                    : "border-gray-200 bg-white hover:border-gray-300"}`}
-              >
-                <div className="flex items-center gap-3">
-                  <Icon className={`w-4 h-4 ${paymentMethod === id ? "text-gray-900" : "text-gray-500"
-                    }`} />
-                  <span className="text-sm font-medium text-gray-800">
-                    {label}
-                  </span>
-                </div>
-                <div
-                  className={`w-4 h-4 rounded-full border flex items-center justify-center
-              ${paymentMethod === id
-                      ? "border-gray-900"
-                      : "border-gray-300"}`}
-                >
-                  {paymentMethod === id && (
-                    <div className="w-2 h-2 rounded-full bg-gray-900" />
-                  )}
-                </div>
-              </button>
-            ))}
-          </div>
-
-          {/* CONDITIONAL SECTIONS */}
-          {paymentMethod === "upi" && (
-            <div className="space-y-2">
-              <Input
-                value={upiId}
-                onChange={(e) => {
-                  setUpiId(e.target.value);
-                  setUpiError("");
-                }}
-                placeholder="yourname@upi"
-                disabled={isSubmitting}
-                className="rounded-lg border-gray-200"
-              />
-              {upiError && (
-                <p className="text-red-500 text-xs">{upiError}</p>
-              )}
-            </div>
-          )}
-
-          {paymentMethod === "netbanking" && (
-            <div className="text-sm text-gray-500 bg-gray-50 rounded-lg p-3 leading-relaxed">
-              You will be redirected to your bank's secure portal to complete the payment.
-            </div>
-          )}
-
-          {paymentMethod === "wallet" && (
-            <div className="text-sm text-gray-500 bg-gray-50 rounded-lg p-3 leading-relaxed">
-              EMI options available on 3, 6, 9 and 12 month plans. Details at checkout.
-            </div>
-          )}
-
-          {/* SECURITY BLOCK */}
-          <div className="flex items-start gap-2.5 bg-gray-50 rounded-xl p-3">
-            <Shield className="w-4 h-4 text-amber-500 mt-0.5 shrink-0" />
-            <p className="text-xs text-gray-500 leading-relaxed">
-              Secured by Razorpay · Free cancellation up to 7 days before trip
-            </p>
-          </div>
-
+        <div className="px-5 py-5">
+          <Elements stripe={stripePromise} options={{ clientSecret }}>
+            <CheckoutForm
+              bookingId={bookingId!}
+              pricing={pricing}
+              confirmBooking={confirmBooking}
+            />
+          </Elements>
         </div>
-
       </Card>
 
       {/* Order summary */}
@@ -164,19 +158,15 @@ export function Step4Payment({
                 {formatDate(selectedSchedule.startDate)} –{" "}
                 {formatDate(selectedSchedule.endDate)}
               </span>
-
               <span className="text-xs font-medium text-gray-600 bg-gray-100 px-2 py-1 rounded-md w-fit">
                 {tierLabel}
               </span>
             </div>
           )}
-
           <div className="bg-gray-50 -mx-5 px-5 py-4 flex items-center justify-between border-t border-gray-200">
-
             <span className="text-sm font-semibold text-gray-900">
               Total payable
             </span>
-
             <span className="text-lg font-bold text-gray-900">
               ₹{pricing.totalAmount.toLocaleString("en-IN")}
             </span>
@@ -185,37 +175,52 @@ export function Step4Payment({
       </Card>
       <PriceSummary pricing={pricing} appliedCoupon={appliedCoupon} />
 
-      {/* Navigation */}
-      <div className="flex gap-3">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={onBack}
-          disabled={isSubmitting}
-          className="flex-1 rounded-xl py-6 text-base font-semibold border-gray-300"
-        >
-          ← Back
-        </Button>
-        <Button
-          type="button"
-          onClick={handleConfirm}
-          disabled={isSubmitting}
-          className="flex-1 bg-gray-900 hover:bg-gray-800 text-white rounded-xl py-6 text-base font-semibold disabled:opacity-70"
-        >
-          {isSubmitting ? (
-            <span className="flex items-center gap-2">
-              <Loader2 className="w-4 h-4 animate-spin" />
-              Processing...
-            </span>
-          ) : (
-            `Confirm & Pay ₹${pricing.totalAmount.toLocaleString("en-IN")}`
-          )}
-        </Button>
-      </div>
-
-      <p className="text-center text-xs text-gray-400 -mt-1">
-        By proceeding, you agree to our Terms of Service &amp; Privacy Policy.
+      <p className="text-center text-xs text-gray-400 -mt-1 pb-4">
+        By proceeding, you agree to our Terms of Service & Privacy Policy.
       </p>
     </div>
   );
+}
+
+
+
+
+
+function CountdownTimer({
+  expiresAt,
+  onExpire,
+}: {
+  expiresAt: string;
+  onExpire: () => void;
+}) {
+  const [timeLeft, setTimeLeft] = useState<string>("10:00");
+
+  useEffect(() => {
+    const target = new Date(expiresAt).getTime();
+
+    const interval = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = target - now;
+
+      if (distance <= 0) {
+        clearInterval(interval);
+        setTimeLeft("00:00");
+        onExpire();
+        return;
+      }
+
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      setTimeLeft(
+        `${minutes.toString().padStart(2, "0")}:${seconds
+          .toString()
+          .padStart(2, "0")}`
+      );
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [expiresAt, onExpire]);
+
+  return <span className="text-sm font-bold text-amber-800">{timeLeft}</span>;
 }

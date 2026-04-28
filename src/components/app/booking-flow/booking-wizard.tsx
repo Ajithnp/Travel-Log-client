@@ -16,14 +16,16 @@ import type { PublicPackageDetailDTO } from "@/types/types";
  
 
 function mapTravellers(travellers: TravellerInfo[]) {
-  return travellers.map((t, i) => ({
-    name:      t.fullName,
+  return travellers.map((t) => ({
+    name:      t.fullName.trim(),
     idType:    t.idType,
-    idNumber:  t.idNumber,
-    isLead:    i === 0,
-    ...(i === 0
-      ? { phone: t.phoneNumber, email: t.emailAddress }
-      : { emergencyContact: t.emergencyContact, emergencyRelation: t.relation }),
+    idNumber:  t.idNumber.trim(),
+    isLead: t.isLead,
+    phone: t.isLead ? t.phoneNumber?.trim() : undefined,
+    email: t.isLead ? t.emailAddress?.trim() : undefined,
+    relation : t.isLead ? undefined : t.relation?.trim(),
+    emergencyContact: t.isLead ? undefined : t.emergencyContact?.trim(),
+
   }));
 }
  
@@ -97,10 +99,21 @@ export function BookingWizard({ schedules, pkg }: BookingWizardProps) {
   const handleStep3Continue = () => goTo(4);
  
  
+  //   const handleConfirmSuccess = () => {
+  //   // Optionally redirect or show a success state here.
+  //   // The toast success is already handled in the useBookingFlow hook.
+  //   setState(initialState);
+  //   // Ideally we would route the user to a success page here
+  // };
+
   const handleConfirmPayment = async (
     paymentMethod: "upi" | "card" | "netbanking" | "wallet",
     upiId: string
   ) => {
+    console.log("Initiating booking with payload:", {
+      packageId: pkg.packageId,
+      scheduleId: state.selectedSchedule?.scheduleId,
+    });
     if (!state.selectedSchedule || !pricing) return;
  
     console.log("Booking payload:", {
@@ -153,8 +166,11 @@ export function BookingWizard({ schedules, pkg }: BookingWizardProps) {
  
       {state.step === 4 && pricing && (
         <Step4Payment
+          packageId={pkg.packageId}
+          seatsCount={pricing.travellersCount}
           selectedSchedule={state.selectedSchedule}
           selectedTierType={state.selectedTierType}
+          travellers={state.travellers}
           pricing={pricing}
           appliedCoupon={state.appliedCoupon}
           onBack={() => goTo(3)}
