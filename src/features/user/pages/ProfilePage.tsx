@@ -1,14 +1,14 @@
 import Profile from "../components/Profile";
 import { useUserProfileQuery } from "../hooks/api.hooks";
 import { motion } from "framer-motion";
-import { Loading } from "@/components/ui/loading";
+import { SpinnerLoading } from "@/components/common/spinner";
 
 const ProfilePage = () => {
   const { data, isLoading } = useUserProfileQuery();
   const userData = data?.data;
 
   if (isLoading)
-    return <Loading variant="spinner" text="Loading..." fullscreen />;
+    return <SpinnerLoading title="loadingg"  />;
   if (!data) return null;
   return (
     <>

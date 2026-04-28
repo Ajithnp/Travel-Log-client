@@ -7,7 +7,9 @@ import {
   Store,
   Briefcase,
   Layers,
-  CalendarCheck
+  CalendarCheck,
+  ShoppingBag,
+  Wallet
 
 } from "lucide-react";
 import { type LucideIcon } from "lucide-react";
@@ -46,3 +48,29 @@ export const userSidebarLinks = [
 ];
 
 
+export const navCards = [
+  {
+    to: "/user/profile",
+    icon: User,
+    title: "Profile Management",
+    desc: "Update personal info and account settings",
+    accent: "from-violet-500 to-indigo-500",
+    light: "bg-violet-50 text-violet-600",
+  },
+  {
+    to: "/user/booked-packages",
+    icon: ShoppingBag,
+    title: "Your Packages",
+    desc: "Manage bookings and travel details easily",
+    accent: "from-sky-500 to-cyan-500",
+    light: "bg-sky-50 text-sky-600",
+  },
+  {
+    to: "/user/wallet",
+    icon: Wallet,
+    title: "Wallet & Transactions",
+    desc: "Manage balance and view transaction history",
+    accent: "from-emerald-500 to-teal-500",
+    light: "bg-emerald-50 text-emerald-600",
+  },
+];
