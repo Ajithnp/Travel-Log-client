@@ -116,9 +116,12 @@ const ProfileForm = ({
             )}
             <div className="ms-auto flex items-center gap-2">
               <Button
-                variant={"default"}
                 type="submit"
-                className="cursor-pointer hover:scale-105 hover:brightness-110"
+                variant="default"
+                className={`cursor-pointer hover:scale-105 hover:brightness-110 ${user?.role === "user"
+                    ? "bg-orange-500 hover:bg-orange-600 text-white"
+                    : ""
+                  }`}
               >
                 Save Changes
               </Button>

@@ -5,7 +5,6 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import type { IUser } from "@/types/IUser";
 import ConfirmDialog from "@/components/shared/modal/ConfirmDialog";
-import { Loading } from "@/components/ui/loading";
 import type { IVendorInfo } from "@/types/IVendorInfo";
 import { Upload } from "lucide-react";
 import { ROLE } from "@/types/Role";
@@ -16,6 +15,7 @@ import {
 } from "@/features/vendor/animations/vendorProfile.animations";
 import useProfileUpdate from "../hooks/useProfileUpdate";
 import ProfileForm from "./ProfileForm";
+import { SpinnerLoading } from "@/components/common/spinner";
 
 interface ProfileEditProps {
   onEmailChangeClick: () => void;
@@ -23,7 +23,7 @@ interface ProfileEditProps {
   onProfileUpdate: (data: Partial<IUser>) => void;
   user: Partial<IVendorInfo>;
   loading?: boolean;
-  onFileSelect?: (file: File ) => Promise<void>;
+  onFileSelect?: (file: File) => Promise<void>;
   profileUrl?: string;
 }
 
@@ -48,7 +48,7 @@ const ProfileEdit = ({
   } = useUpdateProfileLogo({ onFileSelect });
 
   if (loading) {
-    <Loading variant="spinner" text="updating" fullscreen />;
+    <SpinnerLoading title="Loading.." />;
   }
 
   if (!user) {
@@ -58,9 +58,9 @@ const ProfileEdit = ({
     <main className="mx-auto h-full w-full max-w-6xl px-6 py-12 mt-12">
       <header className="mb-8 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
         <div>
-          <h1 className="text-pretty text-3xl font-semibold tracking-tight md:text-4xl">
-            Profile
-          </h1>
+          <h5 className="text-pretty text-lg font-semibold md:text-2xl">
+            Update Profile
+          </h5>
           <p className="text-muted-foreground mt-2 max-w-prose">
             Manage your account information and preferences
           </p>
@@ -90,7 +90,7 @@ const ProfileEdit = ({
                         alt="Vendor Avatar"
                         className="transition-opacity duration-300"
                       />
-                      <AvatarFallback className="text-lg">
+                      <AvatarFallback className="text-2xl font-bold">
                         {user?.name?.[0]}
                       </AvatarFallback>
                     </>
@@ -145,7 +145,7 @@ const ProfileEdit = ({
                     onClick={uploadProfileImage}
                   >
                     {loading ? (
-                      <Loading variant="spinner" text="loading.." />
+                      <SpinnerLoading title="Loading.." />
                     ) : (
                       "Update Profile Photo"
                     )}

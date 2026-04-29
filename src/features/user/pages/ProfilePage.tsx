@@ -8,7 +8,7 @@ const ProfilePage = () => {
   const userData = data?.data;
 
   if (isLoading)
-    return <SpinnerLoading title="loadingg"  />;
+    return <SpinnerLoading title="loading.."  />;
   if (!data) return null;
   return (
     <>
