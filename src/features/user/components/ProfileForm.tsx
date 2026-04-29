@@ -93,28 +93,35 @@ const ProfileForm = ({
 
           {/* Action buttons */}
           <div className="mt-2 flex flex-wrap items-center gap-3">
-            <Button
-              type="button"
-              variant="secondary"
-              className="cursor-pointer hover:scale-105 hover:bg-gray-200 transition-all duration-300"
-              onClick={onEmailChangeClick}
-            >
-              Change Email
-            </Button>
-            <Button
-              type="button"
-              variant="secondary"
-              className="cursor-pointer bg-gray-100 text-black hover:bg-red-500 hover:text-white hover:scale-105 transition-all duration-300"
-              onClick={onPasswordChangeClick}
-            >
-              Change Password
-            </Button>
+            {user.authProvider === 'local' && (
+              <Button
+                type="button"
+                variant="secondary"
+                className="cursor-pointer hover:scale-105 hover:bg-gray-200 transition-all duration-300"
+                onClick={onEmailChangeClick}
+              >
+                Change Email
+              </Button>
+            )}
 
+            {user.authProvider === 'local' && (
+              <Button
+                type="button"
+                variant="secondary"
+                className="cursor-pointer bg-gray-100 text-black hover:bg-red-500 hover:text-white hover:scale-105 transition-all duration-300"
+                onClick={onPasswordChangeClick}
+              >
+                Change Password
+              </Button>
+            )}
             <div className="ms-auto flex items-center gap-2">
               <Button
-                variant={"default"}
                 type="submit"
-                className="cursor-pointer hover:scale-105 hover:brightness-110"
+                variant="default"
+                className={`cursor-pointer hover:scale-105 hover:brightness-110 ${user?.role === "user"
+                    ? "bg-orange-500 hover:bg-orange-600 text-white"
+                    : ""
+                  }`}
               >
                 Save Changes
               </Button>

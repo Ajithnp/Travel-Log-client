@@ -6,6 +6,7 @@ export interface UserProfileData {
     name: string;
     phone: string;
     email: string;
+    authProvider: 'google' | 'local'
     isBlocked: boolean;
     createdAt: string;
 
