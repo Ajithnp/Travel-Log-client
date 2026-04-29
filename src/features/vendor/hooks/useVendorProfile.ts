@@ -6,7 +6,7 @@ import type { IVendorInfo } from "@/types/IVendorInfo";
 interface UseVendorProfileReturn {
   vendor: Partial<IVendorInfo> | undefined;
   vendorQuery: ReturnType<typeof useVendorProfileQuery>;
-  profileLogoUrl: string | undefined
+  profileLogoUrl?: { key: string; url: string };
   logoQuery: ReturnType<typeof useGetViewSignedUrlQuery>;
 }
 
@@ -21,10 +21,11 @@ const useVendorProfile = ():UseVendorProfileReturn => {
     enabled: !!userId && fileKeys.length > 0,
   });
 
+
   return {
     vendor,
     vendorQuery,
-    profileLogoUrl:logoQuery.data?.data[0],
+    profileLogoUrl:logoQuery.data?.data?.[0],
     logoQuery,
   };
 };
