@@ -93,7 +93,7 @@ const ProfileForm = ({
 
           {/* Action buttons */}
           <div className="mt-2 flex flex-wrap items-center gap-3">
-            {user.authProvider === 'local' && (
+            {user.authProvider === 'local' || user.role === 'vendor' && (
               <Button
                 type="button"
                 variant="secondary"
@@ -104,7 +104,7 @@ const ProfileForm = ({
               </Button>
             )}
 
-            {user.authProvider === 'local' && (
+            {user.authProvider === 'local' || user.role === 'vendor' && (
               <Button
                 type="button"
                 variant="secondary"
