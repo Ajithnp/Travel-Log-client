@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Plus,
@@ -10,8 +10,9 @@ import PolicyCard from "../components/policy-card";
 import type { Policy } from "../types";
 import { CreatePolicyModal, type PolicyFormValues } from "../components/create-policy-modal";
 import { Label } from "@radix-ui/react-label";
-import { usePolicyCreateMutation } from "../hooks/api.hooks";
+import { usePolicyCreateMutation, usePoliciesQuery } from "../hooks/api.hooks";
 import { toast } from "sonner";
+import { SpinnerLoading } from "@/components/common/spinner";
 
 
 const policies: Policy[] = [
@@ -83,17 +84,25 @@ export default function CancellationPolicies() {
   const [showDisabled, setShowDisabled] = useState(false);
   const [items, setItems] = useState<Policy[]>(policies);
   const [open, setOpen] = useState(false);
-  const { mutate: createPolicy , isPending } = usePolicyCreateMutation();
+  const { mutate: createPolicy, isPending } = usePolicyCreateMutation();
+  const { data: policiesData, isLoading } = usePoliciesQuery();
 
-  const visible = showDisabled ? items : items.filter((p) => p.isActive);
+  const visible = useMemo(() => {
+    const data = policiesData?.data ?? [];
+
+    return showDisabled
+      ? data
+      : data.filter((p) => p.isActive);
+  }, [showDisabled, policiesData?.data]);
 
   const toggleActive = (id: string) => {
+    console.log("Toggling active for policy ID:", id);
     setItems((prev) =>
       prev.map((p) => (p.id === id ? { ...p, active: !p.isActive } : p))
     );
   };
 
-  const handleCreate = (data: PolicyFormValues) => { 
+  const handleCreate = (data: PolicyFormValues) => {
     createPolicy(data, {
       onSuccess: (response) => {
         const newPolicy = response.data;
@@ -105,6 +114,10 @@ export default function CancellationPolicies() {
         toast.error(error.response?.data?.message || "Failed to create policy.");
       },
     });
+  }
+
+  if (isLoading) {
+    return <SpinnerLoading title="Loading.." />;
   }
 
   return (

@@ -14,6 +14,13 @@ payload: Omit<Policy, "id" | "createdAt" | "updatedAt" | "isActive">
   return response.data;
 };
 
+export const getPolicies = async (): Promise<ApiResponse<Policy[]>> => {
+
+  const response: AxiosResponse<ApiResponse<Policy[]>> =
+    await api.get(`${API_ENDPOINTS.ADMIN}${API_ROUTE.CANCELLATION_POLICY}`);
+  return response.data;
+};
+
 
 
 // export const toggleCategory = async (

@@ -2,7 +2,7 @@ import type { ApiResponse} from "@/types/IApiResponse";
 import {useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
 import type { Policy } from "../types";
-import { createPolicy } from "../services/api.service";
+import { createPolicy, getPolicies } from "../services/api.service";
 
 
 
@@ -20,4 +20,11 @@ export const usePolicyCreateMutation = () => {
   });
 };
 
-
+export const usePoliciesQuery = () => {
+  return useQuery<ApiResponse<Policy[]>, AxiosError>({
+    queryKey: ["policy"],
+    queryFn: async () => {
+      return getPolicies();
+    }
+  });
+}

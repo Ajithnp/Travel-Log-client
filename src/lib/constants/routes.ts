@@ -67,7 +67,7 @@ export const API_ROUTE = {
   VENDORS: '/vendors',
   VENDORS_VERIFICATION_REQUESTS: '/vendor/verification-requests',
   CATEGORY: '/category',
-  CANCELLATION_POLICY: '/cancellation-policy',
+  CANCELLATION_POLICY: '/cancellation-policies',
 
   //S3
   GET_SIGNED_URL_UPLOAD_API: '/upload-url',
