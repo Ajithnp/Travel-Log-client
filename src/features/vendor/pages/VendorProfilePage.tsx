@@ -5,11 +5,6 @@ import { Loading } from "@/components/ui/loading";
 export default function VendorProfilePage() {
   const { vendor, vendorQuery, profileLogoUrl, logoQuery } = useVendorProfile();
 
-  console.log('vendor data', {
-    vendorRaw: vendor,
-    profileUrl: profileLogoUrl
-  })
-  
   if (!vendor) return;
   if(!profileLogoUrl) <Loading variant="spinner" fullscreen />
 

@@ -83,12 +83,12 @@ export function PackageSidebar({ pkg }: PackageSidebarProps) {
               + Add Schedule
             </Button>
 
-            <Button
+            {/* <Button
               className="mt-4 w-full py-2.5 rounded-full bg-blue-200 text-secondary-foreground font-semibold text-sm hover:bg-blue-500 transition-opacity"
              onClick={() => navigate(`/vendor/schedule-package/${pkg.packageId}/schedules`)}
             >
                All Schedules
-              </Button>
+              </Button> */}
             </>
           )}
 
