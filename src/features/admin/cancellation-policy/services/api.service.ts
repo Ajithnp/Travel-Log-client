@@ -7,7 +7,7 @@ import type { Policy } from "../types";
 
 
 export const createPolicy = async (
-payload: Omit<Policy, "id" | "createdAt" | "updatedAt" | "isActive">
+  payload: Omit<Policy, "id" | "createdAt" | "updatedAt" | "isActive">,
 ): Promise<ApiResponse<Policy>> => {
 
   const response: AxiosResponse<ApiResponse<Policy>> =
@@ -15,10 +15,10 @@ payload: Omit<Policy, "id" | "createdAt" | "updatedAt" | "isActive">
   return response.data;
 };
 
-export const getPolicies = async (): Promise<ApiResponse<Policy[]>> => {
+export const getPolicies = async (includeInactive: boolean): Promise<ApiResponse<Policy[]>> => {
 
   const response: AxiosResponse<ApiResponse<Policy[]>> =
-    await api.get(`${API_ENDPOINTS.ADMIN}${API_ROUTE.CANCELLATION_POLICY}`);
+    await api.get(`${API_ENDPOINTS.ADMIN}${API_ROUTE.CANCELLATION_POLICY}?includeInactive=${includeInactive}`);
   return response.data;
 };
 

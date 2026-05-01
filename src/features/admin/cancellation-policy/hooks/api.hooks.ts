@@ -20,11 +20,11 @@ export const usePolicyCreateMutation = () => {
   });
 };
 
-export const usePoliciesQuery = () => {
+export const usePoliciesQuery = ( includeInactive: boolean) => {
   return useQuery<ApiResponse<Policy[]>, AxiosError>({
-    queryKey: ["policy"],
+    queryKey: ["policy",includeInactive],
     queryFn: async () => {
-      return getPolicies();
+      return getPolicies(includeInactive);
     }
   });
 }

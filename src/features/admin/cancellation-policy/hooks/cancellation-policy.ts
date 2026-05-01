@@ -19,7 +19,7 @@ export function useCancellationPolicies() {
   const [openCreate, setOpenCreate] = useState(false);
   const [active, setActive] = useState<ToggleState>(null);
 
-  const { data: policiesData, isLoading } = usePoliciesQuery();
+  const { data: policiesData, isLoading } = usePoliciesQuery(showDisabled);
   const { mutate: createPolicy, isPending: isCreatePending } =
     usePolicyCreateMutation();
 
@@ -27,12 +27,6 @@ export function useCancellationPolicies() {
     useTogglePolicyActiveMutation();
 
   const policies: Policy[] = policiesData?.data ?? [];
-
-  const visible = useMemo(() => {
-    return showDisabled
-      ? policies
-      : policies.filter((p) => p.isActive);
-  }, [showDisabled, policies]);
 
   const hiddenCount = useMemo(() => {
     return policies.filter((p) => !p.isActive).length;
@@ -108,7 +102,7 @@ export function useCancellationPolicies() {
     cancelToggle,
     confirmToggle,
 
-    visible,
+    visible: policies,
     hiddenCount,
 
     isLoading,
