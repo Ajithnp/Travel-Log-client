@@ -53,3 +53,25 @@ export const statusLabel: Record<string, string> = {
   active: "Active",
   rejected: "Rejected",
 };
+
+export const policyUiMap = {
+  flexible: {
+    accent: "from-emerald-400 to-teal-500",
+    iconBg: "bg-emerald-50 text-emerald-600",
+  },
+
+  moderate: {
+    accent: "from-sky-400 to-blue-500",
+    iconBg: "bg-sky-50 text-sky-600",
+  },
+
+  strict: {
+    accent: "from-amber-400 to-orange-500",
+    iconBg: "bg-amber-50 text-amber-600",
+  },
+
+  default: {
+    accent: "from-slate-400 to-slate-500",
+    iconBg: "bg-slate-100 text-slate-600",
+  },
+};

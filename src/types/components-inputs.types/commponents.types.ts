@@ -10,7 +10,8 @@ import {
   Layers,
   CalendarCheck,
   ShoppingBag,
-  Wallet
+  Wallet,
+  ShieldX
 
 } from "lucide-react";
 import { type LucideIcon } from "lucide-react";
@@ -31,7 +32,8 @@ export const adminSidebarLinks = [
   },
   { name: "Users", path: "/admin/users", icon: Users },
   { name: "Vendors", path: "/admin/vendors", icon: Store },
-  {name: "Categories", path: "/admin/categories", icon :Layers}
+  { name: "Categories", path: "/admin/categories", icon: Layers },
+  { name: "Cancellation Policies", path: "/admin/cancellation-policies", icon:ShieldX},
 ];
 
 export const vendorSidebarLinks = [

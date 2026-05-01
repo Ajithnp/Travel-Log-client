@@ -16,6 +16,7 @@ const CategoryListPage = lazy(()=> import("@/features/admin/category-management/
 const UserListPage = lazy(() => import("@/features/admin/user-management/pages/UsersList"));
 const VendorsListPage = lazy(() => import('@/features/admin/vendor-management/pages/VendorListPage'));
 const VendorsVerificationListPage = lazy(() => import('@/features/admin/vendor-verification/pages/VendorsVerificationRequestList'))
+const CancellationPoliciesPage = lazy(() => import('@/features/admin/cancellation-policy/pages/cancellation-policies'));
 
 const AdminRoutes = () => {
   return (
@@ -50,7 +51,8 @@ const AdminRoutes = () => {
 
           <Route path="categories" element={<CategoryListPage />} />
           <Route path="categories/vendor-request" element={<CategoryRequestedPage />} />
-          <Route path="categories/vendor-request/reviewed" element={<CategoryRequestReviewedPage/>} />
+          <Route path="categories/vendor-request/reviewed" element={<CategoryRequestReviewedPage />} />
+           <Route path="cancellation-policies" element={<CancellationPoliciesPage/>} />
           {/* vendors */}
           <Route
             path="vendor/verification-request"
