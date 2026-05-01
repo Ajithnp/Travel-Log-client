@@ -25,7 +25,7 @@ function policyIcon(name: string) {
 export default function PolicyCard({ policy, index, onToggleActive }: {
   policy: Policy;
   index: number;
-  onToggleActive: (id: string) => void;
+  onToggleActive: (id: string, status: boolean, name:string) => void;
 }) {
     const Icon = policyIcon(policy.label);
     const ui = policyUiMap[policy.key as keyof typeof policyUiMap] || policyUiMap.default;
@@ -71,7 +71,7 @@ export default function PolicyCard({ policy, index, onToggleActive }: {
               <Edit2 className="w-3.5 h-3.5" />
             </button> */}
             <Button
-              onClick={() => onToggleActive(policy.id)}
+              onClick={() => onToggleActive(policy.id, !policy.isActive, policy.label)}
               className={`flex items-center gap-1.5 text-[11px] font-semibold px-2.5 py-1.5 rounded-lg border transition-colors ${
                 policy.isActive
                   ? "border-red-200 text-red-500 bg-red-50 hover:bg-red-100"

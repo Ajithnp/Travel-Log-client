@@ -5,6 +5,7 @@ import type { AxiosResponse } from "axios";
 import type { Policy } from "../types";
 
 
+
 export const createPolicy = async (
 payload: Omit<Policy, "id" | "createdAt" | "updatedAt" | "isActive">
 ): Promise<ApiResponse<Policy>> => {
@@ -21,14 +22,11 @@ export const getPolicies = async (): Promise<ApiResponse<Policy[]>> => {
   return response.data;
 };
 
+export const togglePolicyActive = async (
+payload: {isActive: boolean; id: string}
+): Promise<ApiResponse<Policy>> => {
 
-
-// export const toggleCategory = async (
-//   payload: CategoryTogglePayload
-// ): Promise<IApiResponse> => {
-//   const { id, ...body } = payload;
-//   const response = await api.patch(
-//     `${API_ENDPOINTS.ADMIN}${API_ROUTE.CATEGORY}/${id}/toggle`, body
-//   );
-//   return response.data;
-// }
+  const response: AxiosResponse<ApiResponse<Policy>> =
+    await api.patch(`${API_ENDPOINTS.ADMIN}${API_ROUTE.CANCELLATION_POLICY}/${payload.id}`, { isActive: payload.isActive });
+  return response.data;
+};

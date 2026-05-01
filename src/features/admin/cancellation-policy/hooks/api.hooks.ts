@@ -2,7 +2,7 @@ import type { ApiResponse} from "@/types/IApiResponse";
 import {useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
 import type { Policy } from "../types";
-import { createPolicy, getPolicies } from "../services/api.service";
+import { createPolicy, getPolicies, togglePolicyActive } from "../services/api.service";
 
 
 
@@ -28,3 +28,17 @@ export const usePoliciesQuery = () => {
     }
   });
 }
+
+export const useTogglePolicyActiveMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation<
+    ApiResponse<Policy>,
+    AxiosError<{ message: string }>,
+    { isActive: boolean; id: string }
+  >({
+    mutationFn: (payload) => togglePolicyActive(payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["policy"] });
+    },
+  });
+};

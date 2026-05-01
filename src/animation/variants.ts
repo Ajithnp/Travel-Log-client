@@ -64,3 +64,17 @@ export const policyRuleRowVariants: Variants = {
   visible: { opacity: 1, x: 0, height: "auto", transition: { duration: 0.28, ease: [0.22, 1, 0.36, 1] } },
   exit: { opacity: 0, x: 12, height: 0, transition: { duration: 0.2 } },
 };
+
+
+
+export const modalVariants: Variants = {
+  hidden:  { opacity: 0, scale: 0.92, y: 20 },
+  visible: { opacity: 1, scale: 1,    y: 0,  transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] } },
+  exit:    { opacity: 0, scale: 0.94, y: 14, transition: { duration: 0.2 } },
+};
+
+export const iconVariants: Variants = {
+  hidden:  { scale: 0.4, opacity: 0, rotate: -20 },
+  visible: { scale: 1,   opacity: 1, rotate: 0,
+    transition: { delay: 0.1, duration: 0.45, type: "spring", stiffness: 280, damping: 18 } },
+};

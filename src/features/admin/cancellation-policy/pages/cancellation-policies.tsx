@@ -1,120 +1,32 @@
-import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Plus,
-  ShieldOff,
-} from "lucide-react";
+import { Plus, ShieldOff } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import PolicyCard from "../components/policy-card";
-import type { Policy } from "../types";
-import { CreatePolicyModal, type PolicyFormValues } from "../components/create-policy-modal";
+import { CreatePolicyModal } from "../components/create-policy-modal";
 import { Label } from "@radix-ui/react-label";
-import { usePolicyCreateMutation, usePoliciesQuery } from "../hooks/api.hooks";
-import { toast } from "sonner";
 import { SpinnerLoading } from "@/components/common/spinner";
-
-
-const policies: Policy[] = [
-  {
-    id: "1",
-    key: "flexible",
-    label: "Flexible",
-    description:
-      "Most lenient policy. Best for travellers who might need to change plans.",
-    isActive: true,
-    rules: [
-      { daysBeforeTrip: 5, refundPercent: 90 },
-      { daysBeforeTrip: 3, refundPercent: 50 },
-      { daysBeforeTrip: 0, refundPercent: 0 },
-    ],
-    createdAt: "2026-04-30T10:00:00.000Z",
-    updatedAt: "2026-04-30T10:00:00.000Z",
-  },
-
-  {
-    id: "2",
-    key: "moderate",
-    label: "Moderate",
-    description:
-      "Balanced refund policy with a reasonable cancellation window.",
-    isActive: true,
-    rules: [
-      { daysBeforeTrip: 7, refundPercent: 80 },
-      { daysBeforeTrip: 5, refundPercent: 50 },
-      { daysBeforeTrip: 0, refundPercent: 0 },
-    ],
-    createdAt: "2026-04-30T10:00:00.000Z",
-    updatedAt: "2026-04-30T10:00:00.000Z",
-  },
-
-  {
-    id: "3",
-    key: "strict",
-    label: "Strict",
-    description:
-      "Stricter cancellation terms with lower refund percentages.",
-    isActive: true,
-    rules: [
-      { daysBeforeTrip: 12, refundPercent: 70 },
-      { daysBeforeTrip: 7, refundPercent: 30 },
-      { daysBeforeTrip: 0, refundPercent: 0 },
-    ],
-    createdAt: "2026-04-30T10:00:00.000Z",
-    updatedAt: "2026-04-30T10:00:00.000Z",
-  },
-
-  {
-    id: "4",
-    key: "non_refundable",
-    label: "Non-Refundable",
-    description: "No refunds issued under any circumstance.",
-    isActive: false,
-    rules: [
-      { daysBeforeTrip: 0, refundPercent: 0 },
-    ],
-    createdAt: "2026-04-30T10:00:00.000Z",
-    updatedAt: "2026-04-30T10:00:00.000Z",
-  },
-];
-
-
+import { ConfirmToggleModal } from "../components/confirm-modal";
+import { useCancellationPolicies } from "../hooks/cancellation-policy";
 
 export default function CancellationPolicies() {
-  const [showDisabled, setShowDisabled] = useState(false);
-  const [items, setItems] = useState<Policy[]>(policies);
-  const [open, setOpen] = useState(false);
-  const { mutate: createPolicy, isPending } = usePolicyCreateMutation();
-  const { data: policiesData, isLoading } = usePoliciesQuery();
-
-  const visible = useMemo(() => {
-    const data = policiesData?.data ?? [];
-
-    return showDisabled
-      ? data
-      : data.filter((p) => p.isActive);
-  }, [showDisabled, policiesData?.data]);
-
-  const toggleActive = (id: string) => {
-    console.log("Toggling active for policy ID:", id);
-    setItems((prev) =>
-      prev.map((p) => (p.id === id ? { ...p, active: !p.isActive } : p))
-    );
-  };
-
-  const handleCreate = (data: PolicyFormValues) => {
-    createPolicy(data, {
-      onSuccess: (response) => {
-        const newPolicy = response.data;
-        setItems((prev) => [newPolicy, ...prev]);
-        toast.success("Policy created successfully!");
-      },
-      onError: (error) => {
-        console.error("Failed to create policy:", error);
-        toast.error(error.response?.data?.message || "Failed to create policy.");
-      },
-    });
-  }
+  const {
+    showDisabled,
+    setShowDisabled,
+    openCreate,
+    openCreateModal,
+    closeCreateModal,
+    active,
+    requestToggle,
+    cancelToggle,
+    confirmToggle,
+    visible,
+    hiddenCount,
+    isLoading,
+    isCreatePending,
+    isTogglePending,
+    handleCreate,
+  } = useCancellationPolicies();
 
   if (isLoading) {
     return <SpinnerLoading title="Loading.." />;
@@ -123,7 +35,6 @@ export default function CancellationPolicies() {
   return (
     <div className="min-h-screen bg-[#f7f7fb] font-['Inter']">
       <div className="max-w-7xl mx-auto px-6 py-10">
-
         <motion.div
           initial={{ opacity: 0, y: -16 }}
           animate={{ opacity: 1, y: 0 }}
@@ -131,8 +42,12 @@ export default function CancellationPolicies() {
           className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8"
         >
           <div>
-            <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Cancellation Policies</h1>
-            <p className="text-sm text-slate-400 mt-1">Manage refund tiers for bookings</p>
+            <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
+              Cancellation Policies
+            </h1>
+            <p className="text-sm text-slate-400 mt-1">
+              Manage refund tiers for bookings
+            </p>
           </div>
 
           <div className="flex items-center gap-3">
@@ -157,7 +72,7 @@ export default function CancellationPolicies() {
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
               className="flex items-center gap-2 bg-gradient-to-r from-violet-500 to-indigo-500 text-white text-sm font-semibold px-4 py-2.5 rounded-xl shadow-md hover:opacity-90 transition-opacity whitespace-nowrap"
-              onClick={() => setOpen(true)}
+              onClick={openCreateModal}
             >
               <Plus className="w-4 h-4" />
               New Policy
@@ -165,20 +80,16 @@ export default function CancellationPolicies() {
           </div>
         </motion.div>
 
-
-        <motion.div
-          layout
-          className="flex items-center gap-2 mb-5"
-        >
+        <motion.div layout className="flex items-center gap-2 mb-5">
           <span className="text-xs font-semibold text-slate-400 uppercase tracking-widest">
             Showing
           </span>
           <Badge className="bg-violet-50 text-violet-700 border border-violet-200 text-xs px-2 py-0.5">
             {visible.length} {visible.length === 1 ? "policy" : "policies"}
           </Badge>
-          {!showDisabled && items.some((p) => !p.isActive) && (
+          {!showDisabled && hiddenCount > 0 && (
             <span className="text-xs text-slate-400">
-              ({items.filter((p) => !p.isActive).length} hidden)
+              ({hiddenCount} hidden)
             </span>
           )}
         </motion.div>
@@ -191,7 +102,7 @@ export default function CancellationPolicies() {
                 key={policy.id}
                 policy={policy}
                 index={i}
-                onToggleActive={toggleActive}
+                onToggleActive={requestToggle}
               />
             ))}
           </AnimatePresence>
@@ -210,23 +121,37 @@ export default function CancellationPolicies() {
                 <ShieldOff className="w-7 h-7 text-slate-400" />
               </div>
               <div className="text-center">
-                <p className="font-semibold text-slate-700 mb-1">No active policies</p>
-                <p className="text-sm text-slate-400">Toggle "Show disabled" to see all policies.</p>
+                <p className="font-semibold text-slate-700 mb-1">
+                  No active policies
+                </p>
+                <p className="text-sm text-slate-400">
+                  Toggle "Show disabled" to see all policies.
+                </p>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
-
       </div>
       <CreatePolicyModal
-        isOpen={open || isPending}
-        onClose={() => setOpen(false)}
-        isLoading={isPending}
+        isOpen={openCreate || isCreatePending}
+        onClose={closeCreateModal}
+        isLoading={isCreatePending}
         onSubmit={(values) => {
           handleCreate(values);
-          setOpen(false);
+          closeCreateModal();
         }}
       />
+
+      {active && (
+        <ConfirmToggleModal
+          isOpen
+          action={active.isActive ? "enable" : "disable"}
+          policyName={active.name}
+          onConfirm={confirmToggle}
+          onCancel={cancelToggle}
+          isLoading={isTogglePending}
+        />
+      )}
     </div>
   );
 }
