@@ -53,3 +53,4 @@ export const statusLabel: Record<string, string> = {
   active: "Active",
   rejected: "Rejected",
 };
+

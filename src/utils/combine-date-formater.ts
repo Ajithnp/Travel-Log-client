@@ -5,12 +5,12 @@ export function formatDateRange(startISO: string, endISO: string) {
   const end = new Date(endISO);
 
   if (isSameMonth(start, end) && isSameYear(start, end)) {
-    return `${format(start, "d")} – ${format(end, "d MMM yyyy")}`;
+    return `${format(start, "MMM d")} – ${format(end, "MMM d, yyyy")}`;
   }
 
   if (isSameYear(start, end)) {
-    return `${format(start, "d MMM")}  –  ${format(end, "d MMM yyyy")}`;
+    return `${format(start, "MMM d")} – ${format(end, "MMM d, yyyy")}`;
   }
 
-  return `${format(start, "d MMM yyyy")}  –  ${format(end, "d MMM yyyy")}`;
+  return `${format(start, "MMM d, yyyy")} – ${format(end, "MMM d, yyyy")}`;
 }

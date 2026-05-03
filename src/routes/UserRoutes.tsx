@@ -26,6 +26,7 @@ const VendorProfilePage = lazy(() => import('@/pages/vendor-profile'));
 const BookingSuccessPage = lazy(() => import('@/pages/booking/booking-success'));
 const BookingFailurePage = lazy(() => import('@/pages/booking/booking-failed'));
 const BookingConfirmPage = lazy(() => import('@/pages/booking/booking-confirm'));
+const BookingListPage = lazy(() => import('@/features/user/booking/pages/booking-list'));
 
 const UserRoutes = () => {
   return (
@@ -78,7 +79,7 @@ const UserRoutes = () => {
           <Route path='profile' element={<ProfilePage />} />
           <Route path='editProfile' element={<ProfileEditPage />} />
           <Route path='wishlist' element={<WishlistPage />} />
-
+          <Route path='bookings' element={<BookingListPage />} />
         </Route>
 
       </Routes>
