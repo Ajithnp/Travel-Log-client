@@ -14,8 +14,7 @@ export interface InitiateBookingRequestDTO {
 
 export interface InitiateBookingResponseDTO {
   bookingId: string;
-  clientSecret: string;
-  expiresAt: string; // ISO string
+  checkoutUrl: string; 
 }
 
 export interface ConfirmBookingRequestDTO {
@@ -27,3 +26,13 @@ export interface ConfirmBookingResponseDTO {
   bookingId: string;
   message: string;
 }
+
+export type VerifyPaymentResponseDTO =
+  | {
+      status: "success";
+      bookingId: string;
+      amount: number;
+    }
+  | {
+      status: "failure";
+    };

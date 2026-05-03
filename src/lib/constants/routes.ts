@@ -57,6 +57,7 @@ export const API_ROUTE = {
   INITIATE_BOOKING: "/initiate",
   CONFIRM_BOOKING: "/confirm",
   RELEASE_HOLD: (id: string) => `/bookings/hold/${id}`,
+  VERIFY_PAYMENT: "/verify-payment",
 
   // VENDOR
   VERIFICATION_FORM: "/verification",

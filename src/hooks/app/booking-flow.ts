@@ -2,27 +2,33 @@ import { useMutation } from "@tanstack/react-query";
 import { initiateBooking, confirmBooking,  } from "@/services/app-service";
 import type { 
   InitiateBookingRequestDTO, 
-  ConfirmBookingRequestDTO 
+  ConfirmBookingRequestDTO, 
+  InitiateBookingResponseDTO
 } from "@/types/api/booking-api.types";
 import { toast } from "sonner";
 import { useState } from "react";
+import type { AxiosError } from "axios";
+import type { ApiResponse } from "@/types/IApiResponse";
 
 export function useBookingFlow() {
   const [bookingId, setBookingId] = useState<string | null>(null);
-  const [clientSecret, setClientSecret] = useState<string | null>(null);
-  const [expiresAt, setExpiresAt] = useState<string | null>(null);
+  const [checkoutUrl, setCheckoutUrl] = useState<string | null>(null);
 
-  const initiateBookingMutation = useMutation({
+  const initiateBookingMutation = useMutation<ApiResponse<
+  InitiateBookingResponseDTO>, 
+  AxiosError<ApiResponse>,               
+  InitiateBookingRequestDTO             
+>({
     mutationFn: (payload: InitiateBookingRequestDTO) => initiateBooking(payload),
     onSuccess: (res) => {
       if (res.success && res.data) {
         setBookingId(res.data.bookingId);
-        setClientSecret(res.data.clientSecret);
-        setExpiresAt(res.data.expiresAt);
+        setCheckoutUrl(res.data.checkoutUrl);
       }
     },
     onError: (err) => {
-      toast.error(err?.message || "Failed to initiate booking");
+      console.log("error occured", err)
+      toast.error(err?.response?.data?.message || "Failed to initiate booking");
     },
   });
 
@@ -40,8 +46,7 @@ export function useBookingFlow() {
 
   return {
     bookingId,
-    clientSecret,
-    expiresAt,
+    checkoutUrl,
     initiateBooking: initiateBookingMutation.mutateAsync,
     isInitiatingBooking: initiateBookingMutation.isPending,
     confirmBooking: confirmBookingMutation.mutateAsync,

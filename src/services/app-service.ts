@@ -23,6 +23,7 @@ import type {
   ConfirmBookingResponseDTO,
  InitiateBookingRequestDTO,
   InitiateBookingResponseDTO,
+  VerifyPaymentResponseDTO,
 } from "@/types/api/booking-api.types";
 
 export const buildPackageQueryParams = (
@@ -121,6 +122,14 @@ export const confirmBooking = async (
       `${API_ENDPOINTS.BOOKING}${API_ROUTE.CONFIRM_BOOKING}`,
       payload,
     );
+  return response.data;
+};
+
+export const verifyBookingPayment = async (sessionId: string): Promise<ApiResponse<VerifyPaymentResponseDTO>> => {
+  const response: AxiosResponse<ApiResponse<VerifyPaymentResponseDTO>> =
+    await api.get(`${API_ENDPOINTS.BOOKING}${API_ROUTE.VERIFY_PAYMENT}`, {
+      params: { session_id: sessionId },
+    });
   return response.data;
 };
 
