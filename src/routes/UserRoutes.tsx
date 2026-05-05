@@ -27,6 +27,7 @@ const BookingSuccessPage = lazy(() => import('@/pages/booking/booking-success'))
 const BookingFailurePage = lazy(() => import('@/pages/booking/booking-failed'));
 const BookingConfirmPage = lazy(() => import('@/pages/booking/booking-confirm'));
 const BookingListPage = lazy(() => import('@/features/user/booking/pages/booking-list'));
+const BookingDetailsPage = lazy(() => import('@/features/user/booking/pages/booking-details'));
 
 const UserRoutes = () => {
   return (
@@ -61,9 +62,7 @@ const UserRoutes = () => {
           <Route path='packages/vendor/:vendorId/profile' element={<VendorProfilePage />} />
           <Route path='about' element={<h1>About page</h1>} />
           <Route path='contact' element={<h1>Contact page</h1>} />
-          <Route path='booking/confirm' element={<BookingConfirmPage />} />
-          <Route path='payment/success' element={<BookingSuccessPage />} />
-          <Route path='payment/failure' element={<BookingFailurePage />} />
+
         </Route>
 
 
@@ -79,7 +78,12 @@ const UserRoutes = () => {
           <Route path='profile' element={<ProfilePage />} />
           <Route path='editProfile' element={<ProfileEditPage />} />
           <Route path='wishlist' element={<WishlistPage />} />
+
+          <Route path='booking/confirm' element={<BookingConfirmPage />} />
+          <Route path='payment/success' element={<BookingSuccessPage />} />
+          <Route path='payment/failure' element={<BookingFailurePage />} />
           <Route path='bookings' element={<BookingListPage />} />
+          <Route path='bookings/:bookingId' element={<BookingDetailsPage />} />
         </Route>
 
       </Routes>

@@ -1,7 +1,7 @@
 import api from "@/config/api/axios";
 import { API_ENDPOINTS, API_ROUTE } from "@/lib/constants/routes";
 import type { ApiResponse } from "@/types/IApiResponse";
-import type { IPaginatedBookingResponse } from "../types";
+import type { BookingDetailDTO, IPaginatedBookingResponse } from "../types";
 import type { AxiosResponse } from "axios";
 
 // export const toggleWishlistApi = async (
@@ -23,5 +23,15 @@ export const getBookingsApi = async (
     await api.get(`${API_ENDPOINTS.BOOKING}/`, {
       params: { page, limit, ...(search ? {search} : {}), ...(selectedFilter ? {selectedFilter}: {})},
     });
+  return response.data ;
+};
+
+
+export const getBookingDetailsApi = async (
+ bookingId: string
+): Promise<ApiResponse<BookingDetailDTO>> => {
+  console.log('api call hit')
+   const response: AxiosResponse<ApiResponse<BookingDetailDTO>> =
+    await api.get(`${API_ENDPOINTS.BOOKING}/${bookingId}`);
   return response.data ;
 };

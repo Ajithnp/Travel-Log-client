@@ -1,8 +1,8 @@
 import { useQuery, useMutation, useQueryClient, keepPreviousData } from "@tanstack/react-query";
 
 import type { ApiResponse } from "@/types/IApiResponse";
-import type { IPaginatedBookingResponse } from "../types";
-import { getBookingsApi } from "../services/api.services";
+import type { BookingDetailDTO, IPaginatedBookingResponse } from "../types";
+import { getBookingDetailsApi, getBookingsApi } from "../services/api.services";
 import { AxiosError } from "axios";
 
 export const useUserBookingsQuery = (
@@ -17,6 +17,18 @@ export const useUserBookingsQuery = (
     staleTime: 1000 * 60 * 10,
     placeholderData: keepPreviousData, 
     refetchOnWindowFocus: false,
+  });
+};
+
+export const useUserBookingDeatailsQuery = (
+bookingId: string | undefined
+) => {
+  return useQuery<ApiResponse<BookingDetailDTO>, AxiosError<{ message: string }>>({
+    queryKey: ["bookings",bookingId],
+    queryFn:()=> getBookingDetailsApi(bookingId!),
+    staleTime: 1000 * 60 * 10, 
+    refetchOnWindowFocus: false,
+     enabled: !!bookingId,
   });
 };
 
