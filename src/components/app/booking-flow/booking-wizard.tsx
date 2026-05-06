@@ -13,60 +13,48 @@ import {
   type TravellerInfo,
 } from "@/types/booking.types";
 import type { PublicPackageDetailDTO } from "@/types/types";
- 
+import { useBookingFlow } from "@/hooks/app/booking-flow";
 
-function mapTravellers(travellers: TravellerInfo[]) {
-  return travellers.map((t, i) => ({
-    name:      t.fullName,
-    idType:    t.idType,
-    idNumber:  t.idNumber,
-    isLead:    i === 0,
-    ...(i === 0
-      ? { phone: t.phoneNumber, email: t.emailAddress }
-      : { emergencyContact: t.emergencyContact, emergencyRelation: t.relation }),
-  }));
-}
- 
 interface BookingWizardProps {
   schedules: Schedule[];
   pkg: PublicPackageDetailDTO;
 }
 
- 
 const initialState: BookingState = {
-  step:             1,
+  step: 1,
   selectedSchedule: null,
-  selectedTierType: "SOLO", 
-  travellers:       [],
-  appliedCoupon:    null,
+  selectedTierType: "SOLO",
+  travellers: [],
+  appliedCoupon: null,
 };
- 
+
 
 export function BookingWizard({ schedules, pkg }: BookingWizardProps) {
   const [state, setState] = useState<BookingState>(initialState);
- 
+
+   const { bookingId, checkoutUrl, isInitiatingBooking, initiateBooking } =
+    useBookingFlow();
+
   const selectedPricing = useMemo(() => {
     if (!state.selectedSchedule) return null;
     return (
       state.selectedSchedule.pricing.find(
-        (p) => p.type === state.selectedTierType
+        (p) => p.type === state.selectedTierType,
       ) ?? null
     );
   }, [state.selectedSchedule, state.selectedTierType]);
- 
+
   const pricing = useMemo(
     () =>
-      selectedPricing
-        ? calcPricing(selectedPricing, state.appliedCoupon)
-        : null,
-    [selectedPricing, state.appliedCoupon]
+      selectedPricing ? calcPricing(selectedPricing, state.appliedCoupon) : null,
+    [selectedPricing, state.appliedCoupon],
   );
- 
+
 
   const goTo = (step: number) => setState((s) => ({ ...s, step }));
- 
 
- 
+
+
   const handleScheduleSelect = (schedule: Schedule) => {
 
     setState((s) => ({
@@ -77,58 +65,49 @@ export function BookingWizard({ schedules, pkg }: BookingWizardProps) {
       appliedCoupon: null,
     }));
   };
- 
-  const handleStep1Continue = () => goTo(2);
- 
- 
+
+
   const handleTierChange = (type: PricingTierType) =>
     setState((s) => ({ ...s, selectedTierType: type, travellers: [] }));
- 
+
   const handleTravellerSubmit = (travellers: TravellerInfo[]) =>
     setState((s) => ({ ...s, travellers, step: 3 }));
- 
- 
-  const handleApplyCoupon  = (coupon: Coupon) =>
+
+
+  const handleApplyCoupon = (coupon: Coupon) =>
     setState((s) => ({ ...s, appliedCoupon: coupon }));
- 
+
   const handleRemoveCoupon = () =>
     setState((s) => ({ ...s, appliedCoupon: null }));
- 
-  const handleStep3Continue = () => goTo(4);
- 
- 
-  const handleConfirmPayment = async (
-    paymentMethod: "upi" | "card" | "netbanking" | "wallet",
-    upiId: string
-  ) => {
+
+  const handlePay = async () => {
     if (!state.selectedSchedule || !pricing) return;
- 
-    console.log("Booking payload:", {
-      packageId:    pkg.packageId,
-      scheduleId:   state.selectedSchedule.scheduleId,
-      tierType:     state.selectedTierType,
-      travellers:   mapTravellers(state.travellers),
-      couponCode:   state.appliedCoupon?.code ?? null,
-      pricing,
-      paymentMethod,
-      upiId: paymentMethod === "upi" ? upiId : undefined,
+
+    await initiateBooking({
+      packageId: pkg.packageId,
+      scheduleId: state.selectedSchedule.scheduleId,
+      tierType: state.selectedTierType,
+      seatsCount: pricing.travellersCount,
+      travelers: state.travellers,
+      amountInPaise: pricing.totalAmount * 100,
     });
   };
- 
- 
+
+
+
   return (
     <div className="space-y-4">
       <StepIndicator currentStep={state.step} />
- 
+
       {state.step === 1 && (
         <Step1Schedule
           schedules={schedules}
           selectedSchedule={state.selectedSchedule}
           onSelect={handleScheduleSelect}
-          onContinue={handleStep1Continue}
+          onContinue={() => goTo(2)}
         />
       )}
- 
+
       {state.step === 2 && (
         <Step2Travellers
           schedule={state.selectedSchedule!}
@@ -139,31 +118,34 @@ export function BookingWizard({ schedules, pkg }: BookingWizardProps) {
           onBack={() => goTo(1)}
         />
       )}
- 
+
       {state.step === 3 && pricing && (
         <Step3AddOns
           pricing={pricing}
           appliedCoupon={state.appliedCoupon}
           onApplyCoupon={handleApplyCoupon}
           onRemoveCoupon={handleRemoveCoupon}
-          onContinue={handleStep3Continue}
+          onContinue={() => goTo(4)}
           onBack={() => goTo(2)}
         />
       )}
- 
+
       {state.step === 4 && pricing && (
         <Step4Payment
           selectedSchedule={state.selectedSchedule}
           selectedTierType={state.selectedTierType}
           pricing={pricing}
           appliedCoupon={state.appliedCoupon}
+          bookingId={bookingId}
+          checkoutUrl={checkoutUrl}
+          isInitiatingBooking={isInitiatingBooking}
+          onPay={handlePay}         
           onBack={() => goTo(3)}
-          onConfirm={handleConfirmPayment}
         />
       )}
     </div>
   );
 }
- 
+
 
 

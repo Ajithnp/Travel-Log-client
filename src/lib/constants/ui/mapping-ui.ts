@@ -75,3 +75,4 @@ export const policyUiMap = {
     iconBg: "bg-slate-100 text-slate-600",
   },
 };
+
