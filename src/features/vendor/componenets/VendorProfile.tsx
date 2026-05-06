@@ -67,7 +67,7 @@ export default function VendorProfile({
                     </div>
                   ) : (
                     <>
-                      <AvatarImage
+                      <AvatarImage 
                         src={url}
                         alt="Vendor Avatar"
                         className="transition-opacity duration-300"

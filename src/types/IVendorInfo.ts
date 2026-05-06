@@ -17,6 +17,7 @@ export interface IVendorInfo {
   status: VendorStatus;
   reasonForReject?: string;
   userId: string;
+  authProvider: 'google' | 'local';
   role: string;
   name: string;
   email: string;

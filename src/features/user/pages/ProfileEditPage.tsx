@@ -1,12 +1,14 @@
 import ProfileEdit from "@/features/user/components/ProfileEdit";
-import ChangeEmailModal from "@/components/shared/modal/ChangeEmailModa";
 import VerifyOtpModal from "@/components/shared/modal/OtpverifyModal";
-import ChangePasswordModal from "@/components/shared/modal/ChangePasswordModal";
-import { Loading } from "@/components/ui/loading";
 import { useUserProfileQuery } from "@/features/user/hooks/api.hooks";
 import { useModalManager } from "../hooks/useProfileEditModals";
 import { useEditProfileOperations } from "../hooks/useEditProfileOperations";
 import useOtpStorage from "../hooks/useOtpStorage";
+import { SpinnerLoading } from "@/components/common/spinner";
+import FieldModal from "@/components/shared/modal/FieldModal";
+import { Mail, ShieldCheck } from "lucide-react";
+import { emailFields, passwordFields } from "@/types/components-inputs.types/commponents.types";
+
 
 const UserProfileContainer = () => {
   const { data, isLoading } = useUserProfileQuery();
@@ -22,11 +24,11 @@ const UserProfileContainer = () => {
     handleProfileUpdate,
     isLoadingProfile,
   } = useEditProfileOperations({ openModal, closeModal });
-  
+
   useOtpStorage({ openModal });
 
   if (isLoading || !data?.data) {
-    return <Loading variant="spinner" fullscreen />;
+    return <SpinnerLoading title="Loading.." />;
   }
   const profileData = data?.data;
 
@@ -40,11 +42,17 @@ const UserProfileContainer = () => {
         loading={isLoadingProfile}
       />
 
-      <ChangeEmailModal
+      <FieldModal
         isOpen={activeModal === "email"}
         onClose={() => closeModal()}
-        onSubmit={handleEmailChangeRequest}
+        title="Change Email"
+        description="Enter a new email address for your account."
+        icon={<Mail className="w-5 h-5 text-white" />}
+        iconBg="from-orange-500 to-indigo-500"
+        fields={emailFields}
+        submitLabel="Update Email"
         isLoading={isLoadingEmail}
+        onSubmit={(data) => handleEmailChangeRequest(data.email)}
       />
 
       <VerifyOtpModal
@@ -54,11 +62,19 @@ const UserProfileContainer = () => {
         isLoading={isLoadingOtp}
       />
 
-      <ChangePasswordModal
+      <FieldModal
         isOpen={activeModal === "password"}
         onClose={closeModal}
-        onSubmit={handlePasswordChange}
+        title="Change Password"
+        description="Keep your account safe with a strong password."
+        icon={<ShieldCheck className="w-5 h-5 text-white" />}
+        iconBg="from-orange-500 to-blue-600"
+        fields={passwordFields}
+        submitLabel="Update Password"
         isLoading={isLoadingPassword}
+        onSubmit={(data) =>
+          handlePasswordChange(data.newPassword, data.oldPassword)
+        }
       />
     </>
   );

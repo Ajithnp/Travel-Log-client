@@ -26,6 +26,10 @@ const PackageCard = ({
     navigate(`/vendor/packages/draft/${id}`);
   };
 
+  const handleNavigateView = (id: string) => {
+    navigate(`/vendor/packages/details/${id}`)
+  }
+
   console.log(onButtonClick);
 
   const isSchedulable = pkg.status === PackageStatus.PUBLISHED;
@@ -123,7 +127,12 @@ const PackageCard = ({
               variant={isSchedulable ? "default" : "outline"}
               onClick={(e) => {
                 e.stopPropagation();
-                handlNavigateDraft(pkg.id);
+                if (pkg.status === PackageStatus.DRAFT) {
+                   handlNavigateDraft(pkg.id);
+                } else {
+                  handleNavigateView(pkg.id)
+                }
+               
               }}
               className={cn(
                 "w-full font-bold tracking-tight h-10 transition-all duration-300",

@@ -69,7 +69,7 @@ export function PackageHeader({ pkg }: PackageHeaderProps) {
           </div>
         </div>
         <div className="flex items-center gap-2 shrink-0">
-          {pkg.status === PackageStatus.PUBLISHED && (
+          {/* {pkg.status === PackageStatus.PUBLISHED && (
             <Button variant="outline" size="sm" className="gap-1.5">
               <Copy className="h-3.5 w-3.5" /> Duplicate
             </Button>
@@ -80,7 +80,7 @@ export function PackageHeader({ pkg }: PackageHeaderProps) {
             className="gap-1.5 text-destructive hover:text-destructive"
           >
             <Trash2 className="h-3.5 w-3.5" /> Delete
-          </Button>
+          </Button> */}
         </div>
       </div>
     </div>
