@@ -48,7 +48,7 @@ export const getCategoryRequest = async (
 ): Promise<ApiResponse<PaginatedData<CategoryRequestResponse>>> => {
 
   const response: AxiosResponse<ApiResponse<PaginatedData<CategoryRequestResponse>>> =
-    await api.get(`${API_ENDPOINTS.ADMIN}${API_ROUTE.CATEGORY}/requests`, {
+    await api.get(`${API_ENDPOINTS.ADMIN}${API_ROUTE.CATEGORY_REQUESTS}`, {
       params: { page, limit, ...(search ? {search} : {})},
     });
 
@@ -60,7 +60,7 @@ export const reviewCategory = async (
 ): Promise<IApiResponse> => {
   const { id, ...body } = payload;
   const response = await api.patch(
-    `${API_ENDPOINTS.ADMIN}${API_ROUTE.CATEGORY}/requests/${id}/review`, body
+    `${API_ENDPOINTS.ADMIN}${API_ROUTE.REVIEW_CATEGORY(id)}`, body
   );
   return response.data;
 }
@@ -73,7 +73,7 @@ export const getCategoryReviewdRequest = async (
 ): Promise<ApiResponse<PaginatedData<CategoryRequestReviewedResponse>>> => {
 
   const response: AxiosResponse<ApiResponse<PaginatedData<CategoryRequestReviewedResponse>>> =
-    await api.get(`${API_ENDPOINTS.ADMIN}${API_ROUTE.CATEGORY}/requests/reviewed`, {
+    await api.get(`${API_ENDPOINTS.ADMIN}${API_ROUTE.REQUEST_REVIEWED_CATEGORY}`, {
       params: { page, limit, ...(search ? {search} : {}),...(selectedFilter ? {selectedFilter}: {})},
     });
 

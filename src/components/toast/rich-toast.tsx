@@ -105,6 +105,7 @@ type ShowToastFn = (options: RichToastOptions) => void;
 
 const RichToastContext = createContext<ShowToastFn | null>(null);
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useRichToast = (): ShowToastFn => {
   const ctx = useContext(RichToastContext);
   if (!ctx) throw new Error("useRichToast must be used within <RichToastProvider>");

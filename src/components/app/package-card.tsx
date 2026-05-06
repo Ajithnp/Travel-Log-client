@@ -1,29 +1,12 @@
 import { motion } from "framer-motion";
 import { CalendarDays, Clock, MapPin, Star} from "lucide-react";
-
 import { Button } from "../ui/button";
-import type { DifficultyLevel } from "@/features/vendor/package/base-package/type/package";
 import type { TravelPackage } from "@/hooks/app/package-listing";
 import { useNavigate } from "react-router-dom";
 import WishlistButton from "@/features/user/wishlist/components/wishlist.button";
+import { categoryColorMap, difficultyColors } from "@/lib/constants/ui/mapping-ui";
 
-export const difficultyColors: Record<DifficultyLevel, string> = {
-  Easy: "text-green-600 dark:text-emerald-400",
-  Moderate: "text-amber-600 dark:text-amber-400",
-  Challenging: "text-rose-600 dark:text-rose-400",
-  Extreme: "text-red-700 dark:text-red-400",
-};
 
-const categoryColorMap: Record<string, string> = {
-  Adventure: "bg-emerald-500/20 text-emerald-700 dark:text-emerald-300",
-  Cultural: "bg-amber-500/20 text-amber-700 dark:text-amber-300",
-  Beach: "bg-sky-500/20 text-sky-700 dark:text-sky-300",
-  Luxury: "bg-violet-500/20 text-violet-700 dark:text-violet-300",
-  Honeymoon: "bg-pink-500/20 text-pink-700 dark:text-pink-300",
-  Weekend: "bg-orange-500/20 text-orange-700 dark:text-orange-300",
-  Family: "bg-blue-500/20 text-blue-700 dark:text-blue-300",
-  Wellness: "bg-teal-500/20 text-teal-700 dark:text-teal-300",
-};
 
 export default function PackageCard({
   pkg,

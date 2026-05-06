@@ -1,8 +1,6 @@
-import { MapPin, Calendar, Shield, Copy, Trash2, Map } from "lucide-react";
+import { MapPin, Calendar, Shield, Map } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { categoryIcon, difficultyColor, statusColorMap } from "@/lib/constants/ui/mapping-ui";
-import { PackageStatus } from "@/lib/constants/constants";
 import type { PackageDetailReponse } from "../../type/package";
 
 interface PackageHeaderProps {

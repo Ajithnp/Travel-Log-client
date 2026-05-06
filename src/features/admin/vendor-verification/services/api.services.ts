@@ -26,7 +26,7 @@ export const vendorVerificatiuonUpdate = async (
 ):Promise<IApiResponse> => {
   const { id, ...body } = payload;
   const response = await api.patch(
-    `${API_ENDPOINTS.ADMIN}/update-vendor-verification/${id}`,
+    `${API_ENDPOINTS.ADMIN}${API_ROUTE.UPDATE_VENDOR_VERIFICATION(id)}`,
     body
   );
   return response.data;

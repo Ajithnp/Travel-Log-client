@@ -49,7 +49,11 @@ export const API_ROUTE = {
   RESET_PASSWORD: "/me/password",
 
   VENDOR_PUBLIC_PROFILE: (id: string) => `/packages/vendors/${id}/profile`,
-
+   
+  //packages
+  PACKAGE_DETAIL: (id: string) => `/packages/${id}`,
+  PUBLIC_PACKAGES: "/packages/public",
+  PUBLIC_CATEGORIES: "/packages/categories",
   //wishlist
   WISHLIST: "/wishlist",
 
@@ -72,9 +76,15 @@ export const API_ROUTE = {
   // ADMIN
 
   USERS: '/users',
+  UPDATE_USER_STATUS: (id: string) => `/users/${id}/status`,
+
   VENDORS: '/vendors',
   VENDORS_VERIFICATION_REQUESTS: '/vendor/verification-requests',
+  UPDATE_VENDOR_VERIFICATION: (id: string) => `/update-vendor-verification/${id}`,
   CATEGORY: '/category',
+  CATEGORY_REQUESTS: '/category/requests',
+  REVIEW_CATEGORY: (id: string) => `/category/requests/${id}/review`,
+  REQUEST_REVIEWED_CATEGORY: '/category/requests/reviewed',
   CANCELLATION_POLICY: '/cancellation-policies',
 
 

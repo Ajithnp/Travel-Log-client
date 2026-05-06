@@ -24,7 +24,7 @@ export const updateVendorAccess = async(
 ): Promise<IApiResponse> => {
   const { id, ...body } = payload;
   const response = await api.patch(
-    `${API_ENDPOINTS.ADMIN}/users/${id}/status`, body
+    `${API_ENDPOINTS.ADMIN}${API_ROUTE.UPDATE_USER_STATUS(id)}`, body
   );
   return response.data
 }

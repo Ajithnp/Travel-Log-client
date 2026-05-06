@@ -1,13 +1,12 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import {
-  ChevronLeft, ChevronRight, ArrowDown, ArrowRight,
-  MapPin, Calendar, Search,
+  ChevronLeft, ChevronRight, ArrowRight,
   CalendarCheck,
   Backpack,
   Navigation,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+
 import { Card, CardContent } from "@/components/ui/card";
 import { HERO_SLIDES } from "@/mock-data";
 
