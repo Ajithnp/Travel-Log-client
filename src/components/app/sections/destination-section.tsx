@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { MapPin, Star, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { ALL_DESTINATIONS } from "@/mock-data";
 
 const DEST_PER_PAGE = 4;

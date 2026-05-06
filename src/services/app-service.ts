@@ -61,7 +61,7 @@ export const fetchPublicPackages = async (
 ): Promise<ApiResponse<Paginated<TravelPackage>>> => {
   const params = buildPackageQueryParams(filters, page);
   const response: AxiosResponse<ApiResponse<Paginated<TravelPackage>>> =
-    await api.get(`${API_ENDPOINTS.USER}/packages/public`, { params, signal });
+    await api.get(`${API_ENDPOINTS.USER}${API_ROUTE.PUBLIC_PACKAGES}`, { params, signal });
   return response.data;
 };
 
@@ -69,7 +69,7 @@ export const fetchCategories = async (): Promise<
   ApiResponse<CategoryResponse[]>
 > => {
   const response: AxiosResponse<ApiResponse<CategoryResponse[]>> =
-    await api.get(`${API_ENDPOINTS.USER}/packages/categories`);
+    await api.get(`${API_ENDPOINTS.USER}${API_ROUTE.PUBLIC_CATEGORIES}`);
   return response.data;
 };
 
@@ -77,7 +77,7 @@ export const fetchPackageDetails = async (
   packageId: string,
 ): Promise<ApiResponse<PublicPackageDetailDTO>> => {
   const response: AxiosResponse<ApiResponse<PublicPackageDetailDTO>> =
-    await api.get(`${API_ENDPOINTS.USER}/packages/${packageId}`);
+    await api.get(`${API_ENDPOINTS.USER}${API_ROUTE.PACKAGE_DETAIL(packageId)}`);
   return response.data;
 };
 
@@ -85,7 +85,7 @@ export const fetchPackageSchedules = async (
   packageId: string,
 ): Promise<ApiResponse<PublicScheduleDTO[]>> => {
   const response: AxiosResponse<ApiResponse<PublicScheduleDTO[]>> =
-    await api.get(`${API_ENDPOINTS.USER}/packages/${packageId}/schedules`);
+    await api.get(`${API_ENDPOINTS.USER}${API_ROUTE.PACKAGE_DETAIL(packageId)}/schedules`);
   return response.data;
 };
 

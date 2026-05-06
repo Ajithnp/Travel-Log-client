@@ -1,8 +1,9 @@
 import api from "@/config/api/axios";
 import { API_ENDPOINTS, API_ROUTE } from "@/lib/constants/routes";
-import type { VendorProfileResponse } from "../types/response.type";
+
 import type { VendorVerificationPayload, UpdateProfilePayload } from "../types/payload.type";
 import type { ApiResponse } from "@/types/IApiResponse";
+import type { VendorProfileResponse } from "@/features/user/types/response";
 
 export const verification = async (
   payload: VendorVerificationPayload

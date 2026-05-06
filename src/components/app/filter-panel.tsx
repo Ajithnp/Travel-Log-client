@@ -7,10 +7,8 @@ import type{ DifficultyLevel } from "@/hooks/app/package-listing";
 import { DEFAULT_PRICE_MAX, DEFAULT_PRICE_MIN, DURATION_OPTIONS, RATING_OPTIONS } from "@/lib/constants/package-listing";
 import type { CategoryResponse } from "@/types/common/response";
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const DIFFICULTIES: DifficultyLevel[] = ["Easy", "Moderate", "Challenging", "Extreme"];
-
-
-
 
 export interface FilterPanelProps {
   categories:CategoryResponse[]

@@ -1,5 +1,4 @@
-import { MapPin, ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { MapPin} from "lucide-react";
 import { IMAGES } from "@/mock-data";
 
 const GALLERY_ITEMS = [
