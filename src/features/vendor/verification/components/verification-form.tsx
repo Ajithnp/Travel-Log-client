@@ -22,6 +22,7 @@ import {
   Building2,
   FileText,
   GitBranch,
+  Globe,
   Hash,
   IdCard,
   ImageIcon,
@@ -32,28 +33,35 @@ import {
 } from "lucide-react";
 import { FileUploadZone } from "./file-upload";
 import { useIfscLookup } from "../hooks/ifsc-lookup";
+import { AppAlert } from "@/components/common/app-alert";
 
 interface VerificationFormProps {
   onSubmit: (data: VendorVerificationFormType) => void;
-}
+  defaultValues?: Partial<VendorVerificationFormType>;
+  isReapply?: boolean;
+  cancellationReason?: string
+};
 
-const VerificationForm = ({ onSubmit }: VerificationFormProps) => {
+
+const VerificationForm = ({ onSubmit, defaultValues, isReapply, cancellationReason }: VerificationFormProps) => {
   const form = useForm<VendorVerificationFormType>({
     resolver: zodResolver(vendorVerificationSchema),
     defaultValues: {
-      gstin: "",
-      ownerName: "",
-      businessAddress: "",
-      accountNumber: "",
-      ifsc: "",
-      bankName: "",
-      branch: "",
-      accountHolderName: "",
-      businessLicence: undefined,
-      businessPan: undefined,
-      companyLogo: undefined,
-      ownerIdentityProof: undefined,
-    },
+      gstin: defaultValues?.gstin ?? "",
+      ownerName: defaultValues?.ownerName ?? "",
+      businessAddress: defaultValues?.businessAddress ?? "",
+      bio: defaultValues?.bio ?? "",
+      accountNumber: defaultValues?.accountNumber ?? "",
+      ifsc: defaultValues?.ifsc ?? "",
+      bankName: defaultValues?.bankName ?? "",
+      branch: defaultValues?.branch ?? "",
+      accountHolderName: defaultValues?.accountHolderName ?? "",
+
+      businessLicence: defaultValues?.businessLicence,
+      businessPan: defaultValues?.businessPan,
+      companyLogo: defaultValues?.companyLogo,
+      ownerIdentityProof: defaultValues?.ownerIdentityProof,
+    }
   });
 
   const ifscValue = useWatch({ control: form.control, name: "ifsc" });
@@ -69,14 +77,17 @@ const VerificationForm = ({ onSubmit }: VerificationFormProps) => {
   const isLookingUp = IFSC_REGEX.test(ifscValue) && !bankName;
 
   const formSubmit = (values: VendorVerificationFormType) => {
-    console.log("Submitted:", values);
+
     onSubmit(values);
-    // TODO: send to API
   };
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(formSubmit)}>
+        {isReapply && (
+          <AppAlert message={`Reason for Rejection:  ${cancellationReason}`} variant="error" />
+        )}
+
         <div className="p-6">
           {/* ── Section: Business Information ── */}
           <div className="flex items-center gap-3 mb-5">
@@ -110,9 +121,8 @@ const VerificationForm = ({ onSubmit }: VerificationFormProps) => {
                       <Input
                         placeholder="e.g. 29ABCDE1234F1Z5"
                         {...field}
-                        className={`pl-10 h-11 border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 transition-all uppercase ${
-                          fieldState.error ? "border-rose-300 bg-rose-50" : ""
-                        }`}
+                        className={`pl-10 h-11 border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 transition-all uppercase ${fieldState.error ? "border-rose-300 bg-rose-50" : ""
+                          }`}
                       />
                     </div>
                   </FormControl>
@@ -137,9 +147,8 @@ const VerificationForm = ({ onSubmit }: VerificationFormProps) => {
                       <Input
                         placeholder="Enter owner's full name"
                         {...field}
-                        className={`pl-10 h-11 border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 transition-all ${
-                          fieldState.error ? "border-rose-300 bg-rose-50" : ""
-                        }`}
+                        className={`pl-10 h-11 border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 transition-all ${fieldState.error ? "border-rose-300 bg-rose-50" : ""
+                          }`}
                       />
                     </div>
                   </FormControl>
@@ -166,9 +175,36 @@ const VerificationForm = ({ onSubmit }: VerificationFormProps) => {
                       <Input
                         placeholder="Full registered business address"
                         {...field}
-                        className={`pl-10 h-11 border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 transition-all ${
-                          fieldState.error ? "border-rose-300 bg-rose-50" : ""
-                        }`}
+                        className={`pl-10 h-11 border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 transition-all ${fieldState.error ? "border-rose-300 bg-rose-50" : ""
+                          }`}
+                      />
+                    </div>
+                  </FormControl>
+                  <FormMessage className="text-rose-500 text-xs" />
+                </FormItem>
+              )}
+            />
+          </div>
+          {/* Bio */}
+          <div className="mb-6">
+            <FormField
+              control={form.control}
+              name="bio"
+              render={({ field, fieldState }) => (
+                <FormItem>
+                  <FormLabel className="text-sm font-semibold text-slate-700">
+                    Detailed Bio{" "}
+                    <span className="text-rose-500 text-xs">*</span>
+                  </FormLabel>
+                  <FormControl>
+                    <div className="relative group">
+                      <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
+                      <Input
+                        placeholder="Full registered business address"
+
+                        {...field}
+                        className={`pl-10 h-11 border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 transition-all ${fieldState.error ? "border-rose-300 bg-rose-50" : ""
+                          }`}
                       />
                     </div>
                   </FormControl>
@@ -207,9 +243,8 @@ const VerificationForm = ({ onSubmit }: VerificationFormProps) => {
                       <Input
                         placeholder="Enter bank account number"
                         {...field}
-                        className={`pl-10 h-11 border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 transition-all ${
-                          fieldState.error ? "border-rose-300 bg-rose-50" : ""
-                        }`}
+                        className={`pl-10 h-11 border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 transition-all ${fieldState.error ? "border-rose-300 bg-rose-50" : ""
+                          }`}
                       />
                     </div>
                   </FormControl>
@@ -233,9 +268,8 @@ const VerificationForm = ({ onSubmit }: VerificationFormProps) => {
                       <Input
                         placeholder="e.g. SBIN0001234"
                         {...field}
-                        className={`pl-10 h-11 border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 transition-all uppercase ${
-                          fieldState.error ? "border-rose-300 bg-rose-50" : ""
-                        }`}
+                        className={`pl-10 h-11 border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 transition-all uppercase ${fieldState.error ? "border-rose-300 bg-rose-50" : ""
+                          }`}
                       />
                       {/* Spinner shown while fetching */}
                       {isLookingUp && (
@@ -268,11 +302,10 @@ const VerificationForm = ({ onSubmit }: VerificationFormProps) => {
                         {...field}
                         readOnly
                         className={`pl-10 h-11 rounded-xl transition-all cursor-default select-none
-                    ${
-                      field.value
-                        ? "border-emerald-200 bg-emerald-50 text-emerald-800 font-medium"
-                        : "border-slate-200 bg-slate-100 text-slate-400"
-                    }
+                    ${field.value
+                            ? "border-emerald-200 bg-emerald-50 text-emerald-800 font-medium"
+                            : "border-slate-200 bg-slate-100 text-slate-400"
+                          }
                     ${fieldState.error ? "border-rose-300 bg-rose-50" : ""}
                   `}
                       />
@@ -302,11 +335,10 @@ const VerificationForm = ({ onSubmit }: VerificationFormProps) => {
                         {...field}
                         readOnly
                         className={`pl-10 h-11 rounded-xl transition-all cursor-default select-none
-                    ${
-                      field.value
-                        ? "border-emerald-200 bg-emerald-50 text-emerald-800 font-medium"
-                        : "border-slate-200 bg-slate-100 text-slate-400"
-                    }
+                    ${field.value
+                            ? "border-emerald-200 bg-emerald-50 text-emerald-800 font-medium"
+                            : "border-slate-200 bg-slate-100 text-slate-400"
+                          }
                     ${fieldState.error ? "border-rose-300 bg-rose-50" : ""}
                   `}
                       />
@@ -332,9 +364,8 @@ const VerificationForm = ({ onSubmit }: VerificationFormProps) => {
                       <Input
                         placeholder="Enter account holder's full name"
                         {...field}
-                        className={`pl-10 h-11 border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 transition-all ${
-                          fieldState.error ? "border-rose-300 bg-rose-50" : ""
-                        }`}
+                        className={`pl-10 h-11 border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400 transition-all ${fieldState.error ? "border-rose-300 bg-rose-50" : ""
+                          }`}
                       />
                     </div>
                   </FormControl>
@@ -458,7 +489,7 @@ const VerificationForm = ({ onSubmit }: VerificationFormProps) => {
           {/* Footer */}
           <div className="flex items-center justify-between pt-4 border-t border-slate-100">
             <div className="flex items-center gap-2 text-slate-400">
-     
+
             </div>
             <Button
               type="submit"

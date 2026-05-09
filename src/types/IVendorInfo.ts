@@ -5,6 +5,7 @@ export interface IVendorInfo {
   isProfileVerified: boolean;
   contactPersonName: string;
   businessAddress: string;
+  bio: string;
   businessLicence: string;
   businessPan:string;
   ownerIdentity:string;

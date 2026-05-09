@@ -7,22 +7,33 @@ import { useVendorVerificationSubmit } from "../hooks/verification-submit";
 import type { VendorVerificationFormType } from "../validations/vendor.verification.schema";
 import { ConfirmModal } from "@/components/common/confirm-modal";
 import { useNavigate } from "react-router-dom";
-
+import { useAuthUser } from "@/hooks/useAuthUser";
+import { useRejectedVericationQuery } from "../hooks/api.hooks";
+import { Loader } from "@/components/common/loader";
+import { buildVerificationDefaultValues } from "../validations/default";
 
 export default function VendorVerificationPage() {
   const [submitted, setSubmitted] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [pendingData, setPendingData] =
     useState<VendorVerificationFormType | null>(null);
-  
-  const navigate = useNavigate();
 
-  const { onSubmit, isPending } = useVendorVerificationSubmit(() => {
-    setConfirmOpen(false);
-    setSubmitted(true);
-    navigate("/vendor/pending", {
-    replace: true,
-  });
+  const navigate = useNavigate();
+  const { user } = useAuthUser();
+
+  const { data, isLoading } = useRejectedVericationQuery(user?.id ?? "");
+  const priorData = data?.data;
+
+  const defaultValues = buildVerificationDefaultValues(priorData);
+
+  const { onSubmit, isPending } = useVendorVerificationSubmit({
+    vendorInfoId: priorData?.id,
+    isReapply: priorData?.status === "Rejected",
+    onSuccess: () => {
+      setConfirmOpen(false);
+      setSubmitted(true);
+      navigate("/vendor/pending", { replace: true });
+    },
   });
 
   const handleSubmit = (data: VendorVerificationFormType) => {
@@ -32,8 +43,11 @@ export default function VendorVerificationPage() {
 
   const confirmSubmit = async () => {
     if (!pendingData) return;
+
     onSubmit(pendingData);
   };
+
+  if (isLoading) return <Loader message="Loading..." />;
 
   if (submitted) {
     return (
@@ -67,7 +81,12 @@ export default function VendorVerificationPage() {
 
             {/* Main Form Card */}
             <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-              <VerificationForm onSubmit={handleSubmit} />
+              <VerificationForm
+                onSubmit={handleSubmit}
+                isReapply={priorData?.status === 'Rejected'}
+                cancellationReason={priorData?.rejectedReason}
+                defaultValues={defaultValues}
+              />
             </div>
             <p className="text-center text-xs text-slate-400 pb-2">
               Documents are reviewed within 2–3 business days. You'll be

@@ -66,6 +66,8 @@ export const API_ROUTE = {
 
   // VENDOR
   VERIFICATION_FORM: "/verification",
+  REJECTED_VENDOR: (id: string) => `/verification/${id}/rejected`,
+  VERIFICATION_REAPPLY: (id: string) => `/verification/${id}`,
   UPDATE_PROFILE_LOGO: "/me/profileLogo",
   PACKAGE_FORM_UPLOAD: "/packages",
   PACKAGES: "/packages",
