@@ -3,7 +3,7 @@ import { API_ENDPOINTS, API_ROUTE } from "@/lib/constants/routes";
 
 import type { VendorVerificationPayload, UpdateProfilePayload } from "../types/payload.type";
 import type { ApiResponse } from "@/types/IApiResponse";
-import type { VendorProfileResponse } from "@/features/user/types/response";
+import type { VendorProfileData } from "../types/response.type";
 
 export const verification = async (
   payload: VendorVerificationPayload
@@ -15,8 +15,8 @@ export const verification = async (
   return response.data;
 };
 
-export const profile = async (): Promise<VendorProfileResponse> => {
-  const response = await api.get<VendorProfileResponse>(
+export const profile = async (): Promise<ApiResponse<VendorProfileData>> => {
+  const response = await api.get<ApiResponse<VendorProfileData>>(
     `${API_ENDPOINTS.VENDOR}${API_ROUTE.PROFILE}`
   );
   return response.data;

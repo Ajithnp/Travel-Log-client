@@ -22,6 +22,7 @@ import {
   FileBadge,
   IdCard,
   type LucideIcon,
+  Globe,
 } from "lucide-react";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -126,7 +127,7 @@ export function VendorVerificationModal({
     setDocOpen(true);
   };
 
-  if (isLoading) return <Loader />
+  if (isLoading) return <Loader />;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30 flex items-center justify-center p-4">
@@ -186,7 +187,7 @@ export function VendorVerificationModal({
                     {vendor?.status}
                   </span>
                   <span className="text-white/60 text-sm font-medium">
-                     {vendor?.createdAt}
+                    {vendor?.createdAt}
                   </span>
                 </div>
               </div>
@@ -215,13 +216,7 @@ export function VendorVerificationModal({
                       label="Business Name"
                       value={vendor?.name || ""}
                     />
-                    <div className="sm:col-span-2">
-                      <InfoRow
-                        icon={MapPin}
-                        label="Business Address"
-                        value={vendor?.businessAddress || ""}
-                      />
-                    </div>
+
                     <InfoRow
                       icon={Hash}
                       label="GSTIN"
@@ -229,6 +224,21 @@ export function VendorVerificationModal({
                       mono
                     />
 
+                    <div className="sm:col-span-2">
+                      <InfoRow
+                        icon={MapPin}
+                        label="Business Address"
+                        value={vendor?.businessAddress || ""}
+                      />
+                    </div>
+
+                    <div className="sm:col-span-2">
+                      <InfoRow
+                        icon={Globe}
+                        label="Bio"
+                        value={vendor?.bio || ""}
+                      />
+                    </div>
                   </div>
                 </Card3D>
               </motion.div>
@@ -339,8 +349,10 @@ export function VendorVerificationModal({
                     <p className="text-[11px] text-amber-700 font-medium">
                       {vendor?.reasonForReject && (
                         <>
-                        <span className="text-sm">Reasson for Reject: </span>
-                        <span className="text-destructive text-xs font-semibold">{ vendor.reasonForReject}</span>
+                          <span className="text-sm">Reasson for Reject: </span>
+                          <span className="text-destructive text-xs font-semibold">
+                            {vendor.reasonForReject}
+                          </span>
                         </>
                       )}
                     </p>
