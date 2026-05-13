@@ -7,7 +7,7 @@ import type { IUser } from "@/types/IUser";
 import UserAvathar from "@/components/UserAvathar";
 import { useLocation } from "react-router-dom";
 import { NavbarWishlistIcon } from "@/features/user/wishlist/components/wishlist-icon";
-
+import { NavbarNotificationIcon } from "@/features/notification/components/notification-icon";
 
 interface NavbarProps {
   user: Partial<IUser> | null;
@@ -80,7 +80,10 @@ export function Navbar({
 
           {user ? (
             <>
-              <NavbarWishlistIcon hasBackground={hasBackground} />
+              <NavbarNotificationIcon hasBackground={hasBackground} />
+              <Link to="/user/wishlist">
+                <NavbarWishlistIcon hasBackground={hasBackground} />
+              </Link>
               <UserAvathar
                 user={user}
                 isScrolled={isScrolled || location.pathname !== "/"}
@@ -139,7 +142,7 @@ export function Navbar({
             </div>
 
             {/* Wishlist link — fits naturally with the other nav actions */}
-            <Link
+          <Link
               to="/user/wishlist"
               onClick={() => setMobileMenuOpen(false)}
               className="w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-50 rounded-lg flex items-center gap-2"

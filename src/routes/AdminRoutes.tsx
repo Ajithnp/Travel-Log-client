@@ -18,6 +18,8 @@ const VendorsListPage = lazy(() => import('@/features/admin/vendor-management/pa
 const VendorsVerificationListPage = lazy(() => import('@/features/admin/vendor-verification/pages/VendorsVerificationRequestList'))
 const CancellationPoliciesPage = lazy(() => import('@/features/admin/cancellation-policy/pages/cancellation-policies'));
 
+const NotificationPage = lazy(() => import('@/features/notification/pages/notification-list'));
+
 const AdminRoutes = () => {
   return (
     <Suspense fallback={<Loading variant="spinner" text="Loading.." fullscreen />}>
@@ -48,7 +50,7 @@ const AdminRoutes = () => {
             <h1 className="text-2xl font-bold">Welcome to Dashboard</h1>
           </div>
           } />
-
+          <Route path='notifications' element={<NotificationPage />} />
           <Route path="categories" element={<CategoryListPage />} />
           <Route path="categories/vendor-request" element={<CategoryRequestedPage />} />
           <Route path="categories/vendor-request/reviewed" element={<CategoryRequestReviewedPage />} />

@@ -14,6 +14,7 @@ export type SortOption =
   | "price_low_high"
   | "price_high_low"
   | "top_rated";
+  
 export type DifficultyLevel = "Easy" | "Moderate" | "Challenging" | "Extreme";
 export type ScheduleStatus = "upcoming" | "sold_out";
 export type ViewType = "grid" | "list";

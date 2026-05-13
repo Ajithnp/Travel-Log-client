@@ -28,6 +28,7 @@ export const API_ENDPOINTS = {
   ADMIN: "/admin",
   S3: "/s3",
   BOOKING: "/bookings",
+  NOTIFICATION: "/notifications",
 } as const;
 
 export const API_ROUTE = {
@@ -63,6 +64,11 @@ export const API_ROUTE = {
   RELEASE_HOLD: (id: string) => `/bookings/hold/${id}`,
   VERIFY_PAYMENT: "/verify-payment",
   
+  //notifications
+  NOTIFICATIONS: "/notifications",
+  NOTIFICATIONS_UNREAD_COUNT: "/unread-count",
+  NOTIFICATIONS_MARK_ALL_READ: "/mark-all-read",
+  NOTIFICATIONS_MARK_ONE_READ: (id: string) => `/${id}/mark-read`,
 
   // VENDOR
   VERIFICATION_FORM: "/verification",

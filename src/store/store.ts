@@ -3,17 +3,19 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"
 import  userReducer  from '@/store/slices/user.slice';
 import wishlistReducer from '@/store/slices/wishlist.slice'
+import notificationReducer from '@/store/slices/notification.slice';
 
 
 const rootReducer = combineReducers({
   user: userReducer,
   wishlist: wishlistReducer,
+  notification : notificationReducer,
 });
 
 const persistConfig = {
   key: "user",
   storage,
-  whitelist: ["user"], // reducers  want to persist
+  whitelist: ["user"], 
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
