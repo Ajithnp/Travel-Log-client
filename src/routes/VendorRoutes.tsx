@@ -34,6 +34,7 @@ const SchedulePackagePage = lazy(() => import('@/features/vendor/schedule-packag
 const ScheduleslistingPage = lazy(() => import('@/features/vendor/schedule-package/pages/schedule-lisiting'))
 const ScheduleDetailsPage = lazy(() => import('@/features/vendor/schedule-package/pages/schedule-details'))
 
+const NotificationPage = lazy(() => import('@/features/notification/pages/notification-list'));
 
 const VendorRoutes = () => {
   return (
@@ -80,6 +81,7 @@ const VendorRoutes = () => {
           <Route element={<VendorApprovedGuard />}>
           <Route path='profile' element={<VendorProfilePage />} />
           <Route path='profile-edit' element={<VendorProfileEditPage />} />
+          <Route path='notifications' element={<NotificationPage />} />
           {/* package */}
           <Route path="packages" element={<BasePackagePage />} />
           <Route path="packages/add" element={<BasePackageCreateFormPage />} />

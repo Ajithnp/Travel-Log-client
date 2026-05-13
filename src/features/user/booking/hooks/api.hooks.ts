@@ -32,16 +32,4 @@ bookingId: string | undefined
   });
 };
 
-// export const useUpdateProfileMutation = () => {
-//    const queryClient = useQueryClient();
-//   return useMutation<
-//     ApiResponse,
-//     AxiosError<ApiResponse>,
-//     ProfileSchemaType
-//   >({
-//     mutationFn: updateProfile,
-//     onSuccess: () => {
-//       queryClient.invalidateQueries({ queryKey: ['profile'] });
-//     }
-//   });
-// };
+

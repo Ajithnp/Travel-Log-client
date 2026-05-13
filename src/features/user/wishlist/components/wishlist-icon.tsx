@@ -1,5 +1,4 @@
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { Heart } from 'lucide-react';
 import {selectWishlistCount, selectWishlistIsInitialised } from '@/store/slices/wishlist.slice';
 import { selectIsAuthenticated } from '@/store/slices/user.slice';
@@ -18,7 +17,7 @@ export const NavbarWishlistIcon = ({ hasBackground }: Props) => {
   if (!isAuthenticated) return null;
 
   return (
-    <Link to="/user/wishlist" aria-label={`Wishlist${count > 0 ? `, ${count} items` : ''}`}
+    <div aria-label={`Wishlist${count > 0 ? `, ${count} items` : ''}`}
       className="relative inline-flex items-center"
     >
       <Heart
@@ -34,6 +33,6 @@ export const NavbarWishlistIcon = ({ hasBackground }: Props) => {
           {count > 99 ? '99+' : count}
         </span>
       )}
-    </Link>
+    </div>
   );
 };

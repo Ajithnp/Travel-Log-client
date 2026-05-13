@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import {ChevronRight, Clock, Heart, MapPin } from "lucide-react";
 import type { IWishlistItem } from "../types/types";
 import WishlistRemoveItemButton from "./wishlist-remove-item.button";
-import { difficultyColors } from "@/components/app/package-card";
+import { difficultyColors } from "@/lib/constants/ui/mapping-ui";
 
 export function WishlistItem({
   item,

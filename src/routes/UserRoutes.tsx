@@ -29,6 +29,8 @@ const BookingConfirmPage = lazy(() => import('@/pages/booking/booking-confirm'))
 const BookingListPage = lazy(() => import('@/features/user/booking/pages/booking-list'));
 const BookingDetailsPage = lazy(() => import('@/features/user/booking/pages/booking-details'));
 
+const NotificationPage = lazy(() => import('@/features/notification/pages/notification-list'));
+
 const UserRoutes = () => {
   return (
     <Suspense fallback={<Loading variant='airplane' text='Loading..' fullscreen />}>
@@ -78,6 +80,7 @@ const UserRoutes = () => {
           <Route path='profile' element={<ProfilePage />} />
           <Route path='editProfile' element={<ProfileEditPage />} />
           <Route path='wishlist' element={<WishlistPage />} />
+          <Route path='notifications' element={<NotificationPage />} />
 
           <Route path='booking/confirm' element={<BookingConfirmPage />} />
           <Route path='payment/success' element={<BookingSuccessPage />} />

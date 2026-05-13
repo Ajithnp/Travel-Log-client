@@ -1,6 +1,7 @@
 import axios, { type AxiosResponse } from "axios";
 import qs from "qs";
 import { apiConfig } from "../config";
+import { refreshToken } from "./refresh-controller";
 
 const api = axios.create({
   baseURL: apiConfig.baseUrl,
@@ -23,7 +24,7 @@ api.interceptors.response.use(
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
-        await api.post("/auth/refresh-token", {}, { withCredentials: true });
+        await refreshToken()
         return api(originalRequest);
       } catch (error) {
         // window.location.href = "/user/login";

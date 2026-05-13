@@ -4,23 +4,13 @@ import { Heart } from 'lucide-react';
 import { selectIsAuthenticated } from '@/store/slices/user.slice';
 import { useWishlist } from '../hooks/wishlist';
 
-
-
 interface WishlistButtonProps {
   packageId: string;
   className?: string;   
   size?: number;    
 }
 
-/**
- * Reusable heart toggle button.
- * Used inside PackageCard (listing page) and PackageDetailPage.
- *
- * Behaviour:
- *   - Authenticated user  → toggles wishlist, optimistic update
- *   - Unauthenticated user → redirects to login
- *   - Loading state        → button disabled, prevents double-click
- */
+
 const WishlistButton = ({
   packageId,
   className = '',

@@ -1,8 +1,10 @@
 
 import { Outlet, useLocation } from 'react-router-dom'
 import NavbarContainer from '@/components/containers/NavbarContainer'
+import { useNotificationSocket } from '@/features/notification/hooks/notification.socket';
 
 const Main = () => {
+  useNotificationSocket();
   const location = useLocation()
   const isHomePage = location.pathname === '/'
   return (

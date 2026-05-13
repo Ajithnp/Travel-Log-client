@@ -4,6 +4,7 @@ import { Menu } from 'lucide-react';
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import type { IUserSlice } from '@/store/slices/user.slice';
 import { ModeToggle } from '../mode-toggle';
+import { NavbarNotificationIcon } from '@/features/notification/components/notification-icon';
 interface SidebarHeaderProps {
   title: string;
   greeting?: string;
@@ -21,6 +22,7 @@ const SidebarHeader = ({
   user,
   onLogout,
 }: SidebarHeaderProps) => {
+
   return (
     <div className=" flex items-center justify-between px-5 md:px-8 border-b border-border py-4 bg-card">
       {isMobile && onMenuToggle && (
@@ -38,6 +40,8 @@ const SidebarHeader = ({
       </div>
       <div className="flex items-center gap-3 md:gap-5 text-muted-foreground">
         <ModeToggle />
+    
+         <NavbarNotificationIcon hasBackground={true} />
         <p className="text-xs md:text-sm hidden sm:block">{greeting}</p>
         {user && (
           <Avatar>
