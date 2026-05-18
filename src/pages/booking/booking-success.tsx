@@ -4,11 +4,12 @@ import { CheckCircle2, Download, ArrowRight, Home, BookOpen } from "lucide-react
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function PaymentSuccess() {
   const [visible, setVisible] = useState(false);
   const { state } = useLocation();
+  const navigate = useNavigate();
   
   const bookingId = state?.bookingId;
   const amount = state?.amount;
@@ -105,7 +106,10 @@ export default function PaymentSuccess() {
                   transition={{ delay: 0.6, duration: 0.4 }}
                   className="flex flex-col gap-2.5 sm:gap-3"
                 >
-                  <Button className="w-full h-10 sm:h-11 bg-gradient-to-r from-orange-500 to-violet-600 hover:from-orange-400 hover:to-orange-500 text-white text-sm font-semibold border-0 shadow-md shadow-orange-200 transition-colors duration-200 flex items-center justify-center gap-2">
+                  <Button 
+                  className="w-full h-10 sm:h-11 bg-gradient-to-r from-orange-500 to-violet-600 hover:from-orange-400 hover:to-orange-500 text-white text-sm font-semibold border-0 shadow-md shadow-orange-200 transition-colors duration-200 flex items-center justify-center gap-2"
+                  onClick={() => navigate("/user/bookings")}
+                  >
                     <BookOpen className="w-4 h-4 flex-shrink-0" />
                     <span>View Bookings</span>
                     <ArrowRight className="w-4 h-4 flex-shrink-0" />

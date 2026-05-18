@@ -51,7 +51,6 @@ export default function CancellationPolicies() {
           </div>
 
           <div className="flex items-center gap-3">
-            {/* Toggle: show disabled */}
             <div className="flex items-center gap-2.5 bg-white border border-slate-200 rounded-xl px-3 py-2 shadow-sm">
               <Switch
                 id="show-disabled"

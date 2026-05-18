@@ -18,7 +18,6 @@ export function connectWS(): Socket {
   });
 
   
- // ── Before each reconnect attempt, refresh the token first
     socket.on('reconnect_attempt', async () => {
     try {
        await refreshToken();

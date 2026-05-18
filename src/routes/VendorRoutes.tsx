@@ -36,6 +36,8 @@ const ScheduleDetailsPage = lazy(() => import('@/features/vendor/schedule-packag
 
 const NotificationPage = lazy(() => import('@/features/notification/pages/notification-list'));
 
+const VendorChatPage = lazy(() => import('@/features/chat/pages/vendor-chat'));
+
 const VendorRoutes = () => {
   return (
     <Suspense fallback={<Loading variant="spinner" text="Loading.." fullscreen />}>
@@ -82,6 +84,7 @@ const VendorRoutes = () => {
           <Route path='profile' element={<VendorProfilePage />} />
           <Route path='profile-edit' element={<VendorProfileEditPage />} />
           <Route path='notifications' element={<NotificationPage />} />
+          <Route path="chats" element={<VendorChatPage />} />
           {/* package */}
           <Route path="packages" element={<BasePackagePage />} />
           <Route path="packages/add" element={<BasePackageCreateFormPage />} />

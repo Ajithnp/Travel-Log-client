@@ -133,7 +133,8 @@ export interface BookingDetailDTO {
   isAttended:  boolean
   attendedAt:  string | null         
   hasReviewed: boolean
-  ticketUrl:   string | null
+  ticketUrl: string | null
+  chatId?: string;
  
   createdAt: string                   
   updatedAt: string                  
