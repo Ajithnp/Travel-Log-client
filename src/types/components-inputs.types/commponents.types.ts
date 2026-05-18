@@ -11,7 +11,8 @@ import {
   CalendarCheck,
   ShoppingBag,
   Wallet,
-  ShieldX
+  ShieldX,
+  MessageCircle
 
 } from "lucide-react";
 import { type LucideIcon } from "lucide-react";
@@ -41,7 +42,8 @@ export const vendorSidebarLinks = [
   { name: "Dashboard", path: "/", icon: LayoutDashboard },
   { name: "Packages", path: "/vendor/packages", icon: Briefcase },
   { name: "Category", path: "/vendor/requested-categories", icon: ViewIcon },
-  {name: "Schedules", path: "/vendor/scheduled-trips", icon:CalendarCheck}
+  {name: "Schedules", path: "/vendor/scheduled-trips", icon:CalendarCheck},
+  { name: "Chats", path: "/vendor/chats", icon: MessageCircle }
 ];
 
 export const userSidebarLinks = [
@@ -61,7 +63,7 @@ export const navCards = [
     light: "bg-violet-50 text-violet-600",
   },
   {
-    to: "/user/booked-packages",
+    to: "/user/bookings",
     icon: ShoppingBag,
     title: "Your Packages",
     desc: "Manage bookings and travel details easily",

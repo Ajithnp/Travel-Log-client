@@ -30,6 +30,8 @@ const BookingListPage = lazy(() => import('@/features/user/booking/pages/booking
 const BookingDetailsPage = lazy(() => import('@/features/user/booking/pages/booking-details'));
 
 const NotificationPage = lazy(() => import('@/features/notification/pages/notification-list'));
+const UserChatPage = lazy(() => import('@/features/chat/pages/user-chat-page'));
+// const ChatPage = lazy(() => import('@/features/chat/pages/chat-page'));
 
 const UserRoutes = () => {
   return (
@@ -81,6 +83,7 @@ const UserRoutes = () => {
           <Route path='editProfile' element={<ProfileEditPage />} />
           <Route path='wishlist' element={<WishlistPage />} />
           <Route path='notifications' element={<NotificationPage />} />
+          <Route path="chat" element={<UserChatPage />} />
 
           <Route path='booking/confirm' element={<BookingConfirmPage />} />
           <Route path='payment/success' element={<BookingSuccessPage />} />

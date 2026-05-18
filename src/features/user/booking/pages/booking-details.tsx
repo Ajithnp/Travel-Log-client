@@ -43,9 +43,7 @@ export default function BookingDetail() {
     <div className="min-h-screen px-4 sm:px-6 py-12 bg-[#f7f7fb] font-['Inter'] sm:py-8 mt-20">
       <div className="max-w-[97rem] mx-auto">
         {/* Top nav bar */}
-
         <DetailsNav status={booking.bookingStatus} />
-
         <div className="max-w-[97rem] mx-auto px-4 sm:px-6 py-6 space-y-4">
           {/* Hero Card */}
 
@@ -144,8 +142,15 @@ export default function BookingDetail() {
                 transition={{ duration: 0.3, delay: 0.22 }}
                 className="space-y-2"
               >
-                <Button className="w-full h-9 text-xs bg-indigo-500 hover:bg-indigo-600 text-white border-0 gap-2">
-                  <MessageSquare className="w-3.5 h-3.5" /> Contact Support
+                <Button
+                  className="w-full h-9 text-xs bg-indigo-500 hover:bg-indigo-600 text-white border-0 gap-2"
+                  onClick={() => navigate("/user/chat", {
+                    state: {
+                      chatId: booking.chatId
+                    }
+                  })}
+                >
+                  <MessageSquare className="w-3.5 h-3.5" /> Chat Support
                 </Button>
                 <Button
                   variant="outline"

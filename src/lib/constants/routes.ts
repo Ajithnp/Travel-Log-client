@@ -29,6 +29,8 @@ export const API_ENDPOINTS = {
   S3: "/s3",
   BOOKING: "/bookings",
   NOTIFICATION: "/notifications",
+  USER_CHATS: "/user/chats",
+  VENDOR_CHATS: "/vendor/chats",
 } as const;
 
 export const API_ROUTE = {
@@ -69,6 +71,10 @@ export const API_ROUTE = {
   NOTIFICATIONS_UNREAD_COUNT: "/unread-count",
   NOTIFICATIONS_MARK_ALL_READ: "/mark-all-read",
   NOTIFICATIONS_MARK_ONE_READ: (id: string) => `/${id}/mark-read`,
+
+  // messages
+  GET_MESSAGES: (chatId: string) => `/${chatId}/messages`,
+  POST_MESSAGE: (chatId: string) => `/${chatId}/messages`,
 
   // VENDOR
   VERIFICATION_FORM: "/verification",
