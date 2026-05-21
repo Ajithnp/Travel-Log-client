@@ -94,3 +94,76 @@ export const categoryColorMap: Record<string, string> = {
   Family: "bg-blue-500/20 text-blue-700 dark:text-blue-300",
   Wellness: "bg-teal-500/20 text-teal-700 dark:text-teal-300",
 };
+
+export const cancellationPolicyColorMap = {
+  green: {
+    selected: "border-green-500 bg-green-50",
+    hover: "hover:border-green-400",
+    dot: "bg-green-500",
+    text: "text-green-700",
+    border: "border-green-200",
+    bullet: "text-green-600",
+  },
+
+  amber: {
+    selected: "border-amber-500 bg-amber-50",
+    hover: "hover:border-amber-400",
+    dot: "bg-amber-500",
+    text: "text-amber-700",
+    border: "border-amber-200",
+    bullet: "text-amber-600",
+  },
+
+  red: {
+    selected: "border-red-400 bg-red-50",
+    hover: "hover:border-red-400",
+    dot: "bg-red-500",
+    text: "text-red-700",
+    border: "border-red-200",
+    bullet: "text-red-600",
+  },
+
+  crimson: {
+    selected: "border-rose-600 bg-rose-100",
+    hover: "hover:border-rose-500",
+    dot: "bg-rose-600",
+    text: "text-rose-800",
+    border: "border-rose-300",
+    bullet: "text-rose-700",
+  },
+};
+
+export const policyColorMap: Record<string, { bg: string; border: string; text: string; badgeBg: string; badgeText: string; icon: string }> = {
+  flexible: {
+    bg: "bg-emerald-50/60",
+    border: "border-emerald-100",
+    text: "text-emerald-700",
+    badgeBg: "bg-emerald-100",
+    badgeText: "text-emerald-700",
+    icon: "text-emerald-500",
+  },
+  moderate: {
+    bg: "bg-amber-50/60",
+    border: "border-amber-100",
+    text: "text-amber-700",
+    badgeBg: "bg-amber-100",
+    badgeText: "text-amber-700",
+    icon: "text-amber-500",
+  },
+  strict: {
+    bg: "bg-rose-50/60",
+    border: "border-rose-100",
+    text: "text-rose-700",
+    badgeBg: "bg-rose-100",
+    badgeText: "text-rose-700",
+    icon: "text-rose-500",
+  },
+  nonRefundable: {
+    bg: "bg-gray-100/60",
+    border: "border-gray-200",
+    text: "text-gray-700",
+    badgeBg: "bg-gray-200",
+    badgeText: "text-red-700",
+    icon: "text-red-500",
+  }
+};

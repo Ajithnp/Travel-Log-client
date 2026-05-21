@@ -80,7 +80,6 @@ export function buildBasePackageDefaults(
     inclusions: data?.inclusions ?? [],
     exclusions: data?.exclusions ?? [],
     packingList: data?.packingList ?? [],
-    // cancellationPolicy: data?.cancellationPolicy ?? "",
     cancellationPolicy: data?.cancellationPolicy ?? undefined,
     isActive: data?.isActive ?? true,
   };

@@ -40,7 +40,7 @@ export const draftPackageSchema = basePackageSchema.extend({
   exclusions: z.array(z.string()).optional(),
   packingList:z.array(z.string()).optional(),
   isActive: z.boolean().optional(),
-cancellationPolicy: z.enum(["Flexible", "Moderate", "Strict","Non-Refundable",]).optional(),
+  cancellationPolicy: z.string().optional(),
 });
 
 export type BasePackageDraftSchema = z.infer<typeof draftPackageSchema>;

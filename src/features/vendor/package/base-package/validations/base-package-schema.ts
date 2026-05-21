@@ -70,7 +70,7 @@ export const basePackageSchema = z.object({
 
   packingList: z.array(z.string()),
 
-  cancellationPolicy: z.enum(["Flexible", "Moderate", "Strict", "Non-Refundable"]).optional(),
+  cancellationPolicy: z.string().optional(),
  
   isActive: z.boolean(),
 });

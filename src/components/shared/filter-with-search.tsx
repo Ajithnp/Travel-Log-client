@@ -18,7 +18,7 @@ interface FilterWithSearchProps<T extends string> {
   search: string;
   onSearchChange: (value: string) => void;
   searchPlaceholder: string;
-   gradient?: string; 
+  gradient?: string; 
 }
 
 export function FilterWithSearch<T extends string>({

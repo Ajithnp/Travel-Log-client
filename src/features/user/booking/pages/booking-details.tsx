@@ -1,13 +1,12 @@
 import { motion } from "framer-motion";
 import {
-  AlertCircle,
   MessageSquare,
   MapPin,
   Clock,
   UserCheck,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useUserBookingDeatailsQuery } from "../hooks/api.hooks";
+import { useCancelBookingRequestMutation, useUserBookingDeatailsQuery } from "../hooks/api.hooks";
 import DetailsNav from "../components/booking-details/details-nav";
 import DetailsHeroCard from "../components/booking-details/details-hero-card";
 import TravelersCard from "../components/booking-details/travellers-card";
@@ -15,17 +14,34 @@ import ItinerarySection from "../components/booking-details/itinerary-section";
 import Pricing from "../components/booking-details/pricing";
 import Included from "../components/booking-details/included";
 import SectionCard from "../components/booking-details/section-card";
+import CancellationPolicy from "../components/booking-details/cancellation-policy";
 import { useNavigate, useParams } from "react-router-dom";
 import { Loader } from "@/components/common/loader";
 import { Error } from "@/components/common/error";
 import { formatTimeToAMPM } from "@/utils/format-time-to-ampm";
+import CancelBookingModal from "../components/cancelation-modal";
+import { useState } from "react";
+import { toast } from "sonner";
+import { BOOKING_STATUS } from "../constants";
 
 export default function BookingDetail() {
+  const [showModal, setShowModal] = useState(false);
   const { bookingId } = useParams();
   const navigate = useNavigate();
 
   const { data, isLoading, isError, error, refetch } =
     useUserBookingDeatailsQuery(bookingId);
+
+  const cancelMutation = useCancelBookingRequestMutation(bookingId);
+
+  const handleCancelBooking = ( payload: { bookingId: string; reason: string; details: string }) => {
+  cancelMutation.mutate(payload,{
+    onSuccess: (res) => {
+      toast.success(res.message)
+      setShowModal(false);
+    },
+  });
+};
 
   const booking = data?.data;
 
@@ -42,22 +58,22 @@ export default function BookingDetail() {
   return (
     <div className="min-h-screen px-4 sm:px-6 py-12 bg-[#f7f7fb] font-['Inter'] sm:py-8 mt-20">
       <div className="max-w-[97rem] mx-auto">
-        {/* Top nav bar */}
-        <DetailsNav status={booking.bookingStatus} />
+        <DetailsNav 
+        status={booking.bookingStatus}
+        cancelationStatus={booking.cancellationStatus}
+         openCancelModal={() => setShowModal(true)} 
+         />
         <div className="max-w-[97rem] mx-auto px-4 sm:px-6 py-6 space-y-4">
-          {/* Hero Card */}
-
           <DetailsHeroCard
             basePackage={booking.package}
             schedule={booking.schedule}
             totalAmount={booking.financials.finalAmount}
             travelersCount={booking.travelerCount}
             bookingCode={booking.bookingCode}
+            bookedDate={booking.createdAt}
           />
-          {/* Two column grid */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             <div className="lg:col-span-2 space-y-4">
-              {/* Flight Info */}
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -78,8 +94,6 @@ export default function BookingDetail() {
                         </p>
                       </div>
                     </div>
-
-                    {/* Time */}
                     <div className="flex items-start gap-3">
                       <Clock className="w-4 h-4 text-indigo-500 mt-0.5" />
                       <div>
@@ -94,47 +108,20 @@ export default function BookingDetail() {
                   </div>
                 </SectionCard>
               </motion.div>
-
               {/* Travelers */}
               <TravelersCard travelers={booking.travelers} />
-
               {/* Itinerary */}
-
               <ItinerarySection itinerary={booking.package.itinerary} />
             </div>
-
-            {/* Right col — sidebar */}
+            {/*sidebar */}
             <div className="space-y-4">
               {/* Payment Summary */}
               <Pricing
                 pricing={booking.financials}
                 transactionId={booking.bookingCode}
               />
-
-              {/* Included services */}
               <Included />
-
-              {/* Cancellation + Support */}
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: 0.2 }}
-              >
-                <div className="rounded-xl border border-amber-100 bg-amber-50/60 p-4 space-y-2">
-                  <div className="flex items-center gap-2 mb-1">
-                    <AlertCircle className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />
-                    <p className="text-xs font-semibold text-amber-700">
-                      Cancellation Policy
-                    </p>
-                  </div>
-                  <p className="text-xs text-amber-600 leading-relaxed">
-                    {
-                      "Free cancellation until Jun 7, 2025. After that, 50% penalty applies."
-                    }
-                  </p>
-                </div>
-              </motion.div>
-
+              <CancellationPolicy policy={booking.cancellationPolicy} />
               {/* Action buttons */}
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
@@ -146,9 +133,10 @@ export default function BookingDetail() {
                   className="w-full h-9 text-xs bg-indigo-500 hover:bg-indigo-600 text-white border-0 gap-2"
                   onClick={() => navigate("/user/chat", {
                     state: {
-                      chatId: booking.chatId
+                      chatId: booking.chatId as string
                     }
                   })}
+                  disabled={!booking.chatId || booking.bookingStatus === BOOKING_STATUS.CANCELLED_BY_USER}
                 >
                   <MessageSquare className="w-3.5 h-3.5" /> Chat Support
                 </Button>
@@ -164,6 +152,18 @@ export default function BookingDetail() {
           </div>
         </div>
       </div>
+      <CancelBookingModal
+        show={showModal}
+        onClose={() => setShowModal(false)} 
+        onCancelBooking={handleCancelBooking}
+        isPending={cancelMutation.isPending}
+        error={cancelMutation.error?.response?.data?.message || null}
+        bookingId={booking.id}
+        packageTittle={booking.package.title}
+        bookingStartDate={booking.schedule.startDate}
+        cancellationPolicy={booking.cancellationPolicy}
+        finalAmount={booking.financials.finalAmount}
+         />
     </div>
   );
 }

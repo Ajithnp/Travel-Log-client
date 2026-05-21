@@ -9,7 +9,12 @@ export const DIFFICULTY_LEVELS = [
   "Extreme",
 ] as const;
 
-export type CancellationPolicyTypes = "Flexible" | "Moderate" | "Strict" | "Non-Refundable";
+
+export type CancellationPolicyResponse = {
+  _id: string;
+  key: string;
+  label: string;
+};
 export type DifficultyLevel = (typeof DIFFICULTY_LEVELS)[number];
 export type PackageFormPayload = BasePackageSchema;
 
@@ -62,7 +67,7 @@ export interface PackageDetailReponse {
   inclusions: string[];
   exclusions: string[];
   packingList: string[];
-  cancellationPolicy: CancellationPolicyTypes| undefined;
+  cancellationPolicy: CancellationPolicyResponse | undefined;
   status: PackageStatus;
   isActive: boolean;
   createdAt: Date;

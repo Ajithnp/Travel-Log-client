@@ -10,6 +10,7 @@ import {
 import type { PackageDTO, ScheduleDTO } from "../../types";
 import { formatDateRange } from "@/utils/combine-date-formater";
 import { Link } from "react-router-dom";
+import { formatISODate } from "@/utils/iso-date-format";
 
 interface DetailsHeroCardProps {
   basePackage: PackageDTO;
@@ -17,6 +18,7 @@ interface DetailsHeroCardProps {
   totalAmount: number;
   travelersCount: number;
   bookingCode: string;
+  bookedDate:string;
 }
 
 const DetailsHeroCard = ({
@@ -25,6 +27,7 @@ const DetailsHeroCard = ({
   totalAmount,
   travelersCount,
   bookingCode,
+  bookedDate
 }: DetailsHeroCardProps) => {
   const startDate = schedule?.startDate;
   const endDate = schedule?.endDate;
@@ -38,7 +41,6 @@ const DetailsHeroCard = ({
       <div className="h-1 w-full bg-gradient-to-r from-indigo-500 via-violet-500 to-cyan-400" />
       <div className="p-5 sm:p-6">
         <div className="flex flex-col items-start sm:flex-row sm:items-center gap-4">
-          {/* Destination emoji */}
           <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-indigo-50 to-violet-100 flex items-center justify-center text-2xl sm:text-3xl flex-shrink-0">
             🧳
           </div>
@@ -47,11 +49,6 @@ const DetailsHeroCard = ({
               <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl font-bold">
                 {basePackage?.title}
               </h1>
-              <span className="flex items-center gap-0.5">
-                {/* {[...Array(BOOKING.hotel.stars)].map((_, i) => (
-                      <Star key={i} className="w-3 h-3 text-amber-400 fill-amber-400" />
-                    ))} */}
-              </span>
             </div>
             <p className="text-md text-gray-700 mb-2">
               {basePackage?.location}, {basePackage?.state}
@@ -97,6 +94,11 @@ const DetailsHeroCard = ({
             <span className="flex items-center gap-1 text-[10px] font-medium bg-gray-100 text-gray-600 px-2.5 py-1 rounded-full">
               <Gauge className="w-3 h-3" />
               {basePackage?.difficultyLevel}
+            </span>
+
+            <span className="flex items-center gap-1 text-[10px] font-medium bg-green-100 text-green-600 px-2.5 py-1 rounded-full">
+              <Calendar className="w-3 h-3" />
+              Booked on {formatISODate(bookedDate)}
             </span>
           </div>
 

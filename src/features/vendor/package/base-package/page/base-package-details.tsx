@@ -35,7 +35,6 @@ const BasePackageDetails = () => {
   const pkg = data;
   return (
     <div className="min-h-screen bg-background">
-      {/* Breadcrumb */}
       <div className="border-b bg-card">
         <div className="max-w-[90rem] mx-auto sm:px-6 py-2 flex items-center justify-between">
           <p className="text-sm text-muted-foreground">
