@@ -1,9 +1,9 @@
-import { useQuery, keepPreviousData } from "@tanstack/react-query";
-
+import { useQuery, keepPreviousData, useMutation, useQueryClient } from "@tanstack/react-query";
 import type { ApiResponse } from "@/types/IApiResponse";
 import type { BookingDetailDTO, IPaginatedBookingResponse } from "../types";
-import { getBookingDetailsApi, getBookingsApi } from "../services/api.services";
+import { cancelBookingRequestApi, getBookingDetailsApi, getBookingsApi, type CancelBookingRequestInput } from "../services/api.services";
 import { AxiosError } from "axios";
+
 
 export const useUserBookingsQuery = (
   page: number,
@@ -29,6 +29,16 @@ bookingId: string | undefined
     staleTime: 1000 * 60 * 10, 
     refetchOnWindowFocus: false,
      enabled: !!bookingId,
+  });
+};
+
+export const useCancelBookingRequestMutation = (bookingId: string | undefined) => {
+  const queryClient = useQueryClient();
+  return useMutation<ApiResponse<void>, AxiosError<{message:string}>, CancelBookingRequestInput>({
+    mutationFn: cancelBookingRequestApi,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["bookings",bookingId] });
+    },
   });
 };
 

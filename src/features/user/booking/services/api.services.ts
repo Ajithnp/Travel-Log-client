@@ -26,3 +26,17 @@ export const getBookingDetailsApi = async (
     await api.get(`${API_ENDPOINTS.BOOKING}/${bookingId}`);
   return response.data ;
 };
+
+export const cancelBookingRequestApi = async (
+  payload:CancelBookingRequestInput
+): Promise<ApiResponse<void>> => {
+   const response: AxiosResponse<ApiResponse<void>> =
+    await api.patch(`${API_ENDPOINTS.BOOKING}/${payload.bookingId}/cancel`,{reason:payload.reason,details:payload.details});
+  return response.data ;
+};
+
+export interface CancelBookingRequestInput {
+  bookingId: string;
+  reason: string;
+  details: string;
+}

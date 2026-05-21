@@ -129,13 +129,10 @@ export const createPackageSchema = basePackageSchema
 
     packingList: z.array(z.string()).optional(),
 
-    cancellationPolicy: z.enum(
-      ["Flexible", "Moderate", "Strict", "Non-Refundable"],
-      {
-        required_error: "Cancellation policy is required",
-        invalid_type_error: "Invalid cancellation policy selected",
-      },
-    ),
+    cancellationPolicy: z.string({
+      required_error: "Cancellation policy is required",
+      invalid_type_error: "Invalid cancellation policy selected",
+    }).min(1, "Cancellation policy is required"),
 
     isActive: z.boolean(),
   })
@@ -153,12 +150,5 @@ export const createPackageSchema = basePackageSchema
     {
       path: ["nights"],
       message: "Nights should be days minus one",
-    },
-  )
-  .refine(
-    (data) => Number(data.nights) === Math.max(Number(data.days) - 1, 0),
-    {
-      path: ["cancellationPolicy"],
-      message: "Cancellation policy is required",
     },
   );

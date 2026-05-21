@@ -1,7 +1,8 @@
-import { MapPin, Calendar, Shield, Map } from "lucide-react";
+import { MapPin, Calendar, Shield, Map, Trash2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { categoryIcon, difficultyColor, statusColorMap } from "@/lib/constants/ui/mapping-ui";
 import type { PackageDetailReponse } from "../../type/package";
+import { Button } from "@/components/ui/button";
 
 interface PackageHeaderProps {
   pkg: Partial<PackageDetailReponse>;
@@ -62,7 +63,7 @@ export function PackageHeader({ pkg }: PackageHeaderProps) {
             <span className="text-border">·</span>
             <span className="flex items-center gap-1">
               <Shield className="h-3.5 w-3.5 text-green-400" />
-              {pkg.cancellationPolicy ?? "N/A"} cancellation
+              {pkg.cancellationPolicy?.label ?? "N/A"} cancellation
             </span>
           </div>
         </div>
@@ -71,14 +72,14 @@ export function PackageHeader({ pkg }: PackageHeaderProps) {
             <Button variant="outline" size="sm" className="gap-1.5">
               <Copy className="h-3.5 w-3.5" /> Duplicate
             </Button>
-          )}
+          )} */}
           <Button
             variant="outline"
             size="sm"
             className="gap-1.5 text-destructive hover:text-destructive"
           >
             <Trash2 className="h-3.5 w-3.5" /> Delete
-          </Button> */}
+          </Button>
         </div>
       </div>
     </div>

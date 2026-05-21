@@ -38,9 +38,9 @@ export function PackageSidebar({ pkg }: PackageSidebarProps) {
           <SummaryRow label="Duration">
             <span className="font-medium">{pkg.days} Days · {pkg.nights} Nights</span>
           </SummaryRow>
-          <SummaryRow label="Cancellation">
+          <SummaryRow label="Cancellation Policy">
             <span className="text font-medium">
-              🟡 {pkg.cancellationPolicy || "N/A"} Policy
+              {pkg.cancellationPolicy?.label || "N/A"}
             </span>
           </SummaryRow>
           <SummaryRow label="Base Price">

@@ -100,6 +100,7 @@ export const API_ROUTE = {
   REVIEW_CATEGORY: (id: string) => `/category/requests/${id}/review`,
   REQUEST_REVIEWED_CATEGORY: '/category/requests/reviewed',
   CANCELLATION_POLICY: '/cancellation-policies',
+  GET_CANCELLATION_REQUESTS: '/users/cancellation-requests',
 
 
   //S3

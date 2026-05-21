@@ -30,7 +30,7 @@ import {
 } from "../types/auth.payload";
 import { useMutation, useQueryClient,  } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-// import type { ApiResponse } from "@/types/axios";
+
 import type { ApiResponse } from "@/types/IApiResponse";
 
 export const useLoginMutation = () => {

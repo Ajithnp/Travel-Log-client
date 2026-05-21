@@ -20,6 +20,8 @@ const CancellationPoliciesPage = lazy(() => import('@/features/admin/cancellatio
 
 const NotificationPage = lazy(() => import('@/features/notification/pages/notification-list'));
 
+const CancelBookingListingPage = lazy(() => import('@/features/admin/cancel-booking/pages/cancel-bookings-listing'))
+
 const AdminRoutes = () => {
   return (
     <Suspense fallback={<Loading variant="spinner" text="Loading.." fullscreen />}>
@@ -55,6 +57,7 @@ const AdminRoutes = () => {
           <Route path="categories/vendor-request" element={<CategoryRequestedPage />} />
           <Route path="categories/vendor-request/reviewed" element={<CategoryRequestReviewedPage />} />
            <Route path="cancellation-policies" element={<CancellationPoliciesPage/>} />
+           <Route path="user/cancel-bookings" element={<CancelBookingListingPage/>} />
           {/* vendors */}
           <Route
             path="vendor/verification-request"

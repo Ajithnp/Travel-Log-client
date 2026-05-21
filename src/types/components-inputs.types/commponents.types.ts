@@ -12,7 +12,8 @@ import {
   ShoppingBag,
   Wallet,
   ShieldX,
-  MessageCircle
+  MessageCircle,
+  CalendarX
 
 } from "lucide-react";
 import { type LucideIcon } from "lucide-react";
@@ -35,6 +36,7 @@ export const adminSidebarLinks = [
   { name: "Vendors", path: "/admin/vendors", icon: Store },
   { name: "Categories", path: "/admin/categories", icon: Layers },
   { name: "Cancellation Policies", path: "/admin/cancellation-policies", icon:ShieldX},
+  { name: "Cancel Bookings", path: "/admin/user/cancel-bookings", icon:CalendarX},
 ];
 
 export const vendorSidebarLinks = [

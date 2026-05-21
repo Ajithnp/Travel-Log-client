@@ -103,8 +103,21 @@ export interface FinancialsDTO {
   walletAmountUsed: number
   finalAmount:      number
 }
- 
 
+export type CancelStatus = "pending" | "approved" | "rejected";
+ 
+export interface CancellationRuleDTO {
+  daysBeforeTrip: number;
+  refundPercent: number;
+}
+
+export interface CancellationPolicyDTO {
+  id: string;
+  key: string;
+  label: string;
+  rules: CancellationRuleDTO[];
+  isActive: boolean;
+}
  
 export interface BookingDetailDTO {
   id:          string
@@ -120,6 +133,7 @@ export interface BookingDetailDTO {
   travelers:     TravelerDTO[]   
  
   financials: FinancialsDTO
+  cancellationPolicy: CancellationPolicyDTO | null;
  
   paymentStatus: string
   paymentMethod: string | null
@@ -129,6 +143,7 @@ export interface BookingDetailDTO {
   cancellationReason: string | null
   cancelledAt:        string | null   
   cancelledBy:        string | null
+  cancellationStatus: CancelStatus | null
  
   isAttended:  boolean
   attendedAt:  string | null         
@@ -140,7 +155,7 @@ export interface BookingDetailDTO {
   updatedAt: string                  
 }
 
-//========= component types==========
+
 export type BookingFilterTab =
     | "all"
     | "confirmed"

@@ -1,16 +1,31 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, Download, Share2 } from "lucide-react";
+import { ArrowLeft, Download, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import type { BookingStatus } from "../../types";
+import type { BookingStatus, CancelStatus } from "../../types";
 import { Badge } from "@/components/ui/badge";
 import { getStatusConfig } from "../booking-card";
 import { useNavigate } from "react-router-dom";
 
 interface DetailsNavProps {
   status: BookingStatus;
-}
-const DetailsNav = ({ status }: DetailsNavProps) => {
+ openCancelModal: () => void;
+ cancelationStatus: CancelStatus | null;
+} 
+const getCancelStatusStyle = (status: CancelStatus) => {
+  switch (status) {
+    case "pending":
+      return "border-yellow-200 bg-yellow-50 text-yellow-700";
+    case "approved":
+      return "border-green-200 bg-green-50 text-green-700";
+    case "rejected":
+      return "border-red-200 bg-red-50 text-red-700";
+    default:
+      return "border-gray-200 bg-gray-50 text-gray-700";
+  }
+};
+
+const DetailsNav = ({ status, openCancelModal, cancelationStatus }: DetailsNavProps) => {
   const navigate = useNavigate();
   const cfg = getStatusConfig(status);
   const Icon = cfg.icon;
@@ -31,6 +46,7 @@ const DetailsNav = ({ status }: DetailsNavProps) => {
           <span className="hidden sm:inline">My Bookings</span>
         </button>
         <div className="flex items-center gap-1.5">
+
           <Badge
             className={`flex items-center text-[13px] font-semibold px-2.5 py-1 border ${cfg.bg} ${cfg.color} ${cfg.border}`}
           >
@@ -39,13 +55,28 @@ const DetailsNav = ({ status }: DetailsNavProps) => {
           </Badge>
         </div>
         <div className="flex items-center gap-2">
+
+          {cancelationStatus ? (
+            <Badge
+              className={`flex items-center text-[13px] font-semibold px-2.5 py-1 border ${getCancelStatusStyle(cancelationStatus)}`}
+            >
+              <Icon className="w-3 h-3 mr-1" />
+              {cancelationStatus === "pending"
+                ? "REQUESTED TO CANCEL"
+                : `CANCELLATION REQUEST: ${cancelationStatus.toUpperCase()}`}
+            </Badge>
+          ) : (
           <Button
             variant="outline"
             size="sm"
-            className="h-8 px-3 text-xs border-gray-200 text-gray-500 gap-1.5 hover:bg-gray-50"
+            className="h-8 px-3 text-xs border-red-200 text-red-500 gap-1.5 hover:bg-red-500 hover:text-white"
+            onClick={openCancelModal}
           >
-            <Share2 className="w-3.5 h-3.5" /> Share
+            <X className="w-3.5 h-3.5" /> Cancel Booking
           </Button>
+            
+          )}
+
           <Button
             size="sm"
             className="h-8 px-3 text-xs bg-indigo-500 hover:bg-indigo-600 text-white border-0 gap-1.5"
