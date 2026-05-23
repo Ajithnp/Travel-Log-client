@@ -20,6 +20,7 @@ export const useUserBookingsQuery = (
   });
 };
 
+
 export const useUserBookingDeatailsQuery = (
 bookingId: string | undefined
 ) => {

@@ -37,8 +37,6 @@ export default function PackageDetails() {
     error,
   } = usePackageDetailsPage(id);
 
-
-
   const policyKey = pkg?.cancellationPolicy;
   const selectedPolicy = policyKey ? policyMap[policyKey] : undefined;
 
@@ -53,14 +51,11 @@ export default function PackageDetails() {
     reviews: packageData.operator.reviews,
   };
 
-
   return (
     <div className="min-h-screen bg-background mt-20">
-      {/* Top navigation bar */}
       <div className="border-b border-border bg-card/90 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto px-4 py-3 flex flex-col sm:flex-row sm:items-center gap-2">
 
-          {/* Back + Breadcrumb */}
           <div className="flex items-center gap-2 flex-wrap flex-1">
             <Button onClick={() => window.history.back()} variant="ghost" size="sm"
               data-testid="btn-back" className="gap-1 text-muted-foreground">
@@ -107,8 +102,6 @@ export default function PackageDetails() {
           </Badge>
 
         </div>
-
-        {/* Title & meta */}
         <div className="space-y-2">
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight" data-testid="package-title">
             {pkg?.title}
@@ -128,9 +121,7 @@ export default function PackageDetails() {
 
         <ImageGallery images={pkg?.images ?? []} />
 
-        {/* Main 2-column layout */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* LEFT COLUMN */}
           <div className="lg:col-span-2 space-y-6">
             <Card className="border border-gray-200 shadow-sm rounded-2xl overflow-hidden shadow-premium">
               <div className="px-5 pt-5 flex items-center gap-2">
@@ -148,7 +139,6 @@ export default function PackageDetails() {
               </div>
             </Card>
 
-            {/* About This Package */}
             <Card className="border border-gray-200 shadow-sm rounded-2xl overflow-hidden shadow-premium">
               <div className="px-5 pt-5 ">
                 <h2 className="text-base font-semibold text-gray-700">
@@ -157,12 +147,10 @@ export default function PackageDetails() {
               </div>
               <div className="border-t border-gray-100 mx-5" />
               <div className="px-5 py-5 space-y-5">
-                {/* DESCRIPTION */}
                 <p className="text-sm text-gray-600 leading-relaxed">
                   {pkg?.description}
                 </p>
 
-                {/* HIGHLIGHTS BLOCK */}
                 <div>
                   <h3 className="text-sm font-semibold text-gray-900 mb-3">
                     Package Highlights

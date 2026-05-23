@@ -7,7 +7,6 @@ import WishlistButton from "@/features/user/wishlist/components/wishlist.button"
 import { categoryColorMap, difficultyColors } from "@/lib/constants/ui/mapping-ui";
 
 
-
 export default function PackageCard({
   pkg,
   view,
@@ -30,7 +29,6 @@ export default function PackageCard({
   const reviewCount = pkg.totalReviews;
   const price = pkg.startingFromPrice;
   const isSoldOut = pkg.isSoldOut;
-  // Earliest schedule dates
   const startDate = pkg.earliestDate
     ? new Date(pkg.earliestDate).toLocaleDateString("en-IN", { day: "numeric", month: "short" })
     : null;
@@ -38,7 +36,7 @@ export default function PackageCard({
     ? new Date(pkg.earliestEndDate).toLocaleDateString("en-IN", { day: "numeric", month: "short" })
     : null;
 
-  // ── List view ──────────────────────────────────────────
+  // ── List view 
  if (view === "list") {
   return (
     <motion.div
@@ -92,11 +90,7 @@ export default function PackageCard({
             </div>
           )}
         </div>
-
-        {/* Content — flex col, space-between top and bottom */}
         <div className="flex-1 flex flex-col justify-between p-4 min-w-0 overflow-hidden">
-
-          {/* Top section */}
           <div className="space-y-1">
             <h3 className="text-sm font-semibold text-foreground leading-snug line-clamp-1">
               {pkg.title}
@@ -150,7 +144,7 @@ export default function PackageCard({
   );
 }
 
-  // ── Grid view ────────
+  // ── Grid view
   return (
 
     <motion.div
@@ -177,7 +171,6 @@ export default function PackageCard({
           </div>
         )}
 
-        {/* Top Left Tags */}
         <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
           {categoryName && (
             <span
@@ -193,7 +186,6 @@ export default function PackageCard({
           className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center transition-transform hover:scale-110"
         />
 
-        {/* Date Badge */}
         {startDate && endDate && (
           <div className="absolute bottom-3 left-3 text-white/90 text-xs font-medium bg-black/25 backdrop-blur-sm px-2.5 py-0.5 rounded-full">
             {startDate} – {endDate}
@@ -264,7 +256,7 @@ export default function PackageCard({
             </div>
               <Button
                 size="sm"
-                className="flex-shrink-0"
+                className="flex-shrink-0 "
                 data-testid={`button-book-${pkg._id}`}
               >
                 Book Now

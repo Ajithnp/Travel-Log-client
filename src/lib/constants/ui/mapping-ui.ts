@@ -167,3 +167,30 @@ export const policyColorMap: Record<string, { bg: string; border: string; text: 
     icon: "text-red-500",
   }
 };
+
+
+export const difficultyConfig: Record<
+  string,
+  { label: string; className: string; dot: string }
+> = {
+  Easy: {
+    label: "Easy",
+    className: "text-emerald-700 bg-emerald-50 border-emerald-200",
+    dot: "bg-emerald-500",
+  },
+  Moderate: {
+    label: "Moderate",
+    className: "text-amber-700 bg-amber-50 border-amber-200",
+    dot: "bg-amber-500",
+  },
+  Challenging: {
+    label: "Challenging",
+    className: "text-rose-700 bg-rose-50 border-rose-200",
+    dot: "bg-rose-500",
+  },
+  Extreme: {
+    label: "Extreme",
+    className: "text-red-700 bg-red-50 border-red-200",
+    dot: "bg-red-500",
+  },
+};

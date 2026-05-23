@@ -1,5 +1,5 @@
 export interface IWishlistToggleResponse {
-  wishlisted: boolean;   // true = added, false = removed
+  wishlisted: boolean;  
   packageId: string;
 }
 

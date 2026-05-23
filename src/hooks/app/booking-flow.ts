@@ -1,29 +1,74 @@
 import { useMutation } from "@tanstack/react-query";
-import { initiateBooking, confirmBooking,  } from "@/services/app-service";
-import type { 
-  InitiateBookingRequestDTO, 
-  ConfirmBookingRequestDTO, 
-  InitiateBookingResponseDTO
+import { initiateBooking, confirmBooking, } from "@/services/app-service";
+import {
+  type InitiateBookingRequestDTO,
+  type ConfirmBookingRequestDTO,
+  type InitiateBookingResponseDTO,
+  PAYMENT_METHODS
 } from "@/types/api/booking-api.types";
 import { toast } from "sonner";
 import { useState } from "react";
 import type { AxiosError } from "axios";
 import type { ApiResponse } from "@/types/IApiResponse";
+import { useWalletBalanceQuery } from "@/features/user/wallet/hooks/api.hooks";
+import { useConfirmBookingWalletMutation } from "./api.hooks";
+import { useNavigate } from "react-router-dom";
+
 
 export function useBookingFlow() {
   const [bookingId, setBookingId] = useState<string | null>(null);
   const [checkoutUrl, setCheckoutUrl] = useState<string | null>(null);
+  const [useWallet, setUseWallet] = useState(false);
+
+  const navigate = useNavigate();
+
+  const { data, isLoading: isLoadingWallet } = useWalletBalanceQuery();
+  const confirmWalletMutation = useConfirmBookingWalletMutation();
+
 
   const initiateBookingMutation = useMutation<ApiResponse<
-  InitiateBookingResponseDTO>, 
-  AxiosError<ApiResponse>,               
-  InitiateBookingRequestDTO             
->({
-    mutationFn: (payload: InitiateBookingRequestDTO) => initiateBooking(payload),
-    onSuccess: (res) => {
-      if (res.success && res.data) {
-        setBookingId(res.data.bookingId);
-        setCheckoutUrl(res.data.checkoutUrl);
+    InitiateBookingResponseDTO>,
+    AxiosError<ApiResponse>,
+    InitiateBookingRequestDTO
+  >({
+    mutationFn: initiateBooking,
+    onSuccess: async (res) => {
+      if (!res.success || !res.data) return;
+
+      const { bookingId, paymentMethod, checkoutUrl } = res.data;
+
+      setBookingId(bookingId);
+
+      if (paymentMethod === PAYMENT_METHODS.WALLET) {
+        // No Stripe — confirm directly
+        await confirmWalletMutation.mutateAsync(bookingId, {
+          onSuccess: (res) => {
+            navigate("/user/payment/success", {
+              replace: true,
+              state: {
+                bookingId: res.data?.bookingId,
+                bookingCode: res.data?.bookingCode,
+                amount: res.data?.amount,
+              },
+            });
+            toast.success('Booking confirmed! Wallet payment successful.');
+          },
+          onError: () => {
+            navigate("/user/payment/failure", {
+              replace: true,
+              state: {
+                bookingId,
+              },
+            });
+            toast.error('Payment failed. Your wallet was not charged.');
+          },
+        });
+        return;
+      }
+
+      // Stripe or combined: redirect to payment page
+      if (checkoutUrl) {
+        setCheckoutUrl(checkoutUrl);
       }
     },
     onError: (err) => {
@@ -32,24 +77,15 @@ export function useBookingFlow() {
     },
   });
 
-  const confirmBookingMutation = useMutation({
-    mutationFn: (payload: ConfirmBookingRequestDTO) => confirmBooking(payload),
-    onSuccess: (res) => {
-       toast.success(res.message || "Booking confirmed successfully!");
-      
-    },
-    onError: (err) => {
-      toast.error(err?.message || "Failed to confirm booking");
-    },
-  });
-
-
   return {
     bookingId,
     checkoutUrl,
+    useWallet,
+    setUseWallet,
+    walletBalance: data?.data?.balance || 0,
+    isLoadingWallet,
     initiateBooking: initiateBookingMutation.mutateAsync,
     isInitiatingBooking: initiateBookingMutation.isPending,
-    confirmBooking: confirmBookingMutation.mutateAsync,
-    isConfirmingBooking: confirmBookingMutation.isPending,
+    isProcessing: initiateBookingMutation.isPending || confirmWalletMutation.isPending,
   };
 }

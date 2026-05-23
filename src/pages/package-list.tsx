@@ -12,8 +12,6 @@ import { useCategories } from "@/hooks/app/api.hooks";
 import { Loader } from "@/components/common/loader";
 import { Error } from "@/components/common/error";
 
-
-
 export default function PackageListing() {
   const { data, isLoading: categoryFetching, isError, error: categoryError } = useCategories();
 
@@ -98,7 +96,7 @@ export default function PackageListing() {
           view={view}
           onViewChange={setView}
           activeFilterCount={activeFilterCount}
-          sortBy={filters.sortBy}        
+          sortBy={filters.sortBy}
           onSortChange={setSortBy}
         />
         <SheetContent side="left" className="w-72 overflow-y-auto">
@@ -189,8 +187,6 @@ export default function PackageListing() {
                 {/* You've seen all {totalCount} packages */}
               </p>
             )}
-
-            {/* Sentinel — IntersectionObserver watches this invisible div */}
             <div ref={sentinelRef} className="h-1 w-full" />
           </main>
         </div>

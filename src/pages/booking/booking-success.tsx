@@ -12,6 +12,7 @@ export default function PaymentSuccess() {
   const navigate = useNavigate();
   
   const bookingId = state?.bookingId;
+  const bookingCode = state?.bookingCode;
   const amount = state?.amount;
 
   useEffect(() => {
@@ -93,7 +94,7 @@ export default function PaymentSuccess() {
                   </div>
                   <div className="text-right">
                     <p className="text-md text-gray-400 mb-0.5">Booking ID</p>
-                    <p className="text-xs sm:text-sm font-mono text-indigo-600 font-semibold">{bookingId}</p>
+                    <p className="text-xs sm:text-sm font-mono text-indigo-600 font-semibold">{bookingCode}</p>
                   </div>
                 </motion.div>
 
