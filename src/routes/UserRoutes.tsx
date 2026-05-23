@@ -31,7 +31,8 @@ const BookingDetailsPage = lazy(() => import('@/features/user/booking/pages/book
 
 const NotificationPage = lazy(() => import('@/features/notification/pages/notification-list'));
 const UserChatPage = lazy(() => import('@/features/chat/pages/user-chat-page'));
-// const ChatPage = lazy(() => import('@/features/chat/pages/chat-page'));
+
+const WalletPage = lazy(() => import('@/features/user/wallet/pages/wallet'));
 
 const UserRoutes = () => {
   return (
@@ -90,6 +91,8 @@ const UserRoutes = () => {
           <Route path='payment/failure' element={<BookingFailurePage />} />
           <Route path='bookings' element={<BookingListPage />} />
           <Route path='bookings/:bookingId' element={<BookingDetailsPage />} />
+          
+          <Route path='wallet' element={<WalletPage />} />
         </Route>
 
       </Routes>

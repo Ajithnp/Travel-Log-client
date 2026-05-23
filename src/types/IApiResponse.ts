@@ -15,6 +15,7 @@ export interface PaginatedData<T> {
   currentPage: number;
   totalPages: number;
   totalUsers: number;
+  totalDocs: number;
 }
 
 export interface Paginated<T> {

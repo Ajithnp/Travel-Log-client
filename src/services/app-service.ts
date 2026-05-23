@@ -109,10 +109,21 @@ export const fetchVendorPublicProfile = async (
 export const initiateBooking = async (
   payload: InitiateBookingRequestDTO,
 ): Promise<ApiResponse<InitiateBookingResponseDTO>> => {
+  
   const response: AxiosResponse<ApiResponse<InitiateBookingResponseDTO>> =
     await api.post(`${API_ENDPOINTS.BOOKING}${API_ROUTE.INITIATE_BOOKING}`, payload);
   return response.data;
 };
+
+
+export const confirmBookingWalletApi = async (
+  bookingId:string
+): Promise<ApiResponse<ConfirmBookingResponseDTO>> => {
+   const response: AxiosResponse<ApiResponse<ConfirmBookingResponseDTO>> =
+    await api.post(`${API_ENDPOINTS.BOOKING}/${bookingId}/confirm-wallet`);
+  return response.data ;
+};
+
 
 export const confirmBooking = async (
   payload: ConfirmBookingRequestDTO,

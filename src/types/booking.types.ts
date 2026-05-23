@@ -16,7 +16,7 @@ export interface Coupon {
   label:         string;
   description:   string;
   discountType:  CouponDiscountType;
-  discountValue: number;  // percent (0-100) or flat ₹ amount
+  discountValue: number;  
 }
 
 
@@ -34,7 +34,6 @@ export interface TravellerInfo {
   relation?: string;
 }
 
-// ─── Computed pricing breakdown 
 
 export interface PricingBreakdown {
   pricePerHead:   number;   
@@ -44,7 +43,6 @@ export interface PricingBreakdown {
   totalAmount:    number;
 }
 
-// ─── Wizard state ─────────────────────────────────────────────────────────────
 
 export interface BookingState {
   step:             number;
@@ -54,7 +52,6 @@ export interface BookingState {
   appliedCoupon:    Coupon | null;
 }
 
-// ─── Tier UI metadata (display-only, not from backend) ───────────────────────
 
 export interface TierMeta {
   type:  PricingTierType;
@@ -76,21 +73,7 @@ export const TIER_META: TierMeta[] = [
   { type: "GROUP", label: "Group"  },
 ];
 
-// ─── Pricing calculation (single source of truth) ────────────────────────────
 
-/**
- * Derives the pricing breakdown from:
- *  - the selected schedule's pricing entry for the chosen tier
- *  - an optional applied coupon
- *
- * Formula:
- *   baseAmount   = the raw group price from backend (e.g. 9200 for DUO)
- *   pricePerHead = baseAmount / peopleCount
- *   platformFee  = 499 (fixed)
- *   discount     = percent → round(baseAmount × value / 100)
- *                  flat    → value
- *   total        = baseAmount + platformFee − discount
- */
 export function calcPricing(
   selectedPricing: SchedulePricingDTO,
   appliedCoupon: Coupon | null

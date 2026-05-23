@@ -30,6 +30,7 @@ export const API_ENDPOINTS = {
   BOOKING: "/bookings",
   NOTIFICATION: "/notifications",
   USER_CHATS: "/user/chats",
+  USER_WALLET: "/user/wallet",
   VENDOR_CHATS: "/vendor/chats",
 } as const;
 

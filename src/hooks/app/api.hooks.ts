@@ -1,16 +1,18 @@
-import { fetchCategories, fetchPackageDetails, fetchPackageSchedules, fetchPublicPackages, fetchVendorPublicProfile, verifyBookingPayment } from "@/services/app-service";
+import { confirmBookingWalletApi, fetchCategories, fetchPackageDetails, fetchPackageSchedules, fetchPublicPackages, fetchVendorPublicProfile, verifyBookingPayment } from "@/services/app-service";
 import {
   useQuery,
   useInfiniteQuery,
   type InfiniteData,
   type QueryKey,
+  useQueryClient,
+  useMutation,
 } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
 import type { PackageFilters, TravelPackage } from "./package-listing";
 import type { ApiResponse, Paginated } from "@/types/IApiResponse";
 import type { CategoryResponse } from "@/types/common/response";
 import type { PublicPackageDetailDTO, PublicScheduleDTO, VendorPublicProfileResponseDTO } from "@/types/types";
-import type { VerifyPaymentResponseDTO } from "@/types/api/booking-api.types";
+import type { ConfirmBookingResponseDTO, VerifyPaymentResponseDTO } from "@/types/api/booking-api.types";
 
 export const useCategories = () => {
   return useQuery<
@@ -110,6 +112,16 @@ export const useInfiniteVendorProfile = (vendorId: string, limit: number = 8) =>
   });
 };
 
+export const useConfirmBookingWalletMutation = () => {
+  const queryClient = useQueryClient();
+  return useMutation<ApiResponse<ConfirmBookingResponseDTO>, AxiosError<{message:string}>, string>({
+    mutationFn: (bookingId) => confirmBookingWalletApi(bookingId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["bookings","wallet-balance"] });
+    },
+  });
+};
+
 export const useBookingVerifyPaymentQuery = (sessionId: string, options?: { enabled?: boolean }) => {
   return useQuery<
     ApiResponse<VerifyPaymentResponseDTO>,
@@ -122,3 +134,4 @@ export const useBookingVerifyPaymentQuery = (sessionId: string, options?: { enab
     refetchOnWindowFocus: false,
   });
 }
+

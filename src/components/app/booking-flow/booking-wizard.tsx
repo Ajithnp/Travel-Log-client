@@ -14,6 +14,7 @@ import {
 } from "@/types/booking.types";
 import type { PublicPackageDetailDTO } from "@/types/types";
 import { useBookingFlow } from "@/hooks/app/booking-flow";
+import { calculatePaymentSplit } from "@/utils/booking/payment-split-calculator";
 
 interface BookingWizardProps {
   schedules: Schedule[];
@@ -32,8 +33,19 @@ const initialState: BookingState = {
 export function BookingWizard({ schedules, pkg }: BookingWizardProps) {
   const [state, setState] = useState<BookingState>(initialState);
 
-   const { bookingId, checkoutUrl, isInitiatingBooking, initiateBooking } =
+
+  const {
+    bookingId,
+    checkoutUrl,
+    useWallet,
+    setUseWallet,
+    walletBalance,
+    isLoadingWallet,
+    isProcessing,
+    initiateBooking,
+  } =
     useBookingFlow();
+
 
   const selectedPricing = useMemo(() => {
     if (!state.selectedSchedule) return null;
@@ -50,9 +62,12 @@ export function BookingWizard({ schedules, pkg }: BookingWizardProps) {
     [selectedPricing, state.appliedCoupon],
   );
 
+  const split = useMemo(
+    () => calculatePaymentSplit(pricing?.totalAmount ?? 0, walletBalance, useWallet),
+    [pricing?.totalAmount, walletBalance, useWallet],
+  );
 
   const goTo = (step: number) => setState((s) => ({ ...s, step }));
-
 
 
   const handleScheduleSelect = (schedule: Schedule) => {
@@ -88,12 +103,11 @@ export function BookingWizard({ schedules, pkg }: BookingWizardProps) {
       scheduleId: state.selectedSchedule.scheduleId,
       tierType: state.selectedTierType,
       seatsCount: pricing.travellersCount,
+      useWallet,
       travelers: state.travellers,
       amountInPaise: pricing.totalAmount * 100,
     });
   };
-
-
 
   return (
     <div className="space-y-4">
@@ -138,8 +152,14 @@ export function BookingWizard({ schedules, pkg }: BookingWizardProps) {
           appliedCoupon={state.appliedCoupon}
           bookingId={bookingId}
           checkoutUrl={checkoutUrl}
-          isInitiatingBooking={isInitiatingBooking}
-          onPay={handlePay}         
+
+          isProcessing={isProcessing}
+          walletBalance={walletBalance}
+          isLoadingWallet={isLoadingWallet}
+          useWallet={useWallet}
+          onToggleWallet={() => setUseWallet(!useWallet)}
+          split={split}
+          onPay={handlePay}
           onBack={() => goTo(3)}
         />
       )}

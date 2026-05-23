@@ -4,9 +4,10 @@ import type { Coupon, PricingBreakdown } from "@/types/booking.types";
 interface PriceSummaryProps {
   pricing: PricingBreakdown;
   appliedCoupon: Coupon | null;
+  walletDeduction?: number;
 }
 
-export function PriceSummary({ pricing, appliedCoupon }: PriceSummaryProps) {
+export function PriceSummary({ pricing, appliedCoupon, walletDeduction = 0 }: PriceSummaryProps) {
   const {
     pricePerHead,
     travellersCount,
@@ -14,6 +15,8 @@ export function PriceSummary({ pricing, appliedCoupon }: PriceSummaryProps) {
     discountAmount,
     totalAmount,
   } = pricing;
+
+  const finalPayable = totalAmount - walletDeduction;
 
   return (
     <Card className="border border-gray-200 shadow-sm rounded-2xl overflow-hidden shadow-premium">
@@ -34,12 +37,6 @@ export function PriceSummary({ pricing, appliedCoupon }: PriceSummaryProps) {
           </span>
         </div>
 
-        {/* PLATFORM FEE */}
-        {/* <div className="flex justify-between items-center text-gray-600">
-          <span>Platform fee</span>
-          <span>₹{platformFee.toLocaleString("en-IN")}</span>
-        </div> */}
-
         {/* DISCOUNT */}
         {appliedCoupon && discountAmount > 0 && (
           <div className="flex justify-between items-center text-green-600">
@@ -50,11 +47,21 @@ export function PriceSummary({ pricing, appliedCoupon }: PriceSummaryProps) {
           </div>
         )}
 
+        {/* WALLET DEDUCTION */}
+        {walletDeduction > 0 && (
+          <div className="flex justify-between items-center text-blue-600">
+            <span className="truncate">Wallet Deduction</span>
+            <span className="shrink-0">
+              −₹{walletDeduction.toLocaleString("en-IN")}
+            </span>
+          </div>
+        )}
+
         {/* TOTAL */}
         <div className="border-t border-gray-200 pt-3 mt-2 flex justify-between items-center">
-          <span className="text-base font-semibold text-gray-900">Total</span>
+          <span className="text-base font-semibold text-gray-900">Total Payable</span>
           <span className="text-base font-bold text-gray-900">
-            ₹{totalAmount.toLocaleString("en-IN")}
+            ₹{finalPayable.toLocaleString("en-IN")}
           </span>
         </div>
       </div>

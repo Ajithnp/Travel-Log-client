@@ -1,8 +1,12 @@
 import { Button } from "@/components/ui/button";
-import {ChevronRight, Clock, Heart, MapPin } from "lucide-react";
+import { ChevronRight, Clock, Heart, MapPin } from "lucide-react";
 import type { IWishlistItem } from "../types/types";
 import WishlistRemoveItemButton from "./wishlist-remove-item.button";
-import { difficultyColors } from "@/lib/constants/ui/mapping-ui";
+import { Card, CardContent } from "@/components/ui/card";
+import { motion } from "framer-motion";
+import { difficultyConfig } from "@/lib/constants/ui/mapping-ui";
+
+
 
 export function WishlistItem({
   item,
@@ -11,114 +15,112 @@ export function WishlistItem({
   onRevert,
 }: {
   item: IWishlistItem;
-    onDetailsClick: (packageId: string) => void;
-    onOptimisticRemove: (packageId: string) => void;
-    onRevert: (packageId: string) => void;
+  onDetailsClick: (packageId: string) => void;
+  onOptimisticRemove: (packageId: string) => void;
+  onRevert: (packageId: string) => void;
 }) {
-  console.log("WishlistItem rendered with item:", item);
+  const diff = difficultyConfig[item.difficultyLevel] ?? difficultyConfig["Easy"];
+
   return (
-    <div
-      className={`group transition-all duration-300 "opacity-100
-      }`}
+    <motion.div
+      layout
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, x: -40, scale: 0.96 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
     >
-      <div className="flex flex-col sm:flex-row gap-4 py-5">
-        <div className="relative w-full sm:w-24 h-44 sm:h-20 md:h-24 lg:h-28 flex-shrink-0 rounded-xl overflow-hidden">
-          <img
-            src={item.images[0].url}
-            alt={item.title}
-            className="w-full h-full object-cover"
-          />
-          {/* {discount && (
-            <div className="absolute top-2 left-2 bg-rose-500 text-white text-xs font-bold px-2 py-0.5 rounded-md">
-              -{discount}%
+      <Card className="group border-0 bg-white shadow-none hover:shadow-md transition-shadow duration-300 rounded-none sm:rounded-2xl overflow-hidden">
+        <CardContent className="p-0">
+          <div className="flex flex-col sm:flex-row gap-0 sm:gap-4 p-4 sm:p-5">
+            <div className="relative w-full sm:w-28 h-48 sm:h-24 flex-shrink-0 rounded-xl overflow-hidden mb-3 sm:mb-0">
+              <motion.img
+                src={item.images[0].url}
+                alt={item.title}
+                className="w-full h-full object-cover"
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.4 }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-xl" />
+              <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm rounded-full p-1.5 shadow-sm">
+                <Heart className="w-3 h-3 fill-rose-500 text-rose-500" />
+              </div>
             </div>
-          )} */}
-        </div>
-        <div className="flex-1">
-          <div className="flex flex-col sm:flex-row sm:justify-between gap-3">
-            <div className="space-y-2">
-              <div className="flex flex-wrap gap-2">
-                <span
-                  className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold text-orange-600`}
-                >
-                  {/* <Icon className="w-3 h-3" /> */}
-                  {item.category}
-                </span>
 
-                <span
-                  className={`inline-flex items-center gap-1 text-xs font-semibold ${difficultyColors[item.difficultyLevel as keyof typeof difficultyColors]}`}
-                >
-                  {item.difficultyLevel}
-                </span>
-              </div>
-              <h3 className="font-semibold text-gray-900 text-sm sm:text-base leading-snug">
-                {item.title}
-              </h3>
-              <div className="flex flex-wrap gap-3 text-xs sm:text-sm text-gray-500">
-                <span className="flex items-center gap-1">
-                  <Clock className="w-3.5 h-3.5 text-blue-900" />
-                  {item.days} Days, {item.nights} Nights
-                </span>
-              </div>
-              <div className="flex flex-wrap gap-3 text-xs sm:text-sm text-gray-500">
-                <span className="flex items-center gap-1">
-                  <MapPin className="w-3.5 h-3.5 text-red-500" />
-                  {item.location}, {item.state}
-                </span>
-                {/* <span className="flex items-center gap-1">
-                  <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                  {item.rating}
-                  <span className="text-gray-400">({item.reviews})</span>
-                </span> */}
-              </div>
-              {/* {item.note && (
-                <p className="text-xs text-gray-400 italic flex items-center gap-1">
-                  <Tag className="w-3 h-3" />
-                  {item.note}
-                </p>
-              )} */}
-            </div>
-            <div className="flex sm:flex-col justify-between items-end gap-3">
-              <div className="flex items-center gap-2">
-                <Heart className="w-4 h-4 fill-rose-500 text-rose-500" />
-                <WishlistRemoveItemButton
-                  packageId={item.packageId}
-                  onOptimisticRemove={onOptimisticRemove}
-                  onRevert={onRevert}
-                />
-              </div>
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() => onDetailsClick(item.packageId)}
-                disabled={!item.hasUpcomingSchedule}
-                className={`
-                   text-xs px-3 py-1 h-8 rounded-lg
-                    transition-all duration-200 ease-out
-                     hover:scale-[1.03] hover:shadow-sm
-                    active:scale-[0.97]
+            <div className="flex-1 min-w-0">
+              <div className="flex flex-col sm:flex-row sm:items-start gap-3 h-full">
+                <div className="flex-1 min-w-0 space-y-2">
+                  <div className="flex flex-wrap gap-1.5">
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-violet-50 text-violet-700 border border-violet-200">
+                      {item.category}
+                    </span>
+                    <span
+                      className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium border ${diff.className}`}
+                    >
+                      <span className={`w-1.5 h-1.5 rounded-full ${diff.dot}`} />
+                      {item.difficultyLevel}
+                    </span>
+                  </div>
 
-               ${
-                item.hasUpcomingSchedule
-                 ? "text-primary hover:bg-primary/10"
-                  : "text-red-600 border-gray-300 cursor-not-allowed"
-                }
-              `}
-              >
-                {item.hasUpcomingSchedule ? "Book Now" : "Not Available"}
+                  <h3 className="font-semibold text-gray-900 text-sm sm:text-[15px] leading-snug tracking-tight line-clamp-2">
+                    {item.title}
+                  </h3>
 
-                <ChevronRight
-                  className={`
-      w-3 h-3 ml-1 transition-all duration-300
-      ${item.hasUpcomingSchedule ? "group-hover:translate-x-0.5" : ""}
-    `}
-                />
-              </Button>
+
+                  <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500">
+                    <span className="flex items-center gap-1.5">
+                      <Clock className="w-3.5 h-3.5 text-slate-400" />
+                      {item.days}D / {item.nights}N
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <MapPin className="w-3.5 h-3.5 text-slate-400" />
+                      {item.location}, {item.state}
+                    </span>
+                  </div>
+
+                  {item.basePrice && (
+                    <p className="text-sm font-semibold text-gray-900">
+                      ₹{item.basePrice.toLocaleString()}
+                      <span className="text-xs font-normal text-gray-400 ml-1">
+                        / person
+                      </span>
+                    </p>
+                  )}
+                </div>
+                <div className="flex sm:flex-col flex-row-reverse sm:flex-row items-center sm:items-end justify-between sm:justify-start gap-2 sm:gap-3 pt-1">
+                  <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}>
+                    <Button
+                      size="sm"
+                      onClick={() => onDetailsClick(item.packageId)}
+                      disabled={!item.hasUpcomingSchedule}
+                      className={`
+                        text-xs h-9 px-4 rounded-xl font-semibold shadow-sm transition-all duration-200
+                        ${item.hasUpcomingSchedule
+                          ? "bg-gradient-to-r from-orange-500 via-pink-500 to-violet-500 hover:from-violet-700 hover:to-indigo-700 text-white border-0"
+                          : "bg-gray-100 text-gray-400 cursor-not-allowed border-0"
+                        }
+                      `}
+                    >
+                      {item.hasUpcomingSchedule ? (
+                        <>
+                          Book Now
+                          <ChevronRight className="w-3.5 h-3.5 ml-1 group-hover:translate-x-0.5 transition-transform" />
+                        </>
+                      ) : (
+                        "Unavailable"
+                      )}
+                    </Button>
+                  </motion.div>
+                  <WishlistRemoveItemButton
+                    packageId={item.packageId}
+                    onOptimisticRemove={onOptimisticRemove}
+                    onRevert={onRevert}
+                  />
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div className="border-b border-gray-100 last:border-0" />
-    </div>
+        </CardContent>
+      </Card>
+    </motion.div>
   );
 }

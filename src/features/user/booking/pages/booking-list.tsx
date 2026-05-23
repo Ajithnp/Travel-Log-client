@@ -40,20 +40,17 @@ export default function BookingList() {
   return (
     <div className="min-h-screen px-4 sm:px-6 py-12 bg-[#f7f7fb] font-['Inter'] sm:py-8 mt-20">
       <div className="max-w-[97rem] mx-auto">
-        {/* Page header */}
+
         <BookingHeader total={total} />
-        {/* Card wrapper */}
+
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.05 }}
           className="bg-white rounded-2xl border border-gray-200 shadow-sm shadow-gray-100/80 overflow-hidden"
         >
-          {/* Top bar */}
           <div className="h-1 w-full bg-gradient-to-r from-indigo-500 via-violet-500 to-cyan-400" />
-
           <div className="p-4 sm:p-6">
-            {/* Tabs + Search row */}
             <BookingFilterWithSearch
               tab={activeTab}
               tabs={tabs}
@@ -63,7 +60,6 @@ export default function BookingList() {
             />
 
             <Separator className="bg-gray-100 mb-5" />
-            {/* Booking rows */}
             <div className="space-y-3 min-h-[260px]">
               <AnimatePresence mode="wait">
                 {bookings.length > 0 ? (
@@ -94,7 +90,6 @@ export default function BookingList() {
               </AnimatePresence>
             </div>
 
-            {/* Pagination */}
             {total > LIMIT && (
               <BookingPagination
                 page={page}

@@ -26,9 +26,7 @@ export const FILTER_VALUE_MAP: Record<Filter, boolean | undefined> = {
   All:    undefined,
   Unread: false,
 };
-
-
- 
+const LIMIT = 10
 
 export default function Notifications() {
   const navigate = useNavigate();
@@ -37,9 +35,7 @@ export default function Notifications() {
   const [filter, setFilter] = useState<Filter>("All");
   const [expanded, setExpanded] = useState<string | null>(null);
  
-  // ── React Query hooks ────────────────────────────────────────────────────────
- 
-  const { data, isLoading, isError } = useNotificationQuery(page, 20, FILTER_VALUE_MAP[filter]);
+  const { data, isLoading, isError } = useNotificationQuery(page, LIMIT, FILTER_VALUE_MAP[filter]);
   const markAllMutation = useMarkAllAsReadMutation();
   const markOneMutation = useMarkOneAsReadMutation();
   const deleteMutation = useDeleteNotificationMutation();
@@ -48,9 +44,6 @@ export default function Notifications() {
   const total = data?.data?.total ?? 0;
   const totalPages = data?.data?.totalPages ?? 1;
 
- 
-  // ── Handlers ─────────────────────────────────────────────────────────────────
- 
   const handleToggle = (id: string, isRead: boolean) => {
     setExpanded((prev) => (prev === id ? null : id));
     if (expanded !== id && !isRead) {
@@ -81,7 +74,6 @@ export default function Notifications() {
     <div className="min-h-screen px-4 sm:px-6 py-12 bg-[#f7f7fb] font-['Inter'] sm:py-8 mt-20">
       <div className="max-w-[97rem] mx-auto">
  
-        {/* 1 — Header */}
         <NotificationsHeader
           unread={unreadCount}
           total={total}
@@ -89,7 +81,6 @@ export default function Notifications() {
           onMarkAllRead={handleMarkAllRead}
         />
  
-        {/* Card */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -98,24 +89,20 @@ export default function Notifications() {
         >
           <div className="h-1 w-full bg-gradient-to-r from-indigo-500 via-violet-500 to-cyan-400" />
  
-          {/* 2 — Filter tabs */}
           <NotificationsFilter
             filter={filter}
             unread={unreadCount}
             onFilterChange={handleFilterChange}
           />
  
-          {/* 3 — Notification rows */}
           <div className="divide-y divide-gray-50">
             <AnimatePresence initial={false}>
-              {/* Loading state */}
               {isLoading && (
                 <div className="flex items-center justify-center py-16">
                   <div className="w-6 h-6 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
                 </div>
               )}
- 
-              {/* Error state */}
+
               {isError && (
                 <div className="flex flex-col items-center justify-center py-16 text-center">
                   <p className="text-sm text-red-400">
@@ -127,7 +114,6 @@ export default function Notifications() {
                 </div>
               )}
  
-              {/* Empty state */}
               {!isLoading && !isError && notifications.length === 0 && (
                 <motion.div
                   key="empty"
@@ -148,7 +134,6 @@ export default function Notifications() {
                 </motion.div>
               )}
  
-              {/* List */}
               {!isLoading &&
                 notifications.map((n) => (
                   <NotificationRow
@@ -164,7 +149,6 @@ export default function Notifications() {
             </AnimatePresence>
           </div>
  
-          {/* 4 — Pagination */}
           <NotificationsPagination
             page={page}
             totalPages={totalPages}
