@@ -2,8 +2,10 @@ import api from "@/config/api/axios";
 import { API_ENDPOINTS, API_ROUTE } from "@/lib/constants/routes";
 import type { ApiResponse } from "@/types/IApiResponse";
 import type { ScheduleFormValues } from "../validations/validation schemas";
-import type { PaginatedScheduleResponse, ScheduleResponse } from "../types/types";
+import type { PaginatedScheduleResponse, ScheduleResponse, ScheduleStatusType } from "../types/types";
 import type { AxiosResponse } from "axios";
+
+
 
 
 export const schedulePackage = async (
@@ -42,3 +44,19 @@ export const scheduleDetails = async (
   );
   return response.data;
 };
+
+export const updateScheduleStatus = async (
+  scheduleId:string,
+  status:ScheduleStatusType,
+): Promise<ApiResponse<ScheduleStatusResponseDTO>> => {
+  const response:AxiosResponse<ApiResponse<ScheduleStatusResponseDTO>> = await api.patch(
+    `${API_ENDPOINTS.VENDOR}${API_ROUTE.SCHEDULES}/${scheduleId}/status`,
+    {status}
+  );
+  return response.data;
+};
+
+export interface ScheduleStatusResponseDTO {
+  status: ScheduleStatusType;
+}
+

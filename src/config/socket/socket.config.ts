@@ -28,7 +28,7 @@ export function connectWS(): Socket {
   });
 
     // ── Server kicked (blocked / logged out)
-  socket.on('disconnect', (reason) => {
+  socket.on('disconnect', (reason:string) => {
     if (reason === 'io server disconnect') {
       window.location.href = '/login';
     }

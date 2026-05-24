@@ -6,7 +6,7 @@ type CancelledCardProps = {
   schedule: ScheduleResponse;
 };
 
-const CancelledCard = ({ schedule }: CancelledCardProps) => {
+export const CancelledCard = ({ schedule }: CancelledCardProps) => {
   return (
     <Card className="mt-6 border-destructive/30 animate-[fade-in_0.8s_ease-out]">
       <CardContent className="p-5 sm:p-6">
@@ -70,7 +70,6 @@ const CancelledCard = ({ schedule }: CancelledCardProps) => {
   );
 };
 
-export default CancelledCard;
 
 const CancellationInfoCard = ({
   label,
