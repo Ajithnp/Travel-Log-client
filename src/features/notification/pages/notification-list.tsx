@@ -4,7 +4,7 @@ import {
   BellOff,
   Filter,
 } from "lucide-react";
-
+import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
 import {
   useDeleteNotificationMutation,
@@ -18,6 +18,7 @@ import { NotificationsFilter } from "../components/notification-filter";
 import { NotificationsHeader } from "../components/notification-header";
 import { selectUnreadCount } from "@/store/slices/notification.slice";
 import { useSelector } from "react-redux";
+import { useAuthUser } from "@/hooks/useAuthUser";
 
 
 export type Filter = "All" | "Unread";
@@ -26,10 +27,11 @@ export const FILTER_VALUE_MAP: Record<Filter, boolean | undefined> = {
   All:    undefined,
   Unread: false,
 };
-const LIMIT = 10
+const LIMIT = 10;
 
 export default function Notifications() {
   const navigate = useNavigate();
+  const role = useAuthUser().user?.role;
   const unreadCount = useSelector(selectUnreadCount);
   const [page, setPage] = useState(1);
   const [filter, setFilter] = useState<Filter>("All");
@@ -71,7 +73,7 @@ export default function Notifications() {
   };
  
   return (
-    <div className="min-h-screen px-4 sm:px-6 py-12 bg-[#f7f7fb] font-['Inter'] sm:py-8 mt-20">
+    <div className={clsx("min-h-screen px-4 sm:px-6 py-12 bg-[#f7f7fb] font-['Inter'] sm:py-8", role === "user" ? "mt-20" : "")}>
       <div className="max-w-[97rem] mx-auto">
  
         <NotificationsHeader

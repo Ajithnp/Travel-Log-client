@@ -50,6 +50,16 @@ export interface PaginatedScheduleResponse extends Paginated<ScheduleListItemRes
   statusCounts: ScheduleStatusCounts;
 }
 
+export const SCHEDULE_STATUS = {
+  UPCOMING: 'upcoming',
+  ONGOING: 'ongoing',
+  COMPLETED: 'completed',
+  SOLD_OUT: 'sold_out',
+  CANCELLED: 'cancelled',
+} as const;
+
+export type ScheduleStatusType = (typeof SCHEDULE_STATUS)[keyof typeof SCHEDULE_STATUS];
+
 export interface ScheduleResponse {
   startDate:         Date
   endDate:           Date
@@ -60,7 +70,7 @@ export interface ScheduleResponse {
   seatsBooked:       number
   seatsRemaining:    number
   notes:             string | null
-  status:           string
+  status:           ScheduleStatusType
   cancellationReason: string | null
   cancelledAt:        Date | null
   cancelledBookings:  number | null
