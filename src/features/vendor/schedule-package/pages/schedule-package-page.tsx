@@ -21,8 +21,7 @@ const SchedulePackagePage = () => {
   const navigate = useNavigate()
 
   const { data, isLoading, error } = usePackageScheduleContext(
-    packageId ?? "",
-    {
+    packageId ?? "",{
       enabled: !!packageId,
     },
   );
@@ -36,6 +35,7 @@ const SchedulePackagePage = () => {
     isPending,
   } = useSchedulePackageForm(packageId ?? "");
 
+
   if (!packageId) return <InvalidState type="package" title="Package Missing" />;
   if (isLoading || !data?.data) return <Loader message="Loading.." />;
   if (error) return <Error message={error.response?.data.message} />;
@@ -44,7 +44,6 @@ const SchedulePackagePage = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Top bar */}
       <div className="bg-foreground/50 text-primary-foreground px-4 sm:px-6 py-3 flex justify-between">
         <p className="text-medium max-w-4xl ">
           Define a specific run of this package with dates, pricing and seats
@@ -79,7 +78,6 @@ const SchedulePackagePage = () => {
             <SeatsSection />
             <ScheduleNotesSection />
 
-            {/* Footer Actions */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

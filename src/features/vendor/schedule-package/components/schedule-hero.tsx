@@ -1,4 +1,4 @@
-import { Calendar, Clock, X, PinIcon} from "lucide-react";
+import { Calendar, Clock, PinIcon} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import StatusBadge from "../components/status-badge";

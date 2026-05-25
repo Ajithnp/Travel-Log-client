@@ -7,17 +7,22 @@ import { PackingList } from "../components/package-details/packing-list";
 import { PackageSidebar } from "../components/package-details/package-sidebar";
 import { useVendorId } from "@/features/vendor/hooks/vendor-id";
 import { useParams } from "react-router-dom";
-import { usePackagesFetchWithId } from "../hooks/api.hooks";
+import { usePackageDeleteMutation, usePackagesFetchWithId } from "../hooks/api.hooks";
 import { useDataWithSignedUrls } from "@/hooks/s3/data-with-signed-urls";
 import { Loader } from "@/components/common/loader";
 import { Error } from "@/components/common/error";
 import { Button } from "@/components/ui/button";
 import type { PackageDetailReponse } from "../type/package";
+import { useState } from "react";
+import { ConfirmDialog } from "@/components/common/confirm-dialog";
+
 
 
 const BasePackageDetails = () => {
+  const [isDelete, setIsDelete] = useState(false);
   const vendorId = useVendorId();
   const { packageId } = useParams<{ packageId: string }>();
+
 
   const { data, isLoading, error } =
     useDataWithSignedUrls<PackageDetailReponse>(
@@ -28,6 +33,16 @@ const BasePackageDetails = () => {
 
       }
     );
+
+  const mutateAsync = usePackageDeleteMutation({ packageId})
+  const handleDelete = () => {
+    mutateAsync.mutateAsync(packageId ?? "", {
+      onSuccess: () => {
+        setIsDelete(false);
+
+      }
+    })
+  }
 
   if (isLoading || !data) return <Loader message="Loading data.." />;
   if (error) return <Error message={error.message} />
@@ -46,8 +61,6 @@ const BasePackageDetails = () => {
               {pkg.title}
             </span>
           </p>
-
-          {/* Right: Back Button */}
           <Button
             variant={"outline"}
             type="button"
@@ -61,9 +74,11 @@ const BasePackageDetails = () => {
       </div>
 
       <div className="max-w-[90rem] mx-auto sm:px-6 py-6">
-        <PackageHeader pkg={pkg} />
+        <PackageHeader
+          pkg={pkg}
+          onDelete={() => setIsDelete(true)}
+        />
         <div className="mt-6 grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6">
-          {/* Main Content */}
           <div className="space-y-6 min-w-0">
             <PackageGallery images={pkg.images} />
             <PackageAbout description={pkg.description} />
@@ -71,19 +86,30 @@ const BasePackageDetails = () => {
             <PackageInclusions inclusions={pkg.inclusions} exclusions={pkg.exclusions} />
             <PackingList items={pkg.packingList} />
           </div>
-
-          {/* Sidebar */}
           <aside className="hidden lg:block">
             <div className="sticky top-6">
               <PackageSidebar pkg={pkg} />
             </div>
           </aside>
         </div>
-        {/* Sidebar - mobile */}
         <div className="lg:hidden mt-6">
           <PackageSidebar pkg={pkg} />
         </div>
       </div>
+
+      <ConfirmDialog
+        open={isDelete}
+        onOpenChange={(value) => setIsDelete(value)}
+        title="Delete package"
+        description={`Are you sure you want to delete this package? This action cannot be undone.`}
+        onConfirm={handleDelete}
+        confirmText={mutateAsync.isPending ? "Deleting..." : "Delete"}
+        variant="danger"
+        loading={mutateAsync.isPending}
+        destructive
+      />
+
+
     </div>
   );
 };

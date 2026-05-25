@@ -1,8 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
-import { initiateBooking, confirmBooking, } from "@/services/app-service";
+import { initiateBooking } from "@/services/app-service";
 import {
   type InitiateBookingRequestDTO,
-  type ConfirmBookingRequestDTO,
   type InitiateBookingResponseDTO,
   PAYMENT_METHODS
 } from "@/types/api/booking-api.types";

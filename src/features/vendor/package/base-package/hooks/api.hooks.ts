@@ -1,18 +1,20 @@
 import { AxiosError } from "axios";
 import {
+  deletePackage,
   getPackages,
   getPackageScheduleContext,
   getPackagesWithId,
   updatePackage,
   uploadPackage,
 } from "../services/api.services";
-import { useMutation, useQuery, keepPreviousData } from "@tanstack/react-query";
+import { useMutation, useQuery, keepPreviousData, useQueryClient } from "@tanstack/react-query";
 import type { IApiResponse } from "@/types/axios";
 import type {
   BasePackageDraftSchema,
 } from "../validations/draft-base-package-schema";
 import type { ApiResponse, PaginatedData } from "@/types/IApiResponse";
 import type { IPackage, PackageDetailReponse, PackageScheduleContextResponse } from "../type/package";
+import { toast } from "sonner";
 
 export const useUploadPackageMutation = () => {
   return useMutation<
@@ -78,5 +80,22 @@ export const usePackageScheduleContext = (
     queryFn: () => getPackageScheduleContext(packageId),
     enabled: options?.enabled,
     refetchOnWindowFocus: false,
+  });
+};
+
+export const usePackageDeleteMutation = ({ packageId }: { packageId: string  | undefined}) => {
+  const queryClient = useQueryClient();
+  return useMutation<
+    ApiResponse,
+    AxiosError<{ message: string }>,
+    string
+  >({
+    mutationFn: deletePackage,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["packages", packageId] })
+    },
+    onError: (error) => {
+      toast.error(error.response?.data?.message)
+    }
   });
 };

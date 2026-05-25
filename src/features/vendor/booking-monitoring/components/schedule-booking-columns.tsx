@@ -6,18 +6,6 @@ import { View } from "lucide-react";
 import { format } from "date-fns";
 
 
-const paymentStatusColor: Record<string, string> = {
-  pending: "bg-red-500",
-  completed: "bg-green-500",
-  partial: "bg-yellow-500",
-  failed: "bg-destructive",
-  refunded: "bg-orange-500",
-  cancelled: "bg-orange-500",
-  pending_review: "bg-blue-500",
-  hold: "bg-yellow-500",
-  expired: "bg-orange-500",
-};
-
 export const ScheduleBookingColumns = (
   onView: (bookingId: string) => void
 ): Column<ScheduleBookingDetailDTO>[] => [

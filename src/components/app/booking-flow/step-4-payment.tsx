@@ -10,8 +10,6 @@ import type {
   Schedule,
 } from "@/types/booking.types";
 import type { PaymentSplit } from "@/utils/booking/payment-split-calculator";
-import Wallet from "@/features/user/wallet/pages/wallet";
-
 
 interface Step4PaymentProps {
   selectedSchedule: Schedule | null;

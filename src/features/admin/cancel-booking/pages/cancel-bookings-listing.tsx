@@ -62,10 +62,10 @@ export default function CancelBookingsListPage() {
         handleViewAction,
     ), []);
 
-    if (isError && error) return (
+    if (isError || cancelRequestDetailsError) return (
         <Error
-            message={error.response?.data?.message}
-            code={error.response?.status}
+            message={cancelRequestDetailsError?.response?.data?.message || error?.response?.data?.message}
+            code={cancelRequestDetailsError?.response?.status || error?.response?.status}
             onRetry={refetch}
         />
     );

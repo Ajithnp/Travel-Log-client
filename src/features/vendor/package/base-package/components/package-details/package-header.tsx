@@ -3,12 +3,14 @@ import { Badge } from "@/components/ui/badge";
 import { categoryIcon, difficultyColor, statusColorMap } from "@/lib/constants/ui/mapping-ui";
 import type { PackageDetailReponse } from "../../type/package";
 import { Button } from "@/components/ui/button";
+import { PackageStatus } from "@/lib/constants/constants";
 
 interface PackageHeaderProps {
   pkg: Partial<PackageDetailReponse>;
+  onDelete: () => void;
 }
 
-export function PackageHeader({ pkg }: PackageHeaderProps) {
+export function PackageHeader({ pkg, onDelete }: PackageHeaderProps) {
   return (
     <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 bg-base shadow-premium">
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
@@ -68,18 +70,16 @@ export function PackageHeader({ pkg }: PackageHeaderProps) {
           </div>
         </div>
         <div className="flex items-center gap-2 shrink-0">
-          {/* {pkg.status === PackageStatus.PUBLISHED && (
-            <Button variant="outline" size="sm" className="gap-1.5">
-              <Copy className="h-3.5 w-3.5" /> Duplicate
-            </Button>
-          )} */}
+        {pkg.status && pkg.status !== PackageStatus.DELETED && (
           <Button
             variant="outline"
             size="sm"
             className="gap-1.5 text-destructive hover:text-destructive"
+            onClick={()=> onDelete()}
           >
             <Trash2 className="h-3.5 w-3.5" /> Delete
           </Button>
+          )}
         </div>
       </div>
     </div>

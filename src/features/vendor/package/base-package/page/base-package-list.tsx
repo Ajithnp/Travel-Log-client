@@ -16,7 +16,7 @@ import { PageHeader } from "@/components/shared/page-header";
 import { FilterWithSearch } from "@/components/shared/filter-with-search";
 import { Error } from "@/components/common/error";
 
-type FilterTab = "all" | "DRAFT" | "PUBLISHED";
+type FilterTab = "all" | "DRAFT" | "PUBLISHED" | "DELETED";
 const LIMIT = 10;
 
 const BasePackageListPage = () => {
@@ -54,6 +54,7 @@ const BasePackageListPage = () => {
       { key: "all" as FilterTab, label: "All" },
       { key: "DRAFT" as FilterTab, label: "Draft" },
       { key: "PUBLISHED" as FilterTab, label: "Published" },
+      { key: "DELETED" as FilterTab, label: "Deleted" },
     ],
     [],
   );
@@ -66,7 +67,6 @@ const BasePackageListPage = () => {
   return (
     <main className="min-h-screen w-full bg-background p-4 sm:p-6 lg:p-8">
       <div className="space-y-6">
-        {/* Page Header */}
         <PageHeader
           title={"Packages"}
           description={"Manage and schedule your travel packages"}
@@ -85,7 +85,6 @@ const BasePackageListPage = () => {
           searchPlaceholder={"Search packages by location and state..."}
         />
 
-        {/* Package Grid or Empty State */}
         {!packages || packages.length === 0 ? (
           <EmptyData
             heading="No packages found"
@@ -103,10 +102,8 @@ const BasePackageListPage = () => {
           />
         ) : (
           <motion.div
-            // layout
             className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6"
           >
-            {/* <AnimatePresence> */}
             {packages.map((pkg) => (
               <PackageCard
                 key={pkg.id}
@@ -115,11 +112,8 @@ const BasePackageListPage = () => {
                 onButtonClick={(id, e) => e.stopPropagation()}
               />
             ))}
-            {/* </AnimatePresence> */}
           </motion.div>
         )}
-
-        {/* Pagination */}
         <TableFooter
           currentPage={currentPage}
           totalPages={totalPages}
