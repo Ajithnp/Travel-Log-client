@@ -1,4 +1,6 @@
 import type { FieldConfig } from "@/components/shared/modal/FieldModal";
+import { ADMIN_TABS, VENDOR_TABS } from "@/lib/constants/constants";
+import type { TabKey } from "@/store/slices/unreadTabSlice";
 import {
   LayoutDashboard,
   ViewIcon,
@@ -22,15 +24,17 @@ export interface SidebarLink {
   name: string;
   path: string;
   icon: LucideIcon;
+  tabKey?: TabKey;
 }
 
 export const adminSidebarLinks = [
   { name: "Dashboard", path: "/", icon: LayoutDashboard },
 
   {
-    name: "Vendors verification Request",
+    name: "Vendors Verification Requests",
     path: "vendor/verification-request",
     icon: UserCheck,
+    tabKey: ADMIN_TABS.VENDOR_VERIFICATION,
   },
   { name: "Users", path: "/admin/users", icon: Users },
   { name: "Vendors", path: "/admin/vendors", icon: Store },
@@ -45,7 +49,7 @@ export const vendorSidebarLinks = [
   { name: "Packages", path: "/vendor/packages", icon: Briefcase },
   { name: "Category", path: "/vendor/requested-categories", icon: ViewIcon },
   {name: "Schedules", path: "/vendor/scheduled-trips", icon:CalendarCheck},
-  { name: "Chats", path: "/vendor/chats", icon: MessageCircle }
+  { name: "Chats", path: "/vendor/chats", icon: MessageCircle , tabKey:VENDOR_TABS.CHAT}
 ];
 
 export const userSidebarLinks = [

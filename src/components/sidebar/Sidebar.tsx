@@ -4,6 +4,11 @@ import { Button } from "../ui/button";
 import { ChevronLeft, ChevronRight, LogOut, Menu, X } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import type { SidebarLink } from "@/types/components-inputs.types/commponents.types";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "@/store/store";
+import { removeUnreadTab, selectIsTabUnread } from "@/store/slices/unreadTabSlice";
+import { useMarkTabsAsReadMutation } from "@/features/notification/hooks/api.hooks";
+
 
 interface SideBarProps {
   isExpanded: boolean;
@@ -26,6 +31,8 @@ const Sidebar = ({
   sidebarLinks,
   onLogout,
 }: SideBarProps) => {
+
+
   return (
     <motion.div
       initial={false}
@@ -90,41 +97,14 @@ const Sidebar = ({
       {/* Sidebar nav items */}
       <nav className="flex-1 pt-4 md:pt-6 px-2 ">
         {sidebarLinks.map((item, index) => (
-          <motion.div
-            key={index}
-            whileHover={{ x: isExpanded || isMobileMenuOpen ? 4 : 0 }}
-            whileTap={{ scale: 0.98 }}
-            transition={{ duration: 0.2 }}
-          >
-            <NavLink
-              to={item.path}
-              onClick={closeMobileMenu}
-              className={({ isActive }) =>
-                `flex items-center py-2.5 md:py-3 px-3 gap-3 rounded-xl transition-all duration-200 mb-2 group touch-manipulation 
-                ${isActive
-                  ? "border-r-4 bg-gradient-to-r from-sidebar-primary/15 to-sidebar-primary/5 border-sidebar-primary text-sidebar-primary shadow-sm"
-                  : "hover:bg-sidebar-accent text-sidebar-foreground hover:shadow-sm hover:scale-[1.02] active:scale-[0.98]"
-                }`
-              }
-            >
-              <div className="flex-shrink-0 group-hover:scale-110 transition-transform duration-200 w-6 h-6 flex items-center justify-center">
-                <item.icon className="w-6 h-6" />
-              </div>
-
-              {(isExpanded || isMobileMenuOpen) && (
-                <motion.p
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -10 }}
-                  transition={{ duration: 0.2, delay: 0.1 }}
-                  className="text-sm font-medium"
-                >
-                  {item.name}
-                </motion.p>
-              )}
-            </NavLink>
-          </motion.div>
-        ))}
+      <NavItem
+      key={index}
+      item={item}
+      isExpanded={isExpanded}
+      isMobileMenuOpen={isMobileMenuOpen}
+      closeMobileMenu={closeMobileMenu}
+    />
+  ))}
       </nav>
 
       {/* Logout */}
@@ -158,5 +138,67 @@ const Sidebar = ({
     </motion.div>
   );
 };
+
+function NavItem({
+  item,
+  isExpanded,
+  isMobileMenuOpen,
+  closeMobileMenu,
+}: {
+  item: SidebarLink;
+  isExpanded: boolean;
+  isMobileMenuOpen: boolean;
+  closeMobileMenu: () => void;
+}) {
+  const dispatch = useDispatch<AppDispatch>();
+  const isUnread = useSelector((state: RootState) => item.tabKey ? selectIsTabUnread(item.tabKey)(state) : false);
+ const markTabsAsRead = useMarkTabsAsReadMutation();
+  const handleClick = () => {
+    if (item.tabKey && isUnread) {
+      dispatch(removeUnreadTab(item.tabKey));
+      markTabsAsRead.mutate(item.tabKey)
+    }
+    closeMobileMenu();
+  };
+
+  return (
+    <motion.div
+      whileHover={{ x: isExpanded || isMobileMenuOpen ? 4 : 0 }}
+      whileTap={{ scale: 0.98 }}
+      transition={{ duration: 0.2 }}
+    >
+      <NavLink
+        to={item.path}
+        onClick={handleClick}
+        className={({ isActive }) =>
+          `flex items-center py-2.5 md:py-3 px-3 gap-3 rounded-xl transition-all duration-200 mb-2 group touch-manipulation 
+          ${isActive
+            ? "border-r-4 bg-gradient-to-r from-sidebar-primary/15 to-sidebar-primary/5 border-sidebar-primary text-sidebar-primary shadow-sm"
+            : "hover:bg-sidebar-accent text-sidebar-foreground hover:shadow-sm hover:scale-[1.02] active:scale-[0.98]"
+          }`
+        }
+      >
+        <div className="relative flex-shrink-0 w-6 h-6 flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+          <item.icon className="w-6 h-6" />
+          {isUnread && (
+            <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full border-2 border-sidebar" />
+          )}
+        </div>
+
+        {(isExpanded || isMobileMenuOpen) && (
+          <motion.p
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -10 }}
+            transition={{ duration: 0.2, delay: 0.1 }}
+            className="text-sm font-medium"
+          >
+            {item.name}
+          </motion.p>
+        )}
+      </NavLink>
+    </motion.div>
+  );
+}
 
 export default Sidebar;

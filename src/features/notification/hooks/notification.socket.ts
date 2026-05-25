@@ -6,6 +6,8 @@ import {
   incrementUnreadCount,
   clearUnreadCount,
 } from '@/store/slices/notification.slice';
+import { addUnreadTab,setUnreadTabs } from '@/store/slices/unreadTabSlice';
+import { type TabKey } from "@/store/slices/unreadTabSlice";
 import type { AppDispatch } from '@/store/store';
 import { connectWS } from '@/config/socket/socket.config';
 import { selectIsAuthenticated } from '@/store/slices/user.slice';
@@ -75,13 +77,23 @@ export function useNotificationSocket() {
       queryClientRef.current.invalidateQueries({ queryKey: ['notifications'] });
     };
 
-    // put all in double quatation  mark"""
+    const onSetTabs = ({ tabs }: { tabs: TabKey[] }) => {
+      dispatchRef.current(setUnreadTabs(tabs));
+    };
+
+    const onNewTab = ({ tab }: { tab: TabKey }) => {
+      dispatchRef.current(addUnreadTab(tab));
+    }
+
     socket.on("connect", onConnect);
     socket.on("connect_error", onConnectError);
     socket.on("disconnect", onDisconnect);
     socket.on("notification_new", onNotificationNew);
     socket.on("notification_unread_count", onUnreadCount);
     socket.on("notification_read_all", onReadAll);
+
+    socket.on("tab_read",onSetTabs);
+    socket.on("tab_new",onNewTab);
 
     return () => {
 
@@ -91,6 +103,9 @@ export function useNotificationSocket() {
       socket.off("notification_new", onNotificationNew);
       socket.off("notification_unread_count", onUnreadCount);
       socket.off("notification_read_all", onReadAll);
+
+      socket.off("tab_read",onSetTabs);
+      socket.off("tab_unread",onNewTab);
       socket.disconnect();
     };
   }, [isAuthenticated]); 
