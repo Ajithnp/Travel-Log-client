@@ -17,7 +17,8 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import type React from "react";
-import { Loader } from "./loader";
+import { Loader } from "../ui/loader";
+
 
 interface ConfirmDialogProps {
   open: boolean;
@@ -100,11 +101,9 @@ export function ConfirmDialog({
               transition={{ duration: 0.3, ease: "easeOut" }}
               className="relative"
             >
-              {/* Top Accent Bar */}
               <div className={cn("h-2 w-full", styles.iconBg)} />
 
               <div className="px-8 pt-10 pb-8 text-center">
-                {/* Icon Section */}
                 <div className="flex justify-center mb-6">
                   {icon ? (
                     <div className="relative">
@@ -149,7 +148,6 @@ export function ConfirmDialog({
                   )}
                 </div>
 
-                {/* Content Section */}
                 <AlertDialogHeader className="space-y-3 mb-8">
                   <AlertDialogTitle className="text-2xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50 leading-tight">
                     {title}
@@ -159,7 +157,6 @@ export function ConfirmDialog({
                   </AlertDialogDescription>
                 </AlertDialogHeader>
 
-                {/* Footer Actions */}
                 <AlertDialogFooter className="flex flex-col sm:flex-row gap-3 sm:justify-center">
                   <AlertDialogCancel
                     disabled={loading}
@@ -189,7 +186,7 @@ export function ConfirmDialog({
                           exit={{ opacity: 0, y: -10 }}
                           className="flex items-center gap-2"
                         >
-                          <Loader message="Processing..."/>
+                          <Loader text="Processing.."/>
                         </motion.div>
                       ) : (
                         <motion.span

@@ -1,9 +1,9 @@
 import { z } from 'zod'
 
-export const MIN_TRIP_DAYS    = 7
+export const MIN_TRIP_DAYS = 10
 export const MAX_NOTES_LENGTH = 500
-export const MAX_PRICE        = 500000 
-export const MAX_SEATS        = 500
+export const MAX_PRICE = 500000
+export const MAX_SEATS = 500
 
 
 const toDateOnly = (dateStr: string) => {
@@ -48,21 +48,21 @@ export const scheduleFormSchema = z
         (val) => toDateOnly(val) >= tomorrow(),
         'Start date must be at least 1 day in the future'
       )
-    .refine(
-    (val) => {
-      if (!val) return true
-      const minStart = new Date()
-      minStart.setHours(0, 0, 0, 0)
-      minStart.setDate(minStart.getDate() + MIN_TRIP_DAYS)  
-      return toDateOnly(val) >= minStart
-    },
-    `Schedule must be created at least ${MIN_TRIP_DAYS} days in advance for better organization`
-  ),
+      .refine(
+        (val) => {
+          if (!val) return true
+          const minStart = new Date()
+          minStart.setHours(0, 0, 0, 0)
+          minStart.setDate(minStart.getDate() + MIN_TRIP_DAYS)
+          return toDateOnly(val) >= minStart
+        },
+        `Schedule must be created at least ${MIN_TRIP_DAYS} days in advance for better organization`
+      ),
 
     endDate: z
       .string({ required_error: 'End date is required' })
       .min(1, 'End date is required'),
-  
+
     reportingTime: z
       .string({ required_error: 'Reporting time is required' })
       .min(1, 'Reporting time is required')
@@ -71,19 +71,19 @@ export const scheduleFormSchema = z
     reportingLocation: z
       .string({ required_error: 'Reporting location is required' })
       .trim()
-      .min(5,   'Location must be at least 5 characters')
+      .min(5, 'Location must be at least 5 characters')
       .max(300, 'Location must be under 300 characters'),
 
     pricing: z.object({
-      solo:  requiredPrice('Solo'),   
-      duo:   optionalPrice('Duo'),    
-      group: optionalPrice('Group'),  
+      solo: requiredPrice('Solo'),
+      duo: optionalPrice('Duo'),
+      group: optionalPrice('Group'),
     }),
 
     totalSeats: z
       .number({ invalid_type_error: 'Total seats is required' })
       .int('Seats must be a whole number')
-      .min(1,         'Total seats must be at least 1')
+      .min(1, 'Total seats must be at least 1')
       .max(MAX_SEATS, `Total seats cannot exceed ${MAX_SEATS}`),
 
     notes: z
@@ -93,12 +93,15 @@ export const scheduleFormSchema = z
       .transform((val) => val?.trim() || undefined),
   })
 
-
-  // Rule 1: endDate must be after startDate
   .refine(
     ({ startDate, endDate }) =>
-      !startDate || !endDate || toDateOnly(endDate) > toDateOnly(startDate),
-    { message: 'End date must be after start date', path: ['endDate'] }
+      !startDate ||
+      !endDate ||
+      toDateOnly(endDate) >= toDateOnly(startDate),
+    {
+      message: 'End date cannot be before start date',
+      path: ['endDate'],
+    }
   )
 
   .refine(

@@ -11,7 +11,6 @@ export default function PaymentSuccess() {
   const { state } = useLocation();
   const navigate = useNavigate();
   
-  const bookingId = state?.bookingId;
   const bookingCode = state?.bookingCode;
   const amount = state?.amount;
 
@@ -22,7 +21,6 @@ export default function PaymentSuccess() {
 
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-dashboard-bg via-background to-muted px-3 py-8">
-      {/* Background blobs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-[-20%] left-[-10%] w-[400px] sm:w-[600px] h-[400px] sm:h-[600px] rounded-full bg-orange-100/60 blur-[100px]" />
         <div className="absolute bottom-[-20%] right-[-10%] w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] rounded-full bg-orange-200/60 blur-[100px]" />
@@ -44,7 +42,6 @@ export default function PaymentSuccess() {
             transition={{ duration: 0.45, ease: "easeOut" }}
             className="relative z-20 w-full max-w-lg"
           >
-            {/* Card */}
             <div className="rounded-2xl border border-gray-200 bg-white overflow-hidden shadow-xl shadow-gray-200/80">
 
               <div className="h-1 w-full bg-gradient-to-r from-green-500 via-green-500 to-cyan-400" />
@@ -124,7 +121,6 @@ export default function PaymentSuccess() {
                   </Button>
                 </motion.div>
 
-                {/* Download link */}
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}

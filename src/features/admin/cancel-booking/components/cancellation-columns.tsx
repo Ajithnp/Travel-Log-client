@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import type { Column } from "@/components/table/DataTable";
-import { Eye, Check, Ban } from "lucide-react";
+import { Eye} from "lucide-react";
 import type { CancellationRequestRsponse } from "../services/api.service";
 import { CANCELATION_STATUS } from "../types/constants";
 import { TableActions, type TableAction } from "@/components/table/TableActions";

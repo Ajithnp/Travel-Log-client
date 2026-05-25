@@ -16,7 +16,6 @@ import {
     CheckCircle2,
     XCircle,
     ShieldAlert,
-    Eye,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -24,8 +23,6 @@ import { Textarea } from "@/components/ui/textarea";
 import type { DetailedCancellationRequestResponse } from "../services/api.service";
 import { format } from "date-fns";
 import { Loader } from "@/components/common/loader";
-
-
 
 function InfoRow({
     icon,

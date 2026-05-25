@@ -18,13 +18,13 @@ export const difficultyColor: Record<string, string> = {
 export const statusColorMap: Record<PackageStatus, string> = {
   DRAFT: "bg-orange-100 text-orange-800",
   PUBLISHED: "bg-green-100 text-green-800",
-  SOFT_DELETE: "bg-gray-100 text-gray-600",
+  DELETED: "bg-rose-100 text-rose-600",
 };
 
 export const statusLabelMap: Record<PackageStatus, string> = {
   DRAFT: "Draft",
   PUBLISHED: "Published",
-  SOFT_DELETE: "Deleted",
+  DELETED: "Deleted",
 };
 
 export const typeLabel: Record<string, string> = {

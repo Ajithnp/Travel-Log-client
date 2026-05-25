@@ -40,7 +40,6 @@ export function ConfirmModal({ icon, title, description, confirmLabel = "Confirm
       <style>{`@keyframes modalIn { from { opacity:0; transform:scale(0.92) translateY(10px) } to { opacity:1; transform:scale(1) translateY(0) } }`}</style>
       <div className="relative w-full max-w-md" style={{ animation: "modalIn 0.28s cubic-bezier(0.34,1.56,0.64,1) forwards" }}>
         <div className="relative rounded-2xl bg-white overflow-hidden" style={{ boxShadow: "0 0 0 1px rgba(99,102,241,0.1), 0 24px 64px rgba(15,23,42,0.14)" }}>
-          {/* Glacier background */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-2xl">
             <div className="absolute -top-20 -left-20 w-64 h-64 rounded-full" style={{ background: "radial-gradient(circle, rgba(147,197,253,0.35) 0%, transparent 70%)", filter: "blur(32px)" }} />
             <div className="absolute -bottom-16 -right-16 w-56 h-56 rounded-full" style={{ background: "radial-gradient(circle, rgba(167,243,208,0.3) 0%, transparent 70%)", filter: "blur(28px)" }} />

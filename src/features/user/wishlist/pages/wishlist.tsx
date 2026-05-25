@@ -1,4 +1,3 @@
-import { ArrowRight, Heart } from "lucide-react";
 import { ItemSkeleton } from "../components/item-skeleton";
 import { useWishlistData } from "../hooks/wishlist-data";
 import { WishlistItem } from "../components/wishlist-item";

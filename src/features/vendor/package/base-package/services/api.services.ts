@@ -62,3 +62,11 @@ export const getPackageScheduleContext = async (
 
   return response.data;
 };
+
+export const deletePackage = async (
+  packageId: string
+): Promise<ApiResponse> => {
+  const response: AxiosResponse<ApiResponse> =
+    await api.delete(`${API_ENDPOINTS.VENDOR}${API_ROUTE.PACKAGES}/${packageId}`);
+  return response.data;
+};

@@ -18,7 +18,7 @@ export type CancellationPolicyResponse = {
 export type DifficultyLevel = (typeof DIFFICULTY_LEVELS)[number];
 export type PackageFormPayload = BasePackageSchema;
 
-export type PackageStatus = "DRAFT" | "PUBLISHED" ;
+export type PackageStatus = "DRAFT" | "PUBLISHED" | "DELETED";
 export interface IPackage {
   id: string;
   title: string;
