@@ -1,4 +1,5 @@
 import api from "@/config/api/axios";
+import type { AdminTab, VendorTab } from "@/lib/constants/constants";
 import { API_ENDPOINTS, API_ROUTE } from "@/lib/constants/routes";
 import type { ApiResponse } from "@/types/IApiResponse";
 import type { AxiosResponse } from "axios";
@@ -42,6 +43,12 @@ export const markOneRead = async (id: string): Promise<ApiResponse<{modifiedCoun
 export const deleteNotification = async (id: string): Promise<ApiResponse<null>> => {
    const response: AxiosResponse<ApiResponse<null>> =
     await api.delete(`${API_ENDPOINTS.NOTIFICATION}/${id}`);
+  return response.data ;
+};
+
+export const markTabsAsRead = async (tab: VendorTab | AdminTab): Promise<ApiResponse<null>> => {
+   const response: AxiosResponse<ApiResponse<null>> =
+    await api.patch(`${API_ENDPOINTS.NOTIFICATION}${API_ROUTE.NOTIFICATIONS_MARK_TABS_READ}`,{tab});
   return response.data ;
 };
 

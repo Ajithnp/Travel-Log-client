@@ -72,6 +72,7 @@ export const API_ROUTE = {
   NOTIFICATIONS_UNREAD_COUNT: "/unread-count",
   NOTIFICATIONS_MARK_ALL_READ: "/mark-all-read",
   NOTIFICATIONS_MARK_ONE_READ: (id: string) => `/${id}/mark-read`,
+  NOTIFICATIONS_MARK_TABS_READ: "/mark-tabs-read",
 
   // messages
   GET_MESSAGES: (chatId: string) => `/${chatId}/messages`,
