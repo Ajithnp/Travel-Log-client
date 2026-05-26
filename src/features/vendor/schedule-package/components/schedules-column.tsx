@@ -1,5 +1,5 @@
 import type { Column } from "@/components/table/DataTable";
-import {View, XCircle } from "lucide-react";
+import {View } from "lucide-react";
 import {
   TableActions,
   type TableAction,
@@ -115,12 +115,6 @@ export const ScheduleColumns = (
           icon: <View className="w-4 h-4" />,
           variant: "success",
           onClick: () => onView(schedule.scheduleId, schedule.packageId),
-        },
-        {
-          label: "Cancel Trip",
-          icon: <XCircle className="w-4 h-4" />,
-          onClick: () => console.log("Edit user", schedule.scheduleId),
-          variant: "primary",
         },
       ];
 

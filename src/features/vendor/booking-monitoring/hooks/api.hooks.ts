@@ -1,7 +1,9 @@
 import type { ApiError } from "@/types/axios";
 import type { ApiResponse, PaginatedData } from "@/types/IApiResponse";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { getScheduleBookingDetailsApi, getScheduleBookingsApi, getScheduleBookingSummaryApi, type ScheduleBookingDetailDTO, type ScheduleBookingSingleDetailDTO, type VendorScheduleBookingSummaryDTO } from "../services/api.services";
+import { keepPreviousData, useMutation, useQuery } from "@tanstack/react-query";
+import { downloadScheduleBookingsCSV, getScheduleBookingDetailsApi, getScheduleBookingsApi, getScheduleBookingSummaryApi, type ScheduleBookingDetailDTO, type ScheduleBookingSingleDetailDTO, type VendorScheduleBookingSummaryDTO } from "../services/api.services";
+import { toast } from "sonner";
+import { isAxiosError } from "axios";
 
 
 export const useScheduleBookingsQuery = (page:number, limit:number, scheduleId:string, search?:string, filter?:string) => {
@@ -35,4 +37,20 @@ export const useScheduleBookingDetailsQuery = (scheduleId:string, bookingId:stri
   });
 };
 
-
+export const useDownloadScheduleCSV = () => {
+  return useMutation({
+    mutationFn: (scheduleId: string) => downloadScheduleBookingsCSV(scheduleId),
+    onSuccess: () => {
+      toast.success('CSV exported successfully');
+    },
+    onError: async (error: unknown) => {
+      if (isAxiosError(error) && error.response?.data instanceof Blob) {
+        const text = await error.response.data.text();
+        const json = JSON.parse(text);
+        toast.error(json.message ?? 'Failed to export CSV');
+      } else {
+        toast.error('Failed to export CSV');
+      }
+    },
+  });
+};
