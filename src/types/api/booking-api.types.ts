@@ -42,9 +42,13 @@ export interface ConfirmBookingResponseDTO {
 export type VerifyPaymentResponseDTO =
   | {
       status: "success";
+      bookingCode: string;
       bookingId: string;
       amount: number;
     }
   | {
       status: "failure";
+      bookingCode: string;
+      bookingId: string;
+      amount: number;
     };

@@ -4,7 +4,8 @@ import { XCircle, RefreshCw, ArrowRight, Home, BookOpen, AlertTriangle, ChevronD
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-
+import { useLocation, useNavigate } from "react-router-dom";
+import { useRetryPayment } from "@/features/user/booking/hooks/retry-payment";
 
 const possibleReasons = [
   "Insufficient funds or card limit reached",
@@ -17,6 +18,18 @@ export default function PaymentFailed() {
   const [visible, setVisible] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
 
+  const { state } = useLocation();
+  const bookingId = state?.bookingId as string;
+  const amount = state?.amount as number;
+
+  const navigate = useNavigate();
+
+  const {retryPayment, isLoading} = useRetryPayment();
+  const handleRetryPayment = ()=>{
+    retryPayment(bookingId)
+  }
+  
+
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 80);
     return () => clearTimeout(t);
@@ -24,7 +37,6 @@ export default function PaymentFailed() {
 
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-dashboard-bg via-background to-muted px-3 py-8">
-      {/* Background blobs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-[-20%] left-[-10%] w-[400px] sm:w-[600px] h-[400px] sm:h-[600px] rounded-full bg-rose-100/50 blur-[100px]" />
         <div className="absolute bottom-[-20%] right-[-10%] w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] rounded-full bg-orange-100/50 blur-[100px]" />
@@ -45,13 +57,11 @@ export default function PaymentFailed() {
             transition={{ duration: 0.45, ease: "easeOut" }}
             className="relative z-20 w-full max-w-lg"
           >
-            {/* Card */}
             <div className="rounded-2xl border border-gray-200 bg-white overflow-hidden shadow-xl shadow-gray-200/80">
-            
+
               <div className="h-1 w-full bg-gradient-to-r from-rose-500 via-red-500 to-orange-400" />
 
               <div className="p-5 sm:p-8">
-                {/* Header */}
                 <div className="text-center mb-6 sm:mb-8">
                   <motion.div
                     initial={{ scale: 0.7, opacity: 0 }}
@@ -77,14 +87,13 @@ export default function PaymentFailed() {
                       Transaction declined
                     </h1>
                     <p className="text-sm text-gray-500 max-w-xs mx-auto">
-                                          Your payment could not be processed.
-                                          {/* Your booking is held for{" "} */}
+                      Your payment could not be processed.
+                      {/* Your booking is held for{" "} */}
                       {/* <span className="text-amber-500 font-medium">15 minutes</span>. */}
                     </p>
                   </motion.div>
                 </div>
 
-                {/* Amount row — wraps on tiny screens */}
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -93,7 +102,7 @@ export default function PaymentFailed() {
                 >
                   <div>
                     <p className="text-xs text-gray-400 mb-0.5">Amount Attempted</p>
-                    <p className="text-xl sm:text-2xl font-bold text-gray-400 line-through decoration-rose-400/60">$4,280.00</p>
+                    <p className="text-xl sm:text-2xl font-bold text-gray-400 line-through decoration-rose-400/60">{amount.toFixed(2)}</p>
                   </div>
                   <div className="text-right">
                     <p className="text-xs text-gray-400 mb-0.5">Error Code</p>
@@ -101,7 +110,6 @@ export default function PaymentFailed() {
                   </div>
                 </motion.div>
 
-                {/* Expandable reasons */}
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -150,17 +158,18 @@ export default function PaymentFailed() {
                   transition={{ delay: 0.6, duration: 0.4 }}
                   className="flex flex-col gap-2.5 sm:gap-3"
                 >
-                  <Button className="w-full h-10 sm:h-11 bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-400 hover:to-rose-500 text-white text-sm font-semibold border-0 shadow-md shadow-rose-200 transition-colors duration-200">
-                    <RefreshCw className="w-4 h-4 mr-2 flex-shrink-0" />
-                    <span className="truncate">Retry Payment</span>
+                  <Button disabled={isLoading} onClick={handleRetryPayment} className="w-full h-10 sm:h-11 bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-400 hover:to-rose-500 text-white text-sm font-semibold border-0 shadow-md shadow-rose-200 transition-colors duration-200">
+                    <RefreshCw className={`w-4 h-4 mr-2 flex-shrink-0 ${isLoading ? "animate-spin" : ""}`} />
+                    <span className="truncate">{isLoading ? "Retrying..." : "Retry Payment"}</span>
                     <ArrowRight className="w-4 h-4 ml-auto flex-shrink-0" />
                   </Button>
 
-                  {/* Secondary buttons — stack on very small screens */}
+
                   <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 gap-2">
                     <Button
                       variant="outline"
                       className="h-10 border-gray-200 bg-white text-gray-600 text-sm hover:bg-gray-50 hover:text-gray-900 hover:border-gray-300 transition-colors duration-200 w-full"
+                       onClick={() => navigate("/user/bookings")}
                     >
                       <BookOpen className="w-3.5 h-3.5 mr-2 flex-shrink-0" />
                       <span className="truncate">View Bookings</span>
@@ -168,6 +177,7 @@ export default function PaymentFailed() {
                     <Button
                       variant="outline"
                       className="h-10 border-gray-200 bg-white text-gray-600 text-sm hover:bg-gray-50 hover:text-gray-900 hover:border-gray-300 transition-colors duration-200 w-full"
+                      onClick={() => navigate("/")}
                     >
                       <Home className="w-3.5 h-3.5 mr-2 flex-shrink-0" />
                       <span className="truncate">Back to Home</span>

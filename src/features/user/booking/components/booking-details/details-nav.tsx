@@ -9,8 +9,11 @@ import { useNavigate } from "react-router-dom";
 
 interface DetailsNavProps {
   status: BookingStatus;
+  cancelationStatus: CancelStatus | null;
+  canCancel: boolean;
+  lastDate: Date | null;
  openCancelModal: () => void;
- cancelationStatus: CancelStatus | null;
+ 
 } 
 const getCancelStatusStyle = (status: CancelStatus) => {
   switch (status) {
@@ -25,7 +28,7 @@ const getCancelStatusStyle = (status: CancelStatus) => {
   }
 };
 
-const DetailsNav = ({ status, openCancelModal, cancelationStatus }: DetailsNavProps) => {
+const DetailsNav = ({ status, openCancelModal, cancelationStatus,canCancel,lastDate }: DetailsNavProps) => {
   const navigate = useNavigate();
   const cfg = getStatusConfig(status);
   const Icon = cfg.icon;
@@ -65,17 +68,17 @@ const DetailsNav = ({ status, openCancelModal, cancelationStatus }: DetailsNavPr
                 ? "REQUESTED TO CANCEL"
                 : `CANCELLATION REQUEST: ${cancelationStatus.toUpperCase()}`}
             </Badge>
-          ) : (
+          ) : status === "confirmed" ? (
           <Button
             variant="outline"
             size="sm"
             className="h-8 px-3 text-xs border-red-200 text-red-500 gap-1.5 hover:bg-red-500 hover:text-white"
+            disabled={!canCancel}
             onClick={openCancelModal}
           >
             <X className="w-3.5 h-3.5" /> Cancel Booking
           </Button>
-            
-          )}
+          ) : null}
 
           <Button
             size="sm"

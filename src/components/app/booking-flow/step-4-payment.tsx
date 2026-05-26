@@ -56,7 +56,6 @@ export function Step4Payment({
 
   if (checkoutUrl) {
     window.location.href = checkoutUrl;
-    console.log('checkout url', checkoutUrl)
     return (
       <div className="flex flex-col items-center justify-center py-20 space-y-4">
         <Loader2 className="w-8 h-8 animate-spin text-gray-900" />

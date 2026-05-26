@@ -23,6 +23,7 @@ import CancelBookingModal from "../components/cancelation-modal";
 import { useState } from "react";
 import { toast } from "sonner";
 import { BOOKING_STATUS } from "../constants";
+import { getLastCancellationDate, isCancellationAllowed } from "@/utils/cancellation/cancellation-window";
 
 export default function BookingDetail() {
   const [showModal, setShowModal] = useState(false);
@@ -33,6 +34,9 @@ export default function BookingDetail() {
     useUserBookingDeatailsQuery(bookingId);
 
   const cancelMutation = useCancelBookingRequestMutation(bookingId);
+   const booking = data?.data;
+
+
 
   const handleCancelBooking = ( payload: { bookingId: string; reason: string; details: string }) => {
   cancelMutation.mutate(payload,{
@@ -43,13 +47,15 @@ export default function BookingDetail() {
   });
 };
 
-  const booking = data?.data;
 
   if (!bookingId) return <Error message="Invalid booking ID." />;
   if (isLoading) return <Loader message="Loading booking details..." />;
   if (isError)
     return <Error onRetry={refetch} message={error?.response?.data?.message} />;
   if (!booking) return <Error onRetry={refetch} message="Booking not found." />;
+
+  const canCancel = isCancellationAllowed(booking?.schedule.startDate, booking?.cancellationPolicy?.rules ||[]);
+  const lastDate = getLastCancellationDate(booking?.schedule.startDate, booking?.cancellationPolicy?.rules || []);
 
   const handleOperatorView = (operatorId: string) => {
     navigate(`/packages/vendor/${operatorId}/profile`);
@@ -61,7 +67,9 @@ export default function BookingDetail() {
         <DetailsNav 
         status={booking.bookingStatus}
         cancelationStatus={booking.cancellationStatus}
-         openCancelModal={() => setShowModal(true)} 
+        canCancel={canCancel}
+        lastDate={lastDate}
+        openCancelModal={() => setShowModal(true)} 
          />
         <div className="max-w-[97rem] mx-auto px-4 sm:px-6 py-6 space-y-4">
           <DetailsHeroCard
@@ -108,21 +116,20 @@ export default function BookingDetail() {
                   </div>
                 </SectionCard>
               </motion.div>
-              {/* Travelers */}
+
               <TravelersCard travelers={booking.travelers} />
-              {/* Itinerary */}
+ 
               <ItinerarySection itinerary={booking.package.itinerary} />
             </div>
-            {/*sidebar */}
+   
             <div className="space-y-4">
-              {/* Payment Summary */}
+
               <Pricing
                 pricing={booking.financials}
                 transactionId={booking.bookingCode}
               />
               <Included />
               <CancellationPolicy policy={booking.cancellationPolicy} />
-              {/* Action buttons */}
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}

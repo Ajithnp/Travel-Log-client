@@ -19,14 +19,20 @@ const BookingConfirm = () => {
     if (!data?.data) return;
 
     if (data.data.status === "failure") {
-      navigate("/user/payment/failure", { replace: true });
+      navigate("/user/payment/failure", {
+        replace: true,
+        state: {
+          bookingId: data.data.bookingId,
+          amount: data.data.amount,
+        }
+      });
     }
 
     if (data.data.status === "success") {
       navigate("/user/payment/success", {
         replace: true,
         state: {
-          bookingId: data.data.bookingId,
+          bookingCode: data.data.bookingCode,
           amount: data.data.amount,
         },
       });
