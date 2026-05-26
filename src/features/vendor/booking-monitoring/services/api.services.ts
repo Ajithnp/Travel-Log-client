@@ -36,6 +36,30 @@ export const getScheduleBookingDetailsApi = async (
   return response.data ;
 };
 
+export const downloadScheduleBookingsCSV = async (scheduleId: string): Promise<void> => {
+  const response = await api.get(
+    `${API_ENDPOINTS.VENDOR}/schedules/${scheduleId}/bookings/export/csv`,
+    { responseType: 'blob' }
+  );
+
+  const disposition = response.headers['content-disposition'];
+  let filename = `Bookings_Schedule_${scheduleId}.csv`;
+  if (disposition) {
+    const match = disposition.match(/filename="(.+)"/);
+    if (match) filename = match[1];
+  }
+
+  const blob = new Blob([response.data], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+};
+
 
 
 export interface ScheduleBookingDetailDTO {

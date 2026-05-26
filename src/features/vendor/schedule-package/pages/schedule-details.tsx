@@ -16,6 +16,7 @@ import { formatTripDateRange } from "@/utils/format-trip-date";
 import { format } from "date-fns";
 import {CancelledCard} from "../components/cancelled-card";
 import { SCHEDULE_STATUS,type ScheduleStatusType } from "../types/types";
+import { useDownloadScheduleCSV } from "../../booking-monitoring/hooks/api.hooks";
 
 
 export default function ScheduleDetails() {
@@ -44,6 +45,14 @@ export default function ScheduleDetails() {
   });
 
   const { mutateAsync: updateScheduleStatus } = useUpdateScheduleStatusMutation(scheduleId ?? "");
+
+   const { mutate: exportCSV, isPending } = useDownloadScheduleCSV();
+
+   const handleExportCSV = () => {
+    if (scheduleId) {
+      exportCSV(scheduleId);
+    }
+  };
 
   const handleUpdateScheduleStatus = (status:ScheduleStatusType)=>{
     updateScheduleStatus(status)
@@ -85,7 +94,7 @@ export default function ScheduleDetails() {
           schedule={schedule.data}
           pkg={packageData.data}
           onUpdateStatus={handleUpdateScheduleStatus}
-
+          
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6">
@@ -102,6 +111,8 @@ export default function ScheduleDetails() {
 
             <QuickActionsCard
               onNavigateToBookings={() => navigate(`/vendor/schedules/bookings/${scheduleId}`)}
+              onExportCSV={handleExportCSV}
+              isPending={isPending}
             />
           </div>
           {schedule?.data?.status === SCHEDULE_STATUS.CANCELLED &&

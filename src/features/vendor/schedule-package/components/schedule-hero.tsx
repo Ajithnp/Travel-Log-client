@@ -18,6 +18,7 @@ type Props = {
     schedule: ScheduleResponse;
     pkg: PackageScheduleContextResponse
     onUpdateStatus: (status: ScheduleStatusType) => void;
+    
 };
 
 const STATUS_TRANSITIONS : Record<ScheduleStatusType, ScheduleStatusType[]> = {
