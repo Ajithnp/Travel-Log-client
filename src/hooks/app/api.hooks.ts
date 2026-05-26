@@ -1,4 +1,4 @@
-import { confirmBookingWalletApi, fetchCategories, fetchPackageDetails, fetchPackageSchedules, fetchPublicPackages, fetchVendorPublicProfile, verifyBookingPayment } from "@/services/app-service";
+import { confirmBookingWalletApi, downloadBookingTicket, fetchCategories, fetchPackageDetails, fetchPackageSchedules, fetchPublicPackages, fetchVendorPublicProfile, verifyBookingPayment } from "@/services/app-service";
 import {
   useQuery,
   useInfiniteQuery,
@@ -7,12 +7,13 @@ import {
   useQueryClient,
   useMutation,
 } from "@tanstack/react-query";
-import type { AxiosError } from "axios";
+import { isAxiosError, type AxiosError } from "axios";
 import type { PackageFilters, TravelPackage } from "./package-listing";
 import type { ApiResponse, Paginated } from "@/types/IApiResponse";
 import type { CategoryResponse } from "@/types/common/response";
 import type { PublicPackageDetailDTO, PublicScheduleDTO, VendorPublicProfileResponseDTO } from "@/types/types";
 import type { ConfirmBookingResponseDTO, VerifyPaymentResponseDTO } from "@/types/api/booking-api.types";
+import { toast } from "sonner";
 
 export const useCategories = () => {
   return useQuery<
@@ -135,3 +136,23 @@ export const useBookingVerifyPaymentQuery = (sessionId: string, options?: { enab
   });
 }
 
+export const useDownloadTicketMutation = () => {
+  return useMutation({
+    mutationFn: (bookingId: string) => downloadBookingTicket(bookingId),
+    onSuccess: () => {
+      toast.success('Ticket downloaded successfully');
+    },
+    onError: (error: unknown) => {
+      const parseErrorBlob = async () => {
+        if (isAxiosError(error) && error.response?.data instanceof Blob) {
+          const text = await error.response.data.text();
+          const json = JSON.parse(text);
+          toast.error(json.message ?? 'Failed to download ticket');
+        } else {
+          toast.error('Failed to download ticket');
+        }
+      };
+      parseErrorBlob();
+    },
+  });
+};

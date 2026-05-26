@@ -24,6 +24,9 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { BOOKING_STATUS } from "../constants";
 import { getLastCancellationDate, isCancellationAllowed } from "@/utils/cancellation/cancellation-window";
+import { useDownloadTicketMutation } from "@/hooks/app/api.hooks";
+
+
 
 export default function BookingDetail() {
   const [showModal, setShowModal] = useState(false);
@@ -36,7 +39,13 @@ export default function BookingDetail() {
   const cancelMutation = useCancelBookingRequestMutation(bookingId);
    const booking = data?.data;
 
-
+   const { mutate: downloadTicket, isPending } = useDownloadTicketMutation();
+   
+   const handleDownloadTicket = () => {
+    if (bookingId) {
+      downloadTicket(bookingId);
+    }
+  };
 
   const handleCancelBooking = ( payload: { bookingId: string; reason: string; details: string }) => {
   cancelMutation.mutate(payload,{
@@ -70,6 +79,8 @@ export default function BookingDetail() {
         canCancel={canCancel}
         lastDate={lastDate}
         openCancelModal={() => setShowModal(true)} 
+        downloadTicket={handleDownloadTicket}
+        isDownloading={isPending}
          />
         <div className="max-w-[97rem] mx-auto px-4 sm:px-6 py-6 space-y-4">
           <DetailsHeroCard

@@ -151,3 +151,26 @@ export const retryBooking = async (bookingId: string): Promise<ApiResponse<Initi
   return response.data;
 };
 
+export const downloadBookingTicket = async (bookingId: string): Promise<void> => {
+  const response = await api.get(`${API_ENDPOINTS.BOOKING}/${bookingId}/ticket`, {
+    responseType: 'blob', 
+  });
+
+  const disposition = response.headers['content-disposition'];
+  let filename = `Ticket-${bookingId}.pdf`; 
+  if (disposition) {
+    const match = disposition.match(/filename="(.+)"/);
+    if (match) filename = match[1];
+  }
+
+  // Create a temporary object URL and trigger browser download
+  const blob = new Blob([response.data], { type: 'application/pdf' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url); // clean up memory
+};

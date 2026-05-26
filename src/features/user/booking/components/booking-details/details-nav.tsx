@@ -6,15 +6,18 @@ import type { BookingStatus, CancelStatus } from "../../types";
 import { Badge } from "@/components/ui/badge";
 import { getStatusConfig } from "../booking-card";
 import { useNavigate } from "react-router-dom";
+import { BOOKING_STATUS } from "../../constants";
 
 interface DetailsNavProps {
   status: BookingStatus;
   cancelationStatus: CancelStatus | null;
   canCancel: boolean;
   lastDate: Date | null;
- openCancelModal: () => void;
- 
-} 
+  openCancelModal: () => void;
+  downloadTicket: () => void;
+  isDownloading: boolean;
+
+}
 const getCancelStatusStyle = (status: CancelStatus) => {
   switch (status) {
     case "pending":
@@ -28,7 +31,7 @@ const getCancelStatusStyle = (status: CancelStatus) => {
   }
 };
 
-const DetailsNav = ({ status, openCancelModal, cancelationStatus,canCancel,lastDate }: DetailsNavProps) => {
+const DetailsNav = ({ status, openCancelModal, cancelationStatus, canCancel, lastDate, downloadTicket, isDownloading }: DetailsNavProps) => {
   const navigate = useNavigate();
   const cfg = getStatusConfig(status);
   const Icon = cfg.icon;
@@ -69,23 +72,26 @@ const DetailsNav = ({ status, openCancelModal, cancelationStatus,canCancel,lastD
                 : `CANCELLATION REQUEST: ${cancelationStatus.toUpperCase()}`}
             </Badge>
           ) : status === "confirmed" ? (
-          <Button
-            variant="outline"
-            size="sm"
-            className="h-8 px-3 text-xs border-red-200 text-red-500 gap-1.5 hover:bg-red-500 hover:text-white"
-            disabled={!canCancel}
-            onClick={openCancelModal}
-          >
-            <X className="w-3.5 h-3.5" /> Cancel Booking
-          </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-8 px-3 text-xs border-red-200 text-red-500 gap-1.5 hover:bg-red-500 hover:text-white"
+              disabled={!canCancel}
+              onClick={openCancelModal}
+            >
+              <X className="w-3.5 h-3.5" /> Cancel Booking
+            </Button>
           ) : null}
-
-          <Button
-            size="sm"
-            className="h-8 px-3 text-xs bg-indigo-500 hover:bg-indigo-600 text-white border-0 gap-1.5"
-          >
-            <Download className="w-3.5 h-3.5" /> Download
-          </Button>
+          {status === BOOKING_STATUS.CONFIRMED && (
+            <Button
+              size="sm"
+              className="h-8 px-3 text-xs bg-indigo-500 hover:bg-indigo-600 text-white border-0 gap-1.5"
+              onClick={downloadTicket}
+              disabled={isDownloading}
+            >
+              <Download className="w-3.5 h-3.5" /> {isDownloading ? "Downloading..." : "Download Ticket"}
+            </Button>
+          )}
         </div>
       </div>
     </motion.div>
