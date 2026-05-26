@@ -11,7 +11,7 @@ export default function ImageGallery({ images }: ImageGalleryProps) {
     <div className="relative w-full space-y-3">
 
       {/* Main Image */}
-      <div className="relative w-full h-56 sm:h-72 lg:h-96 rounded-xl overflow-hidden">
+      <div className="relative w-full h-60 sm:h-90 lg:h-120 rounded-xl overflow-hidden">
         <img
           src={activeImage?.url}
           alt="Package"

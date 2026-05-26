@@ -11,7 +11,7 @@ import {
   DURATION_MAP,
 } from "@/lib/constants/package-listing";
 import type { ApiResponse, Paginated } from "@/types/IApiResponse";
-import type { AxiosResponse } from "axios";
+import type {AxiosResponse } from "axios";
 import type { CategoryResponse } from "@/types/common/response";
 import type {
   PublicPackageDetailDTO,
@@ -141,6 +141,13 @@ export const verifyBookingPayment = async (sessionId: string): Promise<ApiRespon
     await api.get(`${API_ENDPOINTS.BOOKING}${API_ROUTE.VERIFY_PAYMENT}`, {
       params: { session_id: sessionId },
     });
+  return response.data;
+};
+
+
+export const retryBooking = async (bookingId: string): Promise<ApiResponse<InitiateBookingResponseDTO>> => {
+  const response: AxiosResponse<ApiResponse<InitiateBookingResponseDTO>> =
+    await api.post(`${API_ENDPOINTS.BOOKING}/${bookingId}/retry`);
   return response.data;
 };
 

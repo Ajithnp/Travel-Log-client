@@ -3,6 +3,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import type { Schedule } from "@/types/booking.types";
 import { formatDateRange } from "@/utils/combine-date-formater";
+import { useAuthUser } from "@/hooks/useAuthUser";
+  
 
 function lowestPricePerHead(schedule: Schedule): number {
   return Math.min(
@@ -23,6 +25,7 @@ export function Step1Schedule({
   onSelect,
   onContinue,
 }: Step1ScheduleProps) {
+  const { isLoggedIn } = useAuthUser();
   return (
     <Card className="border border-gray-200 shadow-sm rounded-2xl overflow-hidden shadow-premium">
       <div className="mx-4 mt-4 mb-3 px-4 py-3 rounded-xl bg-foreground/70 border border-primary/20 space-y-1.5">
@@ -64,7 +67,6 @@ export function Step1Schedule({
                 }`}
             >
               <div className="flex items-start justify-between gap-4">
-                {/* LEFT */}
                 <div className="min-w-0 space-y-1">
                   <p
                     className={`font-medium truncate ${isSoldOut ? "text-gray-400" : "text-gray-900"
@@ -77,13 +79,11 @@ export function Step1Schedule({
                     {schedule.status === "upcoming" && (
                       <div className="flex flex-wrap items-center gap-1.5">
 
-                        {/* Seats badge */}
                         <span className="inline-flex items-center gap-1 text-xs font-medium bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full whitespace-nowrap">
                           <Zap className="w-3 h-3 shrink-0" />
                           <span>{schedule.seatsRemaining} seats left</span>
                         </span>
 
-                        {/* Status badge */}
                         <span className="inline-flex items-center text-xs font-medium bg-green-100 text-green-700 px-2 py-0.5 rounded-full whitespace-nowrap">
                           Upcoming
                         </span>
@@ -99,7 +99,6 @@ export function Step1Schedule({
                   </div>
                 </div>
 
-                {/* RIGHT */}
                 <div className="text-right shrink-0 space-y-0.5">
                   <p
                     className={`font-semibold ${isSoldOut ? "text-gray-400" : "text-gray-900"
@@ -121,11 +120,11 @@ export function Step1Schedule({
              active:translate-y-0 active:shadow-sm
              disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none
              group"
-          disabled={!selectedSchedule}
+          disabled={!selectedSchedule || !isLoggedIn}
           onClick={onContinue}
         >
           <span className="flex items-center justify-center gap-1.5">
-            Continue
+           {isLoggedIn ? "Continue" : "Login to Continue"}
             <span className="transition-transform duration-200 group-hover:translate-x-1">
               →
             </span>

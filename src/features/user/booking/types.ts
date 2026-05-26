@@ -1,4 +1,7 @@
-import type { BOOKING_STATUS } from "./constants";
+import type { BOOKING_STATUS, PAYMENT_STATUS } from "./constants";
+
+export type BookingStatus = (typeof BOOKING_STATUS)[keyof typeof BOOKING_STATUS];
+export type PaymentStatus = (typeof PAYMENT_STATUS)[keyof typeof PAYMENT_STATUS];
 
 export interface BookingPackage {
   title: string;
@@ -18,10 +21,11 @@ export interface BookingListItem {
   packageId: BookingPackage;
   scheduleId: BookingSchedule | null;
   travelerCount: number;
-   bookingStatus: BookingStatus;
-    grossAmount: number;
-    bookingCode:string
-    createdAt: string;
+  bookingStatus: BookingStatus;
+  paymentStatus:PaymentStatus
+  grossAmount: number;
+  bookingCode:string
+  createdAt: string;
 }
 
 
@@ -162,4 +166,3 @@ export type BookingFilterTab =
     | "completed"
     | "cancelled_by_user";
 
-export type BookingStatus = (typeof BOOKING_STATUS)[keyof typeof BOOKING_STATUS];

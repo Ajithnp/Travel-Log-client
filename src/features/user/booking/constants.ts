@@ -18,6 +18,14 @@ export const BOOKING_STATUS = {
   PAYMENT_FAILED: 'payment_failed',
 } as const;
 
+export const PAYMENT_STATUS = {
+  PENDING: 'pending',
+  PAID: 'paid',
+  FAILED: 'failed',
+  REFUNDED: 'refunded',
+  PARTIALLY_REFUNDED: 'partially_refunded',
+} as const;
+
 
 
 export const STATUS_CONFIG = {

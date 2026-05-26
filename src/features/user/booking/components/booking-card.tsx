@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import type { BookingListItem, BookingStatus } from "../types";
 import { FALLBACK_STATUS, STATUS_CONFIG } from "../constants";
 import { formatDateRange } from "@/utils/combine-date-formater";
+import { canRetryPayment } from "@/utils/booking/retry-payment-validator";
+import { useRetryPayment } from "../hooks/retry-payment";
 
 export default function BookingCard({
   booking,
@@ -15,11 +17,25 @@ export default function BookingCard({
   index: number;
   onClick: () => void;
 }) {
+  console.log("bookinggggg======", booking)
+  const { retryPayment, isLoading: isRetryLoading } = useRetryPayment();
+
+  const handleRetry = () => {
+    retryPayment(booking._id);
+  }
+
   const cfg = getStatusConfig(booking.bookingStatus);
   const Icon = cfg.icon;
 
-  const startDate = booking.scheduleId?.startDate;
-  const endDate = booking.scheduleId?.endDate;
+  const startDate = booking.scheduleId?.startDate || '';
+  const endDate = booking.scheduleId?.endDate || '';
+
+  const showRetry = canRetryPayment(
+    booking.paymentStatus,
+    booking.bookingStatus,
+    new Date(booking.createdAt),
+    new Date(startDate?.toString())
+  )
 
   return (
     <motion.div
@@ -57,7 +73,7 @@ export default function BookingCard({
             {startDate && endDate
               ? formatDateRange(startDate, endDate)
               : "Date unavailable"}
-           
+
           </span>
           <span className="flex items-center gap-1 text-sm">
             <Users className="w-3 h-3 text-orange-500" />
@@ -67,25 +83,36 @@ export default function BookingCard({
       </div>
 
       {/* Right side */}
-      <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-center gap-3 sm:gap-1.5 flex-shrink-0">
-        <div className="text-right flex flex-col items-end gap-1">
-          <div className="flex items-center gap-2">
+      <div className="flex sm:flex-col items-start sm:items-end justify-between sm:justify-center gap-3 sm:gap-2 flex-shrink-0 w-full sm:w-auto">
+
+        <div className="text-left sm:text-right flex flex-col items-start sm:items-end gap-0.5">
+          <div className="flex items-center gap-1.5">
             <p className="text-sm text-gray-600 font-semibold">Total:</p>
             <p className="text-sm font-bold text-gray-900">
               ₹ {booking.grossAmount}
             </p>
           </div>
-
-          <p className="text-sm text-gray-500">
-            Booking ID:
-            <span className="ml-1 font-mono">{booking.bookingCode}</span>
+          <p className="text-xs text-gray-400">
+            ID:
+            <span className="ml-1 font-mono text-gray-500">{booking.bookingCode}</span>
           </p>
         </div>
-        <div className="flex items-center gap-2">
+
+        <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+          {showRetry && (
+            <Button
+              onClick={handleRetry}
+              className="h-8 flex-1 sm:flex-none px-3 bg-amber-500 hover:bg-amber-600 active:bg-amber-700
+                         text-white text-xs font-semibold rounded-md whitespace-nowrap
+                         transition-colors duration-150 disabled:opacity-50"
+            >
+              ⚡ {isRetryLoading ? "Processing..." : "Retry Payment"}
+            </Button>
+          )}
           <Button
             size="sm"
             variant="outline"
-            className="h-8 px-3 text-xs border-gray-200 text-gray-600 hover:bg-indigo-50 hover:text-indigo-700 hover:border-indigo-200 transition-colors"
+            className="h-8 px-3 text-xs border-gray-200 text-gray-600 hover:bg-indigo-50 hover:text-indigo-700 hover:border-indigo-200 transition-colors flex-shrink-0"
             onClick={onClick}
           >
             <Eye className="w-3.5 h-3.5 mr-1.5" />
