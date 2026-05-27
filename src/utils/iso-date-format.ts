@@ -12,3 +12,12 @@ export function formatISODate(iso: string) {
   });
 }
 
+
+export const formatDate = (dateString: string): string => {
+  return new Date(dateString)
+    .toLocaleDateString("en-IN", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    })
+};

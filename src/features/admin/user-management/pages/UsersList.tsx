@@ -17,7 +17,7 @@ const UsersListPage = () => {
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [dialog, setDialog] = useState<{ id: string; type: "block" | "unblock" } | null>(null);
   const [page, setPage] = useState(1);
-  const LIMIT = 5;
+  const LIMIT = 10;
 
   const debouncedSearch = useDebounce(search);
 
