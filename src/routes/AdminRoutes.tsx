@@ -15,12 +15,12 @@ const CategoryRequestedPage = lazy(() => import('@/features/admin/category-manag
 const CategoryListPage = lazy(()=> import("@/features/admin/category-management/pages/category-list-page"))
 const UserListPage = lazy(() => import("@/features/admin/user-management/pages/UsersList"));
 const VendorsListPage = lazy(() => import('@/features/admin/vendor-management/pages/VendorListPage'));
+const VendorProfilePage = lazy(() => import('@/features/admin/vendor-management/pages/vendor-profile'));
 const VendorsVerificationListPage = lazy(() => import('@/features/admin/vendor-verification/pages/VendorsVerificationRequestList'))
 const CancellationPoliciesPage = lazy(() => import('@/features/admin/cancellation-policy/pages/cancellation-policies'));
-
 const NotificationPage = lazy(() => import('@/features/notification/pages/notification-list'));
-
 const CancelBookingListingPage = lazy(() => import('@/features/admin/cancel-booking/pages/cancel-bookings-listing'))
+
 
 const AdminRoutes = () => {
   return (
@@ -66,6 +66,10 @@ const AdminRoutes = () => {
           <Route
             path="vendors"
             element={<VendorsListPage />}
+          />
+          <Route
+            path="vendor/:vendorId"
+            element={<VendorProfilePage />}
           />
 
           {/* users */}

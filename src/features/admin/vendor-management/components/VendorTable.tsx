@@ -7,9 +7,11 @@ import { TableActions, type TableAction } from "@/components/table/TableActions"
 
 type VendorActionHandler = (id: string, type: "block" | "unblock") => void;
 
+
 export const VendorColumns = (
 
-    onUserAction: VendorActionHandler 
+    onUserAction: VendorActionHandler,
+    onView: (id: string) => void
     
 ): Column<IUser>[] => [
   {
@@ -60,7 +62,7 @@ export const VendorColumns = (
         {
           label: "View",
           icon: <Eye className="w-4 h-4" />,
-          onClick: () => console.log("Edit user", user.id),
+          onClick: () => onView(user.id),
           variant: "primary"
         },
       ];

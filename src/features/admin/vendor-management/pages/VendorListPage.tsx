@@ -11,6 +11,7 @@ import ConfirmDialog from "@/components/shared/modal/ConfirmDialog";
 import { USER_FILTER_OPTIONS as VENDOR_FILTER_OPTIONS } from "@/components/fieldsConfig/fields";
 import { VendorColumns } from "../components/VendorTable";
 import { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 const VendorsListPage = () => {
@@ -18,7 +19,9 @@ const VendorsListPage = () => {
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [dialog, setDialog] = useState<{ id: string; type: "block" | "unblock" } | null>(null);
   const [page, setPage] = useState(1);
-  const LIMIT = 5;
+  const LIMIT = 10;
+
+  const navigate = useNavigate();
 
   const debouncedSearch = useDebounce<string>(search);
 
@@ -36,6 +39,10 @@ const VendorsListPage = () => {
     const handleVendorAction = useCallback((id: string, type: "block" | "unblock") => {
       setDialog({ id, type });
     }, []);
+
+    const handleView = (id: string) => {
+      navigate(`/admin/vendor/${id}`);
+    };
 
   const handleConfirmAction = (reason?: string) => {
     if (!dialog) return;
@@ -85,7 +92,7 @@ const VendorsListPage = () => {
 
           <DataTable<IUser>
             data={vendors}
-            columns={VendorColumns(handleVendorAction)}
+            columns={VendorColumns(handleVendorAction, handleView)}
             loading={isLoading}
             emptyMessage="No vendors found"
             rowKey={(row) => row.id}
