@@ -1,13 +1,14 @@
 
-import { changeEmailRequest, profile, changeEmail, changePassword, updateProfile } from "../services/api.services";
+import { changeEmailRequest, profile, changeEmail, changePassword, updateProfile, userDashboardData } from "../services/api.services";
 import type { ApiError } from "@/types/axios";
 import { useQuery , useMutation, useQueryClient} from "@tanstack/react-query";
-import type { UserProfileData } from "../types/response";
+import type { UserDashboardResponse, UserProfileData } from "../types/response";
 import type{ ChangeEmailRequestResponse } from "../types/response";
 import { AxiosError } from "axios";
 import type{ ChangeEmailPayload, ChangeEmailRequestPayload, ChangePasswordPayload } from "../types/request";
 import type { ProfileSchemaType } from "../validations/usese-profile-schema";
 import type { ApiResponse } from "@/types/IApiResponse";
+
 
 export const useUserProfileQuery = () => {
   return useQuery<ApiResponse<UserProfileData>, ApiError>({
@@ -66,9 +67,17 @@ export const useChangePasswordMutation = () => {
   >({
     mutationFn: changePassword,
     onSuccess: () => {
-      
       queryClient.invalidateQueries({ queryKey: ['profile'] });
     }
+  });
+};
+
+export const useUserDashboardQuery = () => {
+  return useQuery<ApiResponse<UserDashboardResponse>, ApiError>({
+    queryKey: ["dashboard"],
+    queryFn: userDashboardData,
+    staleTime: 1000 * 60 * 5,
+    refetchOnWindowFocus: false,
   });
 };
 

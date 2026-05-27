@@ -12,6 +12,13 @@ export interface UserProfileData {
 
 }
 
+export interface UserDashboardResponse {
+  reviewsCount: number;
+  walletBalance: number;
+  upcomingTrips: number;
+  pastTrips: number;
+};
+
 export type VendorProfileResponse = ApiResponse<UserProfileData>;
 
 export type ChangeEmailRequestResponse = {

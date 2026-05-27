@@ -51,6 +51,7 @@ export const API_ROUTE = {
   CHANGE_EMAIL_REQUEST: "/me/change-email",
   UPDATE_EMAIL: "/me/email",
   RESET_PASSWORD: "/me/password",
+  DASHBOARD: "/dashboard",
 
   VENDOR_PUBLIC_PROFILE: (id: string) => `/packages/vendors/${id}/profile`,
    
