@@ -5,6 +5,7 @@ import type { ProfileSchemaType } from "../validations/usese-profile-schema";
 
 import type {
   ChangeEmailRequestResponse,
+  UserDashboardResponse,
   UserProfileData,
 
 } from "../types/response";
@@ -62,6 +63,13 @@ export const changePassword = async (
   );
   return response.data;
 }
+
+export const userDashboardData = async (): Promise<ApiResponse<UserDashboardResponse>> => {
+  const response = await api.get<ApiResponse<UserDashboardResponse>>(
+    `${API_ENDPOINTS.USER}${API_ROUTE.DASHBOARD}`
+  );
+  return response.data;
+};
 
 
 

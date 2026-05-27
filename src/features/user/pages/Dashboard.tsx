@@ -9,22 +9,37 @@ import {
 import { useAuthUser } from '@/hooks/useAuthUser'
 import { fadeUp, cardHover } from "@/animation/variants";
 import { navCards } from "@/types/components-inputs.types/commponents.types";
+import { useUserDashboardQuery } from "../hooks/api.hooks";
 
 
-const stats = [
-  { label: "Active Bookings", value: "0", icon: ShoppingBag, color: "text-violet-500", bg: "bg-violet-50" },
-  { label: "Wallet Balance", value: "0", icon: Wallet, color: "text-emerald-500", bg: "bg-emerald-50" },
-  { label: "Trips Completed", value: "0", icon: CheckCheck, color: "text-sky-500", bg: "bg-sky-50" },
-  { label: "Reviews", value: "0", icon: Star, color: "text-amber-500", bg: "bg-amber-50" },
-];
 
 
 function UserDashboard() {
     const { user } = useAuthUser();
-  return (
+    const { data: dashboardData } = useUserDashboardQuery();
+
+    if (!dashboardData) {
+        return (
+            <div className="min-h-screen bg-[#fcfcfc] font-['Inter'] mt-20 flex items-center justify-center">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                    <p className="text-slate-500">Loading dashboard...</p>
+                </div>
+            </div>
+        );
+    }
+
+    const stats = [
+      { label: "Active Bookings", value: dashboardData.data.upcomingTrips.toString(), icon: ShoppingBag, color: "text-violet-500", bg: "bg-violet-50" },
+      { label: "Wallet Balance", value: `₹ ${dashboardData.data.walletBalance.toString()}`, icon: Wallet, color: "text-emerald-500", bg: "bg-emerald-50" },
+      { label: "Trips Completed", value: dashboardData.data.pastTrips.toString(), icon: CheckCheck, color: "text-sky-500", bg: "bg-sky-50" },
+      { label: "Reviews", value: dashboardData.data.reviewsCount.toString(), icon: Star, color: "text-amber-500", bg: "bg-amber-50" },
+    ];
+
+    return (
     <div className="min-h-screen bg-[#fcfcfc] font-['Inter'] mt-20">
       <main className="max-w-5xl mx-auto px-6 py-10 space-y-10">
-        {/* Hero greeting */}
+   
         <motion.div
           custom={0}
           variants={fadeUp}
@@ -44,7 +59,7 @@ function UserDashboard() {
           </Badge> */}
         </motion.div>
 
-        {/* Stats row */}
+
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {stats.map((s, i) => (
             <motion.div
@@ -65,7 +80,7 @@ function UserDashboard() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-5">
-          {/* Navigation Cards */}
+
           <div className="md:col-span-2 space-y-4">
             <motion.p
               custom={5}
