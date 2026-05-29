@@ -20,7 +20,7 @@ const VendorsVerificationListPage = lazy(() => import('@/features/admin/vendor-v
 const CancellationPoliciesPage = lazy(() => import('@/features/admin/cancellation-policy/pages/cancellation-policies'));
 const NotificationPage = lazy(() => import('@/features/notification/pages/notification-list'));
 const CancelBookingListingPage = lazy(() => import('@/features/admin/cancel-booking/pages/cancel-bookings-listing'))
-
+const VendorsPackagesPage = lazy(() => import('@/features/admin/package-oversight/pages/vendors-packages'))
 
 const AdminRoutes = () => {
   return (
@@ -62,6 +62,10 @@ const AdminRoutes = () => {
           <Route
             path="vendor/verification-request"
             element={<VendorsVerificationListPage />}
+          />
+          <Route
+            path="packages-oversight"
+            element={<VendorsPackagesPage />}
           />
           <Route
             path="vendors"
