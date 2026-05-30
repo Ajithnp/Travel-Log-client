@@ -92,7 +92,8 @@ export const usePackageDeleteMutation = ({ packageId }: { packageId: string  | u
   >({
     mutationFn: deletePackage,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["packages", packageId] })
+      queryClient.invalidateQueries({ queryKey: ["package", packageId] })
+      toast.success('Package deleted successfull')
     },
     onError: (error) => {
       toast.error(error.response?.data?.message)

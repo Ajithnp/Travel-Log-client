@@ -11,7 +11,7 @@ import Bar from "@/components/shared/bar";
 import StatusBadge from "./status-badge";
 
 
-const seatColor: Record<string, string> = {
+export const seatColor: Record<string, string> = {
   upcoming: "bg-success",
   ongoing: "bg-blue-500",
   completed: "bg-yellow-500",

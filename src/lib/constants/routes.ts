@@ -104,6 +104,9 @@ export const API_ROUTE = {
   REQUEST_REVIEWED_CATEGORY: '/category/requests/reviewed',
   CANCELLATION_POLICY: '/cancellation-policies',
   GET_CANCELLATION_REQUESTS: '/users/cancellation-requests',
+  GET_VENDORS_PACKAGES:'/vendor/packages',
+  GET_VENDORS_PACKAGE_SCHEDULE_STATS: '/vendor/schedules/stats',
+  GET_VENDORS_PACKAGE_SCHEDULES: '/vendor/schedules',
 
 
   //S3
