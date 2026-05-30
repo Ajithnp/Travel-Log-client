@@ -1,7 +1,7 @@
 import type { Column } from "@/components/table/DataTable";
 import type { VendorsPackagesResponse } from "../services/api.services";
 import { TableActions, type TableAction } from "@/components/table/TableActions";
-import { MapPin, View, Package, Store, Layers, Luggage, User } from "lucide-react";
+import { MapPin, View, Layers, Luggage, User } from "lucide-react";
 import StatusBadge from "@/features/vendor/schedule-package/components/status-badge";
 
 export const VendorsPackagesColumns = (

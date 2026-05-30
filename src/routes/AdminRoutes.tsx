@@ -21,6 +21,9 @@ const CancellationPoliciesPage = lazy(() => import('@/features/admin/cancellatio
 const NotificationPage = lazy(() => import('@/features/notification/pages/notification-list'));
 const CancelBookingListingPage = lazy(() => import('@/features/admin/cancel-booking/pages/cancel-bookings-listing'))
 const VendorsPackagesPage = lazy(() => import('@/features/admin/package-oversight/pages/vendors-packages'))
+const VendorPackageDetailsPage = lazy(() => import('@/features/admin/package-oversight/pages/vendors-package-details'))
+const VendorPackageSchedulesPage = lazy(() => import('@/features/admin/package-oversight/pages/vendors-package-schedules'))
+
 
 const AdminRoutes = () => {
   return (
@@ -66,6 +69,14 @@ const AdminRoutes = () => {
           <Route
             path="packages-oversight"
             element={<VendorsPackagesPage />}
+          />
+          <Route
+            path="packages-oversight/:packageId"
+            element={<VendorPackageDetailsPage />}
+          />
+          <Route
+            path="packages-oversight/schedules"
+            element={<VendorPackageSchedulesPage />}
           />
           <Route
             path="vendors"

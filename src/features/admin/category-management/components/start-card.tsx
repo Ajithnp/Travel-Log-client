@@ -1,12 +1,16 @@
 import { motion } from 'framer-motion';
 
-function StatCard({ label, value, subtitle, color, delay = 0, accentColor }: { label: string; value: number | string; subtitle: string; color?: string; delay?: number; accentColor?:string }) {
+function StatCard({ label, value, subtitle, color, delay = 0, accentColor,gradient }: { label: string; value: number | string; subtitle: string; color?: string; delay?: number; accentColor?:string ; gradient?: string;}) {
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay, ease: "easeOut" }}
-      className="bg-card rounded-xl border shadow-premium flex flex-col gap-2 px-5 py-4 relative overflow-hidden"
+      className={`
+        rounded-xl border shadow-premium flex flex-col gap-2 px-5 py-4
+        relative overflow-hidden
+        ${gradient ? `bg-gradient-to-l ${gradient}` : "bg-card"}
+      `}
     >
       <div className={`absolute left-0 top-0 bottom-0 w-[3px] ${accentColor}`} />
       <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground/80">{label}</span>
