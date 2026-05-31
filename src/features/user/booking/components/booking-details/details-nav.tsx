@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, Download, X } from "lucide-react";
+import { ArrowLeft, Download, MessageSquare, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { BookingStatus, CancelStatus } from "../../types";
 import { Badge } from "@/components/ui/badge";
@@ -15,8 +15,9 @@ interface DetailsNavProps {
   lastDate: Date | null;
   openCancelModal: () => void;
   downloadTicket: () => void;
+  showReviewModal: () => void;
   isDownloading: boolean;
-
+  hasReviwed: boolean;
 }
 const getCancelStatusStyle = (status: CancelStatus) => {
   switch (status) {
@@ -31,7 +32,7 @@ const getCancelStatusStyle = (status: CancelStatus) => {
   }
 };
 
-const DetailsNav = ({ status, openCancelModal, cancelationStatus, canCancel, lastDate, downloadTicket, isDownloading }: DetailsNavProps) => {
+const DetailsNav = ({ status, openCancelModal, cancelationStatus, canCancel, lastDate, downloadTicket, showReviewModal, isDownloading, hasReviwed }: DetailsNavProps) => {
   const navigate = useNavigate();
   const cfg = getStatusConfig(status);
   const Icon = cfg.icon;
@@ -43,7 +44,7 @@ const DetailsNav = ({ status, openCancelModal, cancelationStatus, canCancel, las
       transition={{ duration: 0.3 }}
       className="sticky top-0 z-30 bg-white/90 backdrop-blur-sm border-b border-gray-200"
     >
-      <div className="max-w-[97rem] mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-3">
+      <div className="max-w-[96rem] mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-3">
         <button
           className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-900 transition-colors"
           onClick={() => navigate("/user/bookings")}
@@ -61,6 +62,17 @@ const DetailsNav = ({ status, openCancelModal, cancelationStatus, canCancel, las
           </Badge>
         </div>
         <div className="flex items-center gap-2">
+
+          {status === BOOKING_STATUS.COMPLETED && !hasReviwed && (
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-8 px-3 text-xs border-yellow-200 text-yellow-500 gap-1.5 hover:bg-yellow-50 hover:text-yellow-700"
+              onClick={() => showReviewModal()}
+            >
+              <MessageSquare className="w-3.5 h-3.5" /> Give a Feedback
+            </Button>
+          )}
 
           {cancelationStatus ? (
             <Badge

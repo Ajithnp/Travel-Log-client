@@ -7,7 +7,7 @@ import type { ScheduleStatus, TravelPackage } from "@/hooks/app/package-listing"
 import type { CancellationPolicies } from "@/lib/constants/cancellation-policies";
 export type ImageStatus = "PENDING_UPLOAD" | "UPLOADED" | "REMOVED"
 
-export interface IPackageImage {        // Local unique ID for UI keys
+export interface IPackageImage {        
   url?: string;      // S3 URL (present if already uploaded)
   key: string;      // S3 Key (present if already uploaded)
   file?: File;       // Local File object (present if not yet uploaded)

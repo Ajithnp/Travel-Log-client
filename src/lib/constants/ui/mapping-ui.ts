@@ -194,3 +194,18 @@ export const difficultyConfig: Record<
     dot: "bg-red-500",
   },
 };
+
+export const RATING_COLORS = [
+  "text-red-500",
+  "text-orange-500",
+  "text-amber-500",
+  "text-lime-500",
+  "text-emerald-500",
+];
+export const STAR_FILL = [
+  "fill-red-400 text-red-400",
+  "fill-orange-400 text-orange-400",
+  "fill-amber-400 text-amber-400",
+  "fill-lime-400 text-lime-400",
+  "fill-emerald-400 text-emerald-400",
+];

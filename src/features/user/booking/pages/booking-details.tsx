@@ -24,12 +24,18 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { BOOKING_STATUS } from "../constants";
 import { getLastCancellationDate, isCancellationAllowed } from "@/utils/cancellation/cancellation-window";
-import { useDownloadTicketMutation } from "@/hooks/app/api.hooks";
+import { useDownloadTicketMutation, useReviewSubmitMutation } from "@/hooks/app/api.hooks";
+import ReviewModal from "@/components/app/sections/review-modal";
+import { imageUploadSync } from "@/utils/image-upload-sync";
+import type { IPackageImage } from "@/types/types";
 
 
 
 export default function BookingDetail() {
   const [showModal, setShowModal] = useState(false);
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [isUploadingPhotos, setIsUploadingPhotos] = useState(false);
+
   const { bookingId } = useParams();
   const navigate = useNavigate();
 
@@ -41,6 +47,10 @@ export default function BookingDetail() {
 
    const { mutate: downloadTicket, isPending } = useDownloadTicketMutation();
    
+   const {mutate: submitReview, isPending: isSubmittingReview, isSuccess: isReviewSuccess} = useReviewSubmitMutation();
+
+   
+
    const handleDownloadTicket = () => {
     if (bookingId) {
       downloadTicket(bookingId);
@@ -75,11 +85,13 @@ export default function BookingDetail() {
       <div className="max-w-[97rem] mx-auto">
         <DetailsNav 
         status={booking.bookingStatus}
+        hasReviwed={booking.hasReviewed}
         cancelationStatus={booking.cancellationStatus}
         canCancel={canCancel}
         lastDate={lastDate}
         openCancelModal={() => setShowModal(true)} 
         downloadTicket={handleDownloadTicket}
+        showReviewModal={() => setShowReviewModal(true)}
         isDownloading={isPending}
          />
         <div className="max-w-[97rem] mx-auto px-4 sm:px-6 py-6 space-y-4">
@@ -100,7 +112,6 @@ export default function BookingDetail() {
               >
                 <SectionCard title="Meeting Point" icon={MapPin}>
                   <div className="flex flex-col gap-3">
-                    {/* Location */}
                     <div className="flex items-start gap-3">
                       <MapPin className="w-4 h-4 text-indigo-500 mt-0.5" />
                       <div>
@@ -170,6 +181,43 @@ export default function BookingDetail() {
           </div>
         </div>
       </div>
+
+      <ReviewModal
+        open={showReviewModal}
+        onClose={() => setShowReviewModal(false)}
+        packageTittle={booking.package.title}
+        onSubmit={async (data) => {
+          try {
+            setIsUploadingPhotos(true);
+            let uploadedImages: { key: string }[] = [];
+            
+            if (data.photos && data.photos.length > 0) {
+              const imagePayload: IPackageImage[] = data.photos.map(file => ({
+                key: "",
+                file: file,
+                status: "PENDING_UPLOAD"
+              }));
+              const result = await imageUploadSync(imagePayload);
+              uploadedImages = result.map(img => ({ key: img.key }));
+            }
+            setIsUploadingPhotos(false);
+            
+            submitReview({
+              bookingId: booking.id,
+              rating: data.rating,
+              text: data.review,
+              images: uploadedImages
+            });
+          } catch (error) {
+            console.error(error);
+            setIsUploadingPhotos(false);
+            toast.error("Failed to upload photos");
+          }
+        }}
+        isSubmitting={isUploadingPhotos || isSubmittingReview}
+        isSuccess={isReviewSuccess}
+       />
+
       <CancelBookingModal
         show={showModal}
         onClose={() => setShowModal(false)} 

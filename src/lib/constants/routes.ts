@@ -28,6 +28,7 @@ export const API_ENDPOINTS = {
   ADMIN: "/admin",
   S3: "/s3",
   BOOKING: "/bookings",
+  REVIEWS:"/reviews",
   NOTIFICATION: "/notifications",
   USER_CHATS: "/user/chats",
   USER_WALLET: "/user/wallet",

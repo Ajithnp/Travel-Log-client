@@ -10,7 +10,7 @@ import {
   DEFAULT_PRICE_MAX,
   DURATION_MAP,
 } from "@/lib/constants/package-listing";
-import type { ApiResponse, Paginated } from "@/types/IApiResponse";
+import type { ApiResponse, Paginated, PaginatedData } from "@/types/IApiResponse";
 import type {AxiosResponse } from "axios";
 import type { CategoryResponse } from "@/types/common/response";
 import type {
@@ -25,6 +25,7 @@ import type {
   InitiateBookingResponseDTO,
   VerifyPaymentResponseDTO,
 } from "@/types/api/booking-api.types";
+
 
 export const buildPackageQueryParams = (
   f: Omit<PackageFilters, "page">,
@@ -163,7 +164,7 @@ export const downloadBookingTicket = async (bookingId: string): Promise<void> =>
     if (match) filename = match[1];
   }
 
-  // Create a temporary object URL and trigger browser download
+  // temporary object URL and trigger browser download
   const blob = new Blob([response.data], { type: 'application/pdf' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
@@ -174,3 +175,63 @@ export const downloadBookingTicket = async (bookingId: string): Promise<void> =>
   link.remove();
   URL.revokeObjectURL(url); // clean up memory
 };
+
+//REVIEWS
+export const submitReview = async (payload:SubmitReviewRequestDTO): Promise<ApiResponse<void>> => {
+  const response: AxiosResponse<ApiResponse<void>> =
+    await api.post(`${API_ENDPOINTS.REVIEWS}`,payload);
+  return response.data;
+};
+
+export const deleteReview = async (reviewId:string): Promise<ApiResponse<void>> => {
+  const response: AxiosResponse<ApiResponse<void>> =
+    await api.delete(`${API_ENDPOINTS.REVIEWS}/${reviewId}`);
+  return response.data;
+};
+
+export const packageReviewStats = async (packageId: string): Promise<ApiResponse<PackageRatingStatsResponseDto>> => {
+  const response: AxiosResponse<ApiResponse<PackageRatingStatsResponseDto>> =
+    await api.get(`${API_ENDPOINTS.REVIEWS}/stats/${packageId}`);
+  return response.data;
+};
+
+export const packageReviews = async (
+  packageId: string,
+  page: number,
+  limit: number,
+): Promise<ApiResponse<PackageReviewsResponseDto>> => {
+  const response: AxiosResponse<ApiResponse<PackageReviewsResponseDto>> =
+    await api.get(
+      `${API_ENDPOINTS.REVIEWS}/public/${packageId}`,
+      {
+        params: { page, limit },
+      },
+    );
+  return response.data;
+};
+
+export type PackageReviewsResponseDto = PaginatedData<PackageReviewSinglesResponseDto> 
+
+export interface PackageReviewSinglesResponseDto {
+  userName : string;
+  createdAt:Date;
+  rating:number;
+  text:string;
+  images ?: {key:string}[];
+}
+
+
+
+export interface PackageRatingStatsResponseDto {
+  average:   number
+  total:     number
+  breakdown: { 1: number; 2: number; 3: number; 4: number; 5: number }
+}
+
+
+export interface SubmitReviewRequestDTO{
+    bookingId:string;
+    rating:number;
+    text:string;
+    images?:{key:string}[];
+}

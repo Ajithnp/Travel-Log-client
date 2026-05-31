@@ -1,4 +1,4 @@
-import { confirmBookingWalletApi, downloadBookingTicket, fetchCategories, fetchPackageDetails, fetchPackageSchedules, fetchPublicPackages, fetchVendorPublicProfile, verifyBookingPayment } from "@/services/app-service";
+import { confirmBookingWalletApi, deleteReview, downloadBookingTicket, fetchCategories, fetchPackageDetails, fetchPackageSchedules, fetchPublicPackages, fetchVendorPublicProfile, packageReviews, packageReviewStats, submitReview, verifyBookingPayment, type PackageRatingStatsResponseDto, type PackageReviewsResponseDto, type SubmitReviewRequestDTO } from "@/services/app-service";
 import {
   useQuery,
   useInfiniteQuery,
@@ -7,13 +7,14 @@ import {
   useQueryClient,
   useMutation,
 } from "@tanstack/react-query";
-import { isAxiosError, type AxiosError } from "axios";
+import { AxiosError, isAxiosError } from "axios";
 import type { PackageFilters, TravelPackage } from "./package-listing";
 import type { ApiResponse, Paginated } from "@/types/IApiResponse";
 import type { CategoryResponse } from "@/types/common/response";
 import type { PublicPackageDetailDTO, PublicScheduleDTO, VendorPublicProfileResponseDTO } from "@/types/types";
 import type { ConfirmBookingResponseDTO, VerifyPaymentResponseDTO } from "@/types/api/booking-api.types";
 import { toast } from "sonner";
+import type { ApiError } from "@/types/axios";
 
 export const useCategories = () => {
   return useQuery<
@@ -154,5 +155,50 @@ export const useDownloadTicketMutation = () => {
       };
       parseErrorBlob();
     },
+  });
+};
+
+// REVIEWS
+export const useReviewSubmitMutation = () => {
+  return useMutation({
+    mutationFn: (review: SubmitReviewRequestDTO) => submitReview(review),
+    onSuccess: () => {
+      toast.success('Review submitted successfully');
+    },
+    onError: (error: unknown) => {
+      toast.error(error instanceof AxiosError ? error.response?.data.message : 'Failed to submit review');
+    },
+  });
+};
+
+export const useReviewDeleteMutation = () => {
+  return useMutation({
+    mutationFn: (reviewId: string) => deleteReview(reviewId),
+    onSuccess: () => {
+      toast.success('Review deleted successfully');
+    },
+    onError: (error: unknown) => {
+      toast.error(error instanceof AxiosError ? error.response?.data.message : 'Failed to delete review');
+    },
+  });
+};
+
+export const usePackageReviewStatsQuery = (packageId:string) => {
+  return useQuery<ApiResponse<PackageRatingStatsResponseDto>, ApiError>({
+    queryKey: ["package-review-stats",packageId],
+    queryFn: () => packageReviewStats(packageId),
+    enabled: !!packageId,
+    staleTime: 1000 * 60 * 2,
+    refetchOnWindowFocus: false,
+  });
+};
+
+export const usePackageReviewsQuery = (packageId:string, page:number, limit:number) => {
+  return useQuery<ApiResponse<PackageReviewsResponseDto>, ApiError>({
+    queryKey: ["package-reviews",packageId,page,limit],
+    queryFn: () => packageReviews(packageId,page,limit),
+    enabled: !!packageId,
+    staleTime: 1000 * 60 * 2,
+    refetchOnWindowFocus: false,
   });
 };

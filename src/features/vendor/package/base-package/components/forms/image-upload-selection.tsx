@@ -19,10 +19,6 @@ interface ImageUploadSectionProps {
 export function ImageUploadSection({ images, onImagesChange, error }: ImageUploadSectionProps) {
   const [isDragActive, setIsDragActive] = useState(false)
 
-  //==================================
-  console.log('images:::', images)
-
-  //=================================
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault()
     e.stopPropagation()
@@ -67,12 +63,6 @@ export function ImageUploadSection({ images, onImagesChange, error }: ImageUploa
     },
     [processFiles],
   )
-  //======================================
-  // const removeImage = useCallback((index: number) => {
-  //     onImagesChange(images.filter((_,i) => i !== index))
-  //   },
-  //   [images, onImagesChange],
-  // )
 
   const removeImage = useCallback((imageKey: string) => {
     const updatedImages = images.map((img) =>
@@ -85,7 +75,6 @@ export function ImageUploadSection({ images, onImagesChange, error }: ImageUploa
   }, [images, onImagesChange])
 
 
-  //==========================================
   const isValid = images.length >= 4
 
   return (
@@ -98,7 +87,6 @@ export function ImageUploadSection({ images, onImagesChange, error }: ImageUploa
         </Label>
       </div>
 
-      {/* Upload Area */}
       <motion.div
         onDragEnter={handleDrag}
         onDragLeave={handleDrag}
@@ -126,14 +114,12 @@ export function ImageUploadSection({ images, onImagesChange, error }: ImageUploa
         </div>
       </motion.div>
 
-      {/* Error Message */}
       {error && (
         <motion.p initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} className="text-sm text-destructive">
           {error}
         </motion.p>
       )}
 
-      {/* Image Preview Grid */}
       <AnimatePresence mode="popLayout">
         {images.length > 0 && (
           <motion.div
@@ -170,7 +156,7 @@ export function ImageUploadSection({ images, onImagesChange, error }: ImageUploa
         )}
       </AnimatePresence>
 
-      {/* Empty State Message */}
+    
       {images.length === 0 && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -181,7 +167,6 @@ export function ImageUploadSection({ images, onImagesChange, error }: ImageUploa
         </motion.div>
       )}
 
-      {/* Status Badge */}
       {images.length > 0 && (
         <motion.div
           initial={{ opacity: 0, y: -4 }}

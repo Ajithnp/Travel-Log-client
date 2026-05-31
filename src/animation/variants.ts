@@ -97,3 +97,34 @@ export const scaleIn: Variants = {
   hidden: { opacity: 0, scale: 0.92 },
   visible: { opacity: 1, scale: 1, transition: { duration: 0.4, ease: "easeOut" } },
 };
+
+export const overlayVariants: Variants = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { duration: 0.2 } },
+  exit: { opacity: 0, transition: { duration: 0.18, delay: 0.05 } },
+};
+
+export const reviewModalVariants: Variants = {
+  hidden: { opacity: 0, scale: 0.94, y: 24 },
+  show: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: { type: "spring", stiffness: 320, damping: 28, delay: 0.05 },
+  },
+  exit: {
+    opacity: 0,
+    scale: 0.95,
+    y: 16,
+    transition: { duration: 0.18, ease: "easeIn" },
+  },
+};
+
+export const reviewSuccessVariants:Variants = {
+  hidden: { opacity: 0, scale: 0.85 },
+  show: {
+    opacity: 1,
+    scale: 1,
+    transition: { type: "spring", stiffness: 260, damping: 22 },
+  },
+};
