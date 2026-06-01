@@ -148,7 +148,6 @@ export function BasePackageForm({
         })}
         className="max-w-7xl mx-auto"
       >
-        {/* Page Container */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -492,7 +491,6 @@ export function BasePackageForm({
           {/* Cancellatrion policy */}
           <CancellationPolicyBlock animationDelay={2} />
 
-          {/* Submit Button */}
           <motion.div
             variants={SECTION_VARIANTS}
             initial="hidden"

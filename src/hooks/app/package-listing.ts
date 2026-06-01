@@ -8,6 +8,7 @@ import {
 import { useDebounce } from "../useDebounce";
 import { useInfiniteDataWithSignedUrls } from "../s3/useInfiniteDataWithSignedUrls";
 import type { AxiosError } from "axios";
+import { appConfig } from "@/config/config";
 
 export type SortOption =
   | "newest"
@@ -69,7 +70,7 @@ export interface PackageFilters {
   difficulty: string;
   priceRange: [number, number];
   minRating: number;
-  duration: string; // "any" | "1-3" | "4-7" | "8+"
+  duration: string; 
   startDate: string;
   endDate: string;
   sortBy: SortOption;
@@ -119,7 +120,7 @@ export interface UsePackageListingReturn {
 export function usePackageListing(): UsePackageListingReturn {
   const [filters, setFilters] = useState<PackageFilters>(DEFAULT_FILTERS);
   const [view, setView] = useState<ViewType>("grid");
-  const id = '12345'
+
 
   const debouncedSearch = useDebounce(filters.search, filters.search ? 500 : 0);
   const debouncedPriceRange = useDebounce(filters.priceRange, 400);
@@ -145,7 +146,7 @@ export function usePackageListing(): UsePackageListingReturn {
   } = useInfiniteDataWithSignedUrls<TravelPackage>(
     useInfinitePackages(debouncedFilters),
     {
-      userId: id,
+      userId: appConfig.publicId,
       imageFields: ["images"],
       dataKey: "packages",
       enabled: true,

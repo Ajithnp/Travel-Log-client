@@ -11,6 +11,7 @@ import type { PackageDTO, ScheduleDTO } from "../../types";
 import { formatDateRange } from "@/utils/combine-date-formater";
 import { Link } from "react-router-dom";
 import { formatISODate } from "@/utils/iso-date-format";
+import { StarRating } from "@/components/common/start-rating";
 
 interface DetailsHeroCardProps {
   basePackage: PackageDTO;
@@ -51,7 +52,7 @@ const DetailsHeroCard = ({
               </h1>
             </div>
             <p className="text-md text-gray-700 mb-2">
-              {basePackage?.location}, {basePackage?.state}
+              {basePackage?.location}, {basePackage?.state}  <div className="flex items-center gap-1"> <StarRating rating={basePackage?.averageRating ||0} size={"sm"} /> <span className="text-xs text-gray-400">{basePackage?.totalReviews ||0} reviews</span></div>
             </p>
             <div className="flex flex-wrap gap-2">
               <span className="flex items-center gap-1 text-sm text-gray-500">

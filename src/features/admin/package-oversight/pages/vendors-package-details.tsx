@@ -126,7 +126,7 @@ export default function VendorPackageDetailsPage() {
                                     className="flex items-center gap-1.5 flex-shrink-0"
                                 >
                                     <Button variant="outline" size="sm" className="hidden sm:flex items-center gap-1.5 text-slate-600 border-slate-200 hover:bg-slate-50 text-xs h-8"
-                                    onClick={() => navigate(-1)}
+                                        onClick={() => navigate(-1)}
                                     >
                                         <ArrowLeft className="w-3.5 h-3.5" />
                                         Back

@@ -5,6 +5,7 @@ import WishlistRemoveItemButton from "./wishlist-remove-item.button";
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { difficultyConfig } from "@/lib/constants/ui/mapping-ui";
+import { StarRating } from "@/components/common/start-rating";
 
 
 
@@ -62,7 +63,7 @@ export function WishlistItem({
                   </div>
 
                   <h3 className="font-semibold text-gray-900 text-sm sm:text-[15px] leading-snug tracking-tight line-clamp-2">
-                    {item.title}
+                    {item.title} <div className="flex items-center gap-1"> <StarRating rating={item.averageRating} size={"sm"} /> <span className="text-xs text-gray-400">{item.totalReviews} reviews</span></div>
                   </h3>
 
 

@@ -74,6 +74,8 @@ export interface PackageDTO {
   packingList:        string[]
   itinerary:          ItineraryDayDTO[]
   category:           CategoryDTO | null
+  averageRating:      number
+  totalReviews:       number
 }
  
 export interface ScheduleDTO {

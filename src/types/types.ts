@@ -3,11 +3,10 @@ import type { BasePackageDraftSchema } from "@/features/vendor/package/base-pack
 import type{ BasePackageSchema } from "@/features/vendor/package/base-package/validations/base-package-schema";
 import type { PackageStatus } from "@/lib/constants/constants";
 import type { DifficultyLevel } from "@/features/vendor/package/base-package/type/package";
-import type { ScheduleStatus, TravelPackage } from "@/hooks/app/package-listing";
-import type { CancellationPolicies } from "@/lib/constants/cancellation-policies";
+import type { ScheduleStatus, TravelPackage } from "@/hooks/app/package-listing";;
 export type ImageStatus = "PENDING_UPLOAD" | "UPLOADED" | "REMOVED"
 
-export interface IPackageImage {        // Local unique ID for UI keys
+export interface IPackageImage {        
   url?: string;      // S3 URL (present if already uploaded)
   key: string;      // S3 Key (present if already uploaded)
   file?: File;       // Local File object (present if not yet uploaded)
@@ -43,6 +42,20 @@ export interface PopulatedVendor {
   id: string;
   name: string;
 }
+
+export interface CancellationPolicyRule {
+  daysBeforeTrip: number;
+  refundPercent: number;
+}
+
+export interface CancellationPolicyType {
+  _id: string;
+  label: string;
+  key: string;
+  description?: string;
+  rules?: CancellationPolicyRule[];
+}
+
 export interface PublicPackageDetailDTO {
   packageId: string;
   vendor: PopulatedVendor;
@@ -61,7 +74,7 @@ export interface PublicPackageDetailDTO {
   inclusions: string[];
   exclusions: string[];
   packingList: string[];
-  cancellationPolicy: CancellationPolicies
+  cancellationPolicy: CancellationPolicyType
   status: PackageStatus;
   isActive: boolean;
 }
@@ -80,6 +93,8 @@ export interface PublicScheduleDTO {
   status: ScheduleStatus;
   seatsRemaining: number;
   pricing: SchedulePricingDTO[];
+  reportingTime: string;
+  reportingLocation: string;
 }
 
 export interface TravellerInfo {

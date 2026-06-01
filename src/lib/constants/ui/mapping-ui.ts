@@ -194,3 +194,42 @@ export const difficultyConfig: Record<
     dot: "bg-red-500",
   },
 };
+
+export const RATING_COLORS = [
+  "text-red-500",
+  "text-orange-500",
+  "text-amber-500",
+  "text-lime-500",
+  "text-emerald-500",
+];
+export const STAR_FILL = [
+  "fill-red-400 text-red-400",
+  "fill-orange-400 text-orange-400",
+  "fill-amber-400 text-amber-400",
+  "fill-lime-400 text-lime-400",
+  "fill-emerald-400 text-emerald-400",
+];
+
+export const policyColorConfig: Record<string, { badge: string; bg: string; border: string; dot: string; icon: string }> = {
+  flexible: {
+    badge: "bg-green-100 text-green-700",
+    bg: "bg-green-50",
+    border: "border-green-200",
+    dot: "bg-green-500",
+    icon: "text-green-600",
+  },
+  moderate: {
+    badge: "bg-amber-100 text-amber-700",
+    bg: "bg-amber-50",
+    border: "border-amber-200",
+    dot: "bg-amber-500",
+    icon: "text-amber-600",
+  },
+  strict: {
+    badge: "bg-red-100 text-red-700",
+    bg: "bg-red-50",
+    border: "border-red-200",
+    dot: "bg-red-500",
+    icon: "text-red-600",
+  },
+};

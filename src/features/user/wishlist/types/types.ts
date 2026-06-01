@@ -28,6 +28,8 @@ export interface IWishlistItem {
   nights: string;
   basePrice: string;
   images: WishlistImageDTO[];  
+  averageRating: number;
+  totalReviews: number;
 }
  
 export interface IWishlistResponse {
