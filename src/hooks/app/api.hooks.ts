@@ -160,9 +160,23 @@ export const useDownloadTicketMutation = () => {
 
 // REVIEWS
 export const useReviewSubmitMutation = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (review: SubmitReviewRequestDTO) => submitReview(review),
-    onSuccess: () => {
+    onSuccess: (_data, variables) => {
+      queryClient.setQueryData(
+        ["bookings", variables.bookingId],
+        (old: { data?: { hasReviewed?: boolean } } | undefined) => {
+          if (!old) return old;
+          return {
+            ...old,
+            data: {
+              ...old.data,
+              hasReviewed: true,
+            },
+          };
+        }
+      );
       toast.success('Review submitted successfully');
     },
     onError: (error: unknown) => {
@@ -171,10 +185,13 @@ export const useReviewSubmitMutation = () => {
   });
 };
 
-export const useReviewDeleteMutation = () => {
+export const useReviewDeleteMutation = (packageId:string) => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (reviewId: string) => deleteReview(reviewId),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["package-reviews", packageId] });
+      queryClient.invalidateQueries({ queryKey: ["package-review-stats", packageId] });
       toast.success('Review deleted successfully');
     },
     onError: (error: unknown) => {
@@ -193,10 +210,15 @@ export const usePackageReviewStatsQuery = (packageId:string) => {
   });
 };
 
-export const usePackageReviewsQuery = (packageId:string, page:number, limit:number) => {
-  return useQuery<ApiResponse<PackageReviewsResponseDto>, ApiError>({
-    queryKey: ["package-reviews",packageId,page,limit],
-    queryFn: () => packageReviews(packageId,page,limit),
+export const usePackageReviewsQuery = (packageId: string, limit: number = 5) => {
+  return useInfiniteQuery<ApiResponse<PackageReviewsResponseDto>, AxiosError<{ message: string }>>({
+    queryKey: ["package-reviews", packageId, limit],
+    queryFn: ({ pageParam = 1 }) => packageReviews(packageId, pageParam as number, limit),
+    getNextPageParam: (lastPage) => {
+      const { currentPage, totalPages } = lastPage.data;
+      return currentPage < totalPages ? currentPage + 1 : undefined;
+    },
+    initialPageParam: 1,
     enabled: !!packageId,
     staleTime: 1000 * 60 * 2,
     refetchOnWindowFocus: false,

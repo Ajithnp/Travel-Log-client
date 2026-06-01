@@ -46,11 +46,9 @@ export default function BookingDetail() {
    const booking = data?.data;
 
    const { mutate: downloadTicket, isPending } = useDownloadTicketMutation();
-   
    const {mutate: submitReview, isPending: isSubmittingReview, isSuccess: isReviewSuccess} = useReviewSubmitMutation();
 
    
-
    const handleDownloadTicket = () => {
     if (bookingId) {
       downloadTicket(bookingId);

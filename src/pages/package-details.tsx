@@ -1,10 +1,8 @@
 import { useState } from "react";
 import {
   MapPin, Star, Clock, Share2, Heart,
-  Check,
   ChevronRight,
   ArrowLeft,
-  StarIcon
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -17,13 +15,17 @@ import { Error } from "@/components/common/error";
 import ImageGallery from "@/components/app/image-gallery";
 import { PackageItinerary } from "@/features/vendor/package/base-package/components/package-details/package-itinerary";
 import InclusionsExclusions from "@/components/app/inclusions-exclusions";
-import { PackingList } from "@/features/vendor/package/base-package/components/package-details/packing-list";
 import { CancellationPolicyCard } from "@/components/app/cancellation-policy";
-import { policyMap } from "@/utils/policy-mapper";
 import { packageData } from "@/mock-data";
 import { BookingWizard } from "@/components/app/booking-flow/booking-wizard";
 import { TourOperatorCard } from "@/components/app/tour-operator-card";
 import { TrustBadges } from "@/components/app/trust-badges";
+import { TravellerReviews } from "@/components/app/review-list";
+import { usePackageReviewStatsQuery, useReviewDeleteMutation } from "@/hooks/app/api.hooks";
+import { usePackageReviews } from "@/hooks/app/package-reviews";
+import { EmptyData } from "@/components/common/empty";
+import { PackageAboutSection } from "@/components/app/package-about";
+import { formatTimeToAMPM } from "@/utils/format-time-to-ampm";
 
 
 export default function PackageDetails() {
@@ -37,13 +39,21 @@ export default function PackageDetails() {
     error,
   } = usePackageDetailsPage(id);
 
-  const policyKey = pkg?.cancellationPolicy;
-  const selectedPolicy = policyKey ? policyMap[policyKey] : undefined;
+  const { data: reviewStats, isLoading: isReviewStatsLoading } = usePackageReviewStatsQuery(id || "")
+  const { reviews, isLoading: reviewsLoading, isFetchingNextPage, fetchNextPage, hasNextPage } = usePackageReviews(id || "", 5)
+  const {mutate: deleteReview, isPending} = useReviewDeleteMutation(id || '');
+  const cancellationPolicy = pkg?.cancellationPolicy;
 
-  if (isLoading) return <Loader />
+  const reviewStatsData = reviewStats?.data;
+
+  if (isLoading || isReviewStatsLoading || reviewsLoading) return <Loader />
   if (error) return <Error message={error.message} />
-  if (!pkg || !schedules) return null
-
+  if (!pkg || !schedules) return <EmptyData heading="Package Not Found" />
+  
+  const handleDeleteReview = (reviewId: string) => {
+    deleteReview(reviewId);
+    
+  };
   const operator = {
     id: pkg.vendor.id,
     name: pkg.vendor.name,
@@ -114,7 +124,7 @@ export default function PackageDetails() {
             <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5 text-gray-900" /> {pkg?.days} Days/{pkg?.nights} Nights</span>
             <span className="flex items-center gap-1 font-medium text-foreground">
               <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-              {packageData.rating} <span className="text-muted-foreground font-normal">({packageData.reviewCount} reviews)</span>
+              {reviewStats?.data.average.toFixed(1)} <span className="text-muted-foreground font-normal">({reviewStats?.data.total} reviews)</span>
             </span>
           </div>
         </div>
@@ -123,62 +133,57 @@ export default function PackageDetails() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 space-y-6">
-            <Card className="border border-gray-200 shadow-sm rounded-2xl overflow-hidden shadow-premium">
-              <div className="px-5 pt-5 flex items-center gap-2">
-                <div className="w-6 h-6 rounded-full bg-yellow-100 flex items-center justify-center shrink-0">
-                  <StarIcon className="w-3.5 h-3.5 text-yellow-600" />
-                </div>
-                <h2 className="text-sm font-semibold uppercase text-gray-700">
-                  What Makes This Trip Special
-                </h2>
-              </div>
-              <div className="px-5 pb-2">
-                <p className="text-sm text-gray-600 leading-relaxed">
-                  {pkg?.usp}
-                </p>
-              </div>
-            </Card>
 
-            <Card className="border border-gray-200 shadow-sm rounded-2xl overflow-hidden shadow-premium">
-              <div className="px-5 pt-5 ">
-                <h2 className="text-base font-semibold text-gray-700">
-                  ABOUT THIS PACKAGE
-                </h2>
-              </div>
-              <div className="border-t border-gray-100 mx-5" />
-              <div className="px-5 py-5 space-y-5">
-                <p className="text-sm text-gray-600 leading-relaxed">
-                  {pkg?.description}
-                </p>
+            <PackageAboutSection usp={pkg.usp} description={pkg.description} />
 
-                <div>
-                  <h3 className="text-sm font-semibold text-gray-900 mb-3">
-                    Package Highlights
-                  </h3>
-                  <ul className="space-y-2">
-                    {packageData.highlights.map((h) => (
-                      <li key={h} className="flex items-start gap-2.5">
-                        <Check className="w-4 h-4 text-green-500 shrink-0 mt-0.5" />
-                        <span className="text-sm text-gray-600 leading-snug">
-                          {h}
-                        </span>
-
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </Card>
-
-            {/* Day-wise Itinerary */}
             <PackageItinerary itinerary={pkg?.itinerary} totalDays={pkg?.days} />
-            {/* Inclusions & Exclusions */}
+
+            <Card className="border border-gray-200 shadow-sm rounded-2xl overflow-hidden shadow-premium">
+              <div className="px-5 pt-4 pb-3 flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 bg-rose-50 border border-rose-200">
+                  <MapPin className="w-4 h-4 text-rose-600" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-gray-400">
+                    Logistics
+                  </p>
+                  <h2 className="text-sm font-bold text-gray-800 leading-tight">
+                    Meeting Point & Time
+                  </h2>
+                </div>
+              </div>
+
+              <div className="border-t border-gray-100 mx-5" />
+              <div className="px-5 py-4">
+                <div className="flex items-start gap-3">
+                  <div className="mt-0.5 w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center shrink-0 border border-slate-200">
+                    <MapPin className="w-3 h-3 text-slate-500" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-semibold text-gray-800">{schedules[0].reportingLocation}</h3>
+                    <p className="text-xs text-gray-500 mt-0.5">{formatTimeToAMPM(schedules[0].reportingTime)}</p>
+                  </div>
+                </div>
+              </div>
+            </Card>
+
             <InclusionsExclusions inclusions={pkg?.inclusions ?? []} exclusions={pkg?.exclusions ?? []} />
-            {/* Things to Carry */}
-            <PackingList items={pkg?.packingList} />
-            {/* Cancellation Policy */}
-            <CancellationPolicyCard policy={selectedPolicy} />
-            {/* Reviews */}
+
+            {/* <PackingList items={pkg?.packingList} /> */}
+
+            <CancellationPolicyCard policy={cancellationPolicy} />
+
+            <TravellerReviews
+              rating={reviewStatsData?.average || 0}
+              reviewCount={reviewStatsData?.total || 0}
+              ratingBreakdown={reviewStatsData?.breakdown || {}}
+              reviews={reviews || []}
+              hasMore={hasNextPage ?? false}
+              isLoadingMore={isFetchingNextPage}
+              onLoadMore={fetchNextPage}
+              onDelete={handleDeleteReview}
+              isPending={isPending}
+            />
           </div>
           {/* RIGHT COLUMN — Booking Sidebar */}
           <div className="lg:col-span-1">

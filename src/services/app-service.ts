@@ -213,11 +213,13 @@ export const packageReviews = async (
 export type PackageReviewsResponseDto = PaginatedData<PackageReviewSinglesResponseDto> 
 
 export interface PackageReviewSinglesResponseDto {
+  id:string;
+  userId:string;
   userName : string;
   createdAt:Date;
   rating:number;
   text:string;
-  images ?: {key:string}[];
+  images ?: {key:string,url?:string}[];
 }
 
 

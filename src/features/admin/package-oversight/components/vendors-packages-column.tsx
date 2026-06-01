@@ -7,83 +7,83 @@ import StatusBadge from "@/features/vendor/schedule-package/components/status-ba
 export const VendorsPackagesColumns = (
   onView: (bookingId: string) => void
 ): Column<VendorsPackagesResponse>[] => [
-  {
-    key: "packageName",
-    label: "Package",
-    render: (packages) => (
-      <div className="flex flex-col gap-1">
-        <span className="font-medium text-slate-800 flex items-center gap-2">
-          <Luggage className="w-4 h-4 text-indigo-500" />
-          {packages.packageName}
-        </span>
-        <span className="text-xs text-muted-foreground flex items-center gap-2">
-          <MapPin className="w-4 h-4 text-red-500"/>{packages.location}, {packages.state}, {packages.totalDays} Days
-        </span>
-      </div>
-    ),
-  },
-  {
-    key: "vendorName",
-    label: "Vendor",
-    render: (packages) => (
-      <div className="flex flex-col">
-        <span className="font-medium text-slate-800 flex items-center gap-2">
-          <User className="w-4 h-4 text-emerald-600" />
-          {packages.vendorName}
-        </span>
-      </div>
-    )
-  },
-
-  {
-    key: "categoryName",
-    label: "Category",
-    render: (packages) => {
-      return (
-        <div className="flex flex-col">
+    {
+      key: "packageName",
+      label: "Package",
+      render: (packages) => (
+        <div className="flex flex-col gap-1">
           <span className="font-medium text-slate-800 flex items-center gap-2">
-            <Layers className="w-4 h-4 text-amber-500" />
-            {packages.categoryName}
+            <Luggage className="w-4 h-4 text-indigo-500" />
+            {packages.packageName}
+          </span>
+          <span className="text-xs text-muted-foreground flex items-center gap-2">
+            <MapPin className="w-4 h-4 text-red-500" />{packages.location}, {packages.state}, {packages.totalDays} Days
           </span>
         </div>
-      );
+      ),
     },
-  },
-
-  {
-    key: "status",
-    label: "Status",
-    render: (packages) => (
-      <div className="flex flex-col">
-        <StatusBadge status={packages.status} />
-      </div>
-    ),
-  },
-
-  {
-    key: "scheduleCount",
-    label: "No. of Schedules",
-    render: (packages) => (
-      <div className="flex flex-col">
-        <span className="font-medium text-orange-500">{packages.scheduleCount}</span>
-      </div>
-    ),
-  },
-
-  {
-    key: "actions",
-    label: "Actions",
-    render: (packages) => {
-      const actions: TableAction[] = [
-        {
-          label: "View",
-          icon: <View className="w-4 h-4" />,
-          variant: "success",
-          onClick: () => onView(packages._id),
-        },
-      ];
-
-      return <TableActions actions={actions} />;
+    {
+      key: "vendorName",
+      label: "Vendor",
+      render: (packages) => (
+        <div className="flex flex-col">
+          <span className="font-medium text-slate-800 flex items-center gap-2">
+            <User className="w-4 h-4 text-emerald-600" />
+            {packages.vendorName}
+          </span>
+        </div>
+      )
     },
-  },
-];
+
+    {
+      key: "categoryName",
+      label: "Category",
+      render: (packages) => {
+        return (
+          <div className="flex flex-col">
+            <span className="font-medium text-slate-800 flex items-center gap-2">
+              <Layers className="w-4 h-4 text-amber-500" />
+              {packages.categoryName}
+            </span>
+          </div>
+        );
+      },
+    },
+
+    {
+      key: "status",
+      label: "Status",
+      render: (packages) => (
+        <div className="flex flex-col">
+          <StatusBadge status={packages.status} />
+        </div>
+      ),
+    },
+
+    {
+      key: "scheduleCount",
+      label: "No. of Schedules",
+      render: (packages) => (
+        <div className="flex flex-col">
+          <span className="font-medium text-orange-500">{packages.scheduleCount}</span>
+        </div>
+      ),
+    },
+
+    {
+      key: "actions",
+      label: "Actions",
+      render: (packages) => {
+        const actions: TableAction[] = [
+          {
+            label: "View",
+            icon: <View className="w-4 h-4" />,
+            variant: "success",
+            onClick: () => onView(packages._id),
+          },
+        ];
+
+        return <TableActions actions={actions} />;
+      },
+    },
+  ];
