@@ -23,7 +23,6 @@ export function PackagesToolbar({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div className="flex flex-col gap-3">
 
-          {/* sm+: Search + View toggle in one row | mobile: search full width */}
           <div className="flex items-center gap-2">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -37,7 +36,6 @@ export function PackagesToolbar({
               />
             </div>
 
-            {/* View toggle — hidden on mobile, inline with search on sm+ */}
             <div className="hidden sm:flex items-center gap-1 border border-border rounded-md p-0.5 shrink-0">
               <Button size="icon" variant={view === "grid" ? "default" : "ghost"}
                 onClick={() => onViewChange("grid")} className="h-7 w-7" data-testid="button-view-grid">
@@ -50,7 +48,6 @@ export function PackagesToolbar({
             </div>
           </div>
 
-          {/* Mobile only row: Filter + Sort dropdown */}
           <div className="flex items-center gap-2 sm:hidden">
             <SheetTrigger asChild>
               <Button variant="outline" size="sm" className="relative shrink-0"

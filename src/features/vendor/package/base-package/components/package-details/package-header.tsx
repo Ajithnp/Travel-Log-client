@@ -1,12 +1,13 @@
-import { MapPin, Calendar, Shield, Map, Trash2 } from "lucide-react";
+import { MapPin, Calendar, Shield, Map, Trash2, TicketPercent } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { categoryIcon, difficultyColor, statusColorMap } from "@/lib/constants/ui/mapping-ui";
-import type { PackageDetailReponse } from "../../type/package";
+import type { PackageDetailWithStats } from "../../type/package";
 import { Button } from "@/components/ui/button";
 import { PackageStatus } from "@/lib/constants/constants";
+import { StarRating } from "@/components/common/start-rating";
 
 interface PackageHeaderProps {
-  pkg: Partial<PackageDetailReponse>;
+  pkg: Partial<PackageDetailWithStats>;
   onDelete: () => void;
 }
 
@@ -41,6 +42,11 @@ export function PackageHeader({ pkg, onDelete }: PackageHeaderProps) {
                 </Badge>
               </span>
             )}
+
+            <span className="flex items-center gap-1">
+              <span className="flex text-xs text-foreground/50 items-center gap-1">Rating</span>
+              <StarRating rating={pkg.reviewStats?.average || 0} size="sm" /> <span className="text-xs text-foreground/50">({pkg.reviewStats?.total || 0}) Reviews</span>
+            </span>
           </div>
           <h1 className="text-2xl md:text-3xl font-display text-foreground mb-2 font-medium">
             {pkg.title}
@@ -67,19 +73,30 @@ export function PackageHeader({ pkg, onDelete }: PackageHeaderProps) {
               <Shield className="h-3.5 w-3.5 text-green-400" />
               {pkg.cancellationPolicy?.label ?? "N/A"} cancellation
             </span>
+            <span className="text-border">·</span>
+            {pkg.activeOffer?.hasOffer && (
+              <Badge variant="default" className="bg-red-500 text-white">
+                <TicketPercent className="w-5 h-5" />
+                {pkg.activeOffer.offerPercentage}% OFF
+              </Badge>
+            )}
           </div>
         </div>
-        <div className="flex items-center gap-2 shrink-0">
-        {pkg.status && pkg.status !== PackageStatus.DELETED && (
-          <Button
-            variant="outline"
-            size="sm"
-            className="gap-1.5 text-destructive hover:text-destructive"
-            onClick={()=> onDelete()}
-          >
-            <Trash2 className="h-3.5 w-3.5" /> Delete
-          </Button>
+        <div className="flex flex-col items-end gap-2 shrink-0">
+          {pkg.status && pkg.status !== PackageStatus.DELETED && (
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-1.5 text-destructive hover:text-destructive"
+              onClick={() => onDelete()}
+            >
+              <Trash2 className="h-3.5 w-3.5" /> Delete
+            </Button>
           )}
+          <Badge variant="outline" className="bg-green-400 text-white">
+            <Calendar className="w-4 h-4 mr-1.5" />
+            {pkg.scheduleCount} Schedules Running
+          </Badge>
         </div>
       </div>
     </div>

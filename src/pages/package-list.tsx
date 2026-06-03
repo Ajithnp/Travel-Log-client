@@ -135,7 +135,6 @@ export default function PackageListing() {
               onResetDateRange={() => setDateRange("", "")}
             />
 
-            {/* Initial loading skeleton */}
             {isLoading && <PackagesSkeleton count={PACKAGES_PER_PAGE} />}
 
             {!isLoading && error && (

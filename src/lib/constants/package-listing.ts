@@ -34,4 +34,5 @@ export const SORT_OPTIONS: { value: SortOption; label: string }[] = [
   { value: "price_low_high", label: "Price ↑" },
   { value: "price_high_low", label: "Price ↓" },
   { value: "top_rated",      label: "Highest Rated" },
+  { value: "offered",      label: "Offered" },
 ];

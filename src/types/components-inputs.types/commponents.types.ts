@@ -16,7 +16,8 @@ import {
   ShieldX,
   MessageCircle,
   CalendarX,
-  Package
+  Package,
+  Tag
 
 } from "lucide-react";
 import { type LucideIcon } from "lucide-react";
@@ -51,6 +52,7 @@ export const vendorSidebarLinks = [
   { name: "Packages", path: "/vendor/packages", icon: Briefcase },
   { name: "Category", path: "/vendor/requested-categories", icon: ViewIcon },
   {name: "Schedules", path: "/vendor/scheduled-trips", icon:CalendarCheck},
+  { name: "Offers", path: "/vendor/offers", icon: Tag },
   { name: "Chats", path: "/vendor/chats", icon: MessageCircle , tabKey:VENDOR_TABS.CHAT}
 ];
 
