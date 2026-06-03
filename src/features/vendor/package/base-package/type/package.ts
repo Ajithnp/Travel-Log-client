@@ -31,6 +31,9 @@ export interface IPackage {
   category?: string;
   difficultyLevel?: DifficultyLevel;
   basePrice: number;
+  hasOffer: boolean;
+  offerPercentage: number;
+  scheduleCount: number;
 }
 
 export interface ActivityDTO {
@@ -72,6 +75,19 @@ export interface PackageDetailReponse {
   isActive: boolean;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface PackageDetailWithStats extends PackageDetailReponse {
+  activeOffer:{
+    hasOffer:boolean,
+    offerPercentage:number,
+    offerId:string|null
+  };
+  reviewStats: {
+    average: number;
+    total: number;
+  };
+  scheduleCount: number;
 }
 
 export interface PackageScheduleContextResponse {

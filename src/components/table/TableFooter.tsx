@@ -22,17 +22,25 @@ const TableFooter = ({
 }: TableFooterProps) => {
   const isEmpty: boolean = totalPages === 0;
   return (
-    <motion.div 
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5, delay: 0.6 }}
-      className="mt-8 flex justify-between items-center p-6 px-2 shadow-premium"
+    <motion.div
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay: 0.3, ease: "easeOut" }}
+      className="mt-10 flex flex-col sm:flex-row justify-between items-center gap-4 rounded-2xl border border-border/40 bg-background/60 backdrop-blur-xl px-5 py-3.5 shadow-[0_2px_16px_rgba(0,0,0,0.04)]"
     >
-      <p className="text-sm text-muted-foreground font-medium">
-        Showing page <span className="text-foreground font-bold">{currentPage}</span> of <span className="text-foreground font-bold">{totalPages}</span>
-      </p>
+      {/* Page info badge */}
+      <div className="flex items-center gap-2">
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-muted/60 px-3 py-1 text-xs font-medium text-muted-foreground backdrop-blur-sm">
+          Page
+          <span className="font-bold text-foreground">{currentPage}</span>
+          <span className="text-border">/</span>
+          <span className="font-bold text-foreground">{totalPages || 1}</span>
+        </span>
+      </div>
+
+      {/* Pagination controls */}
       <Pagination className="mx-0 w-auto">
-        <PaginationContent>
+        <PaginationContent className="gap-1">
           <PaginationItem>
             <PaginationPrevious
               aria-disabled={isEmpty || currentPage === 1}
@@ -42,13 +50,16 @@ const TableFooter = ({
                   onPageChange(currentPage - 1);
                 }
               }}
-              className={clsx("rounded-xl transition-all h-9 px-3", {
-                "pointer-events-none opacity-50 cursor-default": isEmpty || currentPage === 1,
-                "cursor-pointer hover:bg-muted": !isEmpty && currentPage > 1,
-              })}
+              className={clsx(
+                "h-8 rounded-xl border border-border/50 bg-card px-3 text-xs font-medium transition-all duration-200",
+                {
+                  "pointer-events-none cursor-default opacity-40": isEmpty || currentPage === 1,
+                  "cursor-pointer hover:border-primary/40 hover:bg-primary/5 hover:text-primary": !isEmpty && currentPage > 1,
+                }
+              )}
             />
           </PaginationItem>
-          {/* {page numbers} */}
+
           {!isEmpty &&
             Array.from({ length: totalPages }).map((_, i) => (
               <PaginationItem key={i} className="hidden sm:inline-block">
@@ -59,16 +70,21 @@ const TableFooter = ({
                     onPageChange(i + 1);
                   }}
                   isActive={currentPage === i + 1}
-                  className={clsx("rounded-xl font-medium transition-all h-9 w-9", {
-                    "bg-foreground text-background hover:bg-foreground hover:text-background shadow-md": currentPage === i + 1,
-                    "hover:bg-muted text-muted-foreground hover:text-foreground": currentPage !== i + 1
-                  })}
+                  className={clsx(
+                    "h-8 w-8 rounded-xl border text-xs font-semibold transition-all duration-200",
+                    {
+                      "border-primary bg-primary text-primary-foreground shadow-[0_2px_8px_hsl(var(--primary)/0.35)] hover:bg-primary hover:text-primary-foreground scale-105":
+                        currentPage === i + 1,
+                      "border-border/50 bg-card text-muted-foreground hover:border-primary/40 hover:bg-primary/5 hover:text-primary":
+                        currentPage !== i + 1,
+                    }
+                  )}
                 >
                   {i + 1}
                 </PaginationLink>
               </PaginationItem>
             ))}
-          {/* next button */}
+
           <PaginationItem>
             <PaginationNext
               aria-disabled={isEmpty || currentPage === totalPages}
@@ -78,10 +94,13 @@ const TableFooter = ({
                   onPageChange(currentPage + 1);
                 }
               }}
-              className={clsx("rounded-xl transition-all h-9 px-3", {
-                "pointer-events-none opacity-50 cursor-default": isEmpty || currentPage === totalPages,
-                 "cursor-pointer hover:bg-muted": !isEmpty && currentPage < totalPages,
-              })}
+              className={clsx(
+                "h-8 rounded-xl border border-border/50 bg-card px-3 text-xs font-medium transition-all duration-200",
+                {
+                  "pointer-events-none cursor-default opacity-40": isEmpty || currentPage === totalPages,
+                  "cursor-pointer hover:border-primary/40 hover:bg-primary/5 hover:text-primary": !isEmpty && currentPage < totalPages,
+                }
+              )}
             />
           </PaginationItem>
         </PaginationContent>

@@ -39,6 +39,7 @@ const NotificationPage = lazy(() => import('@/features/notification/pages/notifi
 const VendorChatPage = lazy(() => import('@/features/chat/pages/vendor-chat'));
 
 const ScheduleBookingListPage = lazy(() => import('@/features/vendor/booking-monitoring/pages/booking-list'));
+const OfferListPage = lazy(() => import('@/features/vendor/offer/pages/offer-list'));
 
 const VendorRoutes = () => {
   return (
@@ -100,6 +101,8 @@ const VendorRoutes = () => {
           <Route path="scheduled-trips" element={<ScheduleslistingPage />} />
            <Route path="schedules/:scheduleId/:packageId" element={<ScheduleDetailsPage />} />
            <Route path="schedules/bookings/:scheduleId" element={<ScheduleBookingListPage />} />
+          {/* Offers */}
+          <Route path="offers" element={<OfferListPage />} />
           </Route>
 
          </Route> 

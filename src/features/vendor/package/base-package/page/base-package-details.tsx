@@ -12,7 +12,7 @@ import { useDataWithSignedUrls } from "@/hooks/s3/data-with-signed-urls";
 import { Loader } from "@/components/common/loader";
 import { Error } from "@/components/common/error";
 import { Button } from "@/components/ui/button";
-import type { PackageDetailReponse } from "../type/package";
+import type { PackageDetailWithStats } from "../type/package";
 import { useState } from "react";
 import { ConfirmDialog } from "@/components/common/confirm-dialog";
 
@@ -25,7 +25,7 @@ const BasePackageDetails = () => {
 
 
   const { data, isLoading, error } =
-    useDataWithSignedUrls<PackageDetailReponse>(
+    useDataWithSignedUrls<PackageDetailWithStats>(
       usePackagesFetchWithId(packageId ?? "", { enabled: !!packageId }),
       {
         userId: vendorId ?? '',

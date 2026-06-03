@@ -41,18 +41,19 @@ export default function PackageDetails() {
 
   const { data: reviewStats, isLoading: isReviewStatsLoading } = usePackageReviewStatsQuery(id || "")
   const { reviews, isLoading: reviewsLoading, isFetchingNextPage, fetchNextPage, hasNextPage } = usePackageReviews(id || "", 5)
-  const {mutate: deleteReview, isPending} = useReviewDeleteMutation(id || '');
+  const { mutate: deleteReview, isPending } = useReviewDeleteMutation(id || '');
   const cancellationPolicy = pkg?.cancellationPolicy;
+
 
   const reviewStatsData = reviewStats?.data;
 
   if (isLoading || isReviewStatsLoading || reviewsLoading) return <Loader />
   if (error) return <Error message={error.message} />
   if (!pkg || !schedules) return <EmptyData heading="Package Not Found" />
-  
+
   const handleDeleteReview = (reviewId: string) => {
     deleteReview(reviewId);
-    
+
   };
   const operator = {
     id: pkg.vendor.id,
@@ -103,14 +104,15 @@ export default function PackageDetails() {
       </div>
 
       <div className="max-w-6xl mx-auto px-4 py-6 space-y-6">
-        <div className="flex items-center gap-2 flex-wrap">
-          <Badge className="bg-green-400" >
-            {pkg.category}
-          </Badge>
-          <Badge className="bg-amber-400" >
-            {pkg.difficultyLevel}
-          </Badge>
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <Badge className="bg-green-400">{pkg.category}</Badge>
+            <Badge className="bg-amber-400">{pkg.difficultyLevel}</Badge>
+          </div>
 
+          {pkg.hasOffer && pkg.offerPercentage > 0 && (
+            <Badge className="bg-orange-100 text-orange-700 font-semibold text-sm px-3 py-1 rounded-full shadow-sm">{pkg.offerPercentage}% off</Badge>
+          )}
         </div>
         <div className="space-y-2">
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight" data-testid="package-title">

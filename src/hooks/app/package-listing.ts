@@ -14,7 +14,8 @@ export type SortOption =
   | "newest"
   | "price_low_high"
   | "price_high_low"
-  | "top_rated";
+  | "top_rated"
+  | "offered"
   
 export type DifficultyLevel = "Easy" | "Moderate" | "Challenging" | "Extreme";
 export type ScheduleStatus = "upcoming" | "sold_out";
@@ -54,6 +55,8 @@ export interface TravelPackage {
   isSoldOut: boolean;
   averageRating: number;
   totalReviews: number;
+  hasOffer: boolean;
+  offerPercentage:number;
 }
 
 export interface PackageListResponse {

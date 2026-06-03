@@ -87,9 +87,11 @@ export const API_ROUTE = {
   UPDATE_PROFILE_LOGO: "/me/profileLogo",
   PACKAGE_FORM_UPLOAD: "/packages",
   PACKAGES: "/packages",
+  PACAGES_OFFERS_CONTEXT: "/packages/offers-context",
   CATEGORIES: "/categories",
   SCHEDULE_PACKAGE: "/schedules/packages/",
   SCHEDULES: "/schedules",
+
 
   // ADMIN
 

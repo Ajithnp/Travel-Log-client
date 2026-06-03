@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, IndianRupee, Calendar, Tag, Mountain } from "lucide-react";
+import { MapPin, IndianRupee, Calendar, Tag, Mountain, TicketPercent, ListChecks } from "lucide-react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import type { IPackage } from "../type/package";
@@ -50,10 +50,8 @@ const PackageCard = ({
         "hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.4)]",
         "hover:border-primary/20"
       )}>
-        {/* Premium Overlay Glow */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
-        {/* Image Container */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
         <div className="relative aspect-[16/10] overflow-hidden bg-muted">
           {thumbnailImage?.url ? (
             <motion.img
@@ -67,7 +65,7 @@ const PackageCard = ({
             </div>
           )}
 
-          {/* Status Badge Over Image */}
+          
           <div className="absolute top-3 left-3 z-10">
             <Badge
               variant="secondary"
@@ -80,7 +78,7 @@ const PackageCard = ({
             </Badge>
           </div>
 
-          {/* Price Tag Over Image */}
+       
           <div className="absolute bottom-3 right-3 z-10">
             <div className="bg-white/90 dark:bg-black/80 backdrop-blur-md rounded-lg px-3 py-1.5 shadow-lg border border-white/20">
               <div className="flex items-center gap-1 text-primary font-bold">
@@ -91,7 +89,7 @@ const PackageCard = ({
           </div>
         </div>
 
-        {/* Card Content */}
+      
         <div className="p-5 flex flex-col flex-grow relative z-10">
           <div className="mb-4 flex justify-between">
             {/* <div className="flex items-center gap-1 text-amber-500 mb-1">
@@ -118,9 +116,10 @@ const PackageCard = ({
             />
             <InfoItem icon={Tag} value={pkg.category} />
             <InfoItem icon={Mountain} value={pkg.difficultyLevel} />
+            <InfoItem icon={TicketPercent} value={pkg.hasOffer ? pkg.offerPercentage +"% offer" : ""} />
+            <InfoItem icon={ListChecks} value={`${pkg.scheduleCount} Schedules`} />
           </div>
 
-          {/* Footer Action */}
           <div className="mt-auto pt-4 border-t border-border/40">
             <Button
               size="sm"
