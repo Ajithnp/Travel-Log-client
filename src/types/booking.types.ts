@@ -49,7 +49,6 @@ export interface BookingState {
   selectedSchedule: PublicScheduleDTO | null;
   selectedTierType: PricingTierType;
   travellers:       TravellerInfo[];
-  appliedCoupon:    Coupon | null;
 }
 
 
@@ -76,18 +75,15 @@ export const TIER_META: TierMeta[] = [
 
 export function calcPricing(
   selectedPricing: SchedulePricingDTO,
-  appliedCoupon: Coupon | null
+  offerPercentage?: number
 ): PricingBreakdown {
   const baseAmount      = selectedPricing.price;
   const travellersCount = selectedPricing.peopleCount;
   const pricePerHead    = Math.round(baseAmount / travellersCount);
 
   let discountAmount = 0;
-  if (appliedCoupon) {
-    discountAmount =
-      appliedCoupon.discountType === "percent"
-        ? Math.round((baseAmount * appliedCoupon.discountValue) / 100)
-        : appliedCoupon.discountValue;
+  if (offerPercentage) {
+    discountAmount = Math.round((baseAmount * offerPercentage) / 100);
   }
 
   const totalAmount = baseAmount - discountAmount;

@@ -49,7 +49,9 @@ export default function Wallet() {
                 <WalletHero
                     totalBalance={walletData?.balance || 0}
                     totalIn={walletData?.totalCredit || 0}
-                    totalOut={walletData?.totalDebit || 0} />
+                    totalOut={walletData?.totalDebit || 0} 
+                    totalReward={walletData?.totalReward || 0} 
+                    />
 
                 {/* Transactions card */}
                 <motion.div

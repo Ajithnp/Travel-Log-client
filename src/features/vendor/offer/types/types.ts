@@ -28,7 +28,6 @@ export interface CreateOfferPayload {
   maxDiscountCap?: number;
   minBookingAmount?: number;
   usageLimit?: number;
-  validFrom: string;
   validUntil: string;
 }
 
@@ -40,7 +39,6 @@ export interface OfferFormValues {
   maxDiscountCap?: number;
   minBookingAmount?: number;
   usageLimit?: number;
-  validFrom: string;
   validUntil: string;
 }
 

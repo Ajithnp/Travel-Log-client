@@ -152,6 +152,19 @@ export const retryBooking = async (bookingId: string): Promise<ApiResponse<Initi
   return response.data;
 };
 
+
+export const getUnrevealedReward = async (): Promise<ApiResponse<RewardResponse>> => {
+  const response: AxiosResponse<ApiResponse<RewardResponse>> =
+    await api.get(`${API_ENDPOINTS.USER}${API_ROUTE.GET_REWARD}`);
+  return response.data;
+};
+
+export const revealReward = async (rewardId:string): Promise<ApiResponse<void>> => {
+  const response: AxiosResponse<ApiResponse<void>> =
+    await api.patch(`${API_ENDPOINTS.USER}${API_ROUTE.REVEAL_REWARD(rewardId)}`);
+  return response.data;
+};
+
 export const downloadBookingTicket = async (bookingId: string): Promise<void> => {
   const response = await api.get(`${API_ENDPOINTS.BOOKING}/${bookingId}/ticket`, {
     responseType: 'blob', 
@@ -236,4 +249,10 @@ export interface SubmitReviewRequestDTO{
     rating:number;
     text:string;
     images?:{key:string}[];
+}
+
+export interface RewardResponse{
+  id :string;
+  title:string;
+  rewardValue:number;
 }

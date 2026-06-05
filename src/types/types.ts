@@ -75,7 +75,7 @@ export interface PublicPackageDetailDTO {
   exclusions: string[];
   packingList: string[];
   cancellationPolicy: CancellationPolicyType;
-  offerId: string | null;
+  offerId: string ;
   offerPercentage: number;
   hasOffer: boolean;
   status: PackageStatus;

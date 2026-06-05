@@ -17,7 +17,8 @@ export type TableAction = {
   icon?: React.ReactNode;
   onClick: () => void;
   variant?: ActionVariant
-  show?: boolean; // conditional rendering
+  show?: boolean; 
+  disabled?: boolean;
 };
 
 interface TableActionsProps {
@@ -52,8 +53,9 @@ export function TableActions({
             .filter((action) => action.show !== false)
             .map((action, i) => (
               <DropdownMenuItem
-                className="cursor-pointer flex items-center gap-2" 
+                className="cursor-pointer flex items-center gap-2"
                 key={i}
+                disabled={action.disabled}
                 onSelect={() => {
                   action.onClick();
                   setDropdownOpen(false);

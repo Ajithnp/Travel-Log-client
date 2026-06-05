@@ -1,13 +1,13 @@
 import { Card } from "@/components/ui/card";
-import type { Coupon, PricingBreakdown } from "@/types/booking.types";
+import type { PricingBreakdown } from "@/types/booking.types";
 
 interface PriceSummaryProps {
   pricing: PricingBreakdown;
-  appliedCoupon: Coupon | null;
   walletDeduction?: number;
+  offerPercentage?: number;
 }
 
-export function PriceSummary({ pricing, appliedCoupon, walletDeduction = 0 }: PriceSummaryProps) {
+export function PriceSummary({ pricing, walletDeduction = 0, offerPercentage }: PriceSummaryProps) {
   const {
     pricePerHead,
     travellersCount,
@@ -26,7 +26,7 @@ export function PriceSummary({ pricing, appliedCoupon, walletDeduction = 0 }: Pr
         </h3>
       </div>
       <div className="px-5 py-5 space-y-3 text-sm">
-        {/* BASE */}
+
         <div className="flex justify-between items-start gap-2 text-gray-600">
           <span className="leading-snug">
             ₹{pricePerHead.toLocaleString("en-IN")} × {travellersCount} person
@@ -38,9 +38,9 @@ export function PriceSummary({ pricing, appliedCoupon, walletDeduction = 0 }: Pr
         </div>
 
         {/* DISCOUNT */}
-        {appliedCoupon && discountAmount > 0 && (
+        {(offerPercentage ?? 0) > 0 && discountAmount > 0 && (
           <div className="flex justify-between items-center text-green-600">
-            <span className="truncate">Discount ({appliedCoupon.code})</span>
+            <span className="truncate">Discount ({offerPercentage}%)</span>
             <span className="shrink-0">
               −₹{discountAmount.toLocaleString("en-IN")}
             </span>

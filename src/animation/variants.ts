@@ -13,6 +13,44 @@ export const fadeUp: Variants = {
   }),
 };
 
+export const overlayV:Variants = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { duration: 0.22 } },
+  exit: { opacity: 0, transition: { duration: 0.18, delay: 0.04 } },
+};
+
+export const modalV:Variants = {
+  hidden: { opacity: 0, scale: 0.93, y: 28 },
+  show: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: { type: "spring", stiffness: 310, damping: 28, delay: 0.06 },
+  },
+  exit: {
+    opacity: 0,
+    scale: 0.95,
+    y: 16,
+    transition: { duration: 0.17, ease: "easeIn" },
+  },
+};
+
+
+
+export const fieldV:Variants = {
+  hidden: { opacity: 0, y: 12 },
+  show: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: 0.12 + i * 0.06, duration: 0.32, ease: [0.25, 0.46, 0.45, 0.94] },
+  }),
+};
+
+export const successV:Variants = {
+  hidden: { opacity: 0, scale: 0.82 },
+  show: { opacity: 1, scale: 1, transition: { type: "spring", stiffness: 260, damping: 22 } },
+};
+
 export const fadeUpBox:Variants = {
   hidden: { opacity: 0, y: 20 },
   show: (i: number) => ({
