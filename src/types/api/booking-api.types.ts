@@ -17,6 +17,8 @@ export interface InitiateBookingRequestDTO {
   useWallet: boolean;
   travelers: TravellerInfo[];
   amountInPaise: number;
+  offerId?: string;
+  offerDiscount?: number;
 }
 
 export interface InitiateBookingResponseDTO {

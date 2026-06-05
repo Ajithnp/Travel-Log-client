@@ -7,7 +7,6 @@ import { Step4Payment } from "./step-4-payment";
 import {
   calcPricing,
   type BookingState,
-  type Coupon,
   type PricingTierType,
   type Schedule,
   type TravellerInfo,
@@ -26,7 +25,6 @@ const initialState: BookingState = {
   selectedSchedule: null,
   selectedTierType: "SOLO",
   travellers: [],
-  appliedCoupon: null,
 };
 
 
@@ -58,8 +56,8 @@ export function BookingWizard({ schedules, pkg }: BookingWizardProps) {
 
   const pricing = useMemo(
     () =>
-      selectedPricing ? calcPricing(selectedPricing, state.appliedCoupon) : null,
-    [selectedPricing, state.appliedCoupon],
+      selectedPricing ? calcPricing(selectedPricing, pkg.offerPercentage) : null,
+    [selectedPricing, pkg.offerPercentage],
   );
 
   const split = useMemo(
@@ -88,13 +86,6 @@ export function BookingWizard({ schedules, pkg }: BookingWizardProps) {
   const handleTravellerSubmit = (travellers: TravellerInfo[]) =>
     setState((s) => ({ ...s, travellers, step: 3 }));
 
-
-  const handleApplyCoupon = (coupon: Coupon) =>
-    setState((s) => ({ ...s, appliedCoupon: coupon }));
-
-  const handleRemoveCoupon = () =>
-    setState((s) => ({ ...s, appliedCoupon: null }));
-
   const handlePay = async () => {
     if (!state.selectedSchedule || !pricing) return;
 
@@ -106,6 +97,8 @@ export function BookingWizard({ schedules, pkg }: BookingWizardProps) {
       useWallet,
       travelers: state.travellers,
       amountInPaise: pricing.totalAmount * 100,
+      offerId: pkg.hasOffer ? pkg.offerId : undefined,
+      offerDiscount: pricing.discountAmount,
     });
   };
 
@@ -116,6 +109,8 @@ export function BookingWizard({ schedules, pkg }: BookingWizardProps) {
       {state.step === 1 && (
         <Step1Schedule
           schedules={schedules}
+          offerPercentage={pkg.offerPercentage}
+          hasOffer={pkg.hasOffer}
           selectedSchedule={state.selectedSchedule}
           onSelect={handleScheduleSelect}
           onContinue={() => goTo(2)}
@@ -136,9 +131,7 @@ export function BookingWizard({ schedules, pkg }: BookingWizardProps) {
       {state.step === 3 && pricing && (
         <Step3AddOns
           pricing={pricing}
-          appliedCoupon={state.appliedCoupon}
-          onApplyCoupon={handleApplyCoupon}
-          onRemoveCoupon={handleRemoveCoupon}
+          offerPercentage={pkg.offerPercentage}
           onContinue={() => goTo(4)}
           onBack={() => goTo(2)}
         />
@@ -149,10 +142,9 @@ export function BookingWizard({ schedules, pkg }: BookingWizardProps) {
           selectedSchedule={state.selectedSchedule}
           selectedTierType={state.selectedTierType}
           pricing={pricing}
-          appliedCoupon={state.appliedCoupon}
           bookingId={bookingId}
           checkoutUrl={checkoutUrl}
-
+          offerPercentage={pkg.offerPercentage}
           isProcessing={isProcessing}
           walletBalance={walletBalance}
           isLoadingWallet={isLoadingWallet}

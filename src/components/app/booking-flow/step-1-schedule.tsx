@@ -17,6 +17,8 @@ interface Step1ScheduleProps {
   selectedSchedule: Schedule | null;
   onSelect: (schedule: Schedule) => void;
   onContinue: () => void;
+  offerPercentage?: number;
+  hasOffer?: boolean;
 }
 
 export function Step1Schedule({
@@ -24,6 +26,8 @@ export function Step1Schedule({
   selectedSchedule,
   onSelect,
   onContinue,
+  offerPercentage,
+  hasOffer,
 }: Step1ScheduleProps) {
   const { isLoggedIn } = useAuthUser();
   return (
@@ -100,13 +104,34 @@ export function Step1Schedule({
                 </div>
 
                 <div className="text-right shrink-0 space-y-0.5">
-                  <p
-                    className={`font-semibold ${isSoldOut ? "text-gray-400" : "text-gray-900"
-                      }`}
-                  >
-                    ₹{priceFrom.toLocaleString("en-IN")}
-                  </p>
-                  <p className="text-xs text-gray-400">from /head</p>
+                  {hasOffer && offerPercentage ? (
+                    <>
+                      <div className="flex items-center justify-end gap-1.5 mb-0.5">
+                        <span className="text-xs text-gray-400 line-through">
+                          ₹{priceFrom.toLocaleString("en-IN")}
+                        </span>
+                        <span className="text-[10px] font-bold text-green-700 bg-green-100 px-1.5 py-0.5 rounded">
+                          {offerPercentage}% OFF
+                        </span>
+                      </div>
+                      <div>
+                        <span className={`font-semibold ${isSoldOut ? "text-gray-400" : "text-gray-900"}`}>
+                          ₹{Math.round(priceFrom * (1 - offerPercentage / 100)).toLocaleString("en-IN")}
+                        </span>
+                        <span className="text-xs text-gray-400"> /head</span>
+                      </div>
+                    </>
+                  ) : (
+                    <div>
+                      <span
+                        className={`font-semibold ${isSoldOut ? "text-gray-400" : "text-gray-900"
+                          }`}
+                      >
+                        ₹{priceFrom.toLocaleString("en-IN")}
+                      </span>
+                      <span className="text-xs text-gray-400"> /head</span>
+                    </div>
+                  )}
                 </div>
               </div>
             </button>

@@ -1,9 +1,10 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Heart } from "lucide-react";
-
+import { useNavigate } from "react-router-dom";
 
 export function EmptyState() {
+  const navigate = useNavigate();
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
@@ -21,7 +22,9 @@ export function EmptyState() {
         Browse our trips and save the ones that inspire you — they'll appear here.
       </p>
       <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="mt-6">
-        <Button className="bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-xl h-10 px-5 text-sm font-semibold shadow">
+        <Button className="bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-xl h-10 px-5 text-sm font-semibold shadow"
+        onClick={()=> navigate('/packages')}
+        >
           Explore Trips <ArrowRight className="w-4 h-4 ml-1.5" />
         </Button>
       </motion.div>

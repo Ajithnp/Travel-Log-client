@@ -23,6 +23,7 @@ const CancelBookingListingPage = lazy(() => import('@/features/admin/cancel-book
 const VendorsPackagesPage = lazy(() => import('@/features/admin/package-oversight/pages/vendors-packages'))
 const VendorPackageDetailsPage = lazy(() => import('@/features/admin/package-oversight/pages/vendors-package-details'))
 const VendorPackageSchedulesPage = lazy(() => import('@/features/admin/package-oversight/pages/vendors-package-schedules'))
+const CouponsPage = lazy(() => import('@/features/admin/coupons/pages/coupon-list'))
 
 
 const AdminRoutes = () => {
@@ -59,6 +60,7 @@ const AdminRoutes = () => {
           <Route path="categories" element={<CategoryListPage />} />
           <Route path="categories/vendor-request" element={<CategoryRequestedPage />} />
           <Route path="categories/vendor-request/reviewed" element={<CategoryRequestReviewedPage />} />
+           <Route path="coupons" element={<CouponsPage/>} />
            <Route path="cancellation-policies" element={<CancellationPoliciesPage/>} />
            <Route path="user/cancel-bookings" element={<CancelBookingListingPage/>} />
           {/* vendors */}

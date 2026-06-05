@@ -1,4 +1,4 @@
-import { confirmBookingWalletApi, deleteReview, downloadBookingTicket, fetchCategories, fetchPackageDetails, fetchPackageSchedules, fetchPublicPackages, fetchVendorPublicProfile, packageReviews, packageReviewStats, submitReview, verifyBookingPayment, type PackageRatingStatsResponseDto, type PackageReviewsResponseDto, type SubmitReviewRequestDTO } from "@/services/app-service";
+import { confirmBookingWalletApi, deleteReview, downloadBookingTicket, fetchCategories, fetchPackageDetails, fetchPackageSchedules, fetchPublicPackages, fetchVendorPublicProfile, getUnrevealedReward, packageReviews, packageReviewStats, revealReward, submitReview, verifyBookingPayment, type PackageRatingStatsResponseDto, type PackageReviewsResponseDto, type RewardResponse, type SubmitReviewRequestDTO } from "@/services/app-service";
 import {
   useQuery,
   useInfiniteQuery,
@@ -222,5 +222,25 @@ export const usePackageReviewsQuery = (packageId: string, limit: number = 5) => 
     enabled: !!packageId,
     staleTime: 1000 * 60 * 2,
     refetchOnWindowFocus: false,
+  });
+};
+
+export const useUnrevealedRewardQuery = () => {
+  return useQuery<ApiResponse<RewardResponse> | null, ApiError>({
+    queryKey: ["unrevealed-reward"],
+    queryFn: () => getUnrevealedReward(),
+    refetchOnWindowFocus: false,
+  });
+};
+
+export const useRevealRewardMutation = () => {
+
+  return useMutation({
+    mutationFn: (rewardId: string) => revealReward(rewardId),
+    onSuccess: () => {
+    },
+    onError: (error: unknown) => {
+      toast.error(error instanceof AxiosError ? error.response?.data.message : 'Failed to delete review');
+    },
   });
 };

@@ -2,7 +2,7 @@ import { Routes, Route} from "react-router-dom";
 import AdminRoutes from "./AdminRoutes";
 import VendorRoutes from "./VendorRoutes";
 import UserRoutes from "./UserRoutes";
-import Custome404 from "../components/Custome404";
+import Custome404 from "../components/404";
 import Unauthorized from "../components/Unauthorized";
 
 

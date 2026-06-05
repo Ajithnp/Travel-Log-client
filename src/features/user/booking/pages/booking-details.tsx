@@ -43,26 +43,26 @@ export default function BookingDetail() {
     useUserBookingDeatailsQuery(bookingId);
 
   const cancelMutation = useCancelBookingRequestMutation(bookingId);
-   const booking = data?.data;
+  const booking = data?.data;
 
-   const { mutate: downloadTicket, isPending } = useDownloadTicketMutation();
-   const {mutate: submitReview, isPending: isSubmittingReview, isSuccess: isReviewSuccess} = useReviewSubmitMutation();
+  const { mutate: downloadTicket, isPending } = useDownloadTicketMutation();
+  const { mutate: submitReview, isPending: isSubmittingReview, isSuccess: isReviewSuccess } = useReviewSubmitMutation();
 
-   
-   const handleDownloadTicket = () => {
+
+  const handleDownloadTicket = () => {
     if (bookingId) {
       downloadTicket(bookingId);
     }
   };
 
-  const handleCancelBooking = ( payload: { bookingId: string; reason: string; details: string }) => {
-  cancelMutation.mutate(payload,{
-    onSuccess: (res) => {
-      toast.success(res.message)
-      setShowModal(false);
-    },
-  });
-};
+  const handleCancelBooking = (payload: { bookingId: string; reason: string; details: string }) => {
+    cancelMutation.mutate(payload, {
+      onSuccess: (res) => {
+        toast.success(res.message)
+        setShowModal(false);
+      },
+    });
+  };
 
 
   if (!bookingId) return <Error message="Invalid booking ID." />;
@@ -71,7 +71,7 @@ export default function BookingDetail() {
     return <Error onRetry={refetch} message={error?.response?.data?.message} />;
   if (!booking) return <Error onRetry={refetch} message="Booking not found." />;
 
-  const canCancel = isCancellationAllowed(booking?.schedule.startDate, booking?.cancellationPolicy?.rules ||[]);
+  const canCancel = isCancellationAllowed(booking?.schedule.startDate, booking?.cancellationPolicy?.rules || []);
   const lastDate = getLastCancellationDate(booking?.schedule.startDate, booking?.cancellationPolicy?.rules || []);
 
   const handleOperatorView = (operatorId: string) => {
@@ -81,17 +81,17 @@ export default function BookingDetail() {
   return (
     <div className="min-h-screen px-4 sm:px-6 py-12 bg-[#f7f7fb] font-['Inter'] sm:py-8 mt-20">
       <div className="max-w-[97rem] mx-auto">
-        <DetailsNav 
-        status={booking.bookingStatus}
-        hasReviwed={booking.hasReviewed}
-        cancelationStatus={booking.cancellationStatus}
-        canCancel={canCancel}
-        lastDate={lastDate}
-        openCancelModal={() => setShowModal(true)} 
-        downloadTicket={handleDownloadTicket}
-        showReviewModal={() => setShowReviewModal(true)}
-        isDownloading={isPending}
-         />
+        <DetailsNav
+          status={booking.bookingStatus}
+          hasReviwed={booking.hasReviewed}
+          cancelationStatus={booking.cancellationStatus}
+          canCancel={canCancel}
+          lastDate={lastDate}
+          openCancelModal={() => setShowModal(true)}
+          downloadTicket={handleDownloadTicket}
+          showReviewModal={() => setShowReviewModal(true)}
+          isDownloading={isPending}
+        />
         <div className="max-w-[97rem] mx-auto px-4 sm:px-6 py-6 space-y-4">
           <DetailsHeroCard
             basePackage={booking.package}
@@ -138,10 +138,10 @@ export default function BookingDetail() {
               </motion.div>
 
               <TravelersCard travelers={booking.travelers} />
- 
+
               <ItinerarySection itinerary={booking.package.itinerary} />
             </div>
-   
+
             <div className="space-y-4">
 
               <Pricing
@@ -180,54 +180,57 @@ export default function BookingDetail() {
         </div>
       </div>
 
-      <ReviewModal
-        open={showReviewModal}
-        onClose={() => setShowReviewModal(false)}
-        packageTittle={booking.package.title}
-        onSubmit={async (data) => {
-          try {
-            setIsUploadingPhotos(true);
-            let uploadedImages: { key: string }[] = [];
-            
-            if (data.photos && data.photos.length > 0) {
-              const imagePayload: IPackageImage[] = data.photos.map(file => ({
-                key: "",
-                file: file,
-                status: "PENDING_UPLOAD"
-              }));
-              const result = await imageUploadSync(imagePayload);
-              uploadedImages = result.map(img => ({ key: img.key }));
-            }
-            setIsUploadingPhotos(false);
-            
-            submitReview({
-              bookingId: booking.id,
-              rating: data.rating,
-              text: data.review,
-              images: uploadedImages
-            });
-          } catch (error) {
-            console.error(error);
-            setIsUploadingPhotos(false);
-            toast.error("Failed to upload photos");
-          }
-        }}
-        isSubmitting={isUploadingPhotos || isSubmittingReview}
-        isSuccess={isReviewSuccess}
-       />
+      {booking.hasReviewed && booking.bookingStatus === BOOKING_STATUS.COMPLETED && (
+        <ReviewModal
+          open={showReviewModal}
+          onClose={() => setShowReviewModal(false)}
+          packageTittle={booking.package.title}
+          onSubmit={async (data) => {
+            try {
+              setIsUploadingPhotos(true);
+              let uploadedImages: { key: string }[] = [];
 
-      <CancelBookingModal
-        show={showModal}
-        onClose={() => setShowModal(false)} 
-        onCancelBooking={handleCancelBooking}
-        isPending={cancelMutation.isPending}
-        error={cancelMutation.error?.response?.data?.message || null}
-        bookingId={booking.id}
-        packageTittle={booking.package.title}
-        bookingStartDate={booking.schedule.startDate}
-        cancellationPolicy={booking.cancellationPolicy}
-        finalAmount={booking.financials.finalAmount}
-         />
+              if (data.photos && data.photos.length > 0) {
+                const imagePayload: IPackageImage[] = data.photos.map(file => ({
+                  key: "",
+                  file: file,
+                  status: "PENDING_UPLOAD"
+                }));
+                const result = await imageUploadSync(imagePayload);
+                uploadedImages = result.map(img => ({ key: img.key }));
+              }
+              setIsUploadingPhotos(false);
+
+              submitReview({
+                bookingId: booking.id,
+                rating: data.rating,
+                text: data.review,
+                images: uploadedImages
+              });
+            } catch (error) {
+              console.error(error);
+              setIsUploadingPhotos(false);
+              toast.error("Failed to upload photos");
+            }
+          }}
+          isSubmitting={isUploadingPhotos || isSubmittingReview}
+          isSuccess={isReviewSuccess}
+        />
+      )}
+      {showModal && (
+        <CancelBookingModal
+          show={showModal}
+          onClose={() => setShowModal(false)}
+          onCancelBooking={handleCancelBooking}
+          isPending={cancelMutation.isPending}
+          error={cancelMutation.error?.response?.data?.message || null}
+          bookingId={booking.id}
+          packageTittle={booking.package.title}
+          bookingStartDate={booking.schedule.startDate}
+          cancellationPolicy={booking.cancellationPolicy}
+          finalAmount={booking.financials.finalAmount}
+        />
+      )}
     </div>
   );
 }

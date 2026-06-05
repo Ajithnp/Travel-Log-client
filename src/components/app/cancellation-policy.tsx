@@ -1,4 +1,4 @@
-import { AlertTriangle, Clock, RefreshCw } from "lucide-react";
+import { AlertTriangle, Clock } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import type { CancellationPolicyType } from "@/types/types";
 import { policyColorConfig } from "@/lib/constants/ui/mapping-ui";

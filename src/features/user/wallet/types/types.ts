@@ -30,5 +30,6 @@ export interface WalletDetailsResponse {
   balance: number;
   totalCredit: number;
   totalDebit: number;
+  totalReward:number;
   transactions: PaginatedData<TransactionDTO>;
 }

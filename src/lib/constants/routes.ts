@@ -53,7 +53,8 @@ export const API_ROUTE = {
   UPDATE_EMAIL: "/me/email",
   RESET_PASSWORD: "/me/password",
   DASHBOARD: "/dashboard",
-
+  GET_REWARD: "/reward/unrevealed",
+  REVEAL_REWARD:(id:string) => `/reward/${id}/reveal`,
   VENDOR_PUBLIC_PROFILE: (id: string) => `/packages/vendors/${id}/profile`,
    
   //packages

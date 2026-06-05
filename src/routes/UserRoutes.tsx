@@ -7,6 +7,7 @@ import AuthUserLayout from '@/layouts/auth/auth.user.layout';
 import { Loading } from '@/components/ui/loading';
 import { ErrorBoundary } from "react-error-boundary";
 import { ErrorFallback } from '@/components/ErrorFallback';
+import NotFound404 from '@/components/404';
 
 const UserDashboard = lazy(() => import('@/features/user/pages/Dashboard'));
 const HomePage = lazy(() => import('@/pages/new-home-page'));
@@ -67,7 +68,8 @@ const UserRoutes = () => {
           <Route path='packages/vendor/:vendorId/profile' element={<VendorProfilePage />} />
           <Route path='about' element={<h1>About page</h1>} />
           <Route path='contact' element={<h1>Contact page</h1>} />
-
+           
+          <Route path='*' element={<NotFound404 pathname={window.location.pathname} />}/>           
         </Route>
 
 
@@ -94,7 +96,8 @@ const UserRoutes = () => {
           
           <Route path='wallet' element={<WalletPage />} />
         </Route>
-
+         
+         <Route path='*' element={<NotFound404 pathname={window.location.pathname} />}/>
       </Routes>
     </Suspense>
   )

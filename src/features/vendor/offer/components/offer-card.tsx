@@ -117,7 +117,8 @@ export function OfferCard({ offer, onDeactivate, isDeactivating }: OfferCardProp
           <div className="flex items-center gap-2">
             <Calendar className="w-3.5 h-3.5 text-rose-500 shrink-0" />
             <span>
-              {format(new Date(offer.validFrom), "dd MMM yyyy")} —{" "}
+              Valid until:{" "}
+              {/* {format(new Date(offer.validFrom), "dd MMM yyyy")} —{" "} */}
               {format(new Date(offer.validUntil), "dd MMM yyyy")}
             </span>
           </div>

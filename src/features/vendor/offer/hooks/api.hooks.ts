@@ -2,7 +2,7 @@ import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tansta
 import { isAxiosError } from "axios";
 import { toast } from "sonner";
 import type { ApiError } from "@/types/axios";
-import type { ApiResponse, Paginated } from "@/types/IApiResponse";
+import type { ApiResponse } from "@/types/IApiResponse";
 import {
   createOffer,
   deactivateOffer,
@@ -10,7 +10,7 @@ import {
   getPackagesForOffer,
   type PaginatedOfferResponse,
 } from "../services/api.services";
-import type { CreateOfferPayload, OfferDTO, OfferQueryParams, PackageForOfferResponseDTO } from "../types/types";
+import type { CreateOfferPayload, OfferQueryParams, PackageForOfferResponseDTO } from "../types/types";
 
 
 const OFFERS_QUERY_KEY = "vendor-offers";

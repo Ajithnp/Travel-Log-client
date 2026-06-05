@@ -4,7 +4,6 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PriceSummary } from "./pricing-summary";
 import type {
-  Coupon,
   PricingBreakdown,
   PricingTierType,
   Schedule,
@@ -15,11 +14,10 @@ interface Step4PaymentProps {
   selectedSchedule: Schedule | null;
   selectedTierType: PricingTierType;
   pricing: PricingBreakdown;
-  appliedCoupon: Coupon | null;
   bookingId: string | null;
   checkoutUrl: string | null;
   isProcessing: boolean;
-
+  offerPercentage?: number;
   walletBalance: number;
   isLoadingWallet: boolean;
   useWallet: boolean;
@@ -33,9 +31,9 @@ export function Step4Payment({
   selectedSchedule,
   selectedTierType,
   pricing,
-  appliedCoupon,
   checkoutUrl,
   isProcessing,
+  offerPercentage,
   walletBalance,
   isLoadingWallet,
   useWallet,
@@ -93,7 +91,7 @@ export function Step4Payment({
     <div className="space-y-4">
       <Card className="border border-gray-200 shadow-sm rounded-2xl overflow-hidden shadow-premium">
         <div className="px-5 pt-5 pb-3 bg-accent-foreground/80">
-          <h3 className="text-sm font-semibold uppercase text-card">Order Summary</h3>
+          <h3 className="text-sm font-semibold uppercase text-card">Booking Summary</h3>
         </div>
         <div className="px-5 py-5 space-y-4 text-sm">
           {selectedSchedule && (
@@ -108,7 +106,7 @@ export function Step4Payment({
             </div>
           )}
           <div className="bg-gray-50 -mx-5 px-5 py-4 flex items-center justify-between border-t border-gray-200">
-            <span className="text-sm font-semibold text-gray-900">Total payable</span>
+            <span className="text-sm font-semibold text-gray-900">Amount</span>
             <span className="text-lg font-bold text-gray-900">
               ₹{pricing.totalAmount.toLocaleString('en-IN')}
             </span>
@@ -158,7 +156,7 @@ export function Step4Payment({
 
       <PriceSummary 
         pricing={pricing} 
-        appliedCoupon={appliedCoupon} 
+        offerPercentage={offerPercentage}
         walletDeduction={split.walletAmount} 
       />
 

@@ -5,14 +5,34 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useRevealRewardMutation, useUnrevealedRewardQuery } from "@/hooks/app/api.hooks";
+import ScratchCard from "@/components/app/scratch-card";
+
 
 export default function PaymentSuccess() {
   const [visible, setVisible] = useState(false);
   const { state } = useLocation();
   const navigate = useNavigate();
+  const [showScratchCard, setShowScratchCard] = useState(false);
+
+  const { data: reward} = useUnrevealedRewardQuery()
+  const { mutate: revealReward, isPending: revealRewardLoading } = useRevealRewardMutation();
+  
+  const rewardData = reward?.data;
+
+  useEffect(() => {
+    if (rewardData) {
+      setShowScratchCard(true);
+    }
+  }, [rewardData]);
   
   const bookingCode = state?.bookingCode;
   const amount = state?.amount;
+
+  const handleReveal: (rewardId: string) => void = (rewardId) => {
+    revealReward(rewardId);
+
+  }
 
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 80);
@@ -139,6 +159,13 @@ export default function PaymentSuccess() {
           </motion.div>
         )}
       </AnimatePresence>
+      <ScratchCard
+        isOpen={showScratchCard}
+        onClose={() => setShowScratchCard(false)}
+        reward={rewardData}
+        onReveal={handleReveal}
+        isPending={revealRewardLoading}
+      />
     </div>
   );
 }

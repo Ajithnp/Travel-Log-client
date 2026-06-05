@@ -56,13 +56,14 @@ interface WalletHeroProps {
   totalBalance: number;
   totalIn: number;
   totalOut: number;
+  totalReward:number;
 }
 
-export default function WalletHero({ totalBalance, totalIn, totalOut }: WalletHeroProps) {
+export default function WalletHero({ totalBalance, totalIn, totalOut,totalReward }: WalletHeroProps) {
 
   return (
     <>
-      {/* Stat cards */}
+      
       <motion.div
         initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, delay: 0.1 }}
         className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5"
@@ -70,7 +71,7 @@ export default function WalletHero({ totalBalance, totalIn, totalOut }: WalletHe
         <StatCard label="Available Balance" value={`₹ ${totalBalance.toLocaleString()}`} sub="" icon={Clock} accent="border-gray-100" />
         <StatCard label="Total In" value={`₹ ${totalIn.toLocaleString()}`} sub="" trend="up" icon={ArrowDownLeft} accent="border-gray-100" />
         <StatCard label="Total Out" value={`₹ ${totalOut.toLocaleString()}`} sub="" trend="down" icon={ArrowUpRight} accent="border-gray-100" />
-        <StatCard label="Rewards" value={`₹ ${totalOut.toLocaleString()}`} sub="" trend="up" icon={Gift} accent="border-gray-100" />
+        <StatCard label="Rewards" value={`₹ ${totalReward.toLocaleString()}`} sub="" trend="up" icon={Gift} accent="border-gray-100" />
       </motion.div>
     </>
   );
