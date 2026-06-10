@@ -92,6 +92,7 @@ export const API_ROUTE = {
   CATEGORIES: "/categories",
   SCHEDULE_PACKAGE: "/schedules/packages/",
   SCHEDULES: "/schedules",
+  REVENUE_PACKAGES_EARNINGS: "/revenue/packages-earnings",
 
 
   // ADMIN

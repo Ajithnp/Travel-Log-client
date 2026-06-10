@@ -40,7 +40,7 @@ const VendorChatPage = lazy(() => import('@/features/chat/pages/vendor-chat'));
 
 const ScheduleBookingListPage = lazy(() => import('@/features/vendor/booking-monitoring/pages/booking-list'));
 const OfferListPage = lazy(() => import('@/features/vendor/offer/pages/offer-list'));
-
+const PackagesRevenuePage = lazy(()=> import("@/features/vendor/revenue-overview/pages/packages-revenue"))
 const VendorRoutes = () => {
   return (
     <Suspense fallback={<Loading variant="spinner" text="Loading.." fullscreen />}>
@@ -103,6 +103,7 @@ const VendorRoutes = () => {
            <Route path="schedules/bookings/:scheduleId" element={<ScheduleBookingListPage />} />
           {/* Offers */}
           <Route path="offers" element={<OfferListPage />} />
+          <Route path="revenue" element={<PackagesRevenuePage />} />
           </Route>
 
          </Route> 

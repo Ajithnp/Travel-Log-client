@@ -17,7 +17,10 @@ import {
   MessageCircle,
   CalendarX,
   Package,
-  Tag
+  Tag,
+  MonitorCheck,
+  Banknote,
+  ChartSpline
 
 } from "lucide-react";
 import { type LucideIcon } from "lucide-react";
@@ -54,7 +57,8 @@ export const vendorSidebarLinks = [
   { name: "Category", path: "/vendor/requested-categories", icon: ViewIcon },
   {name: "Schedules", path: "/vendor/scheduled-trips", icon:CalendarCheck},
   { name: "Offers", path: "/vendor/offers", icon: Tag },
-  { name: "Chats", path: "/vendor/chats", icon: MessageCircle , tabKey:VENDOR_TABS.CHAT}
+  { name: "Chats", path: "/vendor/chats", icon: MessageCircle , tabKey:VENDOR_TABS.CHAT},
+  { name: "Revenue Overview", path: "/vendor/revenue", icon:ChartSpline }
 ];
 
 export const userSidebarLinks = [

@@ -12,7 +12,6 @@ export const useCommissionOverviewByVendorsQuery = (page:number, limit:number, s
     refetchOnWindowFocus: false,
     placeholderData: keepPreviousData,
     
-    
   });
 };
 
