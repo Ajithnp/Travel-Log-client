@@ -22,6 +22,18 @@ export const getCommissionOverviewStats = async(): Promise<ApiResponse<Commissio
   return response.data
 }
 
+export const getCommissionOverviewByPackages = async (
+  page: number,
+  limit: number,
+  search?: string,
+): Promise<ApiResponse<PaginatedCommissionOverviewByPackages>> => {
+  const response: AxiosResponse<ApiResponse<PaginatedCommissionOverviewByPackages>> =
+    await api.get(`${API_ENDPOINTS.ADMIN}${API_ROUTE.COMMISSION_OVERVIEW_BY_PACKAGES}`, {
+      params: {page, limit, ...(search ? {search}: {})},
+    });
+  return response.data;
+};
+
 
 export interface CommissionOverviewStats{
     totalGrossAmount: number;
@@ -52,6 +64,7 @@ export interface PaginatedCommissionOverviewByVendors{
 };
 
 export interface CommissionOverviewByPackages{
+   _id:string;
     vendorName:string;
     packageName:string;
     totalScedule:number;

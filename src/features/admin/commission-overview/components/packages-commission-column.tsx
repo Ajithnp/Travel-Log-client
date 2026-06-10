@@ -1,58 +1,68 @@
 import { Luggage, User, IndianRupee } from "lucide-react";
-import type { CommissionOverviewByVendors } from "../services/api.services";
 import type { Column } from "@/components/table/DataTable";
+import type { CommissionOverviewByPackages } from "../services/api.services";
 
-export const VendorsCommissionColumns = (
-): Column<CommissionOverviewByVendors>[] => [
+export const PackagesCommissionColumns = (
+): Column<CommissionOverviewByPackages>[] => [
     {
-      key: "vendorName",
-      label: "vendors",
-      render: (vendors) => (
+      key: "packageName",
+      label: "Packages",
+      render: (packages) => (
         <div className="flex flex-col gap-1">
           <span className="font-medium text-slate-800 flex items-center gap-2">
-            <User className="w-4 h-4 text-indigo-500" />
-            {vendors.vendorName}
-          </span>
-          <span className="text-xs text-muted-foreground flex items-center gap-2">
-            <Luggage className="w-3 h-3 text-red-500" />{vendors.totalPackages} Packages
+            <Luggage className="w-4 h-4 text-indigo-500" />
+            {packages.packageName}
           </span>
         </div>
       ),
     },
     {
-      key: "totalCompletedSchedules",
-      label: "Schedules Done",
-      render: (vendors) => (
+      key: "vendorName",
+      label: "Vendor",
+      render: (packages) => (
         <div className="flex flex-col">
           <span className="font-medium text-slate-800 flex items-center gap-2">
-            {vendors.totalCompletedSchedules}
+            <User className="w-4 h-4 text-indigo-500" />
+            {packages.vendorName}
           </span>
         </div>
       )
     },
 
     {
-      key: "totalBookings",
-      label: "Total Bookings",
-      render: (vendors) => {
+      key: "totalScedule",
+      label: "Total Schedules",
+      render: (packages) => {
         return (
           <div className="flex flex-col">
             <span className="font-medium text-slate-800 flex items-center gap-2">
-              {vendors.totalBookings}
+              {packages.totalScedule}
             </span>
           </div>
         );
       },
     },
 
+   {
+      key: "totalBookings",
+      label: "Total Bookings",
+      render: (packages) => (
+        <div className="flex flex-col">
+          <span className="font-medium text-slate-800 flex items-center gap-2">
+            {packages.totalBookings}
+          </span>
+        </div>
+      ),
+    },
+
     {
       key: "totalGrossAmount",
       label: "Gross Amount",
-      render: (vendors) => (
+      render: (packages) => (
         <div className="flex flex-col">
           <span className="font-medium text-slate-800 flex items-center gap-2">
             <IndianRupee className="w-3 h-3 text-emerald-600" />
-            {vendors.totalGrossAmount}
+            {packages.totalGrossAmount}
           </span>
         </div>
       ),
@@ -61,11 +71,11 @@ export const VendorsCommissionColumns = (
     {
       key: "totalPlatformCommission",
       label: "Platform Commission (15%)",
-      render: (vendors) => (
+      render: (packages) => (
         <div className="flex flex-col">
           <span className="font-medium text-slate-800 flex items-center gap-2">
             <IndianRupee className="w-3 h-3 text-emerald-600" />
-            {vendors.totalPlatformCommission}
+            {packages.totalPlatformCommission}
           </span>
         </div>
       ),
@@ -73,11 +83,11 @@ export const VendorsCommissionColumns = (
     {
       key: "totalVendorEarnings",
       label: "Vendor Earnings",
-      render: (vendors) => (
+      render: (packages) => (
         <div className="flex flex-col">
           <span className="font-medium text-slate-800 flex items-center gap-2">
             <IndianRupee className="w-3 h-3 text-emerald-600" />
-            {vendors.totalVendorEarnings}
+            {packages.totalVendorEarnings}
           </span>
         </div>
       ),

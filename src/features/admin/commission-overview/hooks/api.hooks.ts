@@ -1,7 +1,7 @@
 import type {  ApiResponse } from "@/types/IApiResponse";
 import { useQuery } from "@tanstack/react-query";
 import { keepPreviousData } from "@tanstack/react-query";
-import { getCommissionOverviewByVendors, getCommissionOverviewStats, type CommissionOverviewStats, type PaginatedCommissionOverviewByVendors } from "../services/api.services";
+import { getCommissionOverviewByPackages, getCommissionOverviewByVendors, getCommissionOverviewStats, type CommissionOverviewStats, type PaginatedCommissionOverviewByPackages, type PaginatedCommissionOverviewByVendors } from "../services/api.services";
 import type { ApiError } from "@/types/axios";
 
 
@@ -21,6 +21,17 @@ export const useCommissionOverviewStatsQuery = () => {
     queryKey: ["commission-overview-stats"],
     queryFn: () => getCommissionOverviewStats(),
     refetchOnWindowFocus: false,
+    
+  });
+};
+
+export const useCommissionOverviewByPackagesQuery = (page:number, limit:number, search?:string) => {
+  return useQuery<ApiResponse<PaginatedCommissionOverviewByPackages>, ApiError>({
+    queryKey: ["commission-overview-by-packages", page, limit, search],
+    queryFn: () => getCommissionOverviewByPackages(page, limit, search),
+    refetchOnWindowFocus: false,
+    placeholderData: keepPreviousData,
+    
     
   });
 };

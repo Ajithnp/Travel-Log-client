@@ -13,8 +13,9 @@ import type { CommissionOverviewByVendors } from '../services/api.services';
 import { useCommissionOverviewByVendorsQuery, useCommissionOverviewStatsQuery } from '../hooks/api.hooks';
 import { VendorsCommissionColumns } from '../components/vendors-commission-column';
 import StatCard from '../../category-management/components/start-card';
+import { LIMIT } from '@/lib/constants/constants';
 
-const LIMIT = 10;
+
 export default function VendorsCommissionListPage() {
     const navigate = useNavigate();
 
@@ -35,7 +36,7 @@ export default function VendorsCommissionListPage() {
 
 
     const handleViewPackageSchedules = () => {
-        navigate('/admin/packages-oversight/schedules')
+        navigate('/admin/commission-overview/packages')
     };
     const columns = useMemo(() => VendorsCommissionColumns(), []);
 
@@ -53,8 +54,8 @@ export default function VendorsCommissionListPage() {
         <div className="min-h-screen bg-gradient-premium selection:bg-foreground/10 selection:text-foreground pb-20 ">
             <div className="max-w-[97rem] mx-auto px-4 sm:px-6 py-12">
                 <PageHeader
-                    title="Vendor Packages Oversight"
-                    description="Manage all packages across all vendors at one place."
+                    title="Vendor Commission Overview"
+                    description="Manage all vendors commission at one place."
                     primaryAction={{
                         label: "View Packages Commission",
                         icon: <ArrowRight className="w-4 h-4" />,
