@@ -111,6 +111,9 @@ export const API_ROUTE = {
   GET_VENDORS_PACKAGES:'/vendor/packages',
   GET_VENDORS_PACKAGE_SCHEDULE_STATS: '/vendor/schedules/stats',
   GET_VENDORS_PACKAGE_SCHEDULES: '/vendor/schedules',
+  COMMISSION_OVERVIEW_STATS: '/commissions/summary',
+  COMMISSION_OVERVIEW_BY_VENDORS: '/commissions/vendors',
+  COMMISSION_OVERVIEW_BY_PACKAGES: '/commissions/packages',
 
 
   //S3

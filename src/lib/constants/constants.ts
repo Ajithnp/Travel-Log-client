@@ -1,3 +1,5 @@
+
+export const LIMIT = 10;
 export const PackageStatus =  {
   DRAFT :"DRAFT",
   PUBLISHED: "PUBLISHED",
