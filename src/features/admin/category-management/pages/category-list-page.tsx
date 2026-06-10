@@ -74,14 +74,14 @@ export default function CategoriesListPage() {
   return (
     <div className="min-h-screen bg-gradient-premium selection:bg-foreground/10 selection:text-foreground pb-20 ">
       <div className="max-w-[97rem] mx-auto px-4 sm:px-6 py-12">
-        {/* Page Header */}
+       
         <PageHeader
           title="Category Management"
           description="Create and manage trip categories. Active categories appear in vendor dropdowns and user filters."
           secondaryAction={{
             label: "Vendor Requests",
             icon: <Bell className="h-4 w-4" />,
-            // badgeCount: 5,
+         
             onClick: handleVendorRequests,
           }}
           primaryAction={{
@@ -91,7 +91,7 @@ export default function CategoriesListPage() {
           }}
         />
 
-        {/* Stats Row */}
+       
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
           <StatCard
             label="Total Categories"
@@ -122,7 +122,7 @@ export default function CategoriesListPage() {
           />
         </div>
 
-        {/* Filters */}
+      
         <FilterWithSearch
           tabs={tabs}
           activeTab={activeTab}
@@ -173,7 +173,7 @@ export default function CategoriesListPage() {
         }}
       />
 
-      {/* createModal */}
+ 
       <CreateCategoryModal
         open={createModalOpen}
         onOpenChange={setCreateModalOpen}

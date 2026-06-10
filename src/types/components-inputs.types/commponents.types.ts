@@ -31,7 +31,6 @@ export interface SidebarLink {
 
 export const adminSidebarLinks = [
   { name: "Dashboard", path: "/", icon: LayoutDashboard },
-
   {
     name: "Vendors Verification Requests",
     path: "vendor/verification-request",
@@ -45,6 +44,7 @@ export const adminSidebarLinks = [
    { name: "Coupons & Offers", path: "/admin/coupons", icon:Tag},
   { name: "Cancellation Policies", path: "/admin/cancellation-policies", icon:ShieldX},
   { name: "Cancel Bookings", path: "/admin/user/cancel-bookings", icon:CalendarX},
+  { name: "Payment & Commission Overview", path: "/admin/commission-overview", icon:Wallet},
 ];
 
 export const vendorSidebarLinks = [
