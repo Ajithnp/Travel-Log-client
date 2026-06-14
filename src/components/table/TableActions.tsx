@@ -19,6 +19,7 @@ export type TableAction = {
   variant?: ActionVariant
   show?: boolean; 
   disabled?: boolean;
+  className?: string;
 };
 
 interface TableActionsProps {
@@ -51,19 +52,29 @@ export function TableActions({
         >
           {actions
             .filter((action) => action.show !== false)
-            .map((action, i) => (
-              <DropdownMenuItem
-                className="cursor-pointer flex items-center gap-2"
-                key={i}
-                disabled={action.disabled}
-                onSelect={() => {
-                  action.onClick();
-                  setDropdownOpen(false);
-                }}
-              >
-                {action.icon} {action.label}
-              </DropdownMenuItem>
-            ))}
+            .map((action, i) => {
+              let variantClass = "";
+              switch (action.variant) {
+                case "success": variantClass = "text-green-700 bg-green-100 focus:bg-green-200"; break;
+                case "danger": variantClass = "text-red-700 bg-red-100 focus:bg-red-200"; break;
+                case "info": variantClass = "text-blue-700 bg-blue-100 focus:bg-blue-200"; break;
+                case "primary": variantClass = "text-primary bg-primary/10 focus:bg-primary/20"; break;
+              }
+
+              return (
+                <DropdownMenuItem
+                  className={`cursor-pointer flex items-center gap-2 ${variantClass} ${action.className || ""}`}
+                  key={i}
+                  disabled={action.disabled}
+                  onSelect={() => {
+                    action.onClick();
+                    setDropdownOpen(false);
+                  }}
+                >
+                  {action.icon} {action.label}
+                </DropdownMenuItem>
+              );
+            })}
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

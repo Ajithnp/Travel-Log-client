@@ -1,5 +1,5 @@
 
-import { profile, verification, updateProfileLogo} from "../services/api.services";
+import { profile, verification, updateProfileLogo, initiateStripeOnboarding, type IStripeOnboardingStatusDTO, getStripeOnboardingStatus} from "../services/api.services";
 import { AxiosError } from "axios";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type{ IApiResponse, ApiError } from "@/types/axios";
@@ -7,6 +7,7 @@ import type { VendorVerificationPayload, UpdateProfilePayload } from "../types/p
 import type { ApiResponse } from "@/types/IApiResponse";
 import type { VendorProfileData } from "../types/response.type";
 import { verificationReapply } from "../verification/services/api.services";
+
 
 export const useVerificationMutation = (isReapply: boolean, vendorId?: string) => {
   const queryClient = useQueryClient();
@@ -44,4 +45,28 @@ export const useUpdateProfileLogoMutation = () => {
     }
   })
 }
-// edit profile
+
+export const useStripeOnboardingMutation = () => {
+  return useMutation<
+    ApiResponse<{ onboardingUrl: string }>,
+    AxiosError<{ message: string }>
+  >({
+    mutationFn: initiateStripeOnboarding,
+    onSuccess: (data) => {
+      window.location.href = data.data.onboardingUrl;
+    },
+  });
+};
+
+export const useStripeOnboardingStatusQuery = () => {
+  return useQuery<
+    ApiResponse<IStripeOnboardingStatusDTO>,
+    AxiosError<{ message: string }>
+  >({
+    queryKey: ['stripe', 'onboarding', 'status'],
+    queryFn: getStripeOnboardingStatus,
+    staleTime: 1000 * 60 * 5,
+    refetchOnWindowFocus: false,
+  });
+};
+

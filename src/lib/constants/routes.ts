@@ -19,6 +19,7 @@ export const BASE_ROUTE = {
   USER: "/user",
   VENDOR: "/vendor",
   ADMIN: "/admin",
+  
 } as const;
 
 export const API_ENDPOINTS = {
@@ -27,6 +28,7 @@ export const API_ENDPOINTS = {
   VENDOR: "/vendor",
   ADMIN: "/admin",
   S3: "/s3",
+  STRIPE: "/stripe",
   BOOKING: "/bookings",
   REVIEWS:"/reviews",
   NOTIFICATION: "/notifications",
@@ -115,6 +117,9 @@ export const API_ROUTE = {
   COMMISSION_OVERVIEW_STATS: '/commissions/summary',
   COMMISSION_OVERVIEW_BY_VENDORS: '/commissions/vendors',
   COMMISSION_OVERVIEW_BY_PACKAGES: '/commissions/packages',
+  PAYOUT_SCHEDULES: '/payouts/schedules',
+  PAYOUT_OVERVIEW: '/payouts/overview',
+  PAYOUT_RELEASE: (scheduleId: string) => `/payouts/${scheduleId}/release`,
 
 
   //S3

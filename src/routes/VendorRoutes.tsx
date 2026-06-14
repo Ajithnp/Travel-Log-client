@@ -21,6 +21,9 @@ const ForceVerificationPage = lazy(() => import('@/features/vendor/verification/
 const ApplicationReviewPage = lazy(() => import('@/features/vendor/verification/pages/application-review'));
 const ApplicationRejectedPage = lazy(() => import('@/features/vendor/verification/pages/application-rejected'));
 
+const StripeRefreshPage = lazy(() => import('@/features/vendor/pages/StripeRefreshPage'));
+const StripeReturnPage = lazy(() => import('@/features/vendor/pages/StripeReturnPage'));
+
 // ── Packages ───────────────
 const BasePackagePage = lazy(() => import('@/features/vendor/package/base-package/page/base-package-list'));
 const BasePackageCreateFormPage = lazy(() => import('@/features/vendor/package/base-package/page/base-package-form.page'));
@@ -84,6 +87,9 @@ const VendorRoutes = () => {
 
           {/*GATED — only approved vendors */}
           <Route element={<VendorApprovedGuard />}>
+          <Route path="stripe/return"  element={<StripeReturnPage />} />
+          <Route path="stripe/refresh" element={<StripeRefreshPage />} />
+          
           <Route path='profile' element={<VendorProfilePage />} />
           <Route path='profile-edit' element={<VendorProfileEditPage />} />
           <Route path='notifications' element={<NotificationPage />} />

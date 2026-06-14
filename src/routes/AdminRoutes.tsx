@@ -26,6 +26,7 @@ const VendorPackageSchedulesPage = lazy(() => import('@/features/admin/package-o
 const CouponsPage = lazy(() => import('@/features/admin/coupons/pages/coupon-list'))
 const VendorsCommissionPage = lazy(() => import('@/features/admin/commission-overview/pages/vendors-commission'))
 const PackagesCommissionPage = lazy(() => import('@/features/admin/commission-overview/pages/packages-commission'))
+const PayoutSchedulesPage = lazy(() => import('@/features/admin/payout/pages/payout-schedules'))
 
 
 const AdminRoutes = () => {
@@ -89,6 +90,10 @@ const AdminRoutes = () => {
           <Route
             path="commission-overview/packages"
             element={<PackagesCommissionPage />}
+          />
+          <Route
+            path="payouts/schedules"
+            element={<PayoutSchedulesPage />}
           />
           <Route
             path="vendors"
