@@ -59,8 +59,8 @@ export default function PayoutSchedulesPage() {
     }
 
 
-    const handleViewPackageSchedules = () => {
-        navigate('/admin/commission-overview/packages')
+    const handleViewHistory = () => {
+        navigate('/admin/payouts/history')
     };
     const columns = useMemo(() => PayoutSchedulesColumns(handleTriggerPayout), []);
 
@@ -85,7 +85,7 @@ export default function PayoutSchedulesPage() {
                     primaryAction={{
                         label: "Payout History",
                         icon: <History className="w-4 h-4" />,
-                        onClick: handleViewPackageSchedules,
+                        onClick: handleViewHistory,
                         variant: "outline",
                     }}
                 />

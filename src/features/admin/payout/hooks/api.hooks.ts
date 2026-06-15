@@ -1,9 +1,10 @@
 import { useQuery, keepPreviousData, useQueryClient, useMutation } from "@tanstack/react-query";
 import type { ApiResponse, Paginated } from "@/types/IApiResponse";
 import type { ApiError } from "@/types/axios";
-import { getPayoutOverviewStats, getPayoutSchedules, releasePayout } from "../services/api.services";
-import type { PayoutOverviewResponseDto, PayoutScheduleListResponseDto, ReleasePayoutResponseDto } from "../services/api.services";
+import { getPayoutOverviewStats, getPayoutSchedules, getPayoutStats, payouts, releasePayout } from "../services/api.services";
+import type { FindAllPayoutsResponseDto, PayoutOverviewResponseDto, PayoutScheduleListResponseDto, PayoutStatsResponseDto, ReleasePayoutResponseDto } from "../services/api.services";
 import { toast } from "sonner";
+import type { PayoutStatus } from "@/lib/constants/constants";
 
 export const usePayoutSchedulesQuery = (page:number, limit:number, search?:string) => {
   return useQuery<ApiResponse<Paginated<PayoutScheduleListResponseDto>>, ApiError>({
@@ -37,3 +38,20 @@ export const useReleasePayoutMutation = () => {
   });
 };
 
+export const usePayoutsQuery = (page:number, limit:number, filter?:PayoutStatus, search?:string) => {
+  return useQuery<ApiResponse<Paginated<FindAllPayoutsResponseDto>>, ApiError>({
+    queryKey: ["payout-schedules", page, limit, filter, search],
+    queryFn: () => payouts(page, limit, filter,search),
+    refetchOnWindowFocus: false,
+    placeholderData: keepPreviousData,
+    
+  });
+};
+
+export const usePayoutStatsQuery = () => {
+  return useQuery<ApiResponse<PayoutStatsResponseDto>, ApiError>({
+    queryKey: ["payout-stats"],
+    queryFn: getPayoutStats,
+    refetchOnWindowFocus: false,
+  });
+};
