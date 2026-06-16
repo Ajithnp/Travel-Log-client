@@ -14,6 +14,7 @@ import VendorContactCard from "./VendorContactCard";
 import VerificationBadge from "./VerificationBadge";
 import { getVerificationButtonLabel } from "@/utils/vendorStatus";
 import { Loading } from "@/components/ui/loading";
+import { PayoutSetupCard } from "./PayoutSetupCard";
 
 interface VendorProfileProps {
   profileData?: Partial<IVendorInfo>;
@@ -46,12 +47,12 @@ export default function VendorProfile({
         <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground"></h1>
       </div>
 
-      {/* Profile Header */}
+
       <motion.div variants={itemVariants}>
         <Card className="border border-border/80">
           <CardContent className="p-4">
             <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4">
-              {/* Avatar Section */}
+            
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: "spring", stiffness: 300 }}
@@ -152,6 +153,11 @@ export default function VendorProfile({
           <VendorAboutCard />
         </motion.div>
       </div>
+
+      {/* stripe payout setup card */}
+      {profileData.status === 'Approved' && (
+  <PayoutSetupCard />
+)}
     </motion.div>
   );
 }

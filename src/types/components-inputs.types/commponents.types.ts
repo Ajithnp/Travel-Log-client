@@ -48,6 +48,7 @@ export const adminSidebarLinks = [
   { name: "Cancellation Policies", path: "/admin/cancellation-policies", icon:ShieldX},
   { name: "Cancel Bookings", path: "/admin/user/cancel-bookings", icon:CalendarX},
   { name: "Payment & Commission Overview", path: "/admin/commission-overview", icon:Wallet},
+  { name: "Payouts", path: "/admin/payouts/schedules", icon:Banknote},
 ];
 
 export const vendorSidebarLinks = [

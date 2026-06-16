@@ -38,3 +38,12 @@ export const ADMIN_TABS = {
 } as const;
 
 export type AdminTab = (typeof ADMIN_TABS)[keyof typeof ADMIN_TABS];
+
+export const PAYOUT_STATUS = {
+  PENDING: 'pending',
+  PROCESSING: 'processing',
+  COMPLETED: 'completed',
+  FAILED: 'failed',
+} as const;
+
+export type PayoutStatus = (typeof PAYOUT_STATUS)[keyof typeof PAYOUT_STATUS];
