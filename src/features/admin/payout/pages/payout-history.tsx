@@ -12,7 +12,11 @@ import { LIMIT } from "@/lib/constants/constants";
 import type { FindAllPayoutsResponseDto } from "../services/api.services";
 import { ArrowLeft } from "lucide-react";
 import { PayoutHistoryColumns } from "../components/payout-history-columns";
-import { usePayoutsQuery, usePayoutStatsQuery } from "../hooks/api.hooks";
+import { usePayoutsQuery, usePayoutStatsQuery, useRetryPayoutMutation } from "../hooks/api.hooks";
+import { AnimatePresence } from "framer-motion";
+import { PayoutLoadingModal } from "../components/payout-loading-modal";
+import { ConfirmDialog } from "@/components/common/confirm-dialog";
+import { PayoutSuccessModal } from "../components/payout-success";
 
 type FilterTab = "all" | "completed" | "failed";
 export default function PayoutHistoryPage() {
@@ -21,7 +25,8 @@ export default function PayoutHistoryPage() {
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(1);
     const [showConfirm, setShowConfirm] = useState(false);
-    const [selectedScheduleId, setSelectedScheduleId] = useState<string>("");
+    const [selectedPayoutId, setSelectedPayoutId] = useState<string>("");
+    const [payoutSuccess, setPayoutSuccess] = useState(false);
     const [activeTab, setActiveTab] = useState<FilterTab>("all");
     const debouncedSearch = useDebounce(search);
     const filterValue = activeTab === "all" ? undefined : activeTab;
@@ -34,6 +39,7 @@ export default function PayoutHistoryPage() {
 
     const payoutsQuery = usePayoutsQuery(page, LIMIT, filterValue, debouncedSearch);
     const statsQuery = usePayoutStatsQuery();
+    const retryMutation = useRetryPayoutMutation();
 
 
     const isLoadingData = payoutsQuery.isLoading || statsQuery.isLoading;
@@ -44,16 +50,34 @@ export default function PayoutHistoryPage() {
     const totalPages = paginatedData?.totalPages || 0;
     const stats = statsQuery.data?.data;
 
-    const handleTriggerPayoutView = (scheduleid: string) => {
-        setSelectedScheduleId(scheduleid);
+    const handleViewDetails = (scheduleId: string) => {
+        navigate(`/admin/payouts/details/${scheduleId}`)
+    };
+
+    const handleTriggerRetryPayoutView = (payoutId: string) => {
+        setSelectedPayoutId(payoutId);
         setShowConfirm(true);
+    }
+
+    const confirmTriggerPayout = () => {
+        if (!selectedPayoutId) return;
+        retryMutation.mutate(selectedPayoutId, {
+            onSuccess: () => {
+                setPayoutSuccess(true);
+            },
+            onError: () => {
+                navigate('/admin/payouts/history')
+            }
+        });
+        setShowConfirm(false);
+
     }
 
     const handleBackToPending = () => {
         navigate('/admin/payouts/schedules')
     };
-    const columns = useMemo(() => PayoutHistoryColumns(handleTriggerPayoutView), []);
-
+    const columns = useMemo(() => PayoutHistoryColumns(handleViewDetails, handleTriggerRetryPayoutView), []);
+    const selectedPayout = payoutsData.find((p) => p.id === selectedPayoutId);
     if (hasError)
         return (
             <Error
@@ -62,7 +86,7 @@ export default function PayoutHistoryPage() {
             />
         );
     if (isLoadingData) return <Loader message="Loading..." />;
-
+    
 
     return (
         <div className="min-h-screen bg-gradient-premium selection:bg-foreground/10 selection:text-foreground pb-20 ">
@@ -135,6 +159,41 @@ export default function PayoutHistoryPage() {
                     />
                 )}
             </div>
+
+            <ConfirmDialog
+                open={showConfirm && !!selectedPayoutId}
+                onOpenChange={(value) => {
+                    setShowConfirm(value);
+                    if (!value && !retryMutation.isPending && !payoutSuccess) {
+                        setSelectedPayoutId("");
+                    }
+                }}
+                title="Trigger payout"
+                description={`Are you sure you want to trigger this payout?`}
+                onConfirm={() => {
+                    confirmTriggerPayout();
+                }}
+            />
+
+            <AnimatePresence>
+                {retryMutation.isPending && selectedPayoutId && (
+                    <PayoutLoadingModal
+                        onComplete={() => { }}
+                        amount={selectedPayout?.netAmount || 0}
+                        vendorName={selectedPayout?.vendorname || ' '}
+                    />
+                )}
+                {payoutSuccess && selectedPayout && (
+                    <PayoutSuccessModal
+                        onReset={() => {
+                            setPayoutSuccess(false);
+                            setSelectedPayoutId("");
+                        }}
+                        amount={selectedPayout?.netAmount}
+                        vendorName={selectedPayout?.vendorname}
+                    />
+                )}
+            </AnimatePresence>
 
         </div>
     );

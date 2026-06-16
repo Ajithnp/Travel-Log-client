@@ -28,6 +28,7 @@ const VendorsCommissionPage = lazy(() => import('@/features/admin/commission-ove
 const PackagesCommissionPage = lazy(() => import('@/features/admin/commission-overview/pages/packages-commission'))
 const PayoutSchedulesPage = lazy(() => import('@/features/admin/payout/pages/payout-schedules'))
 const PayoutHistoryPage = lazy(() => import('@/features/admin/payout/pages/payout-history'))
+const PayoutDetailsPage = lazy(() => import('@/features/admin/payout/pages/payout-details'))
 
 const AdminRoutes = () => {
   return (
@@ -98,6 +99,10 @@ const AdminRoutes = () => {
           <Route
             path="payouts/history"
             element={<PayoutHistoryPage />}
+          />
+          <Route
+            path="payouts/details/:scheduleId"
+            element={<PayoutDetailsPage />}
           />
           <Route
             path="vendors"

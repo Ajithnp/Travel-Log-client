@@ -120,6 +120,8 @@ export const API_ROUTE = {
   PAYOUT_SCHEDULES: '/payouts/schedules',
   PAYOUT_OVERVIEW: '/payouts/overview',
   PAYOUT_RELEASE: (scheduleId: string) => `/payouts/${scheduleId}/release`,
+  PAYOUT_RETRY: (payoutId: string) => `/payouts/${payoutId}/retry`,
+  SCHEDULE_PAYOUT_DETAILS: (scheduleId: string) => `/payouts/${scheduleId}/details`,
   PAYOUTS: "/payouts",
   PAYOUT_STATS: "/payouts/stats",
 

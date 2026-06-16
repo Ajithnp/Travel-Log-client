@@ -1,6 +1,7 @@
 import api from "@/config/api/axios";
 import type { PayoutStatus } from "@/lib/constants/constants";
 import { API_ENDPOINTS, API_ROUTE } from "@/lib/constants/routes";
+import type { GroupType } from "@/mock-data";
 import type { ApiResponse, Paginated } from "@/types/IApiResponse";
 import type { AxiosResponse } from "axios";
 
@@ -23,8 +24,20 @@ export const getPayoutOverviewStats = async(): Promise<ApiResponse<PayoutOvervie
   return response.data
 }
 
+export const schedulePayoutDetails = async(scheduleId: string): Promise<ApiResponse<SchedulePayoutDetailsResponseDTO>> => {
+  const response: AxiosResponse<ApiResponse<SchedulePayoutDetailsResponseDTO>> = await api.get(
+    `${API_ENDPOINTS.ADMIN}${API_ROUTE.SCHEDULE_PAYOUT_DETAILS(scheduleId)}`
+  );
+  return response.data
+}
+
 export const releasePayout = async (scheduleId: string): Promise<ApiResponse<ReleasePayoutResponseDto>> => {
   const res = await api.post(`${API_ENDPOINTS.ADMIN}${API_ROUTE.PAYOUT_RELEASE(scheduleId)}`);
+  return res.data;
+};
+
+export const retryPayout = async (payoutId: string): Promise<ApiResponse<ReleasePayoutResponseDto>> => {
+  const res = await api.patch(`${API_ENDPOINTS.ADMIN}${API_ROUTE.PAYOUT_RETRY(payoutId)}`);
   return res.data;
 };
 
@@ -62,11 +75,13 @@ export interface PayoutScheduleListResponseDto {
     grossAmount:number;
     commissionAmount:number;
     netAmount:number;
+    totalRefundedAmount:number;
     status:string;
     scheduledAt:string;
     payoutsEnabled:boolean;
     transactionConnectId:string;
     readyToPayout:boolean;
+    alreadyFailed:boolean;
 }
 
 export interface PayoutOverviewResponseDto {
@@ -84,6 +99,7 @@ export interface ReleasePayoutResponseDto {
 
 export interface FindAllPayoutsResponseDto {
     id:string;
+    scheduleId:string;
     vendorname:string;    
     scheduleStartDate:string;
     scheduleEndDate:string;
@@ -103,3 +119,38 @@ export interface PayoutStatsResponseDto {
     commissionEarned:number;
     netAmount:number;
 }
+
+export interface SchedulePayoutDetailsResponseDTO {
+    bookingsData: ScheduleBookingsResult[];
+    bookingStats: BookingStatsResult;
+    bookingOverViewStats:PayoutScheduleOverviewStats;
+};
+
+export interface ScheduleBookingsResult {
+  userName:string;
+  selectedGroupType:GroupType;
+  finalAmount:number;
+  platformCommission:number;
+  vendorEarning:number;
+};
+
+export interface PayoutScheduleOverviewStats {
+  totalBookingsCount:number;
+  totalGrossAmount:number;
+  totalPlatformCommission:number;
+  totalVendorEarnings:number;
+}
+
+export interface BookingStatsResult {
+  packageTitle:string;
+  vendorName:string;
+  scheduleStartDate:Date;
+  scheduleEndDate:Date;
+  schedulePayoutStatus:'pending' | 'paid';
+  totalBookingsCount:number;
+  totalCancellationsCount:number;
+  totalBookingGross:number;
+  totalPlatformCommission:number;
+  totalVendorEarnings:number;
+  totalRefundedAmount:number;
+};

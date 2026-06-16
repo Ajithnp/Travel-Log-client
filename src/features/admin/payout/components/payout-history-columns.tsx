@@ -1,12 +1,13 @@
 import type { Column } from "@/components/table/DataTable";
-import { Calendar, Eye, IndianRupee, User } from "lucide-react";
+import { Calendar, Eye, IndianRupee, Rotate3D, User } from "lucide-react";
 import type { FindAllPayoutsResponseDto } from "../services/api.services";
 import { formatDateRange } from "@/utils/combine-date-formater";
 import { TableActions, type TableAction } from "@/components/table/TableActions";
 import { formatISODate } from "@/utils/iso-date-format";
 
 export const PayoutHistoryColumns = (
-    onPayoutAction: (id: string) => void,
+    onPayoutViewAction: (id: string) => void,
+    onRetryAction: (id: string) => void,
 ): Column<FindAllPayoutsResponseDto>[] => [
     {
       key: "vendorname",
@@ -148,8 +149,16 @@ export const PayoutHistoryColumns = (
           label: "View",
           icon: 
           <Eye className="w-4 h-4" />,
-          variant:"primary",
-          onClick: () => onPayoutAction(schedule.id),
+          
+          onClick: () => onPayoutViewAction(schedule.scheduleId),
+        },
+        {
+          label: "Retry",
+          icon: 
+          <Rotate3D className="w-4 h-4" />,
+        //   variant:"success",
+          onClick: () => onRetryAction(schedule.id),
+          show:schedule.status === "failed",
         },
       ];
 

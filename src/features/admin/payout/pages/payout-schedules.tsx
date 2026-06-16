@@ -3,7 +3,7 @@ import { Error } from '@/components/common/error';
 import { PageHeader } from '@/components/shared/page-header';
 import { useDebounce } from '@/hooks/useDebounce';
 import { LIMIT } from '@/lib/constants/constants';
-import { ArrowRight, History } from 'lucide-react';
+import { History } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import StatCard from '../../category-management/components/start-card';
@@ -53,16 +53,22 @@ export default function PayoutSchedulesPage() {
             onSuccess: () => {
                 setPayoutSuccess(true);
             },
+            onError:()=>{
+             navigate('/admin/payouts/history')
+            }
         });
         setShowConfirm(false);
 
     }
 
+    const handleViewDetails = (scheduleId: string) => {
+        navigate(`/admin/payouts/details/${scheduleId}`)
+    };
 
     const handleViewHistory = () => {
         navigate('/admin/payouts/history')
     };
-    const columns = useMemo(() => PayoutSchedulesColumns(handleTriggerPayout), []);
+    const columns = useMemo(() => PayoutSchedulesColumns(handleTriggerPayout,handleViewDetails), []);
 
 
     if (hasError)
@@ -162,7 +168,7 @@ export default function PayoutSchedulesPage() {
                 {payoutReleaseMutation.isPending && selectedSchedule && (
                     <PayoutLoadingModal 
                         onComplete={() => {}} 
-                        amount={selectedSchedule.netAmount} 
+                        amount={selectedSchedule.netAmount + selectedSchedule.totalRefundedAmount} 
                         vendorName={selectedSchedule.vendorname} 
                     />
                 )}
@@ -172,7 +178,7 @@ export default function PayoutSchedulesPage() {
                             setPayoutSuccess(false); 
                             setSelectedScheduleId(""); 
                         }} 
-                        amount={selectedSchedule.netAmount} 
+                        amount={selectedSchedule.netAmount + selectedSchedule.totalRefundedAmount} 
                         vendorName={selectedSchedule.vendorname} 
                     />
                 )}
