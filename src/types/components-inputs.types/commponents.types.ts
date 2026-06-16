@@ -59,7 +59,9 @@ export const vendorSidebarLinks = [
   {name: "Schedules", path: "/vendor/scheduled-trips", icon:CalendarCheck},
   { name: "Offers", path: "/vendor/offers", icon: Tag },
   { name: "Chats", path: "/vendor/chats", icon: MessageCircle , tabKey:VENDOR_TABS.CHAT},
-  { name: "Revenue Overview", path: "/vendor/revenue", icon:ChartSpline }
+  { name: "Revenue Overview", path: "/vendor/revenue", icon:ChartSpline },
+  { name: "Payouts", path: "/vendor/payouts", icon:Banknote},
+
 ];
 
 export const userSidebarLinks = [

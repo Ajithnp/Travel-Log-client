@@ -1,12 +1,12 @@
-import { useSchedulePayoutDetailsQuery } from "../hooks/api.hooks";
-import { useNavigate, useParams } from "react-router-dom";
-import { Loader } from "@/components/common/loader";
 import { Error } from "@/components/common/error";
+import { Loader } from "@/components/common/loader";
+import { PayoutDetailsHeader } from "@/features/admin/payout/components/payout-details-header";
+import { PayoutFinancialBreakdown } from "@/features/admin/payout/components/payout-financial-breakdown";
+import { PayoutIncludedBookings } from "@/features/admin/payout/components/payout-included-bookings";
+import { PayoutInformation } from "@/features/admin/payout/components/payout-information";
+import { useSchedulePayoutDetailsQuery } from "@/features/admin/payout/hooks/api.hooks";
 import { useAuthUser } from "@/hooks/useAuthUser";
-import { PayoutDetailsHeader } from "../components/payout-details-header";
-import { PayoutInformation } from "../components/payout-information";
-import { PayoutFinancialBreakdown } from "../components/payout-financial-breakdown";
-import { PayoutIncludedBookings } from "../components/payout-included-bookings";
+import { useNavigate, useParams } from "react-router-dom";
 
 const statusConfig = {
     completed: { label: "Completed", dot: "bg-emerald-500", badge: "bg-emerald-50 text-emerald-700 border-emerald-200" },
@@ -14,8 +14,11 @@ const statusConfig = {
     failed: { label: "Failed", dot: "bg-red-400", badge: "bg-red-50 text-red-600 border-red-200" },
 };
 
-export default function PayoutDetails() {
+export default function VendorPayoutDetails() {
 
+    const authRole = useAuthUser()
+    console.log("auth role:",authRole);
+   
     const navigate = useNavigate();
     const { scheduleId } = useParams();
 

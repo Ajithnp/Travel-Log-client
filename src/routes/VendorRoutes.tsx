@@ -44,6 +44,10 @@ const VendorChatPage = lazy(() => import('@/features/chat/pages/vendor-chat'));
 const ScheduleBookingListPage = lazy(() => import('@/features/vendor/booking-monitoring/pages/booking-list'));
 const OfferListPage = lazy(() => import('@/features/vendor/offer/pages/offer-list'));
 const PackagesRevenuePage = lazy(()=> import("@/features/vendor/revenue-overview/pages/packages-revenue"))
+const VendorPayoutsPage = lazy(() => import("@/features/vendor/payout-overview/pages/payoutlist"));
+const VendorPayoutDetails = lazy(() => import('@/features/vendor/payout-overview/pages/payout-details'));
+
+
 const VendorRoutes = () => {
   return (
     <Suspense fallback={<Loading variant="spinner" text="Loading.." fullscreen />}>
@@ -110,6 +114,9 @@ const VendorRoutes = () => {
           {/* Offers */}
           <Route path="offers" element={<OfferListPage />} />
           <Route path="revenue" element={<PackagesRevenuePage />} />
+          {/* payouts */}
+          <Route path="payouts" element={<VendorPayoutsPage />} />
+          <Route path="payouts/:scheduleId" element={<VendorPayoutDetails />} />
           </Route>
 
          </Route> 
