@@ -18,7 +18,6 @@ import {
   CalendarX,
   Package,
   Tag,
-  MonitorCheck,
   Banknote,
   ChartSpline
 
@@ -53,7 +52,7 @@ export const adminSidebarLinks = [
 
 export const vendorSidebarLinks = [
   { name: "Profile", path: "/vendor/profile", icon: User },
-  { name: "Dashboard", path: "/", icon: LayoutDashboard },
+  { name: "Dashboard", path: "dashboard", icon: LayoutDashboard },
   { name: "Packages", path: "/vendor/packages", icon: Briefcase },
   { name: "Category", path: "/vendor/requested-categories", icon: ViewIcon },
   {name: "Schedules", path: "/vendor/scheduled-trips", icon:CalendarCheck},

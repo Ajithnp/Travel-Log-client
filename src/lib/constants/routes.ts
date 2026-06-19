@@ -95,6 +95,9 @@ export const API_ROUTE = {
   SCHEDULE_PACKAGE: "/schedules/packages/",
   SCHEDULES: "/schedules",
   REVENUE_PACKAGES_EARNINGS: "/revenue/packages-earnings",
+  DASHBOARD_SUMMARY: "/dashboard/summary",
+  DASHBOARD_CHARTS: "/dashboard/charts",
+  DASHBOARD_RECENT_ACTIVITY: "/dashboard/recent-activity",
 
 
   // ADMIN
