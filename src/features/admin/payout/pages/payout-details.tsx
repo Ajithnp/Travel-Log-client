@@ -2,7 +2,6 @@ import { useSchedulePayoutDetailsQuery } from "../hooks/api.hooks";
 import { useNavigate, useParams } from "react-router-dom";
 import { Loader } from "@/components/common/loader";
 import { Error } from "@/components/common/error";
-import { useAuthUser } from "@/hooks/useAuthUser";
 import { PayoutDetailsHeader } from "../components/payout-details-header";
 import { PayoutInformation } from "../components/payout-information";
 import { PayoutFinancialBreakdown } from "../components/payout-financial-breakdown";
@@ -37,7 +36,7 @@ export default function PayoutDetails() {
     };
     if (payoutDetailsQuery.isError) {
         return <Error title="Failed to fetch payout details" onRetry={payoutDetailsQuery.refetch} />
-    }
+    };
 
 
     return (

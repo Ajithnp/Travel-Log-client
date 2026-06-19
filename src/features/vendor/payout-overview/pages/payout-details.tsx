@@ -5,7 +5,6 @@ import { PayoutFinancialBreakdown } from "@/features/admin/payout/components/pay
 import { PayoutIncludedBookings } from "@/features/admin/payout/components/payout-included-bookings";
 import { PayoutInformation } from "@/features/admin/payout/components/payout-information";
 import { useSchedulePayoutDetailsQuery } from "@/features/admin/payout/hooks/api.hooks";
-import { useAuthUser } from "@/hooks/useAuthUser";
 import { useNavigate, useParams } from "react-router-dom";
 
 const statusConfig = {
@@ -15,9 +14,6 @@ const statusConfig = {
 };
 
 export default function VendorPayoutDetails() {
-
-    const authRole = useAuthUser()
-    console.log("auth role:",authRole);
    
     const navigate = useNavigate();
     const { scheduleId } = useParams();

@@ -46,6 +46,7 @@ const OfferListPage = lazy(() => import('@/features/vendor/offer/pages/offer-lis
 const PackagesRevenuePage = lazy(()=> import("@/features/vendor/revenue-overview/pages/packages-revenue"))
 const VendorPayoutsPage = lazy(() => import("@/features/vendor/payout-overview/pages/payoutlist"));
 const VendorPayoutDetails = lazy(() => import('@/features/vendor/payout-overview/pages/payout-details'));
+const VendorDashboardPage = lazy(() => import('@/features/vendor/pages/vendor-dashboard'));
 
 
 const VendorRoutes = () => {
@@ -117,6 +118,8 @@ const VendorRoutes = () => {
           {/* payouts */}
           <Route path="payouts" element={<VendorPayoutsPage />} />
           <Route path="payouts/:scheduleId" element={<VendorPayoutDetails />} />
+          {/* dashboard */}
+          <Route path="dashboard" element={<VendorDashboardPage />} />
           </Route>
 
          </Route> 
