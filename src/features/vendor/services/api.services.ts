@@ -12,7 +12,7 @@ import type { Granularity, PeriodKey } from "../components/dashboard-revenue-cha
 
 export interface ChartQueryParams {
   period: PeriodKey;
-  start?: string; // ISO string, only for 'custom'
+  start?: string;
   end?: string;
 }
 

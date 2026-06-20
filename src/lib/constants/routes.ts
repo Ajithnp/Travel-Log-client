@@ -127,6 +127,10 @@ export const API_ROUTE = {
   SCHEDULE_PAYOUT_DETAILS: (scheduleId: string) => `/payouts/${scheduleId}/details`,
   PAYOUTS: "/payouts",
   PAYOUT_STATS: "/payouts/stats",
+  DASHBOARD_SUMMARY_STATS: "/dashboard/stats",
+  DASHBOARD_REVENUE_TREND: "/dashboard/revenue-trend",
+  DASHBOARD_TOP_PERFORMERS: "/dashboard/top-performers",
+  DASHBOARD_ACTIONS_REQUIRED: "/dashboard/actions-required",
 
 
   //S3

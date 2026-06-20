@@ -12,7 +12,7 @@ interface DashboardRecentBookingsProps {
   recentBookings: RecentBookingActivityResult[];
 }
 
-const AVATAR_COLORS = [
+export const AVATAR_COLORS = [
   "bg-emerald-500",
   "bg-blue-500",
   "bg-violet-500",
