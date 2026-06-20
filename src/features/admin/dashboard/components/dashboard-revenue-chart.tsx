@@ -10,21 +10,12 @@ import {
   Legend,
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { fadeUp } from "@/animation/variants";
 import { useState } from "react";
 import { formatTick } from "@/utils/format-tick";
+import { PERIOD_BUTTONS, type PeriodKey, type Granularity } from "@/features/vendor/components/dashboard-revenue-chart";
+import type { TrendChartDataPoint } from "../services/api.service";
+import { fadeUp } from "@/animation/variants";
 
-export const PERIOD_BUTTONS: { key: PeriodKey; label: string }[] = [
-  { key: '7d',    label: 'Last 7d' },
-  { key: 'week',  label: 'Weekly'  },
-  { key: 'month', label: 'Monthly' },
-  { key: 'year',  label: 'Yearly'  },
-  { key: 'custom', label: 'Custom' },
-];
-
-
-export type PeriodKey = '7d' | 'week' | 'month' | 'year' | 'custom';
-export type Granularity = 'day' | 'week' | 'month' | 'year';
 
 type CustomTooltipProps = {
   active?: boolean;
@@ -46,24 +37,20 @@ function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
   );
 }
 
-export interface ChartDataPoint {
-  date: string;
-  revenue: number;
-  bookings: number;
-}
 
-interface DashboardRevenueChartProps {
-  chartData: ChartDataPoint[];
+
+interface AdminDashboardRevenueChartProps {
+  chartData: TrendChartDataPoint[];
   granularity?: Granularity;
   activePeriod: PeriodKey;
   customStart?: Date;
   customEnd?: Date;
   isLoading?: boolean;
   onPeriodChange: (period: PeriodKey) => void;
-  onCustomRange: (start: Date, end: Date) => void;
+  onCustomRange?: (start: Date, end: Date) => void;
 }
 
-export function DashboardRevenueChart({
+export function AdminDashboardRevenueChart({
   chartData,
   granularity,
   activePeriod,
@@ -72,22 +59,21 @@ export function DashboardRevenueChart({
   isLoading,
   onPeriodChange,
   onCustomRange,
-}: DashboardRevenueChartProps) {
-
+}: AdminDashboardRevenueChartProps) {
   const [localStart, setLocalStart] = useState('');
   const [localEnd, setLocalEnd]     = useState('');
- 
+
   const handleApplyCustom = () => {
-    if (!localStart || !localEnd) return;
+    if (!localStart || !localEnd || !onCustomRange) return;
     onCustomRange(new Date(localStart), new Date(localEnd));
   };
-    const xAxisInterval =
+
+  const xAxisInterval =
     chartData.length <= 10 ? 0 :
     chartData.length <= 20 ? 1 : 3;
- 
   return (
     <motion.div
-      custom={6}
+      custom={8}
       variants={fadeUp}
       initial="hidden"
       animate="visible"
@@ -98,13 +84,11 @@ export function DashboardRevenueChart({
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div>
               <CardTitle className="text-base font-semibold text-gray-900">
-                Revenue & Bookings Trend
+                Platform Revenue Trend
               </CardTitle>
-              <p className="text-xs text-gray-400 mt-0.5">Activity for selected period</p>
+              <p className="text-xs text-gray-400 mt-0.5">Gross revenue + commission (INR)</p>
             </div>
- 
-            
-            <div className="flex items-center gap-1 bg-gray-100 rounded-lg p-1 flex-wrap">
+            <div className="flex items-center gap-1 bg-gray-100 rounded-lg p-1">
               {PERIOD_BUTTONS.map(({ key, label }) => (
                 <button
                   key={key}
@@ -120,8 +104,7 @@ export function DashboardRevenueChart({
               ))}
             </div>
           </div>
- 
-          
+
           {activePeriod === 'custom' && (
             <div className="flex items-center gap-2 mt-2 flex-wrap">
               <input
@@ -149,16 +132,15 @@ export function DashboardRevenueChart({
             </div>
           )}
         </CardHeader>
- 
         <CardContent className="px-3 pb-4">
           <AnimatePresence mode="wait">
             <motion.div
-              key={`${activePeriod}-${customStart}-${customEnd}`}
+              key={activePeriod}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="h-52 sm:h-64"
+              className="h-52 sm:h-60"
             >
               {isLoading ? (
                 <div className="flex items-center justify-center h-full text-gray-400 text-sm">
@@ -169,27 +151,28 @@ export function DashboardRevenueChart({
                   <BarChart data={chartData} barGap={2} barSize={8}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
                     <XAxis
-                      dataKey="date"                            
-                      tickFormatter={(v) => formatTick(v, granularity)} 
-                      tick={{ fill: '#94a3b8', fontSize: 10 }}
+                      dataKey="date"
+                      tickFormatter={(v) => formatTick(v, granularity)}
+                      tick={{ fill: "#94a3b8", fontSize: 10 }}
                       axisLine={false}
                       tickLine={false}
                       interval={xAxisInterval}
                     />
                     <YAxis
-                      tick={{ fill: '#94a3b8', fontSize: 10 }}
+                      tick={{ fill: "#94a3b8", fontSize: 10 }}
                       axisLine={false}
                       tickLine={false}
-                      width={30}
+                      width={40}
                     />
-                    <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(0,0,0,0.03)' }} />
+                    <Tooltip content={<CustomTooltip />} cursor={{ fill: "rgba(0,0,0,0.03)" }} />
                     <Legend
                       iconType="circle"
                       iconSize={7}
-                      wrapperStyle={{ fontSize: '11px', color: '#64748b', paddingTop: '8px' }}
+                      wrapperStyle={{ fontSize: "11px", color: "#64748b", paddingTop: "8px" }}
                     />
-                    <Bar dataKey="revenue"  name="Revenue"  fill="#10b981" radius={[3, 3, 0, 0]} />
-                    <Bar dataKey="bookings" name="Bookings" fill="#3b82f6" radius={[3, 3, 0, 0]} />
+                    <Bar dataKey="totalRevanue" name="Total Revenue" fill="#3b82f6" radius={[3, 3, 0, 0]} />
+                    <Bar dataKey="totalVendorEarnings" name="Vendor Earnings" fill="#10b981" radius={[3, 3, 0, 0]} />
+                    <Bar dataKey="totalCommission" name="Commission" fill="#f59e0b" radius={[3, 3, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               ) : (

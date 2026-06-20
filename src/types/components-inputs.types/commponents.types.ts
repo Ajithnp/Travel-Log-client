@@ -32,7 +32,7 @@ export interface SidebarLink {
 }
 
 export const adminSidebarLinks = [
-  { name: "Dashboard", path: "/", icon: LayoutDashboard },
+  { name: "Dashboard", path: "/admin/dashboard", icon: LayoutDashboard },
   {
     name: "Vendors Verification Requests",
     path: "vendor/verification-request",

@@ -29,6 +29,7 @@ const PackagesCommissionPage = lazy(() => import('@/features/admin/commission-ov
 const PayoutSchedulesPage = lazy(() => import('@/features/admin/payout/pages/payout-schedules'))
 const PayoutHistoryPage = lazy(() => import('@/features/admin/payout/pages/payout-history'))
 const PayoutDetailsPage = lazy(() => import('@/features/admin/payout/pages/payout-details'))
+const AdminDashboardPage = lazy(() => import('@/features/admin/dashboard/pages/admin-dashboard'))
 
 const AdminRoutes = () => {
   return (
@@ -56,10 +57,7 @@ const AdminRoutes = () => {
             </ErrorBoundary>
           }
         >
-          <Route path="dashboard" element={<div className="flex items-center justify-center h-screen">
-            <h1 className="text-2xl font-bold">Welcome to Dashboard</h1>
-          </div>
-          } />
+          <Route path="dashboard" element={<AdminDashboardPage />} />
           <Route path='notifications' element={<NotificationPage />} />
           <Route path="categories" element={<CategoryListPage />} />
           <Route path="categories/vendor-request" element={<CategoryRequestedPage />} />

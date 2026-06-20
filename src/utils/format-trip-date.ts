@@ -16,3 +16,22 @@ export function formatTripDateRange(start: string, end: string) {
     year: year.format(startDate),
   };
 }
+
+export const formatCurrentDate = () => {
+  const date = new Date();
+
+  return `${date.toLocaleDateString("en-US", {
+    weekday: "long",
+  })}, ${date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+  })} ${date.getFullYear()}`;
+};
+
+export const getGreeting = () => {
+  const hour = new Date().getHours();
+
+  if (hour < 12) return "Good morning";
+  if (hour < 17) return "Good afternoon";
+  return "Good evening";
+};
