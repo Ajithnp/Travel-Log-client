@@ -31,19 +31,19 @@ export function useCategoriesPage() {
     if (page !== 1) setPage(1);
   }, [debouncedSearch, activeTab]);
 
-  // --- queries ---
+
   const { data, isLoading, isError, error, refetch } = useCategoryFetch(
     page, LIMIT, debouncedSearch, filterValue
   );
   const { mutate: toggleStatus, isPending } = useCategoryToggleMutation();
   const { mutate: createCategory, isPending: isCreating } = useCategoryCreateMutation();
 
-  // --- derived data ---
+ 
   const categories = data?.data?.data ?? [];
   const states = data?.data?.stats?.[0] as CategoryStats;
   const totalPages = data?.data?.totalPages ?? 0;
 
-  // --- handlers ---
+
   const handleAction = useCallback((id: string, name: string, type: "activate" | "inactivate") => {
     setDialog({ id, name, type });
   }, []);
