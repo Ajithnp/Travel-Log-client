@@ -70,3 +70,15 @@ export const deletePackage = async (
     await api.delete(`${API_ENDPOINTS.VENDOR}${API_ROUTE.PACKAGES}/${packageId}`);
   return response.data;
 };
+
+export const packagesMeta = async (): Promise<ApiResponse<PackageMetaData[]>> => {
+  const response = await api.get<ApiResponse<PackageMetaData[]>>(
+    `${API_ENDPOINTS.VENDOR}${API_ROUTE.PACKAGES}/meta`
+  );
+  return response.data;
+};
+
+export interface PackageMetaData {
+  id:string;
+  packageTittle:string
+}

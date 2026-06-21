@@ -19,7 +19,8 @@ import {
   Package,
   Tag,
   Banknote,
-  ChartSpline
+  ChartSpline,
+  Star
 
 } from "lucide-react";
 import { type LucideIcon } from "lucide-react";
@@ -60,6 +61,7 @@ export const vendorSidebarLinks = [
   { name: "Chats", path: "/vendor/chats", icon: MessageCircle , tabKey:VENDOR_TABS.CHAT},
   { name: "Revenue Overview", path: "/vendor/revenue", icon:ChartSpline },
   { name: "Payouts", path: "/vendor/payouts", icon:Banknote},
+  { name: "Reviews", path: "/vendor/package-reviews", icon:Star},
 
 ];
 

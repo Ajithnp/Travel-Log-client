@@ -6,6 +6,7 @@ import {
   type QueryKey,
   useQueryClient,
   useMutation,
+  keepPreviousData,
 } from "@tanstack/react-query";
 import { AxiosError, isAxiosError } from "axios";
 import type { PackageFilters, TravelPackage } from "./package-listing";
@@ -79,7 +80,7 @@ export const usePackageSchedulesQuery = (packageId:string, options?: { enabled?:
   >({
     queryKey: ["package-schedules",packageId],
     queryFn: () => fetchPackageSchedules(packageId),
-      enabled: options?.enabled,
+    enabled: options?.enabled,
     staleTime: 1000 * 60 * 2,
     refetchOnWindowFocus: false,
   });
@@ -221,6 +222,7 @@ export const usePackageReviewsQuery = (packageId: string, limit: number = 5) => 
     initialPageParam: 1,
     enabled: !!packageId,
     staleTime: 1000 * 60 * 2,
+    placeholderData: keepPreviousData, 
     refetchOnWindowFocus: false,
   });
 };

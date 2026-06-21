@@ -98,6 +98,8 @@ export const API_ROUTE = {
   DASHBOARD_SUMMARY: "/dashboard/summary",
   DASHBOARD_CHARTS: "/dashboard/charts",
   DASHBOARD_RECENT_ACTIVITY: "/dashboard/recent-activity",
+  PACKAGES_REVIEW_STATS: "/packages/reviews/stats",
+  PACKAGES_REVIEWS: "/packages/reviews",
 
 
   // ADMIN

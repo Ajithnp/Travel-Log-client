@@ -4,8 +4,10 @@ import {
   getPackages,
   getPackageScheduleContext,
   getPackagesWithId,
+  packagesMeta,
   updatePackage,
   uploadPackage,
+  type PackageMetaData,
 } from "../services/api.services";
 import { useMutation, useQuery, keepPreviousData, useQueryClient } from "@tanstack/react-query";
 import type { IApiResponse } from "@/types/axios";
@@ -98,5 +100,16 @@ export const usePackageDeleteMutation = ({ packageId }: { packageId: string  | u
     onError: (error) => {
       toast.error(error.response?.data?.message)
     }
+  });
+};
+
+export const usePackagesMetaQuery = () => {
+  return useQuery<
+    ApiResponse<PackageMetaData[]>,
+    AxiosError<{ message: string }>
+  >({
+    queryKey: ["packages-meta"],
+    queryFn: packagesMeta,
+    refetchOnWindowFocus: false,
   });
 };

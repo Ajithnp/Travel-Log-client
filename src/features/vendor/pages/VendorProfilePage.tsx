@@ -1,4 +1,4 @@
-import VendorProfile from "../componenets/VendorProfile";
+import VendorProfile from "../components/VendorProfile";
 import useVendorProfile from "../hooks/useVendorProfile";
 import { Loading } from "@/components/ui/loading";
 

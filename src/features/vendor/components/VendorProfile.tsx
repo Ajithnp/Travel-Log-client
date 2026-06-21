@@ -9,12 +9,12 @@ import {
   containerVariants,
   itemVariants,
 } from "../animations/vendorProfile.animations";
-import VendorAboutCard from "./VendorAboutCard";
-import VendorContactCard from "./VendorContactCard";
-import VerificationBadge from "./VerificationBadge";
+import VendorAboutCard from "../components/VendorAboutCard";
+import VendorContactCard from "../components/VendorContactCard";
+import VerificationBadge from "../components/VerificationBadge";
 import { getVerificationButtonLabel } from "@/utils/vendorStatus";
 import { Loading } from "@/components/ui/loading";
-import { PayoutSetupCard } from "./PayoutSetupCard";
+import { PayoutSetupCard } from "../components/PayoutSetupCard";
 
 interface VendorProfileProps {
   profileData?: Partial<IVendorInfo>;
