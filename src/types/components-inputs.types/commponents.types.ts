@@ -20,7 +20,8 @@ import {
   Tag,
   Banknote,
   ChartSpline,
-  Star
+  Star,
+  MessageSquare
 
 } from "lucide-react";
 import { type LucideIcon } from "lucide-react";
@@ -49,6 +50,7 @@ export const adminSidebarLinks = [
   { name: "Cancel Bookings", path: "/admin/user/cancel-bookings", icon:CalendarX},
   { name: "Payment & Commission Overview", path: "/admin/commission-overview", icon:Wallet},
   { name: "Payouts", path: "/admin/payouts/schedules", icon:Banknote},
+  { name: "Contact Enquiries", path: "/admin/contact-enquiries", icon:MessageSquare },
 ];
 
 export const vendorSidebarLinks = [

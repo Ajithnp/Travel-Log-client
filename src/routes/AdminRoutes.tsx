@@ -30,6 +30,7 @@ const PayoutSchedulesPage = lazy(() => import('@/features/admin/payout/pages/pay
 const PayoutHistoryPage = lazy(() => import('@/features/admin/payout/pages/payout-history'))
 const PayoutDetailsPage = lazy(() => import('@/features/admin/payout/pages/payout-details'))
 const AdminDashboardPage = lazy(() => import('@/features/admin/dashboard/pages/admin-dashboard'))
+const EnquiriesPage = lazy(()=> import('@/features/admin/contact-and-enquiry/pages/enquiries'))
 
 const AdminRoutes = () => {
   return (
@@ -64,6 +65,7 @@ const AdminRoutes = () => {
           <Route path="categories/vendor-request/reviewed" element={<CategoryRequestReviewedPage />} />
            <Route path="coupons" element={<CouponsPage/>} />
            <Route path="cancellation-policies" element={<CancellationPoliciesPage/>} />
+           <Route path="contact-enquiries" element={<EnquiriesPage/>} />
            <Route path="user/cancel-bookings" element={<CancelBookingListingPage/>} />
           {/* vendors */}
           <Route
