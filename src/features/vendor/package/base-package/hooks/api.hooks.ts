@@ -15,7 +15,7 @@ import type {
   BasePackageDraftSchema,
 } from "../validations/draft-base-package-schema";
 import type { ApiResponse, PaginatedData } from "@/types/IApiResponse";
-import type { IPackage, PackageDetailReponse, PackageScheduleContextResponse } from "../type/package";
+import type { IPackage, PackageDetailWithStats, PackageScheduleContextResponse } from "../type/package";
 import { toast } from "sonner";
 
 export const useUploadPackageMutation = () => {
@@ -55,16 +55,16 @@ export const usePackagesFetch = (
   });
 };
 
-export const usePackagesFetchWithId = (
+export const usePackagesFetchWithId = <T = PackageDetailWithStats>(
   packageId: string,
   options?: { enabled?: boolean },
 ) => {
   return useQuery<
-    ApiResponse<PackageDetailReponse>,
+    ApiResponse<T>,
     AxiosError<{ message: string }>
   >({
     queryKey: ["package", packageId],
-    queryFn: () => getPackagesWithId(packageId),
+    queryFn: () => getPackagesWithId<T>(packageId),
     enabled: options?.enabled,
     refetchOnWindowFocus: false,
   });

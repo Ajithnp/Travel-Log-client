@@ -1,4 +1,3 @@
-import React from "react";
 import { ContactHero } from "@/components/app/contact-hero";
 import { ContactInfoCards } from "@/components/app/contact-info-cards";
 import { ContactFormSection } from "@/components/app/contact-form-section";

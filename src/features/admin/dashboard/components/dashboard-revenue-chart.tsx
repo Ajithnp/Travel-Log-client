@@ -54,8 +54,6 @@ export function AdminDashboardRevenueChart({
   chartData,
   granularity,
   activePeriod,
-  customStart,
-  customEnd,
   isLoading,
   onPeriodChange,
   onCustomRange,

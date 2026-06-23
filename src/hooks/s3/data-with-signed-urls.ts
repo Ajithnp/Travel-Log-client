@@ -15,7 +15,7 @@ import {
 import { mergeSignedUrlsToArrayFields } from "@/utils/s3/merge-urls";
 
 export const useDataWithSignedUrls = <T extends Record<string, unknown>>(
-  queryResult: UseQueryResult<{ data: T }, Error>,
+  queryResult: UseQueryResult<{ data: T }, unknown>,
   config: ArrayFieldConfig<T>,
 ): DataWithSignedUrls<T> => {
   const { userId, imageFields, enabled = true } = config;
@@ -92,7 +92,7 @@ export const useDataWithSignedUrls = <T extends Record<string, unknown>>(
   return {
     data: mergedData,
     isLoading,
-    error: dataError,
+    error: (dataError as Error) || null,
     signedUrlsStatus,
     signedUrlsError: signedUrlsError || null,
     refetchSignedUrls,

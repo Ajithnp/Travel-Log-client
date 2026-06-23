@@ -1,5 +1,5 @@
 import AdminLogin from "@/features/auth/pages/admin/LoginPage";
-import React, { lazy, Suspense } from "react";
+import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import {
   AdminPrivateRoutes,

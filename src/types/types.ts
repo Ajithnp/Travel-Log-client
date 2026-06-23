@@ -57,6 +57,7 @@ export interface CancellationPolicyType {
 }
 
 export interface PublicPackageDetailDTO {
+  [key: string]: unknown;
   packageId: string;
   vendor: PopulatedVendor;
   title: string;

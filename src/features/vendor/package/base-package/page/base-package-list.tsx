@@ -109,7 +109,7 @@ const BasePackageListPage = () => {
                 key={pkg.id}
                 pkg={pkg}
                 onCardClick={(id) => navigate(`/vendor/packages/details/${id}`)}
-                onButtonClick={(id, e) => e.stopPropagation()}
+                onButtonClick={(_, e) => e.stopPropagation()}
               />
             ))}
           </motion.div>

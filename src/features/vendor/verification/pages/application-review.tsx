@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "framer-motion";
 import { Clock, Check, AlertCircle } from "lucide-react";
 import { Card } from "@/components/ui/card";

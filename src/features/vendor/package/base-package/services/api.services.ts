@@ -3,7 +3,7 @@ import { API_ENDPOINTS, API_ROUTE } from "@/lib/constants/routes";
 import type { ApiResponse, PaginatedData } from "@/types/IApiResponse";
 import type { BasePackageDraftSchema } from "../validations/draft-base-package-schema";
 import type { AxiosResponse } from "axios";
-import type { PackageDetailReponse , IPackage, PackageScheduleContextResponse} from "../type/package";
+import type { PackageDetailWithStats, IPackage, PackageScheduleContextResponse} from "../type/package";
 
 export const uploadPackage = async (
   payload: BasePackageDraftSchema,
@@ -43,11 +43,10 @@ export const getPackages = async (
   return response.data;
 };
 
-export const getPackagesWithId = async (
+export const getPackagesWithId = async <T = PackageDetailWithStats>(
   packageId: string,
-
-): Promise<ApiResponse<PackageDetailReponse>> => {
-  const response: AxiosResponse<ApiResponse<PackageDetailReponse>> =
+): Promise<ApiResponse<T>> => {
+  const response: AxiosResponse<ApiResponse<T>> =
     await api.get(`${API_ENDPOINTS.VENDOR}${API_ROUTE.PACKAGES}/${packageId}`);
   return response.data;
 };
