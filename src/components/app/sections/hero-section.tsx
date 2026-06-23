@@ -8,7 +8,39 @@ import {
 import { Button } from "@/components/ui/button";
 
 import { Card, CardContent } from "@/components/ui/card";
-import { HERO_SLIDES } from "@/mock-data";
+
+export const IMAGES = {
+  hero: [
+    "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&auto=format",
+    "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1600&auto=format",
+    "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1600&auto=format",
+  ],
+
+};
+
+export interface HeroSlide {
+  img: string;
+  heading: string;
+  sub: string;
+}
+
+export const HERO_SLIDES: HeroSlide[] = [
+  {
+    img: IMAGES.hero[0],
+    heading: "Plan your Trip With Travel Hous",
+    sub: "Discover the most beautiful places on earth with our curated travel packages. We make your journey unforgettable and stress-free.",
+  },
+  {
+    img: IMAGES.hero[1],
+    heading: "Explore Hidden Gems Around the World",
+    sub: "From mountain peaks to tropical coastlines — find the adventure that calls your name and book it in seconds.",
+  },
+  {
+    img: IMAGES.hero[2],
+    heading: "Your Next Adventure Starts Here",
+    sub: "Trusted by 20,000+ happy travelers worldwide. Let us craft your perfect escape with expert guides and premium experiences.",
+  },
+];
 
 export function HeroSection() {
   const [heroIndex, setHeroIndex] = useState(0);

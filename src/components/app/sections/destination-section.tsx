@@ -1,7 +1,38 @@
 import { useState } from "react";
 import { MapPin, Star, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ALL_DESTINATIONS } from "@/mock-data";
+
+
+export const IMAGES = {
+    destinations: [
+    "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&auto=format",
+    "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&auto=format",
+    "https://images.unsplash.com/photo-1449158743715-0a90ebb6d2d8?w=400&auto=format",
+    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&auto=format",
+    "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&auto=format",
+    "https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=400&auto=format",
+    "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=400&auto=format",
+    "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=400&auto=format",
+  ],
+};
+
+export interface Destination {
+  name: string;
+  loc: string;
+  img: string;
+  rating: string;
+}
+
+export const ALL_DESTINATIONS: Destination[] = [
+  { name: "Grand Canyon",   loc: "Arizona, USA",    img: IMAGES.destinations[0], rating: "4.8" },
+  { name: "Amazon Forest",  loc: "Brazil",           img: IMAGES.destinations[1], rating: "4.9" },
+  { name: "Swiss Alps",     loc: "Switzerland",      img: IMAGES.destinations[2], rating: "4.7" },
+  { name: "Maldives Beach", loc: "Maldives",         img: IMAGES.destinations[3], rating: "4.9" },
+  { name: "Yosemite Park",  loc: "California, USA",  img: IMAGES.destinations[4], rating: "4.8" },
+  { name: "Amalfi Coast",   loc: "Italy",            img: IMAGES.destinations[5], rating: "4.7" },
+  { name: "Santorini",      loc: "Greece",           img: IMAGES.destinations[6], rating: "4.9" },
+  { name: "Patagonia",      loc: "Argentina",        img: IMAGES.destinations[7], rating: "4.6" },
+];
 
 const DEST_PER_PAGE = 4;
 const TOTAL_PAGES   = Math.ceil(ALL_DESTINATIONS.length / DEST_PER_PAGE);

@@ -4,7 +4,6 @@ import type { VendorVerificationPayload, UpdateProfilePayload } from "../types/p
 import type { ApiResponse } from "@/types/IApiResponse";
 import type { VendorProfileData } from "../types/response.type";
 import type { AxiosResponse } from "axios";
-import type { GroupType } from "@/mock-data";
 import type { BookingStatus } from "@/features/user/booking/types";
 import type { ScheduleStatus } from "@/types/booking.types";
 import type { Granularity, PeriodKey } from "../components/dashboard-revenue-chart";
@@ -15,6 +14,8 @@ export interface ChartQueryParams {
   start?: string;
   end?: string;
 }
+
+export type GroupType = "solo" | "duo" | "group";
 
 export const verification = async (
   payload: VendorVerificationPayload

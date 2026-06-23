@@ -1,7 +1,42 @@
 import { MapPin, Users, Clock, Star, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ALL_OFFERS, IMAGES } from "@/mock-data";
+
+export const IMAGES = {
+  offers: [
+    "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=600&auto=format",
+    "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&auto=format",
+    "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=600&auto=format",
+    "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=600&auto=format",
+  ],
+  destinations: [
+    "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&auto=format",
+    "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&auto=format",
+    "https://images.unsplash.com/photo-1449158743715-0a90ebb6d2d8?w=400&auto=format",
+    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&auto=format",
+    "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&auto=format",
+    "https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=400&auto=format",
+    "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=400&auto=format",
+    "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=400&auto=format",
+  ],
+};
+
+export interface Offer {
+  price: string;
+  title: string;
+  loc: string;
+  days: string;
+  ppl: string;
+  img: string;
+  popular: boolean;
+}
+
+export const ALL_OFFERS: Offer[] = [
+  { price: "$1,860", title: "Mount Fuji Expedition", loc: "Japan", days: "7 Days", ppl: "2 People", img: IMAGES.offers[0], popular: true },
+  { price: "$2,450", title: "Santorini Getaway", loc: "Greece", days: "5 Days", ppl: "2 People", img: IMAGES.offers[1], popular: false },
+  { price: "$1,200", title: "Bali Surf Safari", loc: "Indonesia", days: "10 Days", ppl: "4 People", img: IMAGES.offers[2], popular: false },
+  { price: "$3,100", title: "Northern Lights Tour", loc: "Iceland", days: "6 Days", ppl: "2 People", img: IMAGES.offers[3], popular: false },
+];
 
 export function SpecialOffersSection() {
   return (

@@ -1,7 +1,162 @@
 import { useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Star, type LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { WHY_SLIDES } from "@/mock-data";
+import { Mountain, Compass, Map, Bird, Camera, Leaf, Landmark, Users, Utensils, TreePine, Waves, Droplets, Building, MapPin, Heart, ShieldCheck, CalendarCheck } from "lucide-react";
+
+type WhySection = {
+  label: string;
+  features: {
+    icon: LucideIcon;
+    number: string;
+    title: string;
+    desc: string;
+  }[];
+};
+
+export const WHY_SLIDES: WhySection[] = [
+  {
+    label: "Adventure Experiences",
+    features: [
+      {
+        icon: Mountain,
+        number: "150+",
+        title: "Hiking Trails",
+        desc: "Discover scenic hiking routes across India's hills, forests, and waterfalls designed for beginners and experienced adventurers."
+      },
+      {
+        icon: Compass,
+        number: "80+",
+        title: "Trekking Routes",
+        desc: "Explore challenging trekking expeditions across the Himalayas and Western Ghats with experienced guides."
+      },
+      {
+        icon: Map,
+        number: "500+",
+        title: "Unique Destinations",
+        desc: "Choose from hundreds of curated adventure destinations across India's most breathtaking landscapes."
+      }
+    ]
+  },
+
+  {
+    label: "Wildlife Safaris",
+    features: [
+      {
+        icon: Bird,
+        number: "300+",
+        title: "Wild Species",
+        desc: "Spot diverse bird and animal species across India's famous national parks and wildlife reserves."
+      },
+      {
+        icon: Camera,
+        number: "50+",
+        title: "Safari Experiences",
+        desc: "Join guided wildlife safaris designed for nature lovers and photography enthusiasts."
+      },
+      {
+        icon: Leaf,
+        number: "Eco",
+        title: "Responsible Tourism",
+        desc: "All safaris follow eco-friendly guidelines that protect wildlife habitats and local ecosystems."
+      }
+    ]
+  },
+
+  {
+    label: "Cultural Journeys",
+    features: [
+      {
+        icon: Landmark,
+        number: "200+",
+        title: "Heritage Sites",
+        desc: "Visit historic forts, palaces, and UNESCO heritage destinations across India."
+      },
+      {
+        icon: Users,
+        number: "Local",
+        title: "Authentic Culture",
+        desc: "Experience local traditions, festivals, and everyday life in India's vibrant communities."
+      },
+      {
+        icon: Utensils,
+        number: "Regional",
+        title: "Food Experiences",
+        desc: "Explore regional cuisines and traditional food trails that showcase India's rich culinary heritage."
+      }
+    ]
+  },
+    {
+    label: "Natural Escapes",
+    features: [
+      {
+        icon: TreePine,
+        number: "120+",
+        title: "Forests & Valleys",
+        desc: "Walk through lush forests, misty valleys, and green hill landscapes across India."
+      },
+      {
+        icon: Waves,
+        number: "60+",
+        title: "Beaches & Coastlines",
+        desc: "Relax at serene beaches and coastal destinations along India's beautiful shorelines."
+      },
+      {
+        icon: Droplets,
+        number: "90+",
+        title: "Waterfalls",
+        desc: "Discover hidden waterfalls and natural swimming spots surrounded by pristine nature."
+      }
+    ]
+  },
+
+  {
+    label: "Spiritual Journeys",
+    features: [
+      {
+        icon: Building,
+        number: "150+",
+        title: "Sacred Temples",
+        desc: "Visit iconic temples and spiritual landmarks that attract pilgrims from across the world."
+      },
+      {
+        icon: MapPin,
+        number: "Famous",
+        title: "Pilgrimage Routes",
+        desc: "Explore well-known pilgrimage routes including Char Dham and Jyotirlinga temples."
+      },
+      {
+        icon: Heart,
+        number: "Peace",
+        title: "Wellness Retreats",
+        desc: "Experience yoga, meditation, and peaceful retreats in India's most serene destinations."
+      }
+    ]
+  },
+
+  {
+    label: "Trusted Travel Platform",
+    features: [
+      {
+        icon: ShieldCheck,
+        number: "Verified",
+        title: "Verified Vendors",
+        desc: "All travel vendors go through a strict verification process to ensure reliable and safe experiences."
+      },
+      {
+        icon: Star,
+        number: "Top Rated",
+        title: "Customer Reviews",
+        desc: "Real traveler reviews help you choose the best trips and trusted travel providers."
+      },
+      {
+        icon: CalendarCheck,
+        number: "Flexible",
+        title: "Easy Booking",
+        desc: "Simple booking, flexible schedules, and transparent pricing make trip planning effortless."
+      }
+    ]
+  }
+];
  
 export function WhySection() {
   const [index, setIndex] = useState(0);

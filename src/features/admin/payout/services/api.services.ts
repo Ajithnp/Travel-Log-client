@@ -1,7 +1,6 @@
 import api from "@/config/api/axios";
 import type { PayoutStatus } from "@/lib/constants/constants";
 import { API_ENDPOINTS, API_ROUTE } from "@/lib/constants/routes";
-import type { GroupType } from "@/mock-data";
 import type { ApiResponse, Paginated } from "@/types/IApiResponse";
 import type { AxiosResponse } from "axios";
 
@@ -63,6 +62,7 @@ export const getPayoutStats = async(): Promise<ApiResponse<PayoutStatsResponseDt
 
 
 
+export type GroupType = "solo" | "duo" | "group";
 
 export interface PayoutScheduleListResponseDto {
     id:string;

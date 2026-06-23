@@ -1,6 +1,17 @@
 import { CheckCircle2, Star, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { IMAGES } from "@/mock-data";
+
+
+export const IMAGES = {
+  whyUs: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&auto=format",
+  gallery: [
+    "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&auto=format",
+    "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=400&auto=format",
+    "https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=400&auto=format",
+    "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=400&auto=format",
+  ],
+
+};
 
 const FEATURES = [
   "Expert Guides & Professional Services",
@@ -11,8 +22,8 @@ const FEATURES = [
 
 const STATS = [
   { value: "150+", label: "Destinations" },
-  { value: "20K+", label: "Travelers"    },
-  { value: "10+",  label: "Packagers"        },
+  { value: "20K+", label: "Travelers" },
+  { value: "10+", label: "Packagers" },
 ];
 
 export function WhyChooseUsSection() {
