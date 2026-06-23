@@ -3,19 +3,54 @@ import { Calendar, Clock, ArrowRight, ChevronLeft, ChevronRight } from "lucide-r
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ALL_BLOGS } from "@/mock-data";
- 
+
+export const IMAGES = {
+  blogs: [
+    "https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?w=400&auto=format",
+    "https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?w=400&auto=format",
+    "https://images.unsplash.com/photo-1517760444937-f6397edcbbcd?w=400&auto=format",
+    "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=400&auto=format",
+    "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&auto=format",
+    "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&auto=format",
+    "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=400&auto=format",
+    "https://images.unsplash.com/photo-1418065460487-3e41a6c8e1e3?w=400&auto=format",
+  ],
+};
+
+export interface Blog {
+  title: string;
+  tag: string;
+  tagColor: string;
+  date: string;
+  readTime: string;
+  img: string;
+  author: string;
+  excerpt: string;
+}
+
+export const ALL_BLOGS: Blog[] = [
+  { title: "Beautiful Italy, Let's Travelling!", tag: "Travel", tagColor: "bg-blue-100 text-blue-700", date: "12 Oct 2023", readTime: "5 min read", img: IMAGES.blogs[0], author: "JD", excerpt: "Discover the amazing landscapes and rich history of Italy." },
+  { title: "Romantic moments under Eiffel Tower", tag: "Guide", tagColor: "bg-green-100 text-green-700", date: "05 Nov 2023", readTime: "4 min read", img: IMAGES.blogs[1], author: "AS", excerpt: "Plan the perfect romantic getaway to the city of love." },
+  { title: "Exploring the hidden gems of Bali", tag: "Tips", tagColor: "bg-purple-100 text-purple-700", date: "28 Nov 2023", readTime: "7 min read", img: IMAGES.blogs[2], author: "MK", excerpt: "Avoid the crowds and see the real beauty of Bali." },
+  { title: "Top 10 hiking trails in Europe", tag: "Adventure", tagColor: "bg-orange-100 text-orange-700", date: "15 Dec 2023", readTime: "10 min read", img: IMAGES.blogs[3], author: "RJ", excerpt: "Get your boots ready for these breathtaking European trails." },
+  { title: "Safari Dreams: Kenya Wildlife Guide", tag: "Wildlife", tagColor: "bg-yellow-100 text-yellow-700", date: "20 Jan 2024", readTime: "8 min read", img: IMAGES.blogs[4], author: "AO", excerpt: "Witness the great migration and incredible African wildlife." },
+  { title: "Japan Cherry Blossom Season Tips", tag: "Travel", tagColor: "bg-blue-100 text-blue-700", date: "02 Feb 2024", readTime: "6 min read", img: IMAGES.blogs[5], author: "KY", excerpt: "The perfect guide to timing your visit to Japan in spring." },
+  { title: "Backpacking Through Southeast Asia", tag: "Adventure", tagColor: "bg-orange-100 text-orange-700", date: "18 Feb 2024", readTime: "9 min read", img: IMAGES.blogs[6], author: "LM", excerpt: "A budget guide to exploring Vietnam, Thailand and Cambodia." },
+  { title: "Iceland Road Trip: Ring Road Edition", tag: "Guide", tagColor: "bg-green-100 text-green-700", date: "05 Mar 2024", readTime: "11 min read", img: IMAGES.blogs[7], author: "EH", excerpt: "Drive Iceland's famous route and see waterfalls, geysers and more." },
+];
+
+
 const BLOGS_PER_PAGE = 4;
-const TOTAL_PAGES    = Math.ceil(ALL_BLOGS.length / BLOGS_PER_PAGE);
- 
+const TOTAL_PAGES = Math.ceil(ALL_BLOGS.length / BLOGS_PER_PAGE);
+
 export function BlogsSection() {
   const [page, setPage] = useState(0);
- 
+
   const visible = ALL_BLOGS.slice(
     page * BLOGS_PER_PAGE,
     page * BLOGS_PER_PAGE + BLOGS_PER_PAGE,
   );
- 
+
   return (
     <section id="blog" className="py-24 bg-gray-50/50">
       <div className="container mx-auto px-6 md:px-12">
@@ -25,21 +60,20 @@ export function BlogsSection() {
             <p className="text-orange-500 font-extrabold tracking-wider uppercase text-medium mb-3">Updates</p>
             <h2 className="text-4xl md:text-5xl font-black text-gray-900">Our Best Blogs</h2>
           </div>
- 
+
           <div className="flex items-center gap-3 shrink-0">
- 
+
             <div className="flex gap-2 mx-2">
               {Array.from({ length: TOTAL_PAGES }).map((_, i) => (
                 <button
                   key={i}
                   onClick={() => setPage(i)}
-                  className={`rounded-full transition-all duration-300 ${
-                    i === page ? "w-6 h-3 bg-orange-500" : "w-3 h-3 bg-gray-300 hover:bg-orange-300"
-                  }`}
+                  className={`rounded-full transition-all duration-300 ${i === page ? "w-6 h-3 bg-orange-500" : "w-3 h-3 bg-gray-300 hover:bg-orange-300"
+                    }`}
                 />
               ))}
             </div>
- 
+
             <Button
               variant="outline"
               size="icon"
@@ -60,7 +94,7 @@ export function BlogsSection() {
             </Button>
           </div>
         </div>
- 
+
         {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 transition-all duration-500">
           {visible.map((blog) => (
@@ -80,7 +114,7 @@ export function BlogsSection() {
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
               </div>
- 
+
               <CardContent className="p-7">
                 <div className="flex items-center justify-between text-xs text-gray-500 mb-4 font-bold">
                   <div className="flex items-center gap-2">
@@ -95,12 +129,12 @@ export function BlogsSection() {
                     <Clock className="w-3 h-3" /> {blog.readTime}
                   </span>
                 </div>
- 
+
                 <h3 className="text-xl font-bold text-gray-900 leading-snug mb-3 group-hover:text-orange-500 transition-colors line-clamp-2">
                   {blog.title}
                 </h3>
                 <p className="text-gray-600 text-sm mb-6 line-clamp-1 leading-relaxed">{blog.excerpt}</p>
- 
+
                 <div className="flex items-center text-sm font-black text-orange-500 group/btn uppercase tracking-wide">
                   Read More{" "}
                   <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-2 transition-transform" />
