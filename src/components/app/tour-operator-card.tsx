@@ -7,8 +7,8 @@ import { useNavigate } from "react-router-dom";
 type Operator = {
 name: string;
 id: string;
-  rating: number;
-  reviews: number;
+  rating?: number;
+  reviews?: number;
 };
 
 type Props = {
@@ -31,10 +31,16 @@ export function TourOperatorCard({ operator }: Props) {
             <p className="font-semibold text-sm">{operator.name}</p>
 
             <div className="flex items-center gap-1 flex-wrap">
-              <StarRating rating={operator.rating} />
-              <span className="text-xs text-muted-foreground">
-                {operator.rating} · {operator.reviews} reviews
-              </span>
+              {operator.rating && operator.reviews ? (
+                <>
+                  <StarRating rating={operator.rating} />
+                  <span className="text-xs text-muted-foreground">
+                    {operator.rating} · {operator.reviews} reviews
+                  </span>
+                </>
+              ) : (
+                <span className="text-xs text-muted-foreground">No reviews yet</span>
+              )}
             </div>
 
            

@@ -1,6 +1,9 @@
 import { Star, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { IMAGES } from "@/mock-data";
+
+export const IMAGES = {
+  promo:  "https://images.unsplash.com/photo-1449158743715-0a90ebb6d2d8?w=800&auto=format",
+};
 
 export function PromoSection() {
   return (

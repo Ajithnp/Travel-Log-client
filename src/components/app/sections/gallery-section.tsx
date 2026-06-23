@@ -1,11 +1,27 @@
-import { MapPin} from "lucide-react";
-import { IMAGES } from "@/mock-data";
+import { MapPin } from "lucide-react";
 
-const GALLERY_ITEMS = [
-  { img: IMAGES.gallery[0], name: "Yosemite", country: "USA",    cols: "col-span-2", rows: "row-span-2" },
-  { img: IMAGES.gallery[1], name: "Kyoto",    country: "Japan",  cols: "",           rows: ""           },
-  { img: IMAGES.gallery[2], name: "Rome",     country: "Italy",  cols: "",           rows: ""           },
-  { img: IMAGES.gallery[3], name: "Paris",    country: "France", cols: "col-span-2", rows: ""           },
+export const IMAGES = {
+  gallery: [
+    "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&auto=format",
+    "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=400&auto=format",
+    "https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=400&auto=format",
+    "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=400&auto=format",
+  ],
+};
+
+export interface GalleryItem {
+  img: string;
+  name: string;
+  country: string;
+  cols: string;
+  rows: string;
+}
+
+export const GALLERY_ITEMS: GalleryItem[] = [
+  { img: IMAGES.gallery[0], name: "Yosemite", country: "USA", cols: "col-span-2", rows: "row-span-2" },
+  { img: IMAGES.gallery[1], name: "Kyoto", country: "Japan", cols: "", rows: "" },
+  { img: IMAGES.gallery[2], name: "Rome", country: "Italy", cols: "", rows: "" },
+  { img: IMAGES.gallery[3], name: "Paris", country: "France", cols: "col-span-2", rows: "" },
 ];
 
 export function GallerySection() {

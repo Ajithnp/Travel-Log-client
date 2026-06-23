@@ -16,7 +16,6 @@ import ImageGallery from "@/components/app/image-gallery";
 import { PackageItinerary } from "@/features/vendor/package/base-package/components/package-details/package-itinerary";
 import InclusionsExclusions from "@/components/app/inclusions-exclusions";
 import { CancellationPolicyCard } from "@/components/app/cancellation-policy";
-import { packageData } from "@/mock-data";
 import { BookingWizard } from "@/components/app/booking-flow/booking-wizard";
 import { TourOperatorCard } from "@/components/app/tour-operator-card";
 import { TrustBadges } from "@/components/app/trust-badges";
@@ -58,8 +57,8 @@ export default function PackageDetails() {
   const operator = {
     id: pkg.vendor.id,
     name: pkg.vendor.name,
-    rating: packageData.operator.rating,
-    reviews: packageData.operator.reviews,
+    // rating: pkg.vendor.rating,
+    // reviews: pkg.vendor.totalReviews,
   };
 
   return (
