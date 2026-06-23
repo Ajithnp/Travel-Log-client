@@ -53,6 +53,7 @@ export interface ItineraryDayDTO {
 }
 
 export interface PackageDetailReponse {
+  [key: string]: unknown; 
   packageId: string;        
   vendorId: string;         
   title: string;

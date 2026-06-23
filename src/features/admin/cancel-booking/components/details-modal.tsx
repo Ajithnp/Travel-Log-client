@@ -86,7 +86,7 @@ interface Props {
 
 export default function BookingCancellationDetails({ open, data,isLoading, onOpenChange, bookingId, onApprove, onReject, isApproving, isRejecting }: Props) {
     const [rejectReason, setRejectReason] = useState("");
-    const [decision, setDecision] = useState<"pending" | "approved" | "rejected">("pending");
+    // const [decision, setDecision] = useState<"pending" | "approved" | "rejected">("pending");
 
 
     function handleApprove() {
@@ -347,7 +347,7 @@ export default function BookingCancellationDetails({ open, data,isLoading, onOpe
                                             )}
                                         </AnimatePresence>
                                     </div>
-                                    {!decision && (
+                                    {!data.cancellationStatus && (
                                         <div className="flex items-start gap-2 text-xs text-gray-400">
                                             <AlertTriangle className="w-3.5 h-3.5 shrink-0 mt-0.5 text-amber-400" />
                                             Decision is final. Refund will be processed within 5–7 business days.

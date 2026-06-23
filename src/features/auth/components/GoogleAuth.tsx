@@ -1,4 +1,3 @@
-import React from "react";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/store/slices/user.slice";

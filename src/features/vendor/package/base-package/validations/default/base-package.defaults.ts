@@ -80,7 +80,10 @@ export function buildBasePackageDefaults(
     inclusions: data?.inclusions ?? [],
     exclusions: data?.exclusions ?? [],
     packingList: data?.packingList ?? [],
-    cancellationPolicy: data?.cancellationPolicy ?? undefined,
+    cancellationPolicy:
+      typeof data?.cancellationPolicy === "object" && data.cancellationPolicy !== null
+        ? (data.cancellationPolicy as any)._id
+        : data?.cancellationPolicy ?? undefined,
     isActive: data?.isActive ?? true,
   };
 }

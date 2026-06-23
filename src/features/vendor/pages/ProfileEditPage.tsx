@@ -1,4 +1,3 @@
-import React from 'react'
 import VendorProfileEditContainer from '../containers/ProflleEditContainer'
 
 const ProfileEditPage = () => {

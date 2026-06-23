@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, Download, MessageSquare, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -32,7 +31,7 @@ const getCancelStatusStyle = (status: CancelStatus) => {
   }
 };
 
-const DetailsNav = ({ status, openCancelModal, cancelationStatus, canCancel, lastDate, downloadTicket, showReviewModal, isDownloading, hasReviwed }: DetailsNavProps) => {
+const DetailsNav = ({ status, openCancelModal, cancelationStatus, canCancel, downloadTicket, showReviewModal, isDownloading, hasReviwed }: DetailsNavProps) => {
   const navigate = useNavigate();
   const cfg = getStatusConfig(status);
   const Icon = cfg.icon;

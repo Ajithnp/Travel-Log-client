@@ -1,7 +1,7 @@
 import { ErrorBoundary } from "react-error-boundary";
 import { ErrorFallback } from '@/components/ErrorFallback'
 import { VendorPublicRoutes, VendorPrivateRoutes, VendorApprovedGuard } from '@/routes/protected/Vendor/VendorprotectedRoutes'
-import React, { lazy, Suspense } from 'react'
+import { lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { Loading } from "@/components/ui/loading";
 

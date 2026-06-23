@@ -1,12 +1,12 @@
 import { useFormState } from "react-hook-form";
-import type { BasePackageFormData } from "../../validations/base-package.schema";
+import type { BasePackageSchema } from "../../validations/base-package-schema";
 
 interface DayErrorSummaryProps {
   dayIndex: number;
 }
 
 export function DayErrorSummary({ dayIndex }: DayErrorSummaryProps) {
-  const { errors } = useFormState<BasePackageFormData>({
+  const { errors } = useFormState<BasePackageSchema>({
     name: `itinerary.${dayIndex}`,
   });
 

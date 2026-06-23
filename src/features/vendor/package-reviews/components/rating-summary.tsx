@@ -10,7 +10,7 @@ type RatingSummaryProps = {
 };
 
 export function RatingSummary({ rating, reviewCount, ratingBreakdown }: RatingSummaryProps) {
-    const TOTAL = Object.values(ratingBreakdown).reduce((a, b) => a + b, 0);
+   
   return (
     <Card className="bg-white border-gray-200">
       <CardContent className="p-5 sm:p-6">
@@ -19,13 +19,13 @@ export function RatingSummary({ rating, reviewCount, ratingBreakdown }: RatingSu
           <div className="flex flex-col items-center gap-1 pr-0 sm:pr-6 sm:border-r sm:border-gray-100">
             <span className="text-5xl font-bold text-gray-900">{rating.toFixed(1)}</span>
             <StarRating rating={Math.round(rating)} size="md" />
-            <span className="text-xs text-gray-400 mt-1">{TOTAL} reviews</span>
+            <span className="text-xs text-gray-400 mt-1">{reviewCount} reviews</span>
           </div>
       
           <div className="flex-1 w-full space-y-1.5">
             {[5, 4, 3, 2, 1].map((star) => {
               const count = ratingBreakdown[star];
-              const pct = Math.round((count / TOTAL) * 100);
+              const pct = Math.round((count / reviewCount) * 100);
               return (
                 <div key={star} className="flex items-center gap-2">
                   <span className="text-xs text-gray-500 w-3 text-right">{star}</span>

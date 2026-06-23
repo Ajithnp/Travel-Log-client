@@ -61,13 +61,11 @@
 
   --shadow-premium:
     0 10px 30px -5px rgba(0, 0, 0, 0.08), 0 6px 12px -6px rgba(0, 0, 0, 0.05);
-  
 
   --success: #22c55e;
   --primary-text: #004643;
   --text-golden: #ffb909;
   --text-automic: #0c4651;
-
 
   --toast-bg: 240 6% 10%;
   --toast-fg: 0 0% 96%;

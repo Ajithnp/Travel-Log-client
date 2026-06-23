@@ -40,7 +40,14 @@ export const draftPackageSchema = basePackageSchema.extend({
   exclusions: z.array(z.string()).optional(),
   packingList:z.array(z.string()).optional(),
   isActive: z.boolean().optional(),
-  cancellationPolicy: z.string().optional(),
+  cancellationPolicy: z.union([
+    z.string(),
+    z.object({
+      _id: z.string(),
+      key: z.string(),
+      label: z.string(),
+    }),
+  ]).optional(),
 });
 
 export type BasePackageDraftSchema = z.infer<typeof draftPackageSchema>;
@@ -48,7 +55,7 @@ export type BasePackageDraftSchema = z.infer<typeof draftPackageSchema>;
 export const packageResponseSchema = draftPackageSchema.extend({
   packageId: z.string(),
   vendorId: z.string(),
-  status: z.enum(['DRAFT', 'PUBLISHED']),
+  status: z.enum(['DRAFT', 'PUBLISHED', 'DELETED']),
 });
 
 export type BasePackageResponseDTO = z.infer<typeof packageResponseSchema>;

@@ -25,7 +25,7 @@ export default function BasePackageDraftFormPage() {
 
   const { data, isLoading, error } =
     useDataWithSignedUrls<BasePackageResponseDTO>(
-      usePackagesFetchWithId(packageId ?? "", { enabled: !!packageId }),
+      usePackagesFetchWithId<BasePackageResponseDTO>(packageId ?? "", { enabled: !!packageId }),
       {
         userId: vendorId ?? '',
         imageFields: ['images'],

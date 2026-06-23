@@ -1,5 +1,5 @@
 import { PageHeader } from "@/components/shared/page-header";
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { FilterWithSearch } from "@/components/shared/filter-with-search";
 import DataTable from "@/components/table/DataTable";
 import type { CategoryRequestResponse } from "../types/response.dtos";

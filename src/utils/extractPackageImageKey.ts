@@ -1,6 +1,7 @@
-import type { Package } from "@/features/vendor/package/base-package/components/package-list";
+import type { IPackage } from "@/features/vendor/package/base-package/type/package";
 
-export const extractPackageImageKeys = (packages: Package[]) =>
+export const extractPackageImageKeys = (packages: IPackage[]) =>
   packages
-    .map(pkg => pkg.imageUrl)
+    .flatMap(pkg => pkg.imageUrl || [])
+    .map(img => img.key)
     .filter((key): key is string => Boolean(key));
