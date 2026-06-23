@@ -3,7 +3,7 @@ import RegistrationModal from "@/components/shared/modal/RegistrationModal";
 import useNavbarAuth from "@/hooks/useNavbarAuth";
 import useNavbarModals from "@/hooks/useNavbarModals";
 import { Navbar } from "@/layouts/app/new-navbar";
-// import Navbar from "../shared/navbar";
+
 
 const NavbarContainer = () => {
   const { user, isLoading, handleLogout } = useNavbarAuth();

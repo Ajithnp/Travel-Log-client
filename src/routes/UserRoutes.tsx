@@ -1,7 +1,6 @@
 import { AuthPrivateRoutes, AuthPublicRoutes } from './protected/User/UserprotectedRoutes';
 import React, { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom';
-// import MainLayout from '@/layouts/MainLayout';
 import { MainLayout } from '@/layouts/app/app-layout';
 import AuthUserLayout from '@/layouts/auth/auth.user.layout';
 import { Loading } from '@/components/ui/loading';
@@ -23,17 +22,15 @@ const UserEmailverifyPage = lazy(() => import('@/features/auth/pages/user/Verify
 const ProfileEditPage = lazy(() => import('@/features/user/pages/ProfileEditPage'));
 const WishlistPage = lazy(() => import('@/features/user/wishlist/pages/wishlist'));
 const VendorProfilePage = lazy(() => import('@/pages/vendor-profile'));
-
 const BookingSuccessPage = lazy(() => import('@/pages/booking/booking-success'));
 const BookingFailurePage = lazy(() => import('@/pages/booking/booking-failed'));
 const BookingConfirmPage = lazy(() => import('@/pages/booking/booking-confirm'));
 const BookingListPage = lazy(() => import('@/features/user/booking/pages/booking-list'));
 const BookingDetailsPage = lazy(() => import('@/features/user/booking/pages/booking-details'));
-
 const NotificationPage = lazy(() => import('@/features/notification/pages/notification-list'));
 const UserChatPage = lazy(() => import('@/features/chat/pages/user-chat-page'));
-
 const WalletPage = lazy(() => import('@/features/user/wallet/pages/wallet'));
+const ContactPage = lazy(() => import('@/pages/contact-page'));
 
 const UserRoutes = () => {
   return (
@@ -67,7 +64,7 @@ const UserRoutes = () => {
           <Route path='packages/:id' element={<PackageDetailsPage />} />
           <Route path='packages/vendor/:vendorId/profile' element={<VendorProfilePage />} />
           <Route path='about' element={<h1>About page</h1>} />
-          <Route path='contact' element={<h1>Contact page</h1>} />
+          <Route path='contact' element={<ContactPage />} />
            
           <Route path='*' element={<NotFound404 pathname={window.location.pathname} />}/>           
         </Route>

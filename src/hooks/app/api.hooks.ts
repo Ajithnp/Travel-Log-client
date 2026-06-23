@@ -1,4 +1,4 @@
-import { confirmBookingWalletApi, deleteReview, downloadBookingTicket, fetchCategories, fetchPackageDetails, fetchPackageSchedules, fetchPublicPackages, fetchVendorPublicProfile, getUnrevealedReward, packageReviews, packageReviewStats, revealReward, submitReview, verifyBookingPayment, type PackageRatingStatsResponseDto, type PackageReviewsResponseDto, type RewardResponse, type SubmitReviewRequestDTO } from "@/services/app-service";
+import { confirmBookingWalletApi, contact, deleteReview, downloadBookingTicket, fetchCategories, fetchPackageDetails, fetchPackageSchedules, fetchPublicPackages, fetchVendorPublicProfile, getUnrevealedReward, packageReviews, packageReviewStats, revealReward, submitReview, verifyBookingPayment, type ContactRequestDTO, type PackageRatingStatsResponseDto, type PackageReviewsResponseDto, type RewardResponse, type SubmitReviewRequestDTO } from "@/services/app-service";
 import {
   useQuery,
   useInfiniteQuery,
@@ -243,6 +243,15 @@ export const useRevealRewardMutation = () => {
     },
     onError: (error: unknown) => {
       toast.error(error instanceof AxiosError ? error.response?.data.message : 'Failed to delete review');
+    },
+  });
+};
+
+export const useContactMutation = () => {
+  return useMutation({
+    mutationFn: (payload: ContactRequestDTO) => contact(payload),
+    onError: (error: unknown) => {
+      toast.error(error instanceof AxiosError ? error.response?.data.message : 'Failed to submit contact form');
     },
   });
 };

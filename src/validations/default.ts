@@ -9,5 +9,6 @@ export function emptyTraveller(): TravellerInfo {
     emailAddress:     "",
     emergencyContact: "",
     relation:         "Parent",
+    isLead:           false,
   };
 }

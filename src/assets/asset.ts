@@ -24,6 +24,7 @@ import background1 from './Dreamy Abstract Colors.png'
 import background2 from './Abstract Flowing Design.png'
 import background3 from './Abstract Flowing Waves.png'
 import background4 from './Textured White Surface.png'
+import contactHeroBanner from './Lone Hiker on Misty Cliff.png'
 
 
 export const assets = {
@@ -52,7 +53,8 @@ export const assets = {
     background1,
     background2,
     background3,
-    background4
+    background4,
+    contactHeroBanner
 };
 
 export const cities = [

@@ -1,8 +1,7 @@
 export const NAV_LINKS = [
   { name: "Home", path: "/" },
   { name: "Packages", path: "/packages" },
-  { name: "Blog", path: "/" },
-  { name: "Contact", path: "/" },
+  { name: "Contact", path: "/contact" },
 ];
 
 export const USER_FILTER_OPTIONS = [
