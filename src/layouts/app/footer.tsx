@@ -17,7 +17,7 @@ const SOCIAL_ICONS = [Facebook, Twitter, Instagram, Linkedin];
  
 export function Footer() {
   return (
-    <footer id="contact" className="bg-gray-950 text-white pt-24 pb-10">
+    <footer id="contact" className="bg-foreground text-white pt-24 pb-10">
       <div className="container mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16 border-t-[3px] border-orange-500 pt-16">
  

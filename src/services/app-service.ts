@@ -223,6 +223,13 @@ export const packageReviews = async (
   return response.data;
 };
 
+export const contact = async (payload:ContactRequestDTO): Promise<ApiResponse<void>> => {
+  const response: AxiosResponse<ApiResponse<void>> =
+    await api.post(`${API_ENDPOINTS.USER}${API_ROUTE.CONTACT}`,payload);
+  return response.data;
+};
+
+
 export type PackageReviewsResponseDto = PaginatedData<PackageReviewSinglesResponseDto> 
 
 export interface PackageReviewSinglesResponseDto {
@@ -255,4 +262,13 @@ export interface RewardResponse{
   id :string;
   title:string;
   rewardValue:number;
+}
+
+export interface ContactRequestDTO {
+  name: string;
+  email: string;
+  phone?: string;
+  subject: string;
+  message: string;
+
 }
