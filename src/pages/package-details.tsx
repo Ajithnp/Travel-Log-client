@@ -43,7 +43,6 @@ export default function PackageDetails() {
   const { mutate: deleteReview, isPending } = useReviewDeleteMutation(id || '');
   const cancellationPolicy = pkg?.cancellationPolicy;
 
-
   const reviewStatsData = reviewStats?.data;
 
   if (isLoading || isReviewStatsLoading || reviewsLoading) return <Loader />

@@ -73,7 +73,7 @@ const ProfileEdit = ({
         animate="visible"
         variants={container}
       >
-        {/* Left: Summary Card */}
+      
         <motion.div variants={item}>
           <Card className="rounded-xl border border-border p-6 h-full flex items-center justify-center">
             <div className="flex flex-col items-center text-center relative">
@@ -164,7 +164,7 @@ const ProfileEdit = ({
           </Card>
         </motion.div>
 
-        {/* Right: Form Card */}
+      
         <ProfileForm
           user={user}
           onEmailChangeClick={onEmailChangeClick}
@@ -173,7 +173,7 @@ const ProfileEdit = ({
         />
       </motion.section>
 
-      {/* Confirmation Modal */}
+     
 
       {showConfirm && (
         <ConfirmDialog
