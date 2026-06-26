@@ -1,4 +1,3 @@
-//Custom hook for handling multiple data items with array image fields list/array responses like fetching multiple packages
 import { useEffect, useMemo, useState } from "react";
 import type { UseQueryResult } from "@tanstack/react-query";
 import type {
@@ -13,7 +12,7 @@ import {
 } from "@/utils/s3/extract-keys";
 import { mergeSignedUrlsToMultipleItems } from "@/utils/s3/merge-urls";
 
-export const useMultipleDataWithSignedUrls = <T extends Record<string, unknown>>(
+export const useMultipleDataWithSignedUrls = <T>(
   queryResult: UseQueryResult<{ data: T[] }, Error>,
   config: ArrayFieldConfig<T>,
 ): DataWithSignedUrls<T[]> => {
@@ -31,7 +30,10 @@ export const useMultipleDataWithSignedUrls = <T extends Record<string, unknown>>
       return { keys: [], fieldMap: new Map() };
     }
 
-    return extractKeysFromMultipleItems(apiResponse.data, imageFields);
+    return extractKeysFromMultipleItems(
+      apiResponse.data as unknown as Record<string, unknown>[],
+      imageFields as unknown as (keyof Record<string, unknown>)[],
+    );
   }, [apiResponse?.data, imageFields, enabled]);
 
   const {
@@ -72,10 +74,10 @@ export const useMultipleDataWithSignedUrls = <T extends Record<string, unknown>>
 
     const urlMap = createSignedUrlMap(signedUrlsResponse.data);
     return mergeSignedUrlsToMultipleItems(
-      apiResponse.data,
-      imageFields,
+      apiResponse.data as unknown as Record<string, unknown>[],
+      imageFields as unknown as (keyof Record<string, unknown>)[],
       urlMap,
-    );
+    ) as unknown as T[];
   }, [
     apiResponse?.data,
     signedUrlsResponse?.data,

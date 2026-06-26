@@ -11,9 +11,6 @@ import { Button } from "../components/ui/button";
 import { fadeUp } from "@/animation/variants";
 
 
-
-
-
 export default function NotFound404({ pathname }: { pathname: string }) {
   const suggestions = [
     { icon: Home, label: "Home", href: `${pathname.split("/")[1]}` },
@@ -86,7 +83,12 @@ export default function NotFound404({ pathname }: { pathname: string }) {
       <div className="relative z-10 flex flex-col items-center text-center max-w-md w-full gap-5">
 
 
-        <motion.div {...fadeUp}>
+        <motion.div
+          variants={fadeUp}
+          custom={0}
+          initial="hidden"
+          animate="visible"
+        >
           <span className="inline-flex items-center gap-1.5 bg-orange-50 border border-orange-100 text-orange-500 text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider">
             <Plane className="w-3 h-3" />
             Lost in transit
@@ -94,7 +96,13 @@ export default function NotFound404({ pathname }: { pathname: string }) {
         </motion.div>
 
 
-        <motion.div {...fadeUp} className="space-y-2">
+        <motion.div
+          variants={fadeUp}
+          custom={1}
+          initial="hidden"
+          animate="visible"
+          className="space-y-2"
+        >
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-800 leading-tight">
             Page not found
           </h1>
@@ -104,7 +112,13 @@ export default function NotFound404({ pathname }: { pathname: string }) {
         </motion.div>
 
 
-        <motion.div {...fadeUp} className="w-full flex justify-center">
+        <motion.div
+          variants={fadeUp}
+          custom={2}
+          initial="hidden"
+          animate="visible"
+          className="w-full flex justify-center"
+        >
           <Button
             className="h-11 px-7 rounded-full bg-orange-500 hover:bg-orange-600 text-white font-bold text-sm gap-2 shadow-lg shadow-orange-200 border-0 transition-all"
           >
@@ -114,7 +128,13 @@ export default function NotFound404({ pathname }: { pathname: string }) {
         </motion.div>
 
 
-        <motion.div {...fadeUp} className="flex items-center gap-3 w-full max-w-xs">
+        <motion.div
+          variants={fadeUp}
+          custom={3}
+          initial="hidden"
+          animate="visible"
+          className="flex items-center gap-3 w-full max-w-xs"
+        >
           <div className="flex-1 h-px bg-slate-200" />
           <span className="text-xs text-slate-400 font-medium">or explore</span>
           <div className="flex-1 h-px bg-slate-200" />

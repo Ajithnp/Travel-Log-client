@@ -23,8 +23,6 @@ export default function VendorProfilePage() {
         fetchNextPage,
     } = useVendorProfile(vendorId!);
 
-    console.log("vendor profile data:::", vendor,);
-
     useEffect(() => {
         const sentinel = sentinelRef.current;
         if (!sentinel) return;
@@ -53,7 +51,7 @@ export default function VendorProfilePage() {
 
     return (
         <div className="min-h-screen bg-background mt-20">
-            {/* Hero Section */}
+            
             <div className="bg-muted/30 border-b border-border py-12 px-4 shadow-sm">
                 <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center md:items-start gap-8">
                     <Avatar className="w-32 h-32 md:w-40 md:h-40 border-4 border-background shadow-md">
@@ -81,25 +79,25 @@ export default function VendorProfilePage() {
 
                         <div className="flex flex-wrap items-center justify-center md:justify-start gap-6 text-sm font-medium">
 
-                            {/* Rating */}
+                  
                             <div className="flex items-center gap-1.5 text-foreground bg-primary/5 px-3 py-1.5 rounded-full border border-primary/10">
                                 <Star className={`w-4 h-4 ${vendor.averageRating > 0 ? "fill-amber-400 text-amber-400" : "text-muted-foreground"}`} />
                                 <span>{vendor.averageRating > 0 ? vendor.averageRating : "No Ratings Yet"}</span>
                             </div>
 
-                            {/* Joined */}
+                         
                             <div className="flex items-center gap-1.5 text-muted-foreground">
                                 <Calendar className="w-4 h-4" />
                                 <span>Joined {joinedDate}</span>
                             </div>
 
-                            {/* Active Packages */}
+                          
                             <div className="flex items-center gap-1.5 text-blue-600 bg-blue-50 px-3 py-1.5 rounded-full border border-blue-100">
                                 <Package className="w-4 h-4" />
                                 <span>{vendor?.totalPackages ?? 0} Active</span>
                             </div>
 
-                            {/* Completed Packages */}
+                           
                             <div className="flex items-center gap-1.5 text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-100">
                                 <CheckCircle className="w-4 h-4" />
                                 <span>{vendor?.totalTripsCompleted ?? 0} Completed</span>
@@ -114,7 +112,7 @@ export default function VendorProfilePage() {
                                 </h2>
 
                                 <p className="text-muted-foreground leading-relaxed max-w-3xl">
-                                    {/* {vendor.about} */}
+                                   
                                     {'Mountain Trails Co. has been crafting unforgettable high-altitude experiences since 2018. Based out of Shimla, our team of certified trek leaders and local guides specialise in Himalayan winter expeditions — from the frozen passes of Spiti to the remote valleys of Kinnaur. We believe travel should be transformative, not just recreational.'}
                                 </p>
                             </div>
@@ -123,7 +121,7 @@ export default function VendorProfilePage() {
                 </div>
             </div>
 
-            {/* Packages Section */}
+           
             <div className="max-w-6xl mx-auto px-4 py-8">
                 <div className="flex items-center justify-between mb-8">
                     <h2 className="text-2xl font-bold tracking-tight">Active Packages</h2>

@@ -1,4 +1,4 @@
-import { confirmBookingWalletApi, contact, deleteReview, downloadBookingTicket, fetchCategories, fetchPackageDetails, fetchPackageSchedules, fetchPublicPackages, fetchVendorPublicProfile, getUnrevealedReward, packageReviews, packageReviewStats, revealReward, submitReview, verifyBookingPayment, type ContactRequestDTO, type PackageRatingStatsResponseDto, type PackageReviewsResponseDto, type RewardResponse, type SubmitReviewRequestDTO } from "@/services/app-service";
+import { confirmBookingWalletApi, contact, deleteReview, downloadBookingTicket, fetchCategories, fetchPackageDetails, fetchPackageSchedules, fetchPublicPackages, fetchVendorPublicProfile, getUnrevealedReward, packageReviews, packageReviewStats, popularPackages, recommendedPackages, revealReward, submitReview, verifyBookingPayment, type ContactRequestDTO, type PackageRatingStatsResponseDto, type PackageReviewsResponseDto, type PopularPackageResponse, type RecommendedPackageResponse, type RewardResponse, type SubmitReviewRequestDTO } from "@/services/app-service";
 import {
   useQuery,
   useInfiniteQuery,
@@ -253,5 +253,23 @@ export const useContactMutation = () => {
     onError: (error: unknown) => {
       toast.error(error instanceof AxiosError ? error.response?.data.message : 'Failed to submit contact form');
     },
+  });
+};
+
+export const usePopularPackagesQuery = () => {
+  return useQuery<ApiResponse<PopularPackageResponse[]>, ApiError>({
+    queryKey: ["popular-packages"],
+    queryFn: () => popularPackages(),
+    staleTime: 1000 * 60 * 2,
+    refetchOnWindowFocus: false,
+  });
+};
+
+export const useRecommendedPackagesQuery = () => {
+  return useQuery<ApiResponse<RecommendedPackageResponse[]>, ApiError>({
+    queryKey: ["recommended-packages"],
+    queryFn: () => recommendedPackages(),
+    staleTime: 1000 * 60 * 2,
+    refetchOnWindowFocus: false,
   });
 };

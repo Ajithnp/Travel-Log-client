@@ -21,11 +21,12 @@ export const useUserWalletQuery = (
 };
 
  
-export const useWalletBalanceQuery = () => {
+export const useWalletBalanceQuery = (logged:boolean) => {
   return useQuery<ApiResponse<{balance:number}>>({
     queryKey: ["wallet-balance"],
     queryFn:()=> getWalletBalanceApi(),
     staleTime: 1000 * 60 * 5,
     refetchOnWindowFocus: false,
+    enabled:logged,
   });
 };

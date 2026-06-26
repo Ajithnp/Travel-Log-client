@@ -1,96 +1,89 @@
-import { MapPin } from "lucide-react";
+import { fadeUp } from "@/animation/variants";
+import { motion } from "framer-motion";
+import { Plus } from "lucide-react";
 
-export const IMAGES = {
-  gallery: [
-    "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&auto=format",
-    "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=400&auto=format",
-    "https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=400&auto=format",
-    "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=400&auto=format",
-  ],
-};
-
-export interface GalleryItem {
-  img: string;
-  name: string;
-  country: string;
-  cols: string;
-  rows: string;
-}
-
-export const GALLERY_ITEMS: GalleryItem[] = [
-  { img: IMAGES.gallery[0], name: "Yosemite", country: "USA", cols: "col-span-2", rows: "row-span-2" },
-  { img: IMAGES.gallery[1], name: "Kyoto", country: "Japan", cols: "", rows: "" },
-  { img: IMAGES.gallery[2], name: "Rome", country: "Italy", cols: "", rows: "" },
-  { img: IMAGES.gallery[3], name: "Paris", country: "France", cols: "col-span-2", rows: "" },
+const STATS: {value: string, desc: string}[] = [
+  {
+    value:"Curated Experiences",
+    desc: "Every trip is carefully selected for comfort, adventure, and authenticity.",
+  },
+  {
+    value: "Flexible Duration",
+    desc: "From 2-day escapes to longer journeys across incredible destinations",
+  },
+  {
+    value: "Explore India Better",
+    desc: "Discover hidden gems, nature retreats, and cultural experiences nationwide",
+  },
 ];
 
-export function GallerySection() {
+export default function WhyShortTripsWin() {
   return (
-    <section className="py-24 bg-gradient-to-t from-gray-950 to-gray-900 text-white overflow-hidden relative">
-      {/* Ambient blobs */}
-      <div className="absolute top-0 right-0 w-1/3 h-full bg-orange-500/10 blur-[100px] rounded-full" />
-      <div className="absolute bottom-0 left-0 w-1/4 h-1/2 bg-blue-500/10 blur-[100px] rounded-full" />
+    <section
+      className="py-20 md:py-28 bg-orange-50/30"
+    >
+      <div className="container mx-auto px-6 md:px-12">
+        <motion.div
+          variants={fadeUp}
+          custom={0}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          <span className="inline-flex items-center gap-1.5 border border-stone-400/50 text-stone-600 text-[11px] font-semibold tracking-widest uppercase rounded-full px-3 py-1 mb-7">
+            <Plus className="w-3 h-3" strokeWidth={2.5} />
+            WHY TRAVEL WITH US
+          </span>
+        </motion.div>
 
-      <div className="container mx-auto px-6 md:px-12 relative z-10">
-        {/* Header row */}
-        <div className="flex flex-col lg:flex-row items-center justify-between mb-16 gap-10">
-          <div className="max-w-2xl text-center lg:text-left">
-            <p className="text-orange-500 font-extrabold tracking-wider uppercase text-medium mb-3">Memories</p>
-            <h2 className="text-4xl md:text-5xl font-black mb-6 leading-tight">Destination Gallery</h2>
-            <p className="text-gray-400 text-lg leading-relaxed">
-              Browse through our collection of beautiful memories captured by our travelers around the globe.
-            </p>
-          </div>
+        
+        <motion.h2
+          variants={fadeUp}
+          custom={1}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="text-[2rem] sm:text-[2.6rem] md:text-[3.1rem] font-black leading-[1.12] text-stone-900 max-w-2xl mb-14 md:mb-16"
+          // style={{ fontFamily: "'Georgia', 'Times New Roman', serif" }}
+        >
+          Explore more of India without taking long breaks from life.
+        </motion.h2>
 
-          <div className="flex flex-col sm:flex-row items-center gap-8">
-            <div className="flex items-center gap-6">
-              <Stat value="30" accent="text-orange-500" label="Destinations" />
-              <div className="h-16 w-px bg-white/10 hidden sm:block" />
-              <Stat value="50" accent="text-blue-500" label="Packagers" />
-            </div>
-            {/* <Button
-              variant="outline"
-              className="border-white/20 text-white hover:bg-white hover:text-gray-900 rounded-full px-8 py-6 text-lg transition-all ml-0 sm:ml-4 group"
-            >
-              See All <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            </Button> */}
-          </div>
-        </div>
-
-        {/* Mosaic grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 grid-rows-2 gap-4 h-[600px] mt-10">
-          {GALLERY_ITEMS.map((item, i) => (
-            <div
+        
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-0 border border-stone-300/70 rounded-xl overflow-hidden">
+          {STATS.map((stat, i) => (
+            <motion.div
               key={i}
-              className={`${item.cols} ${item.rows} rounded-3xl overflow-hidden group relative hover:ring-4 hover:ring-inset hover:ring-white/30 transition-all duration-300 cursor-pointer`}
+              variants={fadeUp}
+              custom={i + 2}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className={[
+                "px-7 py-8 sm:py-9 bg-white/0 group",
+                "relative",
+                i < STATS.length - 1
+                  ? "border-b sm:border-b-0 sm:border-r border-stone-300/70"
+                  : "",
+              ].join(" ")}
             >
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500 z-10" />
-              <img
-                src={item.img}
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-              />
-              <div className="absolute bottom-6 left-6 z-20 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                <h4 className="text-2xl md:text-3xl font-bold text-white mb-1">{item.name}</h4>
-                <p className="text-orange-400 font-bold flex items-center gap-1.5">
-                  <MapPin className="w-4 h-4" /> {item.country}
-                </p>
-              </div>
-            </div>
+              
+              <p
+                className="text-2xl sm:text-3xl font-black leading-none mb-3 tracking-tight text-gray-600"
+               
+              >
+                {stat.value}
+              </p>
+
+             
+              <p className="text-stone-500 text-sm leading-relaxed">
+                {stat.desc}
+              </p>
+            </motion.div>
           ))}
         </div>
+
       </div>
     </section>
-  );
-}
-
-function Stat({ value, accent, label }: { value: string; accent: string; label: string }) {
-  return (
-    <div className="text-center sm:text-left">
-      <div className={`text-6xl font-black text-white mb-2`}>
-        {value}<span className={accent}>+</span>
-      </div>
-      <div className={`h-1 w-12 ${accent.replace("text-", "bg-")} mb-2 mx-auto sm:mx-0 rounded-full`} />
-      <div className="text-sm text-gray-400 font-bold uppercase tracking-widest">{label}</div>
-    </div>
   );
 }

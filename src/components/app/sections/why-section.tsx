@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight, Star, type LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Mountain, Compass, Map, Bird, Camera, Leaf, Landmark, Users, Utensils, TreePine, Waves, Droplets, Building, MapPin, Heart, ShieldCheck, CalendarCheck } from "lucide-react";
 
+
 type WhySection = {
   label: string;
   features: {
@@ -165,12 +166,12 @@ export function WhySection() {
   const next = () => setIndex((p) => (p + 1) % WHY_SLIDES.length);
  
   return (
-    <section className="py-24 bg-amber-50/30 relative overflow-hidden border-t-4 border-orange-500">
+    <section className="py-24 bg-amber-50/30 relative overflow-hidden">
       <div className="absolute -left-20 top-20 w-64 h-64 bg-orange-100/50 rounded-full blur-[80px]" />
       <div className="absolute right-0 bottom-0 w-96 h-96 bg-orange-50 rounded-full blur-[100px]" />
  
       <div className="container mx-auto px-6 md:px-12 relative z-10">
-        {/* Header with tabs */}
+      
         <div className="flex flex-col md:flex-row items-center justify-between mb-20 gap-6">
           <div className="text-center md:text-left">
             <p className="text-orange-500 font-extrabold tracking-wider uppercase text-medium mb-3">Our Features</p>
@@ -212,7 +213,7 @@ export function WhySection() {
           </div>
         </div>
  
-        {/* Features grid */}
+    
         <div className="grid grid-cols-1 md:grid-cols-3 gap-0 md:gap-12 relative transition-all duration-500">
           <div className="absolute top-[33%] left-10 right-10 h-px bg-orange-100 md:hidden" />
           <div className="absolute top-[66%] left-10 right-10 h-px bg-orange-100 md:hidden" />

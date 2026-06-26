@@ -1,6 +1,6 @@
 import type { S3FileObject, ExtractedKeys, SignedUrlMap } from '@/types/signed-urls';
 
-//Check if value is an S3 file object with a key
+
 
 export const isS3FileObject = (value: unknown): value is S3FileObject => {
   return (
@@ -11,13 +11,13 @@ export const isS3FileObject = (value: unknown): value is S3FileObject => {
   );
 };
 
-//Check if value is an array of S3 file objects
+
 export const isS3FileArray = (value: unknown): value is S3FileObject[] => {
   return Array.isArray(value) && value.every(isS3FileObject);
 };
 
 // ==================== Key Extraction Functions ====================
-//Extract S3 keys from array fields (e.g., Package.images)
+//Extract S3 keys from array OR single-object fields (e.g., Package.images or Package.image)
 export const extractKeysFromArrayFields = <T extends Record<string, unknown>>(
   data: T,
   arrayFields: (keyof T)[]
@@ -29,6 +29,7 @@ export const extractKeysFromArrayFields = <T extends Record<string, unknown>>(
     const fieldValue = data[fieldName];
     
     if (isS3FileArray(fieldValue)) {
+     
       const fieldKeys = fieldValue
         .map((file) => file.key)
         .filter((key) => key && key.trim() !== ''); 
@@ -36,6 +37,13 @@ export const extractKeysFromArrayFields = <T extends Record<string, unknown>>(
       if (fieldKeys.length > 0) {
         keys.push(...fieldKeys);
         fieldMap.set(String(fieldName), fieldKeys);
+      }
+    } else if (isS3FileObject(fieldValue)) {
+    
+      const key = fieldValue.key;
+      if (key && key.trim() !== '') {
+        keys.push(key);
+        fieldMap.set(String(fieldName), [key]);
       }
     }
   });

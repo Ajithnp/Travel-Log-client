@@ -81,7 +81,12 @@ export default function Unauthorized() {
       <div className="relative z-10 flex flex-col items-center text-center max-w-md w-full gap-5">
 
  
-        <motion.div {...fadeUp}>
+        <motion.div
+          variants={fadeUp}
+          custom={0}
+          initial="hidden"
+          animate="visible"
+        >
           <motion.div
             initial={{ scale: 0.6, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -93,7 +98,12 @@ export default function Unauthorized() {
         </motion.div>
 
  
-        <motion.div {...fadeUp}>
+        <motion.div
+          variants={fadeUp}
+          custom={1}
+          initial="hidden"
+          animate="visible"
+        >
           <span className="inline-flex items-center gap-1.5 bg-rose-50 border border-rose-100 text-rose-500 text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider">
             <Lock className="w-3 h-3" />
             Access Denied
@@ -101,7 +111,13 @@ export default function Unauthorized() {
         </motion.div>
 
  
-        <motion.div {...fadeUp} className="space-y-2.5">
+        <motion.div
+          variants={fadeUp}
+          custom={2}
+          initial="hidden"
+          animate="visible"
+          className="space-y-2.5"
+        >
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-800 leading-tight">
             Unauthorised
           </h1>
@@ -111,7 +127,13 @@ export default function Unauthorized() {
         </motion.div>
 
 
-        <motion.div {...fadeUp} className="w-full flex justify-center">
+        <motion.div
+          variants={fadeUp}
+          custom={3}
+          initial="hidden"
+          animate="visible"
+          className="w-full flex justify-center"
+        >
           <Button className="h-11 px-7 rounded-full bg-rose-500 hover:bg-rose-600 text-white font-bold text-sm gap-2 shadow-lg shadow-rose-200 border-0 transition-all">
             Sign In to Continue
             <ArrowRight className="w-4 h-4" />
@@ -119,7 +141,13 @@ export default function Unauthorized() {
         </motion.div>
 
 
-        <motion.div {...fadeUp} className="flex items-center gap-3 w-full max-w-xs">
+        <motion.div
+          variants={fadeUp}
+          custom={4}
+          initial="hidden"
+          animate="visible"
+          className="flex items-center gap-3 w-full max-w-xs"
+        >
           <div className="flex-1 h-px bg-slate-200" />
           <span className="text-xs text-slate-400 font-medium">or go to</span>
           <div className="flex-1 h-px bg-slate-200" />

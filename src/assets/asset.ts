@@ -25,6 +25,15 @@ import background2 from './Abstract Flowing Design.png'
 import background3 from './Abstract Flowing Waves.png'
 import background4 from './Textured White Surface.png'
 import contactHeroBanner from './Lone Hiker on Misty Cliff.png'
+import whyChooseUsBanner from './Handshake in Cityscape.png'
+
+
+
+const hero1 = "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&auto=format";
+const hero2 = "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1600&auto=format";
+const hero3 = "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1600&auto=format";
+
+
 
 
 export const assets = {
@@ -41,6 +50,9 @@ export const assets = {
     twitterIcon,
     linkendinIcon,
     hero_banner,
+    hero1,
+    hero2,
+    hero3,
     vendorlogin,
     gmail,
     password,
@@ -54,7 +66,8 @@ export const assets = {
     background2,
     background3,
     background4,
-    contactHeroBanner
+    contactHeroBanner,
+    whyChooseUsBanner
 };
 
 export const cities = [

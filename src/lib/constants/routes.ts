@@ -59,6 +59,8 @@ export const API_ROUTE = {
   REVEAL_REWARD:(id:string) => `/reward/${id}/reveal`,
   VENDOR_PUBLIC_PROFILE: (id: string) => `/packages/vendors/${id}/profile`,
   CONTACT:"/contacts-enquiry",
+  POPULAR_PACKAGES: "/packages/popular",
+  RECOMMENDED_PACKAGES: "/packages/recommended",
    
   //packages
   PACKAGE_DETAIL: (id: string) => `/packages/${id}`,
