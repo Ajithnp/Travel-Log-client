@@ -36,6 +36,7 @@ const ProfileForm = ({
     },
   });
 
+
   return (
     <motion.form
       onSubmit={handleSubmit(prepareUpdate)}
@@ -93,22 +94,20 @@ const ProfileForm = ({
 
           {/* Action buttons */}
           <div className="mt-2 flex flex-wrap items-center gap-3">
-            {user.authProvider === 'local' || user.role === 'vendor' && (
+            {(user.authProvider === "local" || user.role === "vendor") && (
               <Button
                 type="button"
                 variant="secondary"
-                className="cursor-pointer hover:scale-105 hover:bg-gray-200 transition-all duration-300"
                 onClick={onEmailChangeClick}
               >
                 Change Email
               </Button>
             )}
 
-            {user.authProvider === 'local' || user.role === 'vendor' && (
+            {(user.authProvider === "local" || user.role === "vendor") && (
               <Button
                 type="button"
                 variant="secondary"
-                className="cursor-pointer bg-gray-100 text-black hover:bg-red-500 hover:text-white hover:scale-105 transition-all duration-300"
                 onClick={onPasswordChangeClick}
               >
                 Change Password
@@ -119,8 +118,8 @@ const ProfileForm = ({
                 type="submit"
                 variant="default"
                 className={`cursor-pointer hover:scale-105 hover:brightness-110 ${user?.role === "user"
-                    ? "bg-orange-500 hover:bg-orange-600 text-white"
-                    : ""
+                  ? "bg-orange-500 hover:bg-orange-600 text-white"
+                  : ""
                   }`}
               >
                 Save Changes

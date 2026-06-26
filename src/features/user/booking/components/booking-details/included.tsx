@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import SectionCard from './section-card';
-import { Car, Luggage, Utensils, Wifi } from 'lucide-react';
+import { Luggage, Utensils, Wifi } from 'lucide-react';
 
 const Included = () => {
   return (
@@ -9,7 +9,6 @@ const Included = () => {
         {[
           { icon: Utensils, label: "Breakfast included daily" },
           { icon: Wifi, label: "High-speed WiFi throughout" },
-          { icon: Car, label: "Airport transfers (both ways)" },
           { icon: Luggage, label: "Luggage assistance on arrival" },
         ].map(({ icon: I, label }) => (
           <div key={label} className="flex items-center gap-2.5 py-2 border-b border-gray-50 last:border-0">

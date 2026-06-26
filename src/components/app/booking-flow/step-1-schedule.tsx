@@ -8,7 +8,7 @@ import { useAuthUser } from "@/hooks/useAuthUser";
 
 function lowestPricePerHead(schedule: Schedule): number {
   return Math.min(
-    ...schedule.pricing.map((p) => Math.round(p.price / p.peopleCount)),
+    ...schedule.pricing.map((p) => Math.round(p.price )),
   );
 }
 
@@ -54,6 +54,7 @@ export function Step1Schedule({
             selectedSchedule?.scheduleId === schedule.scheduleId;
           const dateRange = formatDateRange(schedule.startDate, schedule.endDate);
           const priceFrom = lowestPricePerHead(schedule);
+          
 
           return (
             <button

@@ -35,7 +35,7 @@ export default function BookingDetail() {
   const [showModal, setShowModal] = useState(false);
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [isUploadingPhotos, setIsUploadingPhotos] = useState(false);
-
+console.log("-------review modal-----", showReviewModal)
   const { bookingId } = useParams();
   const navigate = useNavigate();
 
@@ -180,7 +180,7 @@ export default function BookingDetail() {
         </div>
       </div>
 
-      {booking.hasReviewed && booking.bookingStatus === BOOKING_STATUS.COMPLETED && (
+      {!booking.hasReviewed && booking.bookingStatus === BOOKING_STATUS.COMPLETED && (
         <ReviewModal
           open={showReviewModal}
           onClose={() => setShowReviewModal(false)}
@@ -217,6 +217,7 @@ export default function BookingDetail() {
           isSuccess={isReviewSuccess}
         />
       )}
+
       {showModal && (
         <CancelBookingModal
           show={showModal}
