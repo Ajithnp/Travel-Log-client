@@ -57,7 +57,7 @@ export const ChatSidebar = ({
         </div>
       )}
 
-      {/* Content Area */}
+   
       {isLoading ? (
         <div className="flex flex-col p-2 gap-0">
           {[1, 2, 3, 4, 5].map((i) => (
@@ -160,13 +160,14 @@ export const ChatSidebar = ({
                           ? "text-violet-600 dark:text-violet-400 font-medium"
                           : "text-transparent select-none"
                       )}>
-                        {!!chat.unreadCount && chat.unreadCount > 0 ? "New message" : "\u00A0"}
+                        {!!chat.unreadCount && chat.unreadCount > 0 ? 'New Message': "\u00A0"}
                       </p>
                       {!!chat.unreadCount && chat.unreadCount > 0 && (
                         <div className="flex-shrink-0 bg-violet-600 text-white text-[10px] font-bold px-1.5 min-w-[18px] h-[18px] rounded-full flex items-center justify-center shadow-sm">
                           {chat.unreadCount > 99 ? '99+' : chat.unreadCount}
                         </div>
                       )}
+                      <span className="text-xs text-gray-400"> {lastMsg?.content }</span>
                     </div>
                   </div>
                 </button>

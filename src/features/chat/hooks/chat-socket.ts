@@ -3,6 +3,7 @@ import { useQueryClient, type InfiniteData } from "@tanstack/react-query";
 import { connectWS } from "@/config/socket/socket.config";
 import type {
   ChatRoom,
+  LastMessage,
   Message,
   MessagesResponse,
 } from "../services/api.services";
@@ -71,52 +72,66 @@ export function useChatSocket({
       socket.emit(CHAT_EVENTS.JOIN_ROOM, { chatId });
     }
 
-const onMessageNew = (newMessage: Message) => {
+    const onMessageNew = (newMessage: Message) => {
 
-  if (newMessage.chatId === chatIdRef.current) {
-    const queryKey = getMessagesQueryKey(chatIdRef.current!);
-    queryClientRef.current.setQueryData<InfiniteData<ApiResponse<MessagesResponse>>>(
-      queryKey,
-      (oldData) => {
-        if (!oldData) return oldData;
-        const exists = oldData.pages.some((page) =>
-          page.data?.messages?.some((m) => m.id === newMessage.id)
+      if (newMessage.chatId === chatIdRef.current) {
+        const queryKey = getMessagesQueryKey(chatIdRef.current!);
+        queryClientRef.current.setQueryData<InfiniteData<ApiResponse<MessagesResponse>>>(
+          queryKey,
+          (oldData) => {
+            if (!oldData) return oldData;
+            const exists = oldData.pages.some((page) =>
+              page.data?.messages?.some((m) => m.id === newMessage.id)
+            );
+            if (exists) return oldData;
+
+            const updatedPages = oldData.pages.map((page, index) => {
+              if (index !== 0) return page;
+              return {
+                ...page,
+                data: {
+                  ...page.data,
+                  messages: [...(page.data?.messages ?? []), newMessage],
+                },
+              };
+            });
+            return { ...oldData, pages: updatedPages };
+          }
         );
-        if (exists) return oldData;
-
-        const updatedPages = oldData.pages.map((page, index) => {
-          if (index !== 0) return page;
-          return {
-            ...page,
-            data: {
-              ...page.data,
-              messages: [...(page.data?.messages ?? []), newMessage],
-            },
-          };
-        });
-        return { ...oldData, pages: updatedPages };
+        return;
       }
-    );
-    return; 
-  }
 
-  if (newMessage.senderRole === ROLE.USER) {
-    queryClientRef.current.setQueryData<ApiResponse<ChatRoom[]>>(
-      chatsQueryKeyRef.current,
-      (oldData) => {
-        if (!oldData || !Array.isArray(oldData.data)) return oldData;
-        return {
-          ...oldData,
-          data: oldData.data.map((chat) =>
-            chat.id === newMessage.chatId
-              ? { ...chat, unreadCount: (chat.unreadCount ?? 0) + 1 }
-              : chat
-          ),
-        };
+      if (newMessage.senderRole === ROLE.USER) {
+        queryClientRef.current.setQueryData<ApiResponse<ChatRoom[]>>(
+          chatsQueryKeyRef.current,
+          (oldData) => {
+
+            if (!oldData || !Array.isArray(oldData.data)) return oldData;
+
+            const existingChat = oldData.data.find((chat) => chat.id === newMessage.chatId);
+            if (!existingChat) return oldData;
+
+            const filteredChats = oldData.data.filter((chat) => chat.id !== newMessage.chatId);
+
+            const updatedChat = {
+              ...existingChat,
+              unreadCount: (existingChat.unreadCount ?? 0) + 1,
+              lastMessage: {
+                _id: existingChat.lastMessage?._id ?? '',
+                senderName: newMessage.senderName,
+                content: newMessage.content,
+                createdAt: newMessage.createdAt.toString(),  
+              } as LastMessage,
+            };
+
+            return {
+              ...oldData,
+              data: [updatedChat, ...filteredChats],
+            };
+          }
+        );
       }
-    );
-  }
-}
+    }
     const handlePinUpdated = (updatedChatId: string, pinnedMessage: string) => {
       if (getChatQueryKey) {
         queryClientRef.current.setQueryData<ApiResponse<ChatRoom>>(
@@ -172,13 +187,13 @@ const onMessageNew = (newMessage: Message) => {
               data: oldData.data.map((chat) =>
                 chat.id === updatedChatId
                   ? {
-                      ...chat,
-                      members: chat.members.map((m) =>
-                        m.userId === blockedUserId
-                          ? { ...m, isActive: false }
-                          : m,
-                      ),
-                    }
+                    ...chat,
+                    members: chat.members.map((m) =>
+                      m.userId === blockedUserId
+                        ? { ...m, isActive: false }
+                        : m,
+                    ),
+                  }
                   : chat,
               ),
             };
@@ -234,7 +249,7 @@ const onMessageNew = (newMessage: Message) => {
       });
     };
     const onRoomUpdated = (payload: RoomUpdatedPayload) => {
-    
+
       const {
         chatId: updatedChatId,
         pinnedMessage,
