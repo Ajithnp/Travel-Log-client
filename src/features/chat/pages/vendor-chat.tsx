@@ -38,6 +38,7 @@ const VendorChatPage = () => {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   const { data: chatsResponse, isLoading: chatsLoading } = useVendorChats(statusFilter, debouncedSearch);
+
   const chats = chatsResponse?.data ?? [];
 
 
@@ -109,7 +110,6 @@ const VendorChatPage = () => {
               </button>
             </div>
 
-            {/* Status filter tabs */}
             <div className="flex gap-1 p-1 bg-muted/50 rounded-xl">
               {STATUS_TABS.map((tab) => {
                 const Icon = tab.icon;
@@ -147,7 +147,7 @@ const VendorChatPage = () => {
           </div>
         </aside>
 
-        {/*  Right Panel */}
+      
         <main className="flex-1 flex flex-col min-w-0">
           <div className="flex md:hidden items-center gap-3 px-4 py-3 border-b border-border/60 flex-shrink-0 bg-background">
             <button
