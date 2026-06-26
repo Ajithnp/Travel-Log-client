@@ -82,7 +82,7 @@ export function buildBasePackageDefaults(
     packingList: data?.packingList ?? [],
     cancellationPolicy:
       typeof data?.cancellationPolicy === "object" && data.cancellationPolicy !== null
-        ? (data.cancellationPolicy as any)._id
+        ? (data.cancellationPolicy)._id
         : data?.cancellationPolicy ?? undefined,
     isActive: data?.isActive ?? true,
   };
