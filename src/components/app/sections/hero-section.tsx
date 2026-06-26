@@ -1,13 +1,9 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import {
   ChevronLeft, ChevronRight, ArrowRight,
-  CalendarCheck,
-  Backpack,
-  Navigation,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-import { Card, CardContent } from "@/components/ui/card";
 
 export const IMAGES = {
   hero: [
@@ -27,12 +23,12 @@ export interface HeroSlide {
 export const HERO_SLIDES: HeroSlide[] = [
   {
     img: IMAGES.hero[0],
-    heading: "Plan your Trip With Travel Hous",
+    heading: "Plan your Trip With Travel Log",
     sub: "Discover the most beautiful places on earth with our curated travel packages. We make your journey unforgettable and stress-free.",
   },
   {
     img: IMAGES.hero[1],
-    heading: "Explore Hidden Gems Around the World",
+    heading: "Explore Hidden Gems Around India",
     sub: "From mountain peaks to tropical coastlines — find the adventure that calls your name and book it in seconds.",
   },
   {
@@ -68,7 +64,7 @@ export function HeroSection() {
       id="home"
       className="relative min-h-[90vh] flex items-center justify-center pt-24 pb-32 overflow-hidden"
     >
-      {/* Slides */}
+   
       <div className="absolute inset-0 z-0">
         {HERO_SLIDES.map((slide, i) => (
           <div
@@ -124,7 +120,7 @@ export function HeroSection() {
         </Button>
       </div>
 
-      {/* Dot indicators */}
+      
       <div className="absolute bottom-48 left-1/2 -translate-x-1/2 z-20 flex gap-2">
         {HERO_SLIDES.map((_, i) => (
           <button
@@ -134,29 +130,6 @@ export function HeroSection() {
               }`}
           />
         ))}
-      </div>
-      {/* Search bar */}
-      <div className="hidden md:block absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/3 w-full max-w-5xl px-6 z-30">
-        <Card className="bg-white rounded-3xl shadow-2xl border-0 overflow-visible">
-          <CardContent className="p-3 flex flex-col md:flex-row items-center">
-
-            <div className="flex-1 flex items-center w-full px-6 py-4 md:border-r border-gray-200 hover:bg-gray-50/50 transition-colors rounded-2xl md:rounded-r-none">
-              <CalendarCheck className="text-orange-500 h-6 w-6 mr-7 shrink-0" />
-              <p className="text-medium font-bold uppercase tracking-wider">Book</p>
-            </div>
-
-            <div className="flex-1 flex items-center w-full px-6 py-4 md:border-r border-gray-200 hover:bg-gray-50/50 transition-colors">
-              <Backpack className="text-orange-500 h-6 w-6 mr-7 shrink-0" />
-              <p className="text-medium font-bold uppercase tracking-wider">Pack</p>
-            </div>
-
-            <div className="flex-1 flex items-center w-full px-6 py-4 hover:bg-gray-50/50 transition-colors rounded-2xl md:rounded-l-none">
-              <Navigation className="text-orange-500 h-6 w-6 mr-7 shrink-0" />
-              <p className="text-medium font-bold uppercase tracking-wider">Explore</p>
-            </div>
-
-          </CardContent>
-        </Card>
       </div>
     </section>
   );

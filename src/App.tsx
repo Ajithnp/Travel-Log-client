@@ -11,7 +11,7 @@ const App = () => {
     <>
       <Router>
         <ScrollToTop />
-        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
           <AppRoutes />
           <Toaster
             position="top-center"

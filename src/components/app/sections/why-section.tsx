@@ -165,7 +165,7 @@ export function WhySection() {
   const next = () => setIndex((p) => (p + 1) % WHY_SLIDES.length);
  
   return (
-    <section className="py-24 bg-amber-50/30 relative overflow-hidden border-t-4 border-orange-500">
+    <section className="py-24 bg-amber-50/30 relative overflow-hidden">
       <div className="absolute -left-20 top-20 w-64 h-64 bg-orange-100/50 rounded-full blur-[80px]" />
       <div className="absolute right-0 bottom-0 w-96 h-96 bg-orange-50 rounded-full blur-[100px]" />
  

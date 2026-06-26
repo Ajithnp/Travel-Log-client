@@ -223,11 +223,41 @@ export const packageReviews = async (
   return response.data;
 };
 
+
+
 export const contact = async (payload:ContactRequestDTO): Promise<ApiResponse<void>> => {
   const response: AxiosResponse<ApiResponse<void>> =
     await api.post(`${API_ENDPOINTS.USER}${API_ROUTE.CONTACT}`,payload);
   return response.data;
 };
+
+
+export const popularPackages = async ():Promise<ApiResponse<PopularPackageResponse[]>> =>{
+  const response:AxiosResponse<ApiResponse<PopularPackageResponse[]>> =
+    await api.get(`${API_ENDPOINTS.USER}${API_ROUTE.POPULAR_PACKAGES}`);
+  return response.data;
+};
+
+export const recommendedPackages = async ():Promise<ApiResponse<RecommendedPackageResponse[]>> =>{
+  const response: AxiosResponse<ApiResponse<RecommendedPackageResponse[]>> =
+    await api.get(`${API_ENDPOINTS.USER}${API_ROUTE.RECOMMENDED_PACKAGES}`);
+  return response.data;
+};
+
+
+export interface PopularPackageResponse {
+  id: string;
+  title: string;
+  location: string;
+  state: string;
+  rating: number;
+  image: { key: string; url?: string };
+  soloPrice: number;
+};
+
+export interface RecommendedPackageResponse extends PopularPackageResponse{
+  category?:string;
+}
 
 
 export type PackageReviewsResponseDto = PaginatedData<PackageReviewSinglesResponseDto> 

@@ -28,7 +28,7 @@ const STATS = [
 
 export function WhyChooseUsSection() {
   return (
-    <section className="py-28 bg-white relative overflow-hidden">
+    <section className="py-28 bg-orange-50/30 relative overflow-hidden">
       <div
         className="absolute right-0 top-0 w-1/3 h-full opacity-30 pointer-events-none"
         style={{ backgroundImage: "radial-gradient(#f97316 1.5px, transparent 1.5px)", backgroundSize: "32px 32px" }}

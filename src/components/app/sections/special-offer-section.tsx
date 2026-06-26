@@ -1,6 +1,7 @@
 import { MapPin, Users, Clock, Star, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useRecommendedPackagesQuery } from "@/hooks/app/api.hooks";
 
 export const IMAGES = {
   offers: [
@@ -39,12 +40,16 @@ export const ALL_OFFERS: Offer[] = [
 ];
 
 export function SpecialOffersSection() {
+
+  const recommendedPackages = useRecommendedPackagesQuery()
+  console.log("recommended packages === ", recommendedPackages?.data?.data)
+
   return (
-    <section className="py-24 bg-gray-50">
+    <section className="py-24 bg-white">
       <div className="container mx-auto px-6 md:px-12">
         <div className="text-start mb-16">
-          <p className="text-orange-500 font-extrabold tracking-wider uppercase text-medium mb-2">Top Deals</p>
-          <h2 className="text-4xl md:text-5xl font-black text-gray-900">Special Offers</h2>
+          <p className="text-orange-500 font-extrabold tracking-wider uppercase text-medium mb-2">Explore</p>
+          <h2 className="text-4xl md:text-5xl font-black text-gray-900">Recommended For You</h2>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">

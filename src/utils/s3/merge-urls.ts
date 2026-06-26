@@ -1,10 +1,8 @@
-//Utility functions for merging signed URLs back into data structures
 
 import type { SignedUrlMap } from "@/types/signed-urls";
 import { isS3FileObject, isS3FileArray } from "./extract-keys";
 
-//Merge signed URLs into array fields (e.g., Package.images)
-
+//Merge signed URLs into array OR single-object fields (e.g., Package.images or Package.image)
 export const mergeSignedUrlsToArrayFields = <T extends Record<string, unknown>>(
   data: T,
   arrayFields: (keyof T)[],
@@ -16,16 +14,22 @@ export const mergeSignedUrlsToArrayFields = <T extends Record<string, unknown>>(
     const fieldValue = data[fieldName];
 
     if (isS3FileArray(fieldValue)) {
+      
       const updatedArray = fieldValue.map((file) => {
         const signedUrl = signedUrlMap.get(file.key);
-
         return {
           ...file,
           url: signedUrl || undefined,
         };
-      });
-
+      })
       mergedData[fieldName] = updatedArray as T[keyof T];
+    } else if (isS3FileObject(fieldValue)) {
+      // Handle single object: e.g. image: { key, url }
+      const signedUrl = signedUrlMap.get(fieldValue.key);
+      mergedData[fieldName] = {
+        ...fieldValue,
+        url: signedUrl || undefined,
+      } as T[keyof T];
     }
   });
 
@@ -74,8 +78,6 @@ export const mergeSignedUrlsToMultipleItems = <
 
 // ==================== Helper Functions ====================
 
-//Check if any signed URLs are missing from the data
-//Useful for showing partial error states
 export const hasMissingSignedUrls = <T extends Record<string, unknown>>(
   data: T,
   imageFields: (keyof T)[],
@@ -96,8 +98,7 @@ export const hasMissingSignedUrls = <T extends Record<string, unknown>>(
   return false;
 };
 
-//Count total images and images with signed URLs
-//Useful for showing loading progress
+
 export const getSignedUrlStats = <T extends Record<string, unknown>>(
   data: T,
   imageFields: (keyof T)[],
