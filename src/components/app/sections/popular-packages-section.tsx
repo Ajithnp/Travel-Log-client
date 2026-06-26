@@ -3,9 +3,10 @@ import { usePopularPackagesQuery } from "@/hooks/app/api.hooks";
 import { useMultipleDataWithSignedUrls } from "@/hooks/s3/multiple-data-with-signed-urls";
 import type { PopularPackageResponse } from "@/services/app-service";
 import { appConfig } from "@/config/config";
+import { Link } from "react-router-dom";
 
 
-export function DestinationsSection() {
+export function PopularPackagesSection() {
   const {
     data: packages,
     isLoading,
@@ -41,8 +42,8 @@ export function DestinationsSection() {
                 </div>
               ))
             : (packages ?? []).map((pkg, i) => (
-                <div
-                  key={pkg.id ?? i}
+                <Link to={`/packages/${pkg?._id}`}
+                  key={pkg._id ?? i}
                   className="group relative rounded-3xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-3"
                 >
                   <div className="aspect-[4/5] overflow-hidden">
@@ -73,7 +74,7 @@ export function DestinationsSection() {
                       </span>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
         </div>
       </div>

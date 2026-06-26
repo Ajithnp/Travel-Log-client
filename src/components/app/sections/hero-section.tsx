@@ -3,13 +3,15 @@ import {
   ChevronLeft, ChevronRight, ArrowRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { assets } from "@/assets/asset";
 
 
 export const IMAGES = {
   hero: [
-    "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&auto=format",
-    "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1600&auto=format",
-    "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1600&auto=format",
+    assets.hero1,
+    assets.hero2,
+    assets.hero3,
+    
   ],
 
 };

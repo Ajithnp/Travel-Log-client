@@ -1,17 +1,7 @@
-import { CheckCircle2, Star, ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { CheckCircle2} from "lucide-react";
+import { assets } from "@/assets/asset";
 
 
-export const IMAGES = {
-  whyUs: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&auto=format",
-  gallery: [
-    "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400&auto=format",
-    "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=400&auto=format",
-    "https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=400&auto=format",
-    "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=400&auto=format",
-  ],
-
-};
 
 const FEATURES = [
   "Expert Guides & Professional Services",
@@ -41,35 +31,13 @@ export function WhyChooseUsSection() {
             <div className="absolute -inset-6 bg-orange-100 rounded-[3.5rem] transform -rotate-6 z-0" />
             <div className="relative z-10 rounded-[3rem] border-8 border-white ring-1 ring-gray-100 shadow-2xl overflow-hidden h-[600px]">
               <img
-                src={IMAGES.whyUs}
+                src={assets.whyChooseUsBanner}
                 alt="Architecture"
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-1000"
               />
             </div>
 
-            <div
-              className="absolute -bottom-8 -right-4 md:-right-12 bg-white p-6 rounded-3xl shadow-2xl z-20 flex flex-col gap-4 animate-bounce border border-gray-100"
-              style={{ animationDuration: "4s" }}
-            >
-              <div className="flex items-center gap-5">
-                <div className="flex -space-x-4">
-                  {[0, 1, 2].map((i) => (
-                    <div key={i} className="w-14 h-14 rounded-full border-4 border-white overflow-hidden bg-gray-200 shadow-sm">
-                      <img src={IMAGES.gallery[i]} className="w-full h-full object-cover" />
-                    </div>
-                  ))}
-                </div>
-                <div>
-                  <div className="flex text-orange-500 mb-1 gap-0.5">
-                    {[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-current" />)}
-                  </div>
-                  <p className="text-base font-black text-gray-900">4.9/5 Reviews</p>
-                </div>
-              </div>
-              <p className="text-sm font-bold text-orange-600 text-center bg-orange-50 py-2 rounded-xl">
-                20,000+ Happy Travelers
-              </p>
-            </div>
+
           </div>
 
           <div className="w-full lg:w-1/2">
@@ -106,10 +74,10 @@ export function WhyChooseUsSection() {
                 </>
               ))}
             </div>
-
+{/* 
             <Button className="bg-gray-900 hover:bg-orange-500 text-white px-10 py-7 rounded-full shadow-xl transition-all duration-300 hover:-translate-y-1 text-lg font-bold group flex items-center gap-2">
               Read More <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
+            </Button> */}
           </div>
         </div>
       </div>

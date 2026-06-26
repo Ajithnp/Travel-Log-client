@@ -12,16 +12,18 @@ import type { ApiResponse } from "@/types/IApiResponse";
 import { useWalletBalanceQuery } from "@/features/user/wallet/hooks/api.hooks";
 import { useConfirmBookingWalletMutation } from "./api.hooks";
 import { useNavigate } from "react-router-dom";
+import { useAuthUser } from "../useAuthUser";
 
 
 export function useBookingFlow() {
+  const user = useAuthUser()
   const [bookingId, setBookingId] = useState<string | null>(null);
   const [checkoutUrl, setCheckoutUrl] = useState<string | null>(null);
   const [useWallet, setUseWallet] = useState(false);
 
   const navigate = useNavigate();
 
-  const { data, isLoading: isLoadingWallet } = useWalletBalanceQuery();
+  const { data, isLoading: isLoadingWallet } = useWalletBalanceQuery(user.isLoggedIn);
   const confirmWalletMutation = useConfirmBookingWalletMutation();
 
 

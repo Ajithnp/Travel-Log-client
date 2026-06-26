@@ -246,13 +246,14 @@ export const recommendedPackages = async ():Promise<ApiResponse<RecommendedPacka
 
 
 export interface PopularPackageResponse {
-  id: string;
+  _id: string;
   title: string;
   location: string;
   state: string;
   rating: number;
   image: { key: string; url?: string };
   soloPrice: number;
+  totalReviews:number;
 };
 
 export interface RecommendedPackageResponse extends PopularPackageResponse{

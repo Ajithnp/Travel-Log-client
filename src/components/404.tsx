@@ -11,9 +11,6 @@ import { Button } from "../components/ui/button";
 import { fadeUp } from "@/animation/variants";
 
 
-
-
-
 export default function NotFound404({ pathname }: { pathname: string }) {
   const suggestions = [
     { icon: Home, label: "Home", href: `${pathname.split("/")[1]}` },
