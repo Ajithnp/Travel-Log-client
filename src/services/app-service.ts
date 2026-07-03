@@ -244,6 +244,11 @@ export const recommendedPackages = async ():Promise<ApiResponse<RecommendedPacka
   return response.data;
 };
 
+export const aiRecommendedPackages = async ():Promise<ApiResponse<RecommendedPackageResponse[]>> =>{
+  const response: AxiosResponse<ApiResponse<RecommendedPackageResponse[]>> =
+    await api.get(`${API_ENDPOINTS.AI}${API_ROUTE.AI_RECOMMENDED_PACKAGES}`);
+  return response.data;
+};
 
 export interface PopularPackageResponse {
   _id: string;

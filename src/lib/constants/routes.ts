@@ -28,6 +28,8 @@ export const API_ENDPOINTS = {
   VENDOR: "/vendor",
   ADMIN: "/admin",
   S3: "/s3",
+  CHAT_BOT:"/ai/ask",
+  AI:"/ai",
   STRIPE: "/stripe",
   BOOKING: "/bookings",
   REVIEWS:"/reviews",
@@ -61,6 +63,7 @@ export const API_ROUTE = {
   CONTACT:"/contacts-enquiry",
   POPULAR_PACKAGES: "/packages/popular",
   RECOMMENDED_PACKAGES: "/packages/recommended",
+  AI_RECOMMENDED_PACKAGES:"/packages/recommendations",
    
   //packages
   PACKAGE_DETAIL: (id: string) => `/packages/${id}`,
