@@ -1,4 +1,4 @@
-import { confirmBookingWalletApi, contact, deleteReview, downloadBookingTicket, fetchCategories, fetchPackageDetails, fetchPackageSchedules, fetchPublicPackages, fetchVendorPublicProfile, getUnrevealedReward, packageReviews, packageReviewStats, popularPackages, recommendedPackages, revealReward, submitReview, verifyBookingPayment, type ContactRequestDTO, type PackageRatingStatsResponseDto, type PackageReviewsResponseDto, type PopularPackageResponse, type RecommendedPackageResponse, type RewardResponse, type SubmitReviewRequestDTO } from "@/services/app-service";
+import { aiRecommendedPackages, confirmBookingWalletApi, contact, deleteReview, downloadBookingTicket, fetchCategories, fetchPackageDetails, fetchPackageSchedules, fetchPublicPackages, fetchVendorPublicProfile, getUnrevealedReward, packageReviews, packageReviewStats, popularPackages, recommendedPackages, revealReward, submitReview, verifyBookingPayment, type ContactRequestDTO, type PackageRatingStatsResponseDto, type PackageReviewsResponseDto, type PopularPackageResponse, type RecommendedPackageResponse, type RewardResponse, type SubmitReviewRequestDTO } from "@/services/app-service";
 import {
   useQuery,
   useInfiniteQuery,
@@ -265,10 +265,10 @@ export const usePopularPackagesQuery = () => {
   });
 };
 
-export const useRecommendedPackagesQuery = () => {
+export const useRecommendedPackagesQuery = (isLoggedIn: boolean) => {
   return useQuery<ApiResponse<RecommendedPackageResponse[]>, ApiError>({
-    queryKey: ["recommended-packages"],
-    queryFn: () => recommendedPackages(),
+     queryKey: ["recommended-packages", isLoggedIn],
+    queryFn: () =>  isLoggedIn ? aiRecommendedPackages() : recommendedPackages(),
     staleTime: 1000 * 60 * 2,
     refetchOnWindowFocus: false,
   });

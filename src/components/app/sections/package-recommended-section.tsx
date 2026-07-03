@@ -5,17 +5,19 @@ import { useRecommendedPackagesQuery } from "@/hooks/app/api.hooks";
 import { appConfig } from "@/config/config";
 import type { RecommendedPackageResponse } from "@/services/app-service";
 import { useMultipleDataWithSignedUrls } from "@/hooks/s3/multiple-data-with-signed-urls";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuthUser } from "@/hooks/useAuthUser";
 
 export function PackageRecommendedSection() {
 
     const navigate = useNavigate();
+    const {isLoggedIn} = useAuthUser()
 
     const {
       data: packages,
       isLoading,
     } = useMultipleDataWithSignedUrls<RecommendedPackageResponse>(
-      useRecommendedPackagesQuery(),
+      useRecommendedPackagesQuery(isLoggedIn),
       {
         userId: appConfig.publicId,
         imageFields: ["image"],
@@ -66,7 +68,7 @@ export function PackageRecommendedSection() {
                 </Card>
               ))
             : (packages ?? []).map((pkg, i) => (
-                <Card
+                <Link to={`/packages/${pkg._id}`}
                   key={pkg._id ?? i}
                   className="overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 rounded-2xl group border-l-[5px] relative bg-white"
                 >
@@ -117,7 +119,7 @@ export function PackageRecommendedSection() {
                       </Button>
                     </div>
                   </CardContent>
-                </Card>
+                </Link>
               ))}
         </div>
       </div>
