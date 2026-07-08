@@ -73,7 +73,6 @@ export function useBookingFlow() {
       }
     },
     onError: (err) => {
-      console.log("error occured", err)
       toast.error(err?.response?.data?.message || "Failed to initiate booking");
     },
   });

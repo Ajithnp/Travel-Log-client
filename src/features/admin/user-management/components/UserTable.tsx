@@ -57,13 +57,6 @@ export const UserColumns = (
           onClick: () =>
             onUserAction(user.id, user.isBlocked ? "unblock" : "block"),
         },
-        // You can add more actions here if needed, e.g., 'View Details', 'Edit User'
-        // {
-        //   label: "Edit",
-        //   icon: <Pencil className="w-4 h-4" />,
-        //   onClick: () => console.log("Edit user", user.id),
-        //   variant: "primary"
-        // },
       ];
 
       return <TableActions actions={actions} />; 

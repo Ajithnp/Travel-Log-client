@@ -7,15 +7,18 @@ import type {
   Message,
   MessagesResponse,
 } from "../services/api.services";
-import type { IUserSlice } from "@/store/slices/user.slice";
 import type { ApiResponse } from "@/types/IApiResponse";
 import { ROLE } from "@/types/Role";
 
-const CHAT_EVENTS = {
+export const CHAT_EVENTS = {
   JOIN_ROOM: "chat:join",
   LEAVE_ROOM: "chat:leave",
   MESSAGE_NEW: "chat:message_new",
   ROOM_UPDATED: "chat:room_updated",
+  ERROR: "chat:error",
+  SEND_NEW_VENDOR_MESSAGE: 'chat:send_new_vendor_message',
+  SEND_NEW_USER_MESSAGE: 'chat:send_new_user_message',
+  DISCONNECT: "disconnect",
 } as const;
 
 interface RoomUpdatedPayload {
@@ -27,7 +30,7 @@ interface RoomUpdatedPayload {
 
 interface UseChatSocketOptions {
   chatId: string | null;
-  isAuthenticated: IUserSlice | null;
+  isAuthenticated:boolean
   chatsQueryKey: readonly unknown[];
   getMessagesQueryKey: (chatId: string) => readonly unknown[];
   getChatQueryKey?: (chatId: string) => readonly unknown[];
@@ -41,7 +44,8 @@ export function useChatSocket({
   getMessagesQueryKey,
   getChatQueryKey,
   currentUserId,
-}: UseChatSocketOptions) {
+}: UseChatSocketOptions) 
+{
   const queryClient = useQueryClient();
   const queryClientRef = useRef(queryClient);
   useEffect(() => {
@@ -98,10 +102,9 @@ export function useChatSocket({
             return { ...oldData, pages: updatedPages };
           }
         );
-        return;
       }
 
-      if (newMessage.senderRole === ROLE.USER) {
+      if (newMessage.senderRole === ROLE.USER || newMessage.senderRole === ROLE.VENDOR) {
         queryClientRef.current.setQueryData<ApiResponse<ChatRoom[]>>(
           chatsQueryKeyRef.current,
           (oldData) => {
@@ -113,9 +116,15 @@ export function useChatSocket({
 
             const filteredChats = oldData.data.filter((chat) => chat.id !== newMessage.chatId);
 
+            const isSelf = currentUserIdRef.current && newMessage.senderId === currentUserIdRef.current;
+            const isActive = newMessage.chatId === chatIdRef.current;
+            const shouldIncrementUnread = !isSelf && !isActive;
+
             const updatedChat = {
               ...existingChat,
-              unreadCount: (existingChat.unreadCount ?? 0) + 1,
+              unreadCount: shouldIncrementUnread
+                ? (existingChat.unreadCount ?? 0) + 1
+                : (existingChat.unreadCount ?? 0),
               lastMessage: {
                 _id: existingChat.lastMessage?._id ?? '',
                 senderName: newMessage.senderName,

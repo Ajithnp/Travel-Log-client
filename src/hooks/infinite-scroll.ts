@@ -27,7 +27,6 @@ export function useInfiniteScroll({
     const observer = new IntersectionObserver(
         ([entry]) => {
             
-             console.log('sentinel intersecting:', entry.isIntersecting, 'enabled:', enabledRef.current);
         if (entry.isIntersecting && enabledRef.current) {
           onIntersectRef.current();
         }

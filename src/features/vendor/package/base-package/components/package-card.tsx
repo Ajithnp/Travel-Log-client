@@ -14,7 +14,6 @@ import { statusColorMap, statusLabelMap } from "@/lib/constants/ui/mapping-ui";
 const PackageCard = ({
   pkg,
   onCardClick,
-  onButtonClick,
 }: {
   pkg: IPackage;
   onCardClick: (id: string) => void;
@@ -30,7 +29,6 @@ const PackageCard = ({
     navigate(`/vendor/packages/details/${id}`)
   }
 
-  console.log(onButtonClick);
 
   const isSchedulable = pkg.status === PackageStatus.PUBLISHED;
   const thumbnailImage = pkg.imageUrl?.[0];

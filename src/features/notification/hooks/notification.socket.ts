@@ -32,7 +32,6 @@ export function useNotificationSocket() {
     const socket = connectWS(); 
 
     const onConnect = () => {
-      console.log('[Socket] Connected:', socket.id);
       queryClientRef.current.invalidateQueries({ queryKey: ['notifications'] });
     };
 
@@ -49,7 +48,6 @@ export function useNotificationSocket() {
     };
 
     const onNotificationNew = (newNotification: NotificationResponseDTO) => {
-      console.log('[Notification] received', newNotification);
       dispatchRef.current(incrementUnreadCount());
       queryClientRef.current.setQueriesData<ApiResponse<IPaginatedNotificationResponse>>(
         { queryKey: ['notifications'] },

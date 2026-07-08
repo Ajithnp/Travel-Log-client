@@ -35,7 +35,7 @@ export default function BookingDetail() {
   const [showModal, setShowModal] = useState(false);
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [isUploadingPhotos, setIsUploadingPhotos] = useState(false);
-console.log("-------review modal-----", showReviewModal)
+
   const { bookingId } = useParams();
   const navigate = useNavigate();
 

@@ -102,7 +102,6 @@ const VendorsVerificationList = () => {
   };
 
   const handleViewVendor = useCallback((vendor: IVendorInfo) => {
-    console.log("Vendor selected,,", vendor);
     setSelectedVendor(vendor);
     vendorRef.current = vendor;
   }, []);
