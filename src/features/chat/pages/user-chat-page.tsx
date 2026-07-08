@@ -3,27 +3,27 @@ import { MessageSquare } from "lucide-react";
 import { ChatWindow } from "../components/chat/chat-window";
 import {
   userChatKeys,
-  useSendUserTextMessage,
   useUserChatMessages,
   useUserChatQuery,
 } from "../hooks/api.hooks";
 import { useAuthUser } from "@/hooks/useAuthUser";
-import { useSelector } from "react-redux";
-import { selectIsAuthenticated } from "@/store/slices/user.slice";
-import { useChatSocket } from "../hooks/chat-socket";
+import { CHAT_EVENTS, useChatSocket } from "../hooks/chat-socket";
 import { useLocation } from "react-router-dom";
 import { Error } from "@/components/common/error";
+import { connectWS } from "@/config/socket/socket.config";
 
 const UserChatPage = () => {
   const location = useLocation();
 
   const [selectedChatId, setSelectedChatId] = useState<string | null>(null);
-  const isAuthenticated = useSelector(selectIsAuthenticated);
-  const { user } = useAuthUser();
+  const { isLoggedIn, user } = useAuthUser();
+  const socket = connectWS();
+ 
 
   const { data: chatsResponse, isLoading: chatsLoading, isError: chatsIsError } =
     useUserChatQuery(selectedChatId ?? "");
-  const {
+ 
+    const {
     data,
     fetchNextPage,
     hasNextPage,
@@ -33,13 +33,16 @@ const UserChatPage = () => {
   } = useUserChatMessages(selectedChatId);
   const messages = data?.allMessages ?? [];
 
-
-  const { mutate: sendText, isPending: sendingText } =
-    useSendUserTextMessage(selectedChatId ?? "");
+  const handleSendMessage = (content: string) => {
+    socket.emit(CHAT_EVENTS.SEND_NEW_USER_MESSAGE, {
+      chatId: selectedChatId,
+      content
+    });
+  }
 
   useChatSocket({
     chatId: selectedChatId,
-    isAuthenticated,
+    isAuthenticated:isLoggedIn,
     chatsQueryKey: userChatKeys.chat(selectedChatId ?? ""),
     getMessagesQueryKey: userChatKeys.messages,
     getChatQueryKey: userChatKeys.chat,
@@ -77,8 +80,7 @@ const UserChatPage = () => {
               messages={messages}
               isLoading={isLoading}
               currentUserId={user?.id ?? ""}
-              isSending={sendingText}
-              onSendText={sendText}
+              onSendText={handleSendMessage}
               fetchNextPage={fetchNextPage}
               hasNextPage={hasNextPage ?? false}
               isFetchingNextPage={isFetchingNextPage}

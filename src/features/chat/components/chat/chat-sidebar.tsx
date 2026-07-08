@@ -136,21 +136,28 @@ export const ChatSidebar = ({
                       >
                         {chat.chatName ?? "Trip"}
                       </span>
-                      {isArchived ? (
-                        <span className="flex items-center gap-0.5 text-[9px] text-muted-foreground/70 flex-shrink-0 bg-muted px-1.5 py-0.5 rounded-full">
-                          <Archive className="w-2.5 h-2.5" />
-                          Archived
-                        </span>
-                      ) : isBlocked ? (
-                        <span className="flex items-center gap-0.5 text-[9px] text-rose-600 flex-shrink-0 bg-rose-50 dark:bg-rose-950/30 px-1.5 py-0.5 rounded-full font-medium">
-                          <Lock className="w-2.5 h-2.5" />
-                          Blocked
-                        </span>
-                      ) : lastMsg ? (
-                        <span className="text-[10px] text-muted-foreground/50 flex-shrink-0">
-                          {formatDistanceToNow(new Date(lastMsg.createdAt), { addSuffix: false })}
-                        </span>
-                      ) : null}
+                      <div className="flex items-center gap-1.5 flex-shrink-0">
+                        {chat.isScheduleCompleted && !isArchived && (
+                          <span className="text-[9px] text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30 px-1.5 py-0.5 rounded-full font-medium border border-amber-200/50 dark:border-amber-900/30">
+                            Time to archive
+                          </span>
+                        )}
+                        {isArchived ? (
+                          <span className="flex items-center gap-0.5 text-[9px] text-muted-foreground/70 bg-muted px-1.5 py-0.5 rounded-full">
+                            <Archive className="w-2.5 h-2.5" />
+                            Archived
+                          </span>
+                        ) : isBlocked ? (
+                          <span className="flex items-center gap-0.5 text-[9px] text-rose-600 bg-rose-50 dark:bg-rose-950/30 px-1.5 py-0.5 rounded-full font-medium">
+                            <Lock className="w-2.5 h-2.5" />
+                            Blocked
+                          </span>
+                        ) : lastMsg ? (
+                          <span className="text-[10px] text-muted-foreground/50">
+                            {formatDistanceToNow(new Date(lastMsg.createdAt), { addSuffix: false })}
+                          </span>
+                        ) : null}
+                      </div>
                     </div>
 
                     <div className="flex items-center justify-between gap-2 mt-0.5">

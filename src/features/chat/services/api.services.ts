@@ -124,6 +124,7 @@ export interface ChatRoom {
   status: "active" | "archived";
   lastMessage?: LastMessage;
   unreadCount?: number;  
+  isScheduleCompleted: boolean;
 }
  
 export interface Message {

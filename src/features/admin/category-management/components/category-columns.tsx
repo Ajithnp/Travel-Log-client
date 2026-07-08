@@ -1,6 +1,6 @@
 // userColumns.tsx
 import type { Column } from "@/components/table/DataTable";
-import { Ban, Check, Pencil } from "lucide-react";
+import { Ban, Check } from "lucide-react";
 import { motion } from "framer-motion";
 import {
   TableActions,
@@ -72,12 +72,6 @@ export const CategoryColumns = (
               category.name,
               category.status === "active" ? "inactivate" : "activate",
             ),
-        },
-        {
-          label: "Edit",
-          icon: <Pencil className="w-4 h-4" />,
-          onClick: () => console.log("Edit user", category.id),
-          variant: "primary",
         },
       ];
 

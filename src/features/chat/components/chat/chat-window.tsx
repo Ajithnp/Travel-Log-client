@@ -16,12 +16,13 @@ import { ConfirmDialogForChat, MembersPanel } from "./members-panel";
 import { useMemo } from "react";
 import { buildRenderList } from "@/utils/chat/chat.utils";
 
+
 interface ChatWindowProps {
   chat: ChatRoom;
   messages: Message[];
   isLoading: boolean;
   currentUserId: string;
-  isSending: boolean;
+  isSending?: boolean;
   onSendText: (content: string) => void;
   fetchNextPage: () => void;
   hasNextPage: boolean;
@@ -51,6 +52,7 @@ export const ChatWindow = ({
   const [showMembers, setShowMembers] = useState(false);
   const [confirmArchive, setConfirmArchive] = useState(false);
 
+ 
   const renderList = useMemo(() => buildRenderList(messages), [messages]);
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -127,6 +129,7 @@ export const ChatWindow = ({
     if (!trimmed || isSending) return;
     onSendText(trimmed);
     setText("");
+
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {

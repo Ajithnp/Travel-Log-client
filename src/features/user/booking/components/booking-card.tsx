@@ -17,7 +17,6 @@ export default function BookingCard({
   index: number;
   onClick: () => void;
 }) {
-  console.log("bookinggggg======", booking)
   const { retryPayment, isLoading: isRetryLoading } = useRetryPayment();
 
   const handleRetry = () => {
