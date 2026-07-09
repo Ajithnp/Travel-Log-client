@@ -2,12 +2,14 @@ import { io, Socket } from "socket.io-client";
 import { refreshToken } from "../api/refresh-controller";
 
 let socket: Socket | null = null;
+let connecting: Socket | null = null;
 
 
 export function connectWS(): Socket {
   if (socket?.connected) return socket; 
+  if (connecting) return connecting;
 
-  socket = io(import.meta.env.VITE_SERVER_URL, {
+  connecting = io(import.meta.env.VITE_SERVER_URL, {
     withCredentials: true,
     transports: ['websocket', 'polling'],
     reconnection: true,
@@ -17,8 +19,11 @@ export function connectWS(): Socket {
     autoConnect: false,
   });
 
-  
-    socket.on('reconnect_attempt', async () => {
+  socket = connecting;
+
+  socket.on('connect', () => { connecting = null; });
+
+  socket.on('reconnect_attempt', async () => {
     try {
        await refreshToken();
     } catch {
@@ -42,5 +47,6 @@ export function connectWS(): Socket {
 export function disconnectWS(): void {
   socket?.disconnect();
   socket = null;
+  connecting = null;
 }
 

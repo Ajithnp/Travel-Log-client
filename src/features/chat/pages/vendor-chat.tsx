@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MessageSquare, LayoutList, Inbox, Archive, ChevronLeft, Menu } from "lucide-react";
 import {
   useArchiveChat,
@@ -17,6 +17,7 @@ import { cn } from "@/lib/utils";
 import { useDebounce } from "@/hooks/useDebounce";
 import { Error } from "@/components/common/error";
 import { connectWS } from "@/config/socket/socket.config";
+import type { Socket } from "socket.io-client";
 
 const STATUS_TABS = [
   { label: "All", value: undefined, icon: LayoutList },
@@ -31,12 +32,16 @@ const VendorChatPage = () => {
   const debouncedSearch = useDebounce(searchQuery, 300);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
-  const { isLoggedIn, user } = useAuthUser();
-  const socket = connectWS();
-  const { data: chatsResponse, isLoading: chatsLoading } = useVendorChats(statusFilter, debouncedSearch);
+  const socketRef = useRef<Socket | null>(null);
 
+  const { isLoggedIn, user } = useAuthUser();
+  const { data: chatsResponse, isLoading: chatsLoading } = useVendorChats(statusFilter, debouncedSearch);
   const chats = chatsResponse?.data ?? [];
-  
+
+  useEffect(() => {
+    socketRef.current = connectWS();
+  }, []);
+
 
   const {
     data,
@@ -49,7 +54,7 @@ const VendorChatPage = () => {
   const messages = data?.allMessages ?? [];
 
   const handleSendMessage = (content: string) => {
-    socket.emit(CHAT_EVENTS.SEND_NEW_VENDOR_MESSAGE, {
+   socketRef.current?.emit(CHAT_EVENTS.SEND_NEW_VENDOR_MESSAGE, {
       chatId: selectedChatId,
       content
     });

@@ -104,7 +104,7 @@ export function useNotificationSocket() {
 
       socket.off("tab_read",onSetTabs);
       socket.off("tab_unread",onNewTab);
-      socket.disconnect();
+      
     };
   }, [isAuthenticated]); 
 }
