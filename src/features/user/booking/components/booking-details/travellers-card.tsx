@@ -16,7 +16,7 @@ const TravelersCard = ({ travelers }: TravelersCardProps) => {
       transition={{ duration: 0.3, delay: 0.12 }}
     >
       <SectionCard title="Travelers" icon={Users}>
-        <div className="space-y-3">
+        <div className="space-y-3 ">
           {travelers?.map((t, i) => (
             <div
               key={i}

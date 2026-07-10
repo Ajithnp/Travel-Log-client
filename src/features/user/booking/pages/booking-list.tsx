@@ -38,7 +38,7 @@ export default function BookingList() {
   }
 
   return (
-    <div className="min-h-screen px-4 sm:px-6 py-12 bg-[#f7f7fb] font-['Inter'] sm:py-8 mt-20">
+    <div className="min-h-screen px-4 sm:px-6 py-12 bg-orange-50/30 font-['Inter'] sm:py-8 mt-20">
       <div className="max-w-[97rem] mx-auto">
 
         <BookingHeader total={total} />
@@ -49,7 +49,6 @@ export default function BookingList() {
           transition={{ duration: 0.4, delay: 0.05 }}
           className="bg-white rounded-2xl border border-gray-200 shadow-sm shadow-gray-100/80 overflow-hidden"
         >
-          <div className="h-1 w-full bg-gradient-to-r from-indigo-500 via-violet-500 to-cyan-400" />
           <div className="p-4 sm:p-6">
             <BookingFilterWithSearch
               tab={activeTab}

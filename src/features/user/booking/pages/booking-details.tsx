@@ -79,7 +79,7 @@ export default function BookingDetail() {
   };
 
   return (
-    <div className="min-h-screen px-4 sm:px-6 py-12 bg-[#f7f7fb] font-['Inter'] sm:py-8 mt-20">
+    <div className="min-h-screen px-4 sm:px-6 py-12 bg-orange-50/30 font-['Inter'] sm:py-8 mt-20">
       <div className="max-w-[97rem] mx-auto">
         <DetailsNav
           status={booking.bookingStatus}
@@ -101,15 +101,15 @@ export default function BookingDetail() {
             bookingCode={booking.bookingCode}
             bookedDate={booking.createdAt}
           />
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <div className="lg:col-span-2 space-y-4">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 ">
+            <div className="lg:col-span-2 space-y-4 ">
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: 0.08 }}
               >
                 <SectionCard title="Meeting Point" icon={MapPin}>
-                  <div className="flex flex-col gap-3">
+                  <div className="flex flex-col gap-3 ">
                     <div className="flex items-start gap-3">
                       <MapPin className="w-4 h-4 text-indigo-500 mt-0.5" />
                       <div>

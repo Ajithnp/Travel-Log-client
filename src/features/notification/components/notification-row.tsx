@@ -31,19 +31,19 @@ export function NotificationRow({
       transition={{ duration: 0.22 }}
       className={`relative transition-colors duration-200 ${
         isExpanded
-          ? "bg-indigo-50/30"
+          ? "bg-orange-50/30"
           : n.isRead
             ? "bg-white"
-            : "bg-indigo-50/90"
+            : "bg-orange-50/90"
       }`}
     >
       {!n.isRead && (
-        <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-indigo-600 rounded-r-full" />
+        <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-orange-600 rounded-r-full" />
       )}
 
       <div className="flex items-start gap-3 px-4 sm:px-5 py-3.5">
-        <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5 border bg-indigo-50 border-indigo-100">
-          <Bell className="w-4 h-4 text-indigo-500" />
+        <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5 border bg-orange-50 border-orange-100">
+          <Bell className="w-4 h-4 text-orange-500" />
         </div>
 
         <div className="flex-1 min-w-0">
@@ -55,7 +55,7 @@ export function NotificationRow({
                 {n.title}
               </p>
               {!n.isRead && (
-                <span className="w-1.5 h-1.5 rounded-full flex-shrink-0 bg-indigo-600" />
+                <span className="w-1.5 h-1.5 rounded-full flex-shrink-0 bg-orange-600" />
               )}
             </div>
             <span className="text-[11px] text-gray-400 flex-shrink-0">
@@ -92,7 +92,7 @@ export function NotificationRow({
         </div>
       </div>
 
-      {/* Expanded panel */}
+      
       <AnimatePresence initial={false}>
         {isExpanded && (
           <motion.div
@@ -109,7 +109,6 @@ export function NotificationRow({
                   {n.message}
                 </p>
 
-                {/* Extra data fields if present */}
                 {n.data && Object.keys(n.data).length > 0 && (
                   <div className="rounded-lg bg-gray-50 border border-gray-100 divide-y divide-gray-100 mb-4">
                     {Object.entries(n.data).map(([label, value]) => (
@@ -128,12 +127,12 @@ export function NotificationRow({
                   </div>
                 )}
 
-                {/* CTA → redirectUrl */}
+                
                 {n.redirectUrl && (
                   <Button
                     size="sm"
                     onClick={() => onCTAClick(n.redirectUrl)}
-                    className="h-8 px-4 text-xs bg-indigo-500 hover:bg-indigo-600 text-white border-0 gap-1.5"
+                    className="h-8 px-4 text-xs bg-orange-400 hover:bg-orange-500 text-white border-0 gap-1.5"
                   >
                     View Details
                   </Button>

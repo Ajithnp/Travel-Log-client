@@ -36,8 +36,8 @@ export function Wishlist() {
   }
 
   return (
-    <div className="min-h-screen px-4 sm:px-6 py-12 bg-[#f7f7fb] font-['Inter'] sm:py-8 mt-13">
-      <div className="sticky top-0 z-20 bg-[#f7f7fb]">
+    <div className="min-h-screen px-4 sm:px-6 py-12 bg-orange-50/30 font-['Inter'] sm:py-8 mt-13">
+      <div className="sticky top-0 z-20 bg-orange-50/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between gap-4">
             <div>
@@ -60,7 +60,7 @@ export function Wishlist() {
                 key={visibleItems.length}
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                className="flex items-center gap-1.5 bg-gradient-to-r from-orange-500 via-pink-500 to-violet-500 text-white px-3.5 py-1.5 rounded-full text-xs font-bold shadow-md shadow-violet-200"
+                className="flex items-center gap-1.5 bg-gradient-to-r from-orange-500 via-orange-500 to-orange-500 text-white px-3.5 py-1.5 rounded-full text-xs font-bold shadow-md shadow-orange-200"
               >
                 <Bookmark className="w-3 h-3" />
                 {visibleItems.length} saved
