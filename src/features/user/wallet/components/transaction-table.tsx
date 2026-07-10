@@ -45,13 +45,13 @@ export default function TransactionTable({ filter, handleFilter, filteredLength,
   if(isLoading) return(
     <div className="flex h-96 items-center justify-center">
       <div className="flex w-12 h-12 items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-indigo-600" />
+        <Loader2 className="w-8 h-8 animate-spin text-orange-600" />
       </div>
     </div>
     )
   return (
     <>
-      <div className="h-1 w-full bg-gradient-to-r from-indigo-500 via-violet-500 to-cyan-400" />
+      {/* <div className="h-1 w-full bg-gradient-to-r from-orange-500 via-orange-500 to-orange-500" /> */}
       <div className="px-4 sm:px-5 pt-4 pb-3 flex flex-wrap items-center justify-between gap-3">
         <div>
           <h2 className="text-sm font-semibold text-gray-800">Transaction History</h2>

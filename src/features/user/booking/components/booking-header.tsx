@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { CalendarCheck } from "lucide-react";
+
 
 interface Props {
   total: number;
@@ -14,8 +16,9 @@ const BookingHeader = ({ total }: Props) => {
         className="mb-6"
       >
         <div className="flex flex-wrap items-start justify-between gap-3">
-          <div>
-            <h1 className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">My Bookings</h1>
+          <div className="flex items-center gap-2">
+            <CalendarCheck className="w-6 h-6 text-gray-500"/>
+            <h1 className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">My Bookings</h1> 
             <p className="text-sm text-gray-400 mt-0.5">{total} trips </p>
           </div>
           <div className="flex items-center gap-2">

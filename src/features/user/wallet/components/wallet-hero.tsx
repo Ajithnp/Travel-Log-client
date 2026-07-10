@@ -19,7 +19,7 @@ function StatCard({
         ${accent} shadow-premium
       `}
     >
-      <div className="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-indigo-500 via-violet-500 to-cyan-400" />
+      {/* <div className="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-orange-500 via-orange-500 to-orange-500" /> */}
 
       <div className="flex items-center justify-between">
         <p className="text-xs text-gray-400 font-medium">

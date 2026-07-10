@@ -6,7 +6,7 @@ import { Separator } from "@/components/ui/separator";
 export default function SectionCard({ title, icon: Icon, children, defaultOpen = true }: { title: string; icon: typeof Plane; children: React.ReactNode; defaultOpen?: boolean }) {
   const [open, setOpen] = useState(defaultOpen);
   return (
-    <div className="rounded-xl border border-gray-100 bg-white overflow-hidden">
+    <div className="rounded-xl border border-gray-100 bg-white overflow-hidden shadow-premium">
       <button
         onClick={() => setOpen((o) => !o)}
         className="w-full flex items-center justify-between px-4 sm:px-5 py-3.5 hover:bg-gray-50/60 transition-colors"

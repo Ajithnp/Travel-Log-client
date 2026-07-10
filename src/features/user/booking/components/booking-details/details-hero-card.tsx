@@ -39,7 +39,7 @@ const DetailsHeroCard = ({
       transition={{ duration: 0.38 }}
       className="rounded-2xl border border-gray-200 bg-white overflow-hidden shadow-sm"
     >
-      <div className="h-1 w-full bg-gradient-to-r from-indigo-500 via-violet-500 to-cyan-400" />
+      
       <div className="p-5 sm:p-6">
         <div className="flex flex-col items-start sm:flex-row sm:items-center gap-4">
           <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-indigo-50 to-violet-100 flex items-center justify-center text-2xl sm:text-3xl flex-shrink-0">

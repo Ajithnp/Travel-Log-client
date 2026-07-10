@@ -6,6 +6,7 @@ import TransactionTable from "../components/transaction-table";
 import TransactionPagination from "../components/transaction-pagination";
 import { PAGE_SIZE, type TxFilter, type WalletFilter } from "../types/types";
 import { useUserWalletQuery } from "../hooks/api.hooks";
+import { Wallet2 } from "lucide-react";
 
 
 
@@ -29,7 +30,7 @@ export default function Wallet() {
     const handleFilter = (f: TxFilter) => { setFilter(f); setPage(1); };
 
     return (
-        <div className="min-h-screen px-4 sm:px-6 py-12 bg-[#f7f7fb] font-['Inter'] sm:py-8 mt-20">
+        <div className="min-h-screen px-4 sm:px-6 py-12 bg-orange-50/30 font-['Inter'] sm:py-8 mt-20">
             <div className="max-w-[90rem] mx-auto">
                 <motion.div
                     initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}
@@ -37,7 +38,10 @@ export default function Wallet() {
                 >
                     <div className="flex flex-wrap items-start justify-between gap-3">
                         <div>
-                            <h1 className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">Wallet</h1>
+                            <div className="flex items-center gap-2">
+                                <Wallet2 className="w-6 h-6 text-gray-800"/>
+                                <h1 className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">Wallet</h1>
+                            </div>
                             <p className="text-sm text-gray-400 mt-0.5">Manage your TripVault balance &amp; transactions</p>
                         </div>
                         <div className="flex items-center gap-2">

@@ -30,7 +30,7 @@ export function WishlistItem({
       exit={{ opacity: 0, x: -40, scale: 0.96 }}
       transition={{ duration: 0.3, ease: "easeOut" }}
     >
-      <Card className="group border-0 bg-white shadow-none hover:shadow-md transition-shadow duration-300 rounded-none sm:rounded-2xl overflow-hidden">
+      <Card className="group border-0 bg-white shadow-md hover:shadow-md transition-shadow duration-300 rounded-none sm:rounded-2xl overflow-hidden">
         <CardContent className="p-0">
           <div className="flex flex-col sm:flex-row gap-0 sm:gap-4 p-4 sm:p-5">
             <div className="relative w-full sm:w-28 h-48 sm:h-24 flex-shrink-0 rounded-xl overflow-hidden mb-3 sm:mb-0">
@@ -96,7 +96,7 @@ export function WishlistItem({
                       className={`
                         text-xs h-9 px-4 rounded-xl font-semibold shadow-sm transition-all duration-200
                         ${item.hasUpcomingSchedule
-                          ? "bg-gradient-to-r from-orange-500 via-pink-500 to-violet-500 hover:from-violet-700 hover:to-indigo-700 text-white border-0"
+                          ? "bg-gradient-to-r from-orange-500 via-orange-500 to-orange-500 hover:from-orange-600 hover:to-orange-700 text-white border-0"
                           : "bg-gray-100 text-gray-400 cursor-not-allowed border-0"
                         }
                       `}
