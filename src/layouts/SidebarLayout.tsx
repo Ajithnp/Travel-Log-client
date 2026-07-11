@@ -81,7 +81,7 @@ export default function SidebarLayout({
         )}
       </AnimatePresence>
 
-      {/* <div className="flex-1 flex flex-col min-w-0 overflow-hidden"></div> */}
+    {/* <div className="flex-1 flex flex-col min-w-0 overflow-hidden"></div> */}
       <Sidebar
         isExpanded={isExpanded}
         setIsExpanded={setIsExpanded}
@@ -93,9 +93,6 @@ export default function SidebarLayout({
         onLogout={() => setConfirmLogout(true)}
       />
 
-      {/* <div className="flex-1 flex flex-col overflow-hidden"> */}
-      {/* <div className="flex-1 flex flex-col min-w-0 overflow-y-auto relative"> 1*/}
-      {/* <div className="flex-1 overflow-y-auto relative"></div> 2*/}
       <div className="flex-1 flex flex-col min-w-0 relative">
 
         <SidebarHeader

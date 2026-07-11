@@ -89,7 +89,7 @@ export default function Notifications() {
           transition={{ duration: 0.38, delay: 0.05 }}
           className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden"
         >
-          <div className="h-1 w-full bg-gradient-to-r from-orange-500 via-orange-500 to-orange-500" />
+          {/* <div className="h-1 w-full bg-gradient-to-r from-orange-500 via-orange-500 to-orange-500" /> */}
  
           <NotificationsFilter
             filter={filter}

@@ -10,7 +10,7 @@ import twitterIcon from './twitterIcon.svg';
 import linkendinIcon from './linkendinIcon.svg';
 import hero_banner from './Golden-hour.png';
 import logo2 from './travel_log_logo.svg';
-import logo3 from './TravelLog Logo - Sophisticated with Compass Icon.png';
+import logo3 from './travel-log.png';
 import vendorlogin from './Vintage Van Adventure on a Serene Country Road.png'
 import gmail from './Gmail Logo Png Template Download on Pngtree.jpeg'
 import password from './Premium Vector _ Password reset icon for apps, vector design.jpeg'
