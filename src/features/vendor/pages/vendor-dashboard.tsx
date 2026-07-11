@@ -2,7 +2,6 @@ import { useState, useMemo } from "react";
 import {
   Wallet,
   Map,
-  XCircle,
   Users,
   Star,
   Package,

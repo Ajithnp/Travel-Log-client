@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { Plane, Menu, X, ArrowRight, RouteIcon } from "lucide-react";
+import { Menu, X, ArrowRight, RouteIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Link, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { NAV_LINKS } from "@/components/fieldsConfig/fields";
 import type { IUser } from "@/types/IUser";
 import UserAvathar from "@/components/UserAvathar";
