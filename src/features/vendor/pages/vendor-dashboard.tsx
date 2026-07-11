@@ -94,15 +94,15 @@ export default function VendorDashboard() {
       accent: "#f97316",
       iconBg: "bg-orange-50 text-orange-600",
     },
-    {
-      label: "Total Blogs",
-      value: "1",
-      sub: "Below 3-cancellation flag threshold",
-      trend: "neutral",
-      icon: XCircle,
-      accent: "#ef4444",
-      iconBg: "bg-red-50 text-red-500",
-    },
+    // {
+    //   label: "Total Blogs",
+    //   value: "1",
+    //   sub: "Below 3-cancellation flag threshold",
+    //   trend: "neutral",
+    //   icon: XCircle,
+    //   accent: "#ef4444",
+    //   iconBg: "bg-red-50 text-red-500",
+    // },
   ], [summary]);
 
   return (
