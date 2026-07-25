@@ -63,6 +63,7 @@ export interface NotificationResponseDTO {
   title: string;
   message: string;
   data: Record<string, unknown>;
+  redirectionId?: string | null;
   redirectUrl: string | null;
   isRead: boolean;
   createdAt: string;
