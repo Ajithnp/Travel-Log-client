@@ -48,6 +48,7 @@ export function useNotificationSocket() {
     };
 
     const onNotificationNew = (newNotification: NotificationResponseDTO) => {
+      
       dispatchRef.current(incrementUnreadCount());
       queryClientRef.current.setQueriesData<ApiResponse<IPaginatedNotificationResponse>>(
         { queryKey: ['notifications'] },

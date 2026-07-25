@@ -63,8 +63,12 @@ export default function Notifications() {
     if (expanded === id) setExpanded(null);
   };
  
-  const handleCTAClick = (redirectUrl: string | null) => {
-    if (redirectUrl) navigate(redirectUrl);
+  const handleCTAClick = (redirectUrl: string | null, redirectedId?: string | null) => {
+    if (redirectUrl) navigate(redirectUrl,{
+      state: {
+        chatId: redirectedId,
+      }
+    });
   };
  
   const handleFilterChange = (newFilter: Filter) => {

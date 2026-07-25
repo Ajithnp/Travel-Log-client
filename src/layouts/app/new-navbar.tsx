@@ -142,6 +142,7 @@ export function Navbar({
             </div>
 
             {/* Wishlist link — fits naturally with the other nav actions */}
+            <NavbarNotificationIcon hasBackground={hasBackground} />
           <Link
               to="/user/wishlist"
               onClick={() => setMobileMenuOpen(false)}

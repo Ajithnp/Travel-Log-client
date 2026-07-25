@@ -10,7 +10,7 @@ interface NotificationRowProps {
   isDeleting: boolean;
   onToggle: (id: string, isRead: boolean) => void;
   onDelete: (e: React.MouseEvent, id: string) => void;
-  onCTAClick: (redirectUrl: string | null) => void;
+  onCTAClick: (redirectUrl: string | null, redirectedId?: string | null) => void;
 }
 
 export function NotificationRow({
@@ -131,7 +131,7 @@ export function NotificationRow({
                 {n.redirectUrl && (
                   <Button
                     size="sm"
-                    onClick={() => onCTAClick(n.redirectUrl)}
+                    onClick={() => onCTAClick(n.redirectUrl, n.redirectionId)}
                     className="h-8 px-4 text-xs bg-orange-400 hover:bg-orange-500 text-white border-0 gap-1.5"
                   >
                     View Details
