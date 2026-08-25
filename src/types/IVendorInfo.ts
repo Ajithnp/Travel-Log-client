@@ -24,5 +24,12 @@ export interface IVendorInfo {
   email: string;
   phone?: string;
   createdAt?: string;
+  packageStats?: VendorPackageStats | null;
 //   actions?: string;
 }
+
+export interface VendorPackageStats {
+  activePackages:number;
+  scheduleCompleted:number;
+  upcomingSchedule:number
+};

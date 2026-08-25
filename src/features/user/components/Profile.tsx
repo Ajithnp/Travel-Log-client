@@ -1,132 +1,109 @@
 import type { IUser } from "@/types/IUser";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
 import {
   Mail,
   Phone,
   Edit,
-  ChevronRight,
   User,
+  Calendar,
+  ShieldCheck
 } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { fadeUp } from "@/animation/variants";
-
-
+import { Button } from "@/components/ui/button";
 
 interface ProfileProps {
   user?: Partial<IUser>;
 }
 
 export default function Profile({ user }: ProfileProps) {
+  const navigate = useNavigate();
 
-  const infoRows = [
-    { icon: User, label: "name", value: user?.name },
-    { icon: Mail, label: "Email", value: user?.email },
-    { icon: Phone, label: "Phone", value: user?.phone },
-  ];
-  const navigate = useNavigate()
   return (
-    <div className="min-h-[60vh] bg-[#fcfcfc] font-['Inter']">
-      <main className="w-full max-w-6xl mx-auto px-5 pt-7 pb-10">
-
-        {/* Heading */}
-        <motion.div
-          custom={0}
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          className="w-full flex items-center justify-between mb-6"
-        >
-          <div>
-            <p className="text-xs uppercase tracking-widest text-slate-400 font-semibold mb-0.5">
-              Account
+    <div className="flex flex-col gap-6 font-['Inter']">
+      {/* Header Section */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
+        <div className="flex items-center gap-4">
+          <Avatar className="w-16 h-16 sm:w-20 sm:h-20 ring-2 ring-slate-100 shadow-sm">
+            <AvatarFallback className="bg-gradient-to-br from-indigo-500 to-violet-500 text-white text-2xl font-bold">
+              {user?.name?.charAt(0) || "U"}
+            </AvatarFallback>
+          </Avatar>
+          
+          <div className="space-y-1">
+            <h2 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
+              {user?.name || "User Name"}
+              <Badge variant="outline" className="bg-emerald-50 text-emerald-600 border-emerald-200 text-[10px] px-2 py-0 hidden sm:inline-flex items-center">
+                <ShieldCheck className="w-3 h-3 mr-1" /> Verified
+              </Badge>
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-500 flex items-center gap-1.5">
+              <Mail className="w-3.5 h-3.5" />
+              {user?.email || "email@example.com"}
             </p>
-            <h1 className="text-2xl font-bold text-slate-900">
-              My Profile
-            </h1>
-          </div>
-
-          <button
-            className="flex items-center gap-1.5 text-xs font-semibold text-orange-600 bg-violet-50 hover:bg-violet-100 border border-violet-200 px-3 py-1.5 rounded-xl transition-colors"
-            onClick={() => navigate("/user/editProfile")}
-          >
-            <Edit className="w-3.5 h-3.5" />
-            Edit
-          </button>
-        </motion.div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
-
-          {/* LEFT PROFILE */}
-          <motion.div
-            custom={1}
-            variants={fadeUp}
-            initial="hidden"
-            animate="visible"
-            className="lg:col-span-1 h-full bg-white rounded-3xl border border-slate-100 shadow-[0_2px_16px_0_rgba(0,0,0,0.06)] overflow-hidden flex flex-col"
-          >
-            {/* banner */}
-            <div className="h-24 bg-gradient-to-r from-orange-400 via-orange-300 to-orange-500" />
-
-            <div className="px-6 pb-6 -mt-10 flex flex-col items-center text-center flex-1">
-              <Avatar className="w-24 h-24 ring-4 ring-white shadow-lg">
-                <AvatarFallback className="bg-gradient-to-br from-orange-500 to-indigo-500 text-white text-4xl font-extrabold">
-                  {user?.name?.charAt(0)}
-                </AvatarFallback>
-              </Avatar>
-
-              <h2 className="mt-3 text-xl font-bold text-slate-900">
-                {user?.name}
-              </h2>
-
-              <p className="text-sm text-slate-400 mb-4">
-                {user?.email}
-              </p>
-
-              <div className="flex gap-2 flex-wrap justify-center">
-                <Badge variant="verified">Verified</Badge>
-              </div>
-
-              <div className="mt-auto w-full pt-6" />
-            </div>
-          </motion.div>
-
-          {/* RIGHT CONTENT */}
-          <div className="lg:col-span-2 h-full">
-            <motion.div
-              custom={2}
-              variants={fadeUp}
-              initial="hidden"
-              animate="visible"
-              className="h-full bg-white rounded-3xl border border-slate-100 shadow-[0_2px_16px_0_rgba(0,0,0,0.06)] p-6 flex flex-col"
-            >
-              <p className="text-xs uppercase tracking-widest text-slate-400 font-semibold mb-5">
-                Personal Information
-              </p>
-
-              <div className="space-y-3 flex-1">
-                {infoRows.map((row) => (
-                  <div
-                    key={row.label}
-                    className="flex items-center justify-between p-4 rounded-2xl hover:bg-slate-50 transition"
-                  >
-                    <div className="flex items-center gap-3">
-                      <row.icon className="w-4 h-4 text-slate-400" />
-                      <div>
-                        <p className="text-xs text-slate-400">{row.label}</p>
-                        <p className="text-sm font-medium">{row.value}</p>
-                      </div>
-                    </div>
-
-                    <ChevronRight className="w-4 h-4 text-slate-300" />
-                  </div>
-                ))}
-              </div>
-            </motion.div>
           </div>
         </div>
-      </main>
+        
+        <Button 
+          onClick={() => navigate("/user/editProfile")}
+          variant="outline" 
+          className="w-full sm:w-auto gap-2 border-slate-200 hover:bg-slate-50 hover:text-indigo-600 transition-all text-sm h-10"
+        >
+          <Edit className="w-4 h-4" />
+          Edit Profile
+        </Button>
+      </div>
+
+      {/* Details Section */}
+      <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+        <div className="px-5 py-4 border-b border-slate-50 bg-slate-50/50">
+          <h3 className="text-sm font-semibold text-slate-800">Personal Details</h3>
+          <p className="text-xs text-slate-500 mt-0.5">Your personal information and contact details.</p>
+        </div>
+        
+        <div className="divide-y divide-slate-50">
+          <div className="flex flex-col sm:flex-row sm:items-center py-4 px-5 hover:bg-slate-50/50 transition-colors">
+            <div className="w-full sm:w-1/3 flex items-center gap-2 text-sm font-medium text-slate-500 mb-1 sm:mb-0">
+              <User className="w-4 h-4 text-slate-400" />
+              Full Name
+            </div>
+            <div className="w-full sm:w-2/3 text-sm font-semibold text-slate-900">
+              {user?.name || "Not provided"}
+            </div>
+          </div>
+          
+          <div className="flex flex-col sm:flex-row sm:items-center py-4 px-5 hover:bg-slate-50/50 transition-colors">
+            <div className="w-full sm:w-1/3 flex items-center gap-2 text-sm font-medium text-slate-500 mb-1 sm:mb-0">
+              <Mail className="w-4 h-4 text-slate-400" />
+              Email Address
+            </div>
+            <div className="w-full sm:w-2/3 text-sm font-semibold text-slate-900">
+              {user?.email || "Not provided"}
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row sm:items-center py-4 px-5 hover:bg-slate-50/50 transition-colors">
+            <div className="w-full sm:w-1/3 flex items-center gap-2 text-sm font-medium text-slate-500 mb-1 sm:mb-0">
+              <Phone className="w-4 h-4 text-slate-400" />
+              Phone Number
+            </div>
+            <div className="w-full sm:w-2/3 text-sm font-semibold text-slate-900">
+              {user?.phone || "Not provided"}
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row sm:items-center py-4 px-5 hover:bg-slate-50/50 transition-colors">
+            <div className="w-full sm:w-1/3 flex items-center gap-2 text-sm font-medium text-slate-500 mb-1 sm:mb-0">
+              <Calendar className="w-4 h-4 text-slate-400" />
+              Status
+            </div>
+            <div className="w-full sm:w-2/3 text-sm font-semibold text-emerald-600 flex items-center gap-1.5">
+              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              Active Member
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

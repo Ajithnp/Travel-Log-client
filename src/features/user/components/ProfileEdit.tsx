@@ -55,7 +55,7 @@ const ProfileEdit = ({
     return;
   }
   return (
-    <main className="mx-auto h-full w-full max-w-6xl px-6 py-12 mt-12">
+    <main className={cn("mx-auto h-full w-full max-w-6xl px-6 py-12", user.role !== ROLE.VENDOR && "mt-12")}>
       <header className="mb-8 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
         <div>
           <h5 className="text-pretty text-lg font-semibold md:text-2xl">

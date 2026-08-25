@@ -2,7 +2,6 @@ import { motion ,type Variants} from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
-  Store,
   Users,
   TrendingUp,
   Package,
@@ -11,6 +10,7 @@ import {
   ShieldCheck,
   BarChart3,
   ChevronRight,
+  BriefcaseBusiness
 } from "lucide-react";
 
 import { useNavigate } from "react-router-dom";
@@ -88,7 +88,7 @@ export default function VendorEnterLogin() {
               transition={{ delay: 0.2, type: "spring", stiffness: 220, damping: 16 }}
             >
               <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-700 flex items-center justify-center shadow-xl shadow-slate-300/50">
-                <Store className="h-8 w-8 text-white" />
+                <BriefcaseBusiness className="h-8 w-8 text-white" />
               </div>
               <motion.div
                 className="absolute -top-1 -right-1 w-5 h-5 bg-emerald-400 rounded-full flex items-center justify-center shadow-md"
@@ -102,7 +102,7 @@ export default function VendorEnterLogin() {
           </div>
 
           <h1 className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight mb-3 font-['Inter']">
-            Vendor{" "}
+            Tour Operator{" "}
             <span className="bg-gradient-to-r from-slate-800 to-slate-500 bg-clip-text text-transparent">
               Login
             </span>
@@ -148,7 +148,7 @@ export default function VendorEnterLogin() {
           })}
         </motion.div>
 
-        {/* CTA section */}
+      
         <motion.div variants={itemVariants} className="text-center space-y-4">
           <motion.div
             whileHover={{ scale: 1.02 }}
@@ -162,7 +162,7 @@ export default function VendorEnterLogin() {
               <BarChart3 className="h-5 w-5 text-slate-300 group-hover:text-white transition-colors" />
               Login to Your Account
               <ArrowRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform duration-300" />
-              {/* Shimmer */}
+             
               <motion.span
                 className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full"
                 animate={{ translateX: ["−100%", "200%"] }}
@@ -182,7 +182,7 @@ export default function VendorEnterLogin() {
           </motion.p>
         </motion.div>
 
-        {/* Divider + footer note */}
+      
         <motion.div
           variants={itemVariants}
           className="mt-10 pt-8 border-t border-slate-100 text-center"

@@ -12,7 +12,6 @@ const UserDashboard = lazy(() => import('@/features/user/pages/Dashboard'));
 const HomePage = lazy(() => import('@/pages/new-home-page'));
 const PackageListPage = lazy(() => import('@/pages/package-list'));
 const PackageDetailsPage = lazy(() => import('@/pages/package-details'));
-const ProfilePage = lazy(() => import('@/features/user/pages/ProfilePage'));
 const LoginPage = lazy(() => import('@/features/auth/pages/user/LoginPage'));
 const RegisterPage = lazy(() => import('@/features/auth/pages/user/RegisterPage'));
 const UserForgotPasswordPage = lazy(() => import('@/features/auth/pages/user/ForgotPasswordPage'));
@@ -79,7 +78,6 @@ const UserRoutes = () => {
           </ErrorBoundary>
         } >
           <Route path='dashboard' element={<UserDashboard />} />
-          <Route path='profile' element={<ProfilePage />} />
           <Route path='editProfile' element={<ProfileEditPage />} />
           <Route path='wishlist' element={<WishlistPage />} />
           <Route path='notifications' element={<NotificationPage />} />

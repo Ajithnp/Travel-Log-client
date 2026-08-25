@@ -100,28 +100,27 @@ const VendorRoutes = () => {
           <Route path='profile-edit' element={<VendorProfileEditPage />} />
           <Route path='notifications' element={<NotificationPage />} />
           <Route path="chats" element={<VendorChatPage />} />
-          {/* package */}
+          
           <Route path="packages" element={<BasePackagePage />} />
           <Route path="packages/add" element={<BasePackageCreateFormPage />} />
           <Route path="packages/draft/:packageId" element={<BasePackageDraftFormPage />} />
           <Route path="packages/details/:packageId" element={<BasePackageDetailsPage />} />
 
-          {/* category */}
           <Route path="requested-categories" element={<RequestedCategoriesListPage />} />
-          {/* SchedulePackage */}
+          
           <Route path="schedule-package/:packageId" element={<SchedulePackagePage />} />
           <Route path="scheduled-trips" element={<ScheduleslistingPage />} />
            <Route path="schedules/:scheduleId/:packageId" element={<ScheduleDetailsPage />} />
            <Route path="schedules/bookings/:scheduleId" element={<ScheduleBookingListPage />} />
-          {/* Offers */}
+         
           <Route path="offers" element={<OfferListPage />} />
           <Route path="revenue" element={<PackagesRevenuePage />} />
-          {/* payouts */}
+          
           <Route path="payouts" element={<VendorPayoutsPage />} />
           <Route path="payouts/:scheduleId" element={<VendorPayoutDetails />} />
-          {/* dashboard */}
+         
           <Route path="dashboard" element={<VendorDashboardPage />} />
-          {/* package reviews */}
+       
           <Route path="package-reviews" element={<PackageReviewsListingPage />} />
           </Route>
 
