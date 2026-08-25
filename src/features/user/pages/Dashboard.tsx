@@ -11,13 +11,15 @@ import { fadeUp, cardHover } from "@/animation/variants";
 import { navCards } from "@/types/components-inputs.types/commponents.types";
 import { useUserDashboardQuery } from "../hooks/api.hooks";
 import { Button } from "@/components/ui/button";
-
+import { useState } from "react";
+import ProfileModal from "./ProfilePage";
 
 
 
 function UserDashboard() {
     const { user } = useAuthUser();
     const { data: dashboardData } = useUserDashboardQuery();
+    const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
     const navigate = useNavigate()
 
@@ -56,10 +58,6 @@ function UserDashboard() {
               Welcome back, <span className="bg-gradient-to-r from-orange-600 to-indigo-500 bg-clip-text text-transparent">{ user?.name}</span> 👋
             </h1>
           </div>
-          {/* <Badge className="hidden md:flex items-center gap-1.5 bg-violet-50 text-violet-700 border border-violet-200 px-3 py-1.5 text-xs font-medium">
-            <span className="w-1.5 h-1.5 rounded-full bg-violet-500 animate-pulse" />
-            Premium Member
-          </Badge> */}
         </motion.div>
 
 
@@ -107,20 +105,40 @@ function UserDashboard() {
                     variants={cardHover}
                     initial="rest"
                     whileHover="hover"
+                    onClick={() => {
+                      if (card.to === "/user/profile") {
+                        setIsProfileModalOpen(true);
+                      }
+                    }}
                     className="flex items-center gap-5 bg-white rounded-2xl p-5 border border-slate-100 shadow-[0_2px_12px_0_rgba(0,0,0,0.05)] cursor-pointer group"
                   >
-                    <Link to={card.to} className="flex items-center gap-5 w-full">
-                      <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${card.accent} flex items-center justify-center flex-shrink-0 shadow-md`}>
-                        <card.icon className="w-5 h-5 text-white" />
-                      </div>
+                    {card.to === "/user/profile" ? (
+                      <div className="flex items-center gap-5 w-full">
+                        <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${card.accent} flex items-center justify-center flex-shrink-0 shadow-md`}>
+                          <card.icon className="w-5 h-5 text-white" />
+                        </div>
 
-                      <div className="flex-1 min-w-0">
-                        <p className="font-semibold text-slate-800 text-sm mb-0.5">
-                          {card.title}
-                        </p>
-                        <p className="text-slate-400 text-xs truncate">{card.desc}</p>
+                        <div className="flex-1 min-w-0">
+                          <p className="font-semibold text-slate-800 text-sm mb-0.5">
+                            {card.title}
+                          </p>
+                          <p className="text-slate-400 text-xs truncate">{card.desc}</p>
+                        </div>
                       </div>
-                    </Link>
+                    ) : (
+                      <Link to={card.to} className="flex items-center gap-5 w-full">
+                        <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${card.accent} flex items-center justify-center flex-shrink-0 shadow-md`}>
+                          <card.icon className="w-5 h-5 text-white" />
+                        </div>
+
+                        <div className="flex-1 min-w-0">
+                          <p className="font-semibold text-slate-800 text-sm mb-0.5">
+                            {card.title}
+                          </p>
+                          <p className="text-slate-400 text-xs truncate">{card.desc}</p>
+                        </div>
+                      </Link>
+                    )}
                   </motion.div>
                 </motion.div>
               ))}
@@ -150,6 +168,11 @@ function UserDashboard() {
             Explore Now
           </Button>
         </motion.div>
+        
+        <ProfileModal 
+          isOpen={isProfileModalOpen} 
+          onClose={() => setIsProfileModalOpen(false)} 
+        />
       </main>
     </div>
   );

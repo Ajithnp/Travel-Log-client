@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Star} from "lucide-react";
+import { Map, Calendar, PackageCheck } from "lucide-react";
 import type { IVendorInfo } from "@/types/IVendorInfo";
 import { useNavigate } from "react-router-dom";
 import {
@@ -84,9 +84,7 @@ export default function VendorProfile({
               {/* Profile Info Section */}
               <div className="flex-1 space-y-2 w-full">
                 <div className="space-y-1">
-                  {/* Top section: name + badge + edit button */}
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between w-full">
-                    {/* Left side: name + badge + rejection reason */}
                     <div className="flex flex-col sm:flex-row sm:items-center gap-2">
                       <h2 className="text-xl lg:text-2xl font-bold">
                         {profileData.name}
@@ -101,7 +99,6 @@ export default function VendorProfile({
                       )}
                     </div>
 
-                    {/* Right side: Edit button */}
                     {profileData.isProfileVerified && (
                       <motion.button
                         whileHover={{ scale: 1.05 }}
@@ -113,16 +110,8 @@ export default function VendorProfile({
                       </motion.button>
                     )}
                   </div>
-
-                  {/* Rating Section */}
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                    <span className="font-medium">4.8</span>
-                    <span>(124 reviews)</span>
-                  </div>
                 </div>
 
-                {/* Verification Button */}
                 <motion.div>
                   {profileData.status !== "Approved" && (
                     <Button
@@ -142,6 +131,27 @@ export default function VendorProfile({
         </Card>
       </motion.div>
 
+      {/* Stats Section */}
+      <motion.div variants={itemVariants} className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {[
+          { label: "Total Trips Completed", value: profileData?.packageStats?.scheduleCompleted ?? 0, icon: Map, color: "text-blue-500", bg: "bg-blue-100 dark:bg-blue-500/10" },
+          { label: "Total Upcoming Trips", value: profileData?.packageStats?.upcomingSchedule ?? 0, icon: Calendar, color: "text-green-500", bg: "bg-green-100 dark:bg-green-500/10" },
+          { label: "Total Active Packages", value: profileData?.packageStats?.activePackages ?? 0, icon: PackageCheck, color: "text-purple-500", bg: "bg-purple-100 dark:bg-purple-500/10" },
+        ].map((stat, idx) => (
+          <Card key={idx} className="border border-border/80 overflow-hidden group hover:border-primary/50 transition-colors">
+            <CardContent className="p-5 flex items-center gap-4">
+              <div className={`p-3 rounded-xl ${stat.bg} ${stat.color} transition-transform duration-300 group-hover:scale-110`}>
+                <stat.icon className="w-6 h-6" />
+              </div>
+              <div className="flex flex-col">
+                <p className="text-sm font-medium text-muted-foreground">{stat.label}</p>
+                <h3 className="text-2xl font-bold text-foreground">{stat.value}</h3>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </motion.div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
         {/* Contact Information */}
         <motion.div variants={itemVariants}>
@@ -150,7 +160,10 @@ export default function VendorProfile({
 
         {/* About & Stats */}
         <motion.div variants={itemVariants}>
-          <VendorAboutCard />
+          <VendorAboutCard
+            bio={profileData?.bio}
+            createdAt={profileData?.createdAt}
+          />
         </motion.div>
       </div>
 

@@ -48,18 +48,18 @@ const Sidebar = ({
       }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
       className={`flex flex-col relative shadow-2xl overflow-hidden
-        bg-gradient-to-b from-indigo-950 via-indigo-900 to-violet-950
-        border-r border-indigo-800/40
+        bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950
+        border-r border-slate-700/50
         ${isMobile ? "fixed left-0 top-0 h-full z-50" : "relative"}
         ${isMobile && !isMobileMenuOpen ? "pointer-events-none" : ""}
       `}
     >
-      {/* Decorative ambient glow */}
-      <div className="pointer-events-none absolute -top-16 -left-16 w-48 h-48 rounded-full bg-violet-500/20 blur-3xl" />
-      <div className="pointer-events-none absolute bottom-20 -right-10 w-36 h-36 rounded-full bg-indigo-400/15 blur-2xl" />
+     
+      <div className="pointer-events-none absolute -top-16 -left-16 w-48 h-48 rounded-full bg-teal-500/10 blur-3xl" />
+      <div className="pointer-events-none absolute bottom-20 -right-10 w-36 h-36 rounded-full bg-emerald-400/8 blur-2xl" />
 
-      {/* Header */}
-      <div className="flex items-center justify-between p-3 md:p-4 border-b border-indigo-700/40 bg-gradient-to-r from-indigo-900/80 to-violet-900/60 backdrop-blur-sm">
+    
+      <div className="flex items-center justify-between p-3 md:p-4 border-b border-slate-700/50 bg-gradient-to-r from-slate-800/90 to-slate-900/80 backdrop-blur-sm">
           {(isExpanded || isMobileMenuOpen) && (
             <motion.div
               key="sidebar-logo"
@@ -68,11 +68,6 @@ const Sidebar = ({
             transition={{ duration: 0.2 }}
               className="flex items-center gap-2"
             >
-              {/* <img
-                className="h-6 md:h-8 drop-shadow-sm"
-                src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/dummyLogo/dummyLogoColored.svg"
-                alt="Logo"
-              /> */}
               <RouteIcon className="h-7 w-7 text-orange-400 drop-shadow-sm"/>
               <h1 className="text-xl font-bold text-white tracking-tight">TravelLog</h1>
             </motion.div>
@@ -87,7 +82,7 @@ const Sidebar = ({
               setIsExpanded(!isExpanded);
             }
           }}
-          className="ml-auto p-2 h-8 w-8 text-indigo-200 hover:text-white hover:bg-indigo-700/60 hover:scale-105 transition-all duration-200 rounded-lg"
+          className="ml-auto p-2 h-8 w-8 text-slate-400 hover:text-white hover:bg-slate-700/70 hover:scale-105 transition-all duration-200 rounded-lg"
         >
           {isMobile ? (
             isMobileMenuOpen ? (
@@ -117,7 +112,7 @@ const Sidebar = ({
       </nav>
 
       {/* Logout */}
-      <div className="p-3 md:p-4 border-t border-indigo-700/40 bg-gradient-to-t from-indigo-950/80 to-transparent">
+      <div className="p-3 md:p-4 border-t border-slate-700/50 bg-gradient-to-t from-slate-950/60 to-transparent">
         <motion.button
           onClick={() => {
             onLogout(true)
@@ -183,15 +178,15 @@ function NavItem({
         className={({ isActive }) =>
           `flex items-center py-2.5 md:py-3 px-3 gap-3 rounded-xl transition-all duration-200 mb-1.5 group touch-manipulation 
           ${isActive
-            ? "bg-white/15 text-white shadow-lg border border-white/20 backdrop-blur-sm"
-            : "text-indigo-200 hover:bg-white/10 hover:text-white hover:shadow-sm hover:scale-[1.02] active:scale-[0.98] border border-transparent hover:border-white/10"
+            ? "bg-teal-500/15 text-teal-300 shadow-lg border border-teal-500/30 backdrop-blur-sm"
+            : "text-slate-400 hover:bg-slate-700/50 hover:text-slate-100 hover:shadow-sm hover:scale-[1.02] active:scale-[0.98] border border-transparent hover:border-slate-600/50"
           }`
         }
       >
         <div className="relative flex-shrink-0 w-6 h-6 flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
           <item.icon className="w-5 h-5" />
           {isUnread && (
-            <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-400 rounded-full border-2 border-indigo-900" />
+            <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-400 rounded-full border-2 border-slate-900" />
           )}
         </div>
 

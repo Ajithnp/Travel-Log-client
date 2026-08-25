@@ -1,13 +1,9 @@
 import { useState } from "react";
 import {
-  MapPin, Star, Clock, Share2, Heart,
-  ChevronRight,
-  ArrowLeft,
+  MapPin, Star, Clock,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { Link, useParams } from "react-router-dom";
 import { usePackageDetailsPage } from "@/hooks/app/package-details";
 import { Loader } from "@/components/common/loader";
@@ -25,6 +21,7 @@ import { usePackageReviews } from "@/hooks/app/package-reviews";
 import { EmptyData } from "@/components/common/empty";
 import { PackageAboutSection } from "@/components/app/package-about";
 import { formatTimeToAMPM } from "@/utils/format-time-to-ampm";
+import { PackageDetailsHeader } from "@/components/app/package-details-header";
 
 
 export default function PackageDetails() {
@@ -63,42 +60,11 @@ export default function PackageDetails() {
   return (
     <div className="min-h-screen bg-background mt-20">
       <div className="border-b border-border bg-card/90 backdrop-blur-sm">
-        <div className="max-w-6xl mx-auto px-4 py-3 flex flex-col sm:flex-row sm:items-center gap-2">
-
-          <div className="flex items-center gap-2 flex-wrap flex-1">
-            <Button onClick={() => window.history.back()} variant="ghost" size="sm"
-              data-testid="btn-back" className="gap-1 text-muted-foreground">
-              <ArrowLeft className="w-3.5 h-3.5" />
-              Back
-            </Button>
-            <Separator orientation="vertical" className="h-4" />
-            <div className="flex items-center gap-1 text-xs text-muted-foreground">
-              <span className="flex items-center gap-1">
-                Packages
-                <ChevronRight className="w-3 h-3" />
-                <span className="text-foreground font-medium">{pkg.title}</span>
-              </span>
-            </div>
-          </div>
-
-          <div className="flex items-center justify-center sm:justify-end gap-2 sm:ml-auto">
-            <Button variant="outline" size="sm" data-testid="btn-share" className="gap-1.5">
-              <Share2 className="w-3.5 h-3.5" />
-              Share
-            </Button>
-            <Button
-              variant={saved ? "default" : "outline"}
-              size="sm"
-              data-testid="btn-save"
-              onClick={() => setSaved((s) => !s)}
-              className="gap-1.5"
-            >
-              <Heart className={`w-3.5 h-3.5 ${saved ? "fill-current" : ""}`} />
-              {saved ? "Saved" : "Save"}
-            </Button>
-          </div>
-
-        </div>
+        <PackageDetailsHeader 
+          title={pkg.title}
+          saved={saved}
+          onSaveToggle={() => setSaved((s) => !s)}
+        />
       </div>
 
       <div className="max-w-6xl mx-auto px-4 py-6 space-y-6">
@@ -169,8 +135,6 @@ export default function PackageDetails() {
 
             <InclusionsExclusions inclusions={pkg?.inclusions ?? []} exclusions={pkg?.exclusions ?? []} />
 
-            {/* <PackingList items={pkg?.packingList} /> */}
-
             <CancellationPolicyCard policy={cancellationPolicy} />
 
             <TravellerReviews
@@ -185,13 +149,11 @@ export default function PackageDetails() {
               isPending={isPending}
             />
           </div>
-          {/* RIGHT COLUMN — Booking Sidebar */}
           <div className="lg:col-span-1">
             <div className="sticky top-20 space-y-4">
               <BookingWizard schedules={schedules ?? []} pkg={pkg} />
               {/* Tour Operator card */}
               <TourOperatorCard operator={operator} />
-              {/* Trust badges */}
               <TrustBadges />
             </div>
           </div>

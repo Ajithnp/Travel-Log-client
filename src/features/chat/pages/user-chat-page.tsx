@@ -76,7 +76,7 @@ const UserChatPage = () => {
   }
 
   return (
-    <div className="min-h-screen px-4 sm:px-6 py-12 bg-[#f7f7fb] font-['Inter'] sm:py-8 mt-20">
+    <div className="min-h-screen px-4 sm:px-6 py-12 bg-orange-50/30 font-['Inter'] sm:py-8 mt-20">
       <div className="max-w-[97rem] mx-auto">
         <div className="flex h-[calc(90vh-88px)] bg-background border border-border/60 rounded-2xl overflow-hidden shadow-md">
           <div className="flex-1 flex flex-col min-w-0">
